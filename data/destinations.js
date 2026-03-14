@@ -1,6 +1,6 @@
 // =============================================
 //  Skappa – Destinations Data
-//  Generato da admin.html il 13/03/2026
+//  Generato da admin.html il 14/03/2026
 // =============================================
 
 window.DESTINATIONS = [
@@ -999,11 +999,9 @@ window.DESTINATIONS = [
     "date": "Dal 23 al 26 Aprile",
     "tagline": "Inizia il tuo viaggio tra architetture monumentali, quartieri vivaci e un'atmosfera sorprendente nel cuore dell'Europa dell'Est.",
     "prezzo": "149",
-    "imgHero": "assets/foto/bucarest/hero.jpg",
+    "imgHero": "assets/foto/bucarest/hero.png",
     "partenzaDa": "Napoli",
     "durata": "4 giorni e 3 notti",
-    "hotel": "Hotel Cismigiu",
-    "infoRapide": ["✈ Volo A/R incluso", "🧳 Bagaglio a mano", "🌙 Nightlife top", "4 gg · 3 notti"],
     "inclusiPacchetto": [
       "Volo A/R incluso",
       "Dal 23 al 26 Aprile",
@@ -1021,17 +1019,17 @@ window.DESTINATIONS = [
       {
         "titolo": "ARCHITETTURE MONUMENTALI",
         "descrizione": "Scopri il celebre Palazzo del Parlamento e le grandi piazze della città, simboli di una capitale ricca di storia.",
-        "img": "assets/foto/bucarest/activity-1.jpg"
+        "img": "assets/foto/bucarest/activity-1.png"
       },
       {
         "titolo": "QUARTIERI STORICI E LOCALI",
         "descrizione": "Passeggia nel centro storico tra palazzi eleganti, caffè vivaci e strade piene di vita.",
-        "img": "assets/foto/bucarest/activity-2.jpg"
+        "img": "assets/foto/bucarest/activity-2.png"
       },
       {
         "titolo": "NIGHTLIFE SORPRENDENTE",
         "descrizione": "Bucarest è famosa per la sua scena notturna: locali eleganti, cocktail bar e club tra i migliori dell'Europa orientale.",
-        "img": "assets/foto/bucarest/activity-3.jpg"
+        "img": "assets/foto/bucarest/activity-3.png"
       }
     ],
     "inclusiConSkappa": [
@@ -1090,6 +1088,7 @@ window.DESTINATIONS = [
         "tag": "Gruppo"
       }
     ],
+    "hotel": "Hotel Cismigiu",
     "prezzoOriginale": "219",
     "linkPagamento": "https://book.stripe.com/fZudR88ZC7Tu4juce04ZG0r"
   },
@@ -1103,8 +1102,6 @@ window.DESTINATIONS = [
     "imgHero": "assets/foto/varsavia/hero.jpg",
     "partenzaDa": "Napoli",
     "durata": "4 giorni e 3 notti",
-    "hotel": "Hotel MDM City Centre",
-    "infoRapide": ["✈ Volo A/R incluso", "🧳 Bagaglio a mano", "🏰 UNESCO Old Town", "4 gg · 3 notti"],
     "inclusiPacchetto": [
       "Volo A/R incluso",
       "Dal 23 al 26 Aprile",
@@ -1122,12 +1119,12 @@ window.DESTINATIONS = [
       {
         "titolo": "CENTRO STORICO RICOSTRUITO",
         "descrizione": "Passeggia tra le piazze colorate e i palazzi storici della Old Town, patrimonio UNESCO.",
-        "img": "assets/foto/varsavia/activity-1.jpg"
+        "img": "assets/foto/varsavia/activity-1.png"
       },
       {
         "titolo": "MODERNITÀ E SKYLINE",
         "descrizione": "Scopri una città moderna, dove grattacieli e architetture contemporanee convivono con la storia.",
-        "img": "assets/foto/varsavia/activity-2.jpg"
+        "img": "assets/foto/varsavia/activity-2.png"
       },
       {
         "titolo": "VITA CULTURALE E LOCALE",
@@ -1191,6 +1188,7 @@ window.DESTINATIONS = [
         "tag": "Coppia"
       }
     ],
+    "hotel": "Hotel MDM City Centre",
     "prezzoOriginale": "239",
     "linkPagamento": "https://book.stripe.com/9B614m0t6b5G2bm3Hu4ZG0s"
   },
