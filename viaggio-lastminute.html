@@ -771,11 +771,7 @@
       // ---- Perché ----
       var percheEl = document.getElementById('percheCol');
       if (percheEl && dest.perche) {
-        var percheImgHtml = dest.perche.img
-          ? '<img src="' + dest.perche.img + '" alt="' + (dest.perche.titolo || '') + '" class="perche-img" onerror="this.outerHTML=\'<div class=\\\"perche-img-placeholder\\\"></div>\'">'
-          : '';
-        percheEl.innerHTML = percheImgHtml
-          + '<h2 class="section-title" style="text-align:left;margin-bottom:1.25rem">' + (dest.perche.titolo || '') + '</h2>'
+        percheEl.innerHTML = '<h2 class="section-title" style="text-align:left;margin-bottom:1.25rem">' + (dest.perche.titolo || '') + '</h2>'
           + '<p style="font-size:0.9375rem;color:rgba(255,255,255,0.68);line-height:1.8;margin-bottom:1.75rem">' + (dest.perche.testo || '') + '</p>'
           + '<a href="' + (dest.linkPagamento || '#blocca') + '" id="percheBloccaBtn" class="btn-gold" style="background:#ef4444;border-color:#ef4444"' + (dest.linkPagamento ? ' target="_blank" rel="noopener"' : '') + '>⚡ BLOCCA IL PREZZO ORA</a>'
           + '<ul class="perche-bullets">'

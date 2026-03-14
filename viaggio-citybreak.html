@@ -471,8 +471,6 @@
       <div class="activities-col" id="attivitaSection"></div>
       <div class="perche-sticky-col">
         <div class="perche-sticky-inner fade-in">
-          <img id="percheImg" class="perche-img" src="" alt=""
-            onerror="this.outerHTML='<div class=\'perche-img-placeholder\'></div>'" style="margin-bottom:1.75rem" />
           <h2 class="section-title" id="percheTitolo" style="margin-bottom:1.25rem;text-align:left"></h2>
           <p id="percheText" style="font-size:0.9375rem;color:rgba(255,255,255,0.68);line-height:1.8;margin-bottom:1.75rem"></p>
           <a href="#blocca" class="btn-gold" id="percheBloccaBtn">BLOCCA IL TUO POSTO</a>
@@ -670,15 +668,6 @@
       }).join('');
 
       // ---- Perché (sticky col) ----
-      var percheImgEl = document.getElementById('percheImg');
-      if (percheImgEl) {
-        if (dest.perche && dest.perche.img) {
-          percheImgEl.src = dest.perche.img;
-          percheImgEl.alt = dest.perche.titolo || '';
-        } else {
-          percheImgEl.outerHTML = '<div class="perche-img-placeholder" style="margin-bottom:1.75rem"></div>';
-        }
-      }
       document.getElementById('percheTitolo').textContent = (dest.perche && dest.perche.titolo) || '';
       document.getElementById('percheText').textContent = (dest.perche && dest.perche.testo) || '';
 
