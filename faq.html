@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <script>!function(){var t=localStorage.getItem("skappa_theme");if(t==="light")document.documentElement.setAttribute("data-theme","light")}();</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FAQ – Domande frequenti – SKAPPA</title>
+  <meta name="description" content="Risposte alle domande più frequenti su SKAPPA: come prenotare, cosa è incluso nel pacchetto, metodi di pagamento, voli, last minute e cancellazioni." />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="it_IT" />
+  <meta property="og:title" content="FAQ – Domande frequenti – SKAPPA" />
+  <meta property="og:description" content="Tutto quello che vuoi sapere su SKAPPA: prenotazioni, pacchetti, voli, rimborsi e altro." />
+  <meta property="og:url" content="https://skappa.it/faq.html" />
+  <meta property="og:image" content="https://skappa.it/assets/foto/utility/sfondo hero.png" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="FAQ – SKAPPA" />
+  <meta name="twitter:description" content="Risposte alle domande frequenti su prenotazioni, pacchetti e offerte SKAPPA." />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+  <link rel="canonical" href="https://skappa.it/faq.html" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Come funziona la prenotazione?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Scegli il viaggio che ti interessa, clicca su \"Prenota\" e segui i passaggi per completare il pagamento. Riceverai una conferma via e-mail con tutti i dettagli del pacchetto." }
+      },
+      {
+        "@type": "Question",
+        "name": "Quali metodi di pagamento accettate?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Il pagamento avviene tramite carta di credito o debito attraverso Stripe, piattaforma sicura e certificata PCI-DSS. Non accettiamo pagamenti in contanti o bonifico." }
+      },
+      {
+        "@type": "Question",
+        "name": "Posso prenotare per più persone con una sola transazione?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Sì, è possibile prenotare più posti. Durante la prenotazione potrai specificare il numero di partecipanti. Ogni posto rimane nominativo, quindi avrai bisogno dei dati di ciascun partecipante." }
+      },
+      {
+        "@type": "Question",
+        "name": "Devo avere il passaporto o basta la carta d'identità?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Dipende dalla destinazione. Per le mete all'interno dell'UE è sufficiente la carta d'identità in corso di validità. Per destinazioni extra-UE potrebbe essere richiesto il passaporto." }
+      },
+      {
+        "@type": "Question",
+        "name": "I voli sono inclusi nel pacchetto?",
+        "acceptedAnswer": { "@type": "Answer", "text": "No, i voli non sono inclusi nei pacchetti SKAPPA (eccetto per le Fughe in Europa dove il volo A/R è incluso). Per l'Escape Tour dovrai prenotare il volo in autonomia." }
+      },
+      {
+        "@type": "Question",
+        "name": "Cosa si intende per supporto SKAPPA?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Il supporto SKAPPA include assistenza telefonica e su WhatsApp durante il soggiorno, indicazioni su trasporti locali, ristoranti e attività, oltre alla gestione di eventuali imprevisti legati ai servizi inclusi nel pacchetto." }
+      },
+      {
+        "@type": "Question",
+        "name": "Il pacchetto include la colazione?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Dipende dalla struttura scelta per il pacchetto. Trovi tutte le informazioni sull'alloggio incluso nella pagina del singolo viaggio." }
+      },
+      {
+        "@type": "Question",
+        "name": "Posso personalizzare il mio itinerario?",
+        "acceptedAnswer": { "@type": "Answer", "text": "I pacchetti SKAPPA hanno un programma definito per gli eventi inclusi. Hai comunque piena libertà nel tempo libero per esplorare la destinazione come preferisci." }
+      },
+      {
+        "@type": "Question",
+        "name": "Come funzionano le offerte last minute?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Le offerte last minute sono pacchetti disponibili a prezzo ridotto per un periodo di tempo limitato. Ogni offerta ha un countdown attivo: alla scadenza il prezzo scontato non è più disponibile. I posti sono sempre limitati." }
+      },
+      {
+        "@type": "Question",
+        "name": "Il rimborso per un last minute funziona allo stesso modo?",
+        "acceptedAnswer": { "@type": "Answer", "text": "No, le offerte last minute hanno condizioni di rimborso più restrittive. Consulta la Politica di Cancellazione per tutti i dettagli." }
+      }
+    ]
+  }
+  </script>
+  <link rel="icon" href="assets/foto/utility/icona sito.svg" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Days+One&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .page-header { padding-top:44px;background:linear-gradient(to bottom,rgba(254,189,65,.05) 0%,transparent 100%);border-bottom:1px solid rgba(254,189,65,.08); }
+    .faq-section-title { font-family:'Days One',sans-serif;font-size:.875rem;color:var(--gold);text-transform:uppercase;letter-spacing:.08em;margin:2.5rem 0 1rem; }
+    .faq-item { border-bottom:1px solid rgba(255,255,255,.07); }
+    .faq-item:last-child { border-bottom:none; }
+    .faq-btn {
+      width:100%;text-align:left;background:none;border:none;cursor:pointer;
+      padding:1.125rem 0;display:flex;align-items:center;justify-content:space-between;gap:1rem;
+      font-size:.875rem;font-weight:600;color:rgba(255,255,255,.85);font-family:inherit;
+      transition:color .2s;
+    }
+    .faq-btn:hover { color:var(--gold); }
+    .faq-btn.open { color:var(--gold); }
+    .faq-icon { width:1.25rem;height:1.25rem;flex-shrink:0;color:var(--gold);transition:transform .25s; }
+    .faq-btn.open .faq-icon { transform:rotate(45deg); }
+    .faq-answer { max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s ease; }
+    .faq-answer.open { max-height:400px; }
+    .faq-answer p { font-size:.8125rem;color:rgba(255,255,255,.55);line-height:1.8;padding-bottom:1.25rem; }
+    .faq-answer a { color:var(--gold);text-decoration:underline; }
+    .divider { border:none;border-top:1px solid rgba(255,255,255,.06);margin:0; }
+    .faq-category { background:rgba(254,189,65,.04);border:1px solid rgba(254,189,65,.1);border-radius:1rem;padding:1.5rem 1.75rem;margin-bottom:1.5rem; }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar" id="navbar">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="flex items-center justify-between h-11">
+        <a href="index.html" class="flex items-center">
+          <img src="assets/foto/utility/logo skappa.svg" alt="SKAPPA" style="height:2rem;object-fit:contain"
+            onerror="this.outerHTML='<span style=&quot;color:var(--gold);font-family:Days One,sans-serif;font-size:1rem;font-weight:900&quot;>SKAPPA</span>'" />
+        </a>
+        <div class="hidden md:flex items-center gap-8">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="fughe-in-europa.html" class="nav-link">Fughe in Europa</a>
+          <a href="summer-tour.html" class="nav-link">Escape tour</a>
+          <a href="last-minute.html" class="nav-link" style="color:#ef4444;font-weight:700">⚡ Last minute</a>
+        </div>
+        <div class="hidden md:flex items-center gap-3">
+          <button id="themeToggle" class="theme-toggle" aria-label="Cambia tema" title="Cambia tema" onclick="toggleTheme()">
+            <svg class="icon-moon w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+            <svg class="icon-sun w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          </button>
+          <a href="index.html#summer" class="btn-navy">Scopri i viaggi</a>
+        </div>
+        <button id="themeToggleMobile" class="theme-toggle" aria-label="Cambia tema" onclick="toggleTheme()">
+            <svg class="icon-moon w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+            <svg class="icon-sun w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          </button>
+          <button id="menuBtn" class="p-2 md:hidden" aria-label="Menu">
+          <svg class="w-5 h-5" style="color:var(--navy)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+    </div>
+    <div id="mobileMenu">
+      <div class="max-w-6xl mx-auto px-4 py-5 flex flex-col gap-4">
+        <a href="index.html" class="text-sm font-semibold" style="color:var(--gold)">Home</a>
+        <a href="fughe-in-europa.html" class="text-sm font-semibold" style="color:var(--gold)">Fughe in Europa</a>
+        <a href="summer-tour.html" class="text-sm font-semibold" style="color:var(--gold)">Escape tour</a>
+        <a href="last-minute.html" class="text-sm font-semibold" style="color:#ef4444">⚡ Last minute</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <div class="page-header">
+    <div class="max-w-3xl mx-auto px-4 py-10 text-center">
+      <h1 style="font-family:'Days One',sans-serif;font-size:clamp(1.5rem,4vw,2.25rem);color:var(--gold);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.5rem">Domande frequenti</h1>
+      <p class="text-xs" style="color:rgba(255,255,255,.35)">Tutto quello che vuoi sapere prima di prenotare</p>
+    </div>
+  </div>
+
+
+  <section class="py-12 px-4">
+    <div style="max-width:48rem;margin:0 auto">
+
+      <!-- PRENOTAZIONE -->
+      <div class="faq-category">
+        <p class="faq-section-title" style="margin-top:0">Prenotazione e pagamento</p>
+
+        <div class="faq-item">
+          <button class="faq-btn">
+            Come funziona la prenotazione?
+            <svg class="faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+          </button>
+          <div class="faq-answer"><p>Scegli il viaggio che ti interessa, clicca su "Prenota" e segui i passaggi per completare il pagamento. Riceverai una conferma via e-mail con tutti i dettagli del pacchetto.</p></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-btn">
+            Quali metodi di pagamento accettate?
+            <svg class="faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+          </button>
+          <div class="faq-answer"><p>Il pagamento avviene tramite carta di credito o debito attraverso Stripe, piattaforma sicura e certificata PCI-DSS. Non accettiamo pagamenti in contanti o bonifico.</p></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-btn">
+            Posso prenotare per più persone con una sola transazione?
+            <svg class="faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+          </button>
+          <div class="faq-answer"><p>Sì, è possibile prenotare più posti. Durante la prenotazione potrai specificare il numero di partecipanti. Ogni posto rimane nominativo, quindi avrai bisogno dei dati di ciascun partecipante.</p></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-btn">
+            Devo avere il passaporto o basta la carta d'identità?
+            <svg class="faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+          </button>
+          <div class="faq-answer"><p>Dipende dalla destinazione. Per le mete all'interno dell'UE (tra cui Barcellona, Londra, Sofia, Budapest, ecc.) è sufficiente la carta d'identità in corso di validità. Per destinazioni extra-UE potrebbe essere richiesto il passaporto. Ti consigliamo sempre di verificare i requisiti aggiornati prima della partenza.</p></div>
+        </div>
+      </div>
+
+
+      <!-- PACCHETTO -->
+      <div class="faq-category">
+        <p class="faq-section-title" style="margin-top:0">Il pacchetto SKAPPA</p>
+
+        <div class="faq-item">
+          <button class="faq-btn">
+            I voli sono inclusi nel pacchetto?
+            <svg class="faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+          </button>
+          <div class="faq-answer"><p>No, i voli non sono inclusi nei pacchetti SKAPPA. Dovrai prenotare il volo in autonomia. Dopo la prenotazione ti forniremo tutte le indicazioni su come raggiungere la destinazione nel modo più conveniente.</p></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-btn">
+            Cosa si intende per "supporto SKAPPA"?
+            <svg class="faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+          </button>
+          <div class="faq-answer"><p>Il supporto SKAPPA include assistenza telefonica e su WhatsApp durante il soggiorno, indicazioni su trasporti locali, ristoranti e attività, oltre alla gestione di eventuali imprevisti legati ai servizi inclusi nel pacchetto.</p></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-btn">
+            Il pacchetto include la colazione?
+            <svg class="faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+          </button>
+          <div class="faq-answer"><p>Dipende dalla struttura scelta per il pacchetto. Trovi tutte le informazioni sull'alloggio incluso nella pagina del singolo viaggio. In caso di dubbi scrivi a <a href="mailto:info@skappa.it">info@skappa.it</a>.</p></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-btn">
+            Posso personalizzare il mio itinerario?
+            <svg class="faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+          </button>
+          <div class="faq-answer"><p>I pacchetti SKAPPA hanno un programma definito per gli eventi inclusi. Hai comunque piena libertà nel tempo libero per esplorare la destinazione come preferisci. Se hai esigenze particolari, contattaci prima di prenotare.</p></div>
+        </div>
+      </div>
+
+
+      <!-- LAST MINUTE -->
+      <div class="faq-category">
+        <p class="faq-section-title" style="margin-top:0">Offerte Last Minute</p>
+
+        <div class="faq-item">
+          <button class="faq-btn">
+            Come funzionano le offerte last minute?
+            <svg class="faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+          </button>
+          <div class="faq-answer"><p>Le offerte last minute sono pacchetti disponibili a prezzo ridotto per un periodo di tempo limitato. Ogni offerta ha un countdown attivo: alla scadenza il prezzo scontato non è più disponibile. I posti sono sempre limitati.</p></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-btn">
+            Il rimborso per un last minute funziona allo stesso modo?
+            <svg class="faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+          </button>
+          <div class="faq-answer"><p>No, le offerte last minute hanno condizioni di rimborso più restrittive. Consulta la <a href="cancellazione.html">Politica di Cancellazione</a> per tutti i dettagli.</p></div>
+        </div>
+      </div>
+
+
+      <!-- ALTRO -->
+      <div class="faq-category">
+        <p class="faq-section-title" style="margin-top:0">Altro</p>
+
+        <div class="faq-item">
+          <button class="faq-btn">
+            Come mi iscrivo alla newsletter?
+            <svg class="faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+          </button>
+          <div class="faq-answer"><p>Puoi iscriverti al "Kit di sopravvivenza per viaggiatori" direttamente dalla homepage. Riceverai aggiornamenti sulle nuove destinazioni, offerte esclusive e consigli di viaggio.</p></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-btn">
+            Non trovo risposta alla mia domanda. Come vi contatto?
+            <svg class="faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+          </button>
+          <div class="faq-answer"><p>Scrivici a <a href="mailto:info@skappa.it">info@skappa.it</a> oppure contattaci tramite i canali social. Rispondiamo di norma entro 24 ore nei giorni feriali.</p></div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+    <footer class="footer">
+    <div class="max-w-6xl mx-auto">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:2rem;margin-bottom:2rem;flex-wrap:wrap">
+        <a href="index.html">
+          <img src="assets/foto/utility/icona sito.svg" alt="SKAPPA" style="height:5rem;width:5rem;object-fit:contain"
+            onerror="this.style.display='none'" />
+        </a>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem 2.5rem">
+          <a href="chi-siamo.html" class="footer-link">Chi siamo</a>
+          <a href="cancellazione.html" class="footer-link">Cancellazione e rimborso</a>
+          <a href="termini.html" class="footer-link">Termini e condizioni</a>
+          <a href="cookie.html" class="footer-link">Cookie Policy</a>
+          <a href="privacy.html" class="footer-link">Privacy Policy</a>
+          <a href="faq.html" class="footer-link">FAQ</a>
+        </div>
+        <img src="assets/foto/utility/i viaggi del futuro.png" alt="Viaggi del Futuro" style="height:5rem;object-fit:contain"
+          onerror="this.style.display='none'" />
+      </div>
+      <div class="flex flex-col md:flex-row items-center justify-between gap-3 text-xs" style="opacity:0.5;border-top:1px solid rgba(3,16,48,0.1);padding-top:1.25rem">
+        <span>© 2026 SKAPPA – Tutti i diritti riservati &nbsp;·&nbsp; Pagamenti sicuri con Stripe</span>
+        <div style="display:flex;align-items:center;gap:1rem">
+          <a href="https://www.instagram.com/skappa__/" target="_blank" rel="noopener" aria-label="SKAPPA su Instagram" style="color:var(--navy);display:flex;align-items:center;opacity:0.7;transition:opacity .2s" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:1.125rem;height:1.125rem"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+          </a>
+          <a href="https://www.tiktok.com/@skappa.official" target="_blank" rel="noopener" aria-label="SKAPPA su TikTok" style="color:var(--navy);display:flex;align-items:center;opacity:0.7;transition:opacity .2s" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:1.125rem;height:1.125rem"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.22 8.22 0 004.83 1.56V6.78a4.85 4.85 0 01-1.06-.09z"/></svg>
+          </a>
+          <a href="https://it.trustpilot.com" target="_blank" rel="noopener" class="footer-link text-xs">★ Trustpilot</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    document.querySelectorAll('.faq-btn').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var answer = this.nextElementSibling;
+        var isOpen = this.classList.contains('open');
+        // close all
+        document.querySelectorAll('.faq-btn').forEach(function(b){ b.classList.remove('open'); b.nextElementSibling.classList.remove('open'); });
+        if (!isOpen) { this.classList.add('open'); answer.classList.add('open'); }
+      });
+    });
+  </script>
+</body>
+</html>

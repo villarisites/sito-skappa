@@ -1,0 +1,1276 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SKAPPA Admin – CMS Destinazioni</title>
+  <link rel="icon" href="assets/logo.png" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Days+One&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <script src="data/destinations.js"></script>
+  <style>
+    :root {
+      --navy:  #031030;
+      --navy2: #020c24;
+      --gold:  #febd41;
+      --teal:  #288699;
+      --surface: #071848;
+      --surface2: #0a1f55;
+      --border: rgba(254,189,65,0.15);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--navy2);
+      color: #fff;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: var(--navy2); }
+    ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+
+    /* ---- Header ---- */
+    .admin-header {
+      position: sticky; top: 0; z-index: 50;
+      background: var(--navy);
+      border-bottom: 1px solid var(--border);
+      padding: 0 1.5rem;
+      height: 3.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .header-brand {
+      font-family: 'Days One', sans-serif;
+      font-size: 1rem;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      color: var(--gold);
+    }
+    .header-tag {
+      font-size: 0.6875rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.3);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-left: 0.75rem;
+    }
+    .header-actions { display: flex; align-items: center; gap: 0.625rem; }
+
+    /* ---- Buttons ---- */
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.375rem;
+      padding: 0.5rem 1rem;
+      border-radius: 0.375rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      font-family: inherit;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      border: none;
+      transition: opacity 0.2s, transform 0.15s;
+      text-decoration: none;
+    }
+    .btn:hover { opacity: 0.85; transform: translateY(-1px); }
+    .btn-gold { background: var(--gold); color: var(--navy); }
+    .btn-outline { background: transparent; color: var(--gold); border: 1.5px solid var(--gold); }
+    .btn-danger { background: rgba(239,68,68,0.15); color: #f87171; border: 1.5px solid rgba(239,68,68,0.3); }
+    .btn-save { background: var(--gold); color: var(--navy); padding: 0.625rem 1.5rem; font-size: 0.8125rem; }
+    /* AI Banner */
+    .ai-banner {
+      background: linear-gradient(135deg, rgba(99,102,241,0.12) 0%, rgba(168,85,247,0.08) 100%);
+      border: 1.5px solid rgba(139,92,246,0.3);
+      border-radius: 0.75rem;
+      padding: 1rem 1.25rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .ai-banner-icon { font-size: 1.5rem; flex-shrink: 0; }
+    .ai-banner-text { flex: 1; min-width: 160px; }
+    .ai-banner-title { font-size: 0.8125rem; font-weight: 700; color: #c4b5fd; margin-bottom: 0.2rem; }
+    .ai-banner-desc { font-size: 0.6875rem; color: rgba(255,255,255,0.4); line-height: 1.4; }
+    .ai-key-wrap { display: flex; align-items: center; gap: 0.5rem; flex: 1; min-width: 200px; }
+    .ai-key-input {
+      flex: 1;
+      padding: 0.5rem 0.75rem;
+      background: rgba(255,255,255,0.05);
+      border: 1.5px solid rgba(139,92,246,0.25);
+      border-radius: 0.375rem;
+      color: #fff;
+      font-size: 0.75rem;
+      font-family: monospace;
+      outline: none;
+    }
+    .ai-key-input:focus { border-color: #8b5cf6; }
+    .ai-key-input::placeholder { color: rgba(255,255,255,0.2); }
+    .btn-ai {
+      display: inline-flex; align-items: center; gap: 0.375rem;
+      padding: 0.5rem 1rem;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      color: #fff; border: none; border-radius: 0.375rem;
+      font-size: 0.75rem; font-weight: 700; cursor: pointer;
+      font-family: inherit; letter-spacing: 0.04em;
+      transition: opacity 0.2s; white-space: nowrap;
+    }
+    .btn-ai:hover { opacity: 0.85; }
+    .btn-ai:disabled { opacity: 0.45; cursor: not-allowed; }
+    .btn-new {
+      width: 100%;
+      background: rgba(254,189,65,0.08);
+      color: var(--gold);
+      border: 1.5px dashed rgba(254,189,65,0.35);
+      border-radius: 0.5rem;
+      padding: 0.75rem;
+      font-size: 0.8125rem;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      letter-spacing: 0.05em;
+      transition: background 0.2s;
+      text-align: center;
+    }
+    .btn-new:hover { background: rgba(254,189,65,0.14); }
+
+    /* ---- Layout ---- */
+    .admin-layout {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      height: calc(100vh - 3.25rem);
+    }
+    @media (max-width: 767px) {
+      .admin-layout { grid-template-columns: 1fr; height: auto; }
+      .admin-sidebar { border-right: none; border-bottom: 1px solid var(--border); max-height: 40vh; }
+    }
+
+    /* ---- Sidebar ---- */
+    .admin-sidebar {
+      background: var(--navy);
+      border-right: 1px solid var(--border);
+      overflow-y: auto;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.625rem;
+    }
+    .dest-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      padding: 0.75rem 0.875rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .dest-item:hover { background: rgba(254,189,65,0.06); border-color: rgba(254,189,65,0.1); }
+    .dest-item.active { background: rgba(254,189,65,0.1); border-color: rgba(254,189,65,0.3); }
+    .dest-item-name {
+      font-family: 'Days One', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 900;
+      color: var(--gold);
+      letter-spacing: 0.08em;
+    }
+    .dest-item-date { font-size: 0.6875rem; color: rgba(255,255,255,0.4); }
+    .dest-item-id { font-size: 0.625rem; color: rgba(255,255,255,0.25); font-family: monospace; }
+
+    /* ---- Main ---- */
+    .admin-main {
+      overflow-y: auto;
+      background: var(--surface);
+    }
+    .no-selection {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      color: rgba(255,255,255,0.25);
+      text-align: center;
+      padding: 2rem;
+    }
+    .no-selection-icon {
+      font-size: 3rem;
+      opacity: 0.3;
+    }
+    .no-selection p { font-size: 0.875rem; line-height: 1.6; }
+
+    /* ---- Form ---- */
+    #destForm { display: none; padding: 2rem; }
+    .form-top-bar {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    .form-page-title {
+      font-family: 'Days One', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      color: var(--gold);
+      text-transform: uppercase;
+    }
+    .form-url-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(40,134,153,0.15);
+      border: 1px solid rgba(40,134,153,0.3);
+      border-radius: 0.375rem;
+      padding: 0.375rem 0.75rem;
+      font-size: 0.6875rem;
+      color: rgba(255,255,255,0.55);
+      font-family: monospace;
+    }
+    .form-url-badge a {
+      color: var(--teal);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .form-url-badge a:hover { text-decoration: underline; }
+
+    /* fieldset / section */
+    .form-section {
+      background: rgba(0,0,0,0.25);
+      border: 1px solid rgba(254,189,65,0.1);
+      border-radius: 0.75rem;
+      padding: 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+    .form-section-title {
+      font-size: 0.6875rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid rgba(254,189,65,0.1);
+    }
+    .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media (max-width: 600px) { .form-grid-2 { grid-template-columns: 1fr; } }
+    .form-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
+    @media (max-width: 700px) { .form-grid-3 { grid-template-columns: 1fr; } }
+    .form-row { margin-bottom: 0; }
+    .form-label {
+      display: block;
+      font-size: 0.6875rem;
+      font-weight: 700;
+      color: rgba(255,255,255,0.45);
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      margin-bottom: 0.375rem;
+    }
+    .form-label span { color: rgba(255,255,255,0.2); font-weight: 400; text-transform: none; margin-left: 0.25rem; }
+    .form-input, .form-textarea, .form-select {
+      width: 100%;
+      padding: 0.625rem 0.875rem;
+      background: rgba(255,255,255,0.05);
+      border: 1.5px solid rgba(254,189,65,0.15);
+      border-radius: 0.375rem;
+      color: #fff;
+      font-size: 0.875rem;
+      font-family: inherit;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+    }
+    .form-input:focus, .form-textarea:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(254,189,65,0.1);
+    }
+    .form-input::placeholder, .form-textarea::placeholder { color: rgba(255,255,255,0.2); }
+    .form-textarea { resize: vertical; line-height: 1.6; }
+    .form-hint {
+      font-size: 0.6875rem;
+      color: rgba(255,255,255,0.25);
+      margin-top: 0.3rem;
+      line-height: 1.5;
+    }
+
+    /* sub-block (activity, faq, recensione) */
+    .sub-block {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(254,189,65,0.08);
+      border-radius: 0.5rem;
+      padding: 1rem 1.25rem;
+      margin-bottom: 0.75rem;
+    }
+    .sub-block-label {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      color: rgba(254,189,65,0.5);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.875rem;
+    }
+
+    /* ---- Bottom bar ---- */
+    .form-bottom-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding-top: 1.5rem;
+      margin-top: 0.5rem;
+      border-top: 1px solid rgba(254,189,65,0.1);
+      flex-wrap: wrap;
+    }
+
+    /* ---- Toast ---- */
+    #toast {
+      position: fixed;
+      bottom: 1.5rem; right: 1.5rem;
+      background: var(--gold);
+      color: var(--navy);
+      font-weight: 700;
+      font-size: 0.8125rem;
+      padding: 0.75rem 1.25rem;
+      border-radius: 0.5rem;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      transform: translateY(120%);
+      opacity: 0;
+      transition: transform 0.3s, opacity 0.3s;
+      z-index: 9999;
+    }
+    #toast.show { transform: translateY(0); opacity: 1; }
+
+    /* ---- Confirm modal ---- */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.7);
+      z-index: 200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-box {
+      background: var(--navy);
+      border: 1px solid rgba(254,189,65,0.2);
+      border-radius: 1rem;
+      padding: 2rem;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+    }
+    .modal-title { font-family: 'Days One', sans-serif; font-size: 1.125rem; color: var(--gold); margin-bottom: 0.75rem; }
+    .modal-text { font-size: 0.875rem; color: rgba(255,255,255,0.65); margin-bottom: 1.5rem; line-height: 1.6; }
+    .modal-actions { display: flex; justify-content: center; gap: 0.75rem; }
+  </style>
+</head>
+<body>
+
+  <!-- ========== HEADER ========== -->
+  <header class="admin-header">
+    <div style="display:flex;align-items:center">
+      <span class="header-brand">SKAPPA</span>
+      <span class="header-tag">Admin CMS</span>
+    </div>
+    <div class="header-actions">
+      <label class="btn btn-outline" style="cursor:pointer">
+        ↑ Importa .js
+        <input type="file" accept=".js" style="display:none" id="importInput" onchange="importFile(event)">
+      </label>
+      <button onclick="exportFile()" class="btn btn-gold">↓ Esporta destinations.js</button>
+    </div>
+  </header>
+
+
+  <!-- ========== LAYOUT ========== -->
+  <div class="admin-layout">
+
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <button class="btn-new" onclick="newDestination()">+ Nuova destinazione</button>
+      <div id="destList"></div>
+    </aside>
+
+    <!-- Main -->
+    <main class="admin-main">
+      <div class="no-selection" id="noSelection">
+        <div class="no-selection-icon">🗺️</div>
+        <p>Seleziona una destinazione dalla lista<br>oppure aggiungine una nuova.</p>
+      </div>
+
+      <form id="destForm" onsubmit="saveDest(event)" autocomplete="off">
+
+        <!-- Top bar -->
+        <div class="form-top-bar">
+          <div>
+            <div class="form-page-title" id="formTitle">NUOVA DESTINAZIONE</div>
+            <div class="form-url-badge" style="margin-top:0.5rem">
+              URL: <a id="destUrlLink" href="#" target="_blank" id="destUrl">—</a>
+            </div>
+          </div>
+          <div style="display:flex;gap:0.5rem;align-items:center">
+            <button type="button" onclick="openDeleteModal()" class="btn btn-danger">Elimina</button>
+            <button type="submit" class="btn btn-save">Salva modifiche</button>
+          </div>
+        </div>
+
+        <!-- ── BANNER AI ── -->
+        <div class="ai-banner">
+          <div class="ai-banner-icon">✨</div>
+          <div class="ai-banner-text">
+            <div class="ai-banner-title">Genera contenuti con AI</div>
+            <div class="ai-banner-desc">Inserisci nome, date, prezzo e tipologia, poi clicca "Genera". L'AI compilerà tutti i testi.</div>
+          </div>
+          <div class="ai-key-wrap">
+            <input type="password" id="ai-api-key" class="ai-key-input" placeholder="sk-ant-api03-..." autocomplete="off" />
+            <button type="button" id="ai-generate-btn" class="btn-ai" onclick="generateWithAI()">
+              ✨ Genera
+            </button>
+          </div>
+        </div>
+
+        <!-- ── SEZIONE 1: Informazioni base ── -->
+        <div class="form-section">
+          <div class="form-section-title">Informazioni base</div>
+          <div class="form-grid-2" style="margin-bottom:1rem">
+            <div class="form-row">
+              <label class="form-label" for="f-id">ID destinazione <span>(slug URL)</span></label>
+              <input class="form-input" id="f-id" type="text" placeholder="es. malta" oninput="updateUrlBadge()" required>
+              <p class="form-hint">Solo lettere minuscole e trattini. Viene usato nell'URL: <code id="urlBadgeHint">viaggio.html?id=…</code></p>
+            </div>
+            <div class="form-row">
+              <label class="form-label" for="f-tipologia">Tipologia</label>
+              <select class="form-select" id="f-tipologia" onchange="onTipologiaChange()">
+                <option value="mete-estive">🌊 Mete estive</option>
+                <option value="fughe-in-europa">✈ Fughe in Europa</option>
+                <option value="last-minute">⚡ Last minute</option>
+              </select>
+              <p class="form-hint">Determina il template della pagina.</p>
+            </div>
+          </div>
+          <div class="form-row" style="margin-bottom:1rem">
+            <label class="form-label" for="f-nome">Nome destinazione <span>(visibile)</span></label>
+            <input class="form-input" id="f-nome" type="text" placeholder="es. MALTA" required>
+          </div>
+          <div class="form-grid-3" style="margin-bottom:1rem">
+            <div class="form-row">
+              <label class="form-label" for="f-date">Date</label>
+              <input class="form-input" id="f-date" type="text" placeholder="es. Dal 6 all'11 Agosto">
+            </div>
+            <div class="form-row">
+              <label class="form-label" for="f-prezzo">Prezzo (€)</label>
+              <input class="form-input" id="f-prezzo" type="text" placeholder="es. 349">
+            </div>
+            <div class="form-row">
+              <label class="form-label" for="f-imgHero">Immagine hero <span>(percorso)</span></label>
+              <input class="form-input" id="f-imgHero" type="text" placeholder="assets/foto/malta/hero.jpg">
+            </div>
+          </div>
+          <!-- Prezzo originale + Link pagamento (tutte le tipologie) -->
+          <div class="form-grid-2" style="margin-bottom:1rem">
+            <div class="form-row">
+              <label class="form-label" for="f-prezzoOriginale">Prezzo originale (€) <span>(barrato)</span></label>
+              <input class="form-input" id="f-prezzoOriginale" type="text" placeholder="es. 429">
+              <p class="form-hint">Visibile barrato accanto al prezzo scontato. Lascia vuoto se non applicabile.</p>
+            </div>
+            <div class="form-row">
+              <label class="form-label" for="f-linkPagamento">Link pagamento <span>(URL Stripe / esterno)</span></label>
+              <input class="form-input" id="f-linkPagamento" type="url" placeholder="https://buy.stripe.com/...">
+              <p class="form-hint">Se presente, tutti i bottoni "Blocca il posto" puntano a questo link.</p>
+            </div>
+          </div>
+          <!-- Campi aggiuntivi solo per last-minute -->
+          <div id="lm-extra-fields" style="display:none">
+            <div class="form-grid-2" style="margin-bottom:1rem;padding:1rem;background:rgba(220,38,38,0.06);border:1px solid rgba(220,38,38,0.2);border-radius:0.5rem">
+              <div class="form-row">
+                <label class="form-label" for="f-scadenza">Scadenza offerta</label>
+                <input class="form-input" id="f-scadenza" type="datetime-local">
+                <p class="form-hint">Il countdown parte da qui. Formato: data e ora.</p>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <label class="form-label" for="f-tagline">Tagline hero</label>
+            <textarea class="form-textarea" id="f-tagline" rows="2" placeholder="Pool party, rooftop al tramonto e notti infinite nel cuore del Mediterraneo."></textarea>
+          </div>
+        </div>
+
+        <!-- ── SEZIONE 2: Dettagli pacchetto ── -->
+        <div class="form-section">
+          <div class="form-section-title">Dettagli pacchetto</div>
+          <div class="form-grid-3" style="margin-bottom:1rem">
+            <div class="form-row">
+              <label class="form-label" for="f-partenzaDa">Partenza da</label>
+              <input class="form-input" id="f-partenzaDa" type="text" placeholder="Napoli">
+            </div>
+            <div class="form-row">
+              <label class="form-label" for="f-durata">Durata</label>
+              <input class="form-input" id="f-durata" type="text" placeholder="6 giorni 5 notti">
+            </div>
+            <div class="form-row">
+              <label class="form-label" for="f-hotel">Hotel</label>
+              <input class="form-input" id="f-hotel" type="text" placeholder="The St. George's Park Hotel">
+            </div>
+          </div>
+          <div class="form-row">
+            <label class="form-label" for="f-inclusiPacchetto">Cosa include il pacchetto <span>(una voce per riga)</span></label>
+            <textarea class="form-textarea" id="f-inclusiPacchetto" rows="6"
+              placeholder="Dal 6 all'11 Agosto&#10;6 giorni e 5 notti&#10;The St. George's Park Hotel&#10;2 Pool Party, 2 Aperitivi Rooftop"></textarea>
+            <p class="form-hint">Ogni riga diventa un punto della lista con ✓ nel pacchetto.</p>
+          </div>
+        </div>
+
+        <!-- ── SEZIONE 3: Perché [destinazione] ── -->
+        <div class="form-section">
+          <div class="form-section-title">Sezione "Perché"</div>
+          <div class="form-grid-2" style="margin-bottom:1rem">
+            <div class="form-row">
+              <label class="form-label" for="f-perche-titolo">Titolo sezione</label>
+              <input class="form-input" id="f-perche-titolo" type="text" placeholder="PERCHÉ MALTA">
+            </div>
+            <div class="form-row">
+              <label class="form-label" for="f-perche-img">Immagine <span>(percorso)</span></label>
+              <input class="form-input" id="f-perche-img" type="text" placeholder="img/destinazioni/malta-perche.jpg">
+            </div>
+          </div>
+          <div class="form-row">
+            <label class="form-label" for="f-perche-testo">Testo descrittivo</label>
+            <textarea class="form-textarea" id="f-perche-testo" rows="4"
+              placeholder="Malta è il mix perfetto tra mare cristallino..."></textarea>
+          </div>
+        </div>
+
+        <!-- ── SEZIONE 4: Attività (3 blocchi) ── -->
+        <div class="form-section">
+          <div class="form-section-title">Attività <span style="font-weight:400;text-transform:none;color:rgba(255,255,255,0.3)">(3 sezioni)</span></div>
+          <div id="attivitaBlocks">
+            <!-- generato da JS -->
+          </div>
+        </div>
+
+        <!-- ── SEZIONE 5: Inclusi con Skappa (4 voci) ── -->
+        <div class="form-section">
+          <div class="form-section-title">Inclusi con Skappa <span style="font-weight:400;text-transform:none;color:rgba(255,255,255,0.3)">(4 voci fisse)</span></div>
+          <div id="inclusiBlocks">
+            <!-- generato da JS -->
+          </div>
+        </div>
+
+        <!-- ── SEZIONE 6: Esperienza ── -->
+        <div class="form-section">
+          <div class="form-section-title">Sezione "Esperienza"</div>
+          <div class="form-row" style="margin-bottom:1rem">
+            <label class="form-label" for="f-esperienzaTitolo">Titolo</label>
+            <input class="form-input" id="f-esperienzaTitolo" type="text" placeholder="L'ESPERIENZA SKAPPA A MALTA">
+          </div>
+          <div class="form-row">
+            <label class="form-label" for="f-esperienzaTesto">Testo</label>
+            <textarea class="form-textarea" id="f-esperienzaTesto" rows="3"
+              placeholder="Tutto organizzato, zero stress..."></textarea>
+          </div>
+        </div>
+
+        <!-- ── SEZIONE 7: FAQ (3 domande) ── -->
+        <div class="form-section">
+          <div class="form-section-title">FAQ <span style="font-weight:400;text-transform:none;color:rgba(255,255,255,0.3)">(3 domande)</span></div>
+          <div id="faqBlocks">
+            <!-- generato da JS -->
+          </div>
+        </div>
+
+        <!-- ── SEZIONE 8: Recensioni (4 card) ── -->
+        <div class="form-section">
+          <div class="form-section-title">Recensioni <span style="font-weight:400;text-transform:none;color:rgba(255,255,255,0.3)">(4 card)</span></div>
+          <div id="recensioniBlocks">
+            <!-- generato da JS -->
+          </div>
+        </div>
+
+        <!-- Bottom bar -->
+        <div class="form-bottom-bar">
+          <p style="font-size:0.75rem;color:rgba(255,255,255,0.3)">
+            Dopo aver salvato, clicca <strong style="color:rgba(254,189,65,0.6)">Esporta destinations.js</strong>
+            e sostituisci il file nella cartella <code style="color:rgba(255,255,255,0.4)">data/</code>.
+          </p>
+          <div style="display:flex;gap:0.75rem">
+            <button type="button" onclick="openDeleteModal()" class="btn btn-danger">Elimina</button>
+            <button type="submit" class="btn btn-save">Salva modifiche</button>
+          </div>
+        </div>
+
+      </form>
+    </main>
+  </div>
+
+
+  <!-- ========== MODAL ELIMINA ========== -->
+  <div class="modal-overlay" id="deleteModal" onclick="closeDeleteModal(event)">
+    <div class="modal-box">
+      <div class="modal-title">Eliminare destinazione?</div>
+      <p class="modal-text" id="deleteModalText">Questa azione rimuoverà la destinazione dalla lista. Ricordati di esportare il file dopo.</p>
+      <div class="modal-actions">
+        <button class="btn btn-outline" onclick="closeDeleteModal()">Annulla</button>
+        <button class="btn btn-danger" onclick="confirmDelete()">Sì, elimina</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast"></div>
+
+
+  <script>
+    // =============================================
+    //  SKAPPA Admin CMS
+    // =============================================
+
+    // Dati default (Malta + Zante) — sincronizzati con data/destinations.js
+    var DEFAULT_DATA = [
+      {
+        id: "malta", nome: "MALTA", date: "Dal 6 all'11 Agosto",
+        tagline: "Pool party, rooftop al tramonto e notti infinite nel cuore del Mediterraneo.",
+        prezzo: "349", imgHero: "img/destinazioni/malta.jpg",
+        partenzaDa: "Napoli", durata: "6 giorni 5 notti", hotel: "The St. George's Park Hotel",
+        inclusiPacchetto: ["Dal 6 all'11 Agosto","6 giorni e 5 notti","The St. George's Park Hotel","2 Pool Party, 2 Aperitivi Rooftop","2 Serate in discoteca, tessera con 3 ingressi omaggio","Sconto Uber 80%, sconto ristoranti 30%, sconto tatuaggi 10%"],
+        perche: { titolo: "PERCHÉ MALTA", testo: "Malta è il mix perfetto tra mare cristallino, party esclusivi e un'atmosfera internazionale. Qui si dorme poco e si vive tanto, tra pool party di giorno e serate che finiscono all'alba.", img: "img/destinazioni/malta-perche.jpg" },
+        attivita: [
+          { titolo: "POOL PARTY SENZA LIMITI", descrizione: "Due pool party organizzati SKAPPA, musica, drink e vibrazioni attive dal primo all'ultimo giorno.", img: "img/destinazioni/malta-activity1.jpg" },
+          { titolo: "ROOFTOP AL TRAMONTO", descrizione: "Aperitivi rooftop con vista, luce calda e la sensazione che la serata sta per esplodere.", img: "img/destinazioni/malta-activity2.jpg" },
+          { titolo: "NOTTI MALTA STYLE", descrizione: "Serate in discoteca selezionata, ingresso facilitato e atmosfera internazionale.", img: "img/destinazioni/malta-activity3.jpg" }
+        ],
+        inclusiConSkappa: [
+          { icona: "🏨", label: "Alloggio selezionato" },
+          { icona: "✈️", label: "Supporto SKAPPA" },
+          { icona: "🌍", label: "Esperienze locali" },
+          { icona: "💸", label: "Nessun costo nascosto" }
+        ],
+        esperienzaTitolo: "L'ESPERIENZA SKAPPA A MALTA",
+        esperienzaTesto: "Tutto organizzato, zero stress. Event inclusi, sconti esclusivi, persone come te e la libertà di vivere Malta senza pensieri.",
+        faq: [
+          { domanda: "Cosa è incluso nel pacchetto SKAPPA?", risposta: "Il pacchetto include alloggio selezionato, tutti gli eventi organizzati, sconti esclusivi con i partner locali e supporto SKAPPA per tutta la durata del viaggio." },
+          { domanda: "I voli sono inclusi?", risposta: "I voli non sono inclusi nel pacchetto. Troverai indicazioni su come raggiungere la destinazione nella tua area riservata dopo la prenotazione." },
+          { domanda: "Posso personalizzare il mio itinerario?", risposta: "Il programma è pensato per vivere al massimo ogni giorno insieme al gruppo. Hai comunque libertà di organizzare il tuo tempo libero come preferisci." }
+        ],
+        recensioni: [
+          { testo: "Il miglior weekend di sempre! Tutto è stato gestito alla perfezione, zero stress e divertimento garantito.", nome: "Giulia", tag: "Coppia" },
+          { testo: "Un'esperienza davvero perfetta, ho apprezzato molto i tour locali inclusi e l'hotel ineccepibile.", nome: "Angelo", tag: "" },
+          { testo: "Io e i miei amici abbiamo trascorso dei momenti indimenticabili, consiglio vivamente SKAPPA!", nome: "Matteo", tag: "Gruppo" },
+          { testo: "Ottimo rapporto qualità-prezzo, servizio eccellente. Ogni dettaglio è stato curato alla perfezione.", nome: "Alessia", tag: "Coppia" }
+        ]
+      },
+      {
+        id: "zante", nome: "ZANTE", date: "Dal 16 al 21 Luglio",
+        tagline: "Mare azzurro di giorno, party folli di notte.",
+        prezzo: "349", imgHero: "img/destinazioni/zante.jpg",
+        partenzaDa: "Napoli", durata: "6 giorni 5 notti", hotel: "Jimmy Hotel",
+        inclusiPacchetto: ["Dal 16 al 21 Luglio","6 giorni e 5 notti","Jimmy Hotel","Boat Party","Pool Party"],
+        perche: { titolo: "PERCHÉ ZANTE", testo: "Zante è l'isola greca che non dimentichi. Acque cristalline che diventano dancefloor al tramonto. SKAPPA ti porta dove la vacanza vera comincia.", img: "img/destinazioni/zante-perche.jpg" },
+        attivita: [
+          { titolo: "BOAT PARTY", descrizione: "Una giornata intera in barca, tra le baie più belle di Zante, musica a tutto volume e il mare tutto per noi.", img: "img/destinazioni/zante-activity1.jpg" },
+          { titolo: "POOL PARTY", descrizione: "Pool party esclusivi SKAPPA con DJ set, drink e la crew più bella dell'estate.", img: "img/destinazioni/zante-activity2.jpg" },
+          { titolo: "ZANTE NIGHTLIFE", descrizione: "Le notti di Zante sono leggendarie. Noi ti portiamo nei posti giusti, senza code e con l'atmosfera giusta.", img: "img/destinazioni/zante-activity3.jpg" }
+        ],
+        inclusiConSkappa: [
+          { icona: "🏨", label: "Alloggio selezionato" },
+          { icona: "✈️", label: "Supporto SKAPPA" },
+          { icona: "🌍", label: "Esperienze locali" },
+          { icona: "💸", label: "Nessun costo nascosto" }
+        ],
+        esperienzaTitolo: "L'ESPERIENZA SKAPPA A ZANTE",
+        esperienzaTesto: "Tutto organizzato, zero stress. Boat party, pool party, serate esclusive. Tu pensi solo a vivere.",
+        faq: [
+          { domanda: "Cosa è incluso nel pacchetto SKAPPA?", risposta: "Il pacchetto include alloggio selezionato, boat party, pool party e supporto SKAPPA per tutta la durata del viaggio." },
+          { domanda: "I voli sono inclusi?", risposta: "I voli non sono inclusi nel pacchetto. Troverai indicazioni su come raggiungere la destinazione nella tua area riservata dopo la prenotazione." },
+          { domanda: "Posso personalizzare il mio itinerario?", risposta: "Il programma è pensato per vivere al massimo ogni giorno insieme al gruppo. Hai comunque libertà di organizzare il tuo tempo libero come preferisci." }
+        ],
+        recensioni: [
+          { testo: "Zante con SKAPPA è stata la vacanza della mia vita. Boat party indimenticabile!", nome: "Sara", tag: "Gruppo" },
+          { testo: "Organizzazione impeccabile. Hotel ottimo, eventi fantastici, persone meravigliose.", nome: "Luca", tag: "" },
+          { testo: "Mai vissuto un'estate così. Tornerò sicuramente con SKAPPA l'anno prossimo.", nome: "Chiara", tag: "Coppia" },
+          { testo: "Il rapporto qualità-prezzo è imbattibile. Consiglio a tutti!", nome: "Marco", tag: "Gruppo" }
+        ]
+      }
+    ];
+
+    // ---- Stato ----
+    var destinations = [];
+    var currentIndex = -1;
+
+    // ---- Build form dynamic blocks ----
+    function buildDynamicBlocks() {
+      // Attività (3)
+      var attHtml = '';
+      for (var i = 0; i < 3; i++) {
+        attHtml += '<div class="sub-block">'
+          + '<div class="sub-block-label">Attività ' + (i + 1) + '</div>'
+          + '<div class="form-grid-2" style="margin-bottom:0.75rem">'
+          + '<div><label class="form-label">Titolo</label><input class="form-input" id="f-att' + i + '-titolo" type="text" placeholder="es. POOL PARTY SENZA LIMITI"></div>'
+          + '<div><label class="form-label">Immagine <span>(percorso)</span></label><input class="form-input" id="f-att' + i + '-img" type="text" placeholder="img/destinazioni/malta-activity' + (i+1) + '.jpg"></div>'
+          + '</div>'
+          + '<div><label class="form-label">Descrizione</label><textarea class="form-textarea" id="f-att' + i + '-descrizione" rows="2" placeholder="Descrizione breve dell\'attività..."></textarea></div>'
+          + '</div>';
+      }
+      document.getElementById('attivitaBlocks').innerHTML = attHtml;
+
+      // Inclusi con Skappa (4)
+      var incHtml = '<div class="form-grid-2">';
+      for (var j = 0; j < 4; j++) {
+        incHtml += '<div class="sub-block">'
+          + '<div class="sub-block-label">Voce ' + (j + 1) + '</div>'
+          + '<div style="display:grid;grid-template-columns:56px 1fr;gap:0.75rem">'
+          + '<div><label class="form-label">Icona</label><input class="form-input" id="f-inc' + j + '-icona" type="text" placeholder="🏨" style="text-align:center;font-size:1.25rem;padding:0.375rem"></div>'
+          + '<div><label class="form-label">Etichetta</label><input class="form-input" id="f-inc' + j + '-label" type="text" placeholder="Alloggio selezionato"></div>'
+          + '</div></div>';
+      }
+      incHtml += '</div>';
+      document.getElementById('inclusiBlocks').innerHTML = incHtml;
+
+      // FAQ (3)
+      var faqHtml = '';
+      for (var k = 0; k < 3; k++) {
+        faqHtml += '<div class="sub-block">'
+          + '<div class="sub-block-label">Domanda ' + (k + 1) + '</div>'
+          + '<div style="margin-bottom:0.75rem"><label class="form-label">Domanda</label><input class="form-input" id="f-faq' + k + '-domanda" type="text" placeholder="es. I voli sono inclusi?"></div>'
+          + '<div><label class="form-label">Risposta</label><textarea class="form-textarea" id="f-faq' + k + '-risposta" rows="2" placeholder="Risposta..."></textarea></div>'
+          + '</div>';
+      }
+      document.getElementById('faqBlocks').innerHTML = faqHtml;
+
+      // Recensioni (4)
+      var recHtml = '<div class="form-grid-2">';
+      for (var r = 0; r < 4; r++) {
+        recHtml += '<div class="sub-block">'
+          + '<div class="sub-block-label">Recensione ' + (r + 1) + '</div>'
+          + '<div style="margin-bottom:0.75rem"><label class="form-label">Testo</label><textarea class="form-textarea" id="f-rec' + r + '-testo" rows="3" placeholder="Testo della recensione..."></textarea></div>'
+          + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:0.625rem">'
+          + '<div><label class="form-label">Nome</label><input class="form-input" id="f-rec' + r + '-nome" type="text" placeholder="Mario"></div>'
+          + '<div><label class="form-label">Tag <span>(facoltativo)</span></label><input class="form-input" id="f-rec' + r + '-tag" type="text" placeholder="Coppia / Gruppo"></div>'
+          + '</div></div>';
+      }
+      recHtml += '</div>';
+      document.getElementById('recensioniBlocks').innerHTML = recHtml;
+    }
+
+    // ---- Init ----
+    // Fonte di verità: data/destinations.js (window.DESTINATIONS).
+    // localStorage è solo un backup di sessione — viene sempre sovrascritto
+    // con i dati del file al caricamento, così l'admin riflette sempre
+    // lo stato reale di destinations.js.
+    function init() {
+      buildDynamicBlocks();
+      var fromFile = window.DESTINATIONS;
+      if (fromFile && fromFile.length) {
+        // Usa sempre il file come fonte primaria
+        destinations = JSON.parse(JSON.stringify(fromFile));
+        saveToStorage();
+      } else {
+        // Fallback: localStorage o DEFAULT_DATA se il file non è disponibile
+        var saved = localStorage.getItem('skappa_cms_destinations');
+        if (saved) {
+          try { destinations = JSON.parse(saved); } catch (e) { destinations = JSON.parse(JSON.stringify(DEFAULT_DATA)); }
+        } else {
+          destinations = JSON.parse(JSON.stringify(DEFAULT_DATA));
+        }
+      }
+      renderList();
+      if (destinations.length > 0) selectDest(0);
+    }
+
+    // ---- Sidebar list ----
+    function renderList() {
+      var html = '';
+      destinations.forEach(function (d, i) {
+        html += '<div class="dest-item' + (i === currentIndex ? ' active' : '') + '" onclick="selectDest(' + i + ')">'
+          + '<div class="dest-item-name">' + (d.nome || d.id || 'Senza nome') + '</div>'
+          + '<div class="dest-item-date">' + (d.date || '—') + '</div>'
+          + '<div class="dest-item-id">' + (d.id || '—') + '</div>'
+          + '</div>';
+      });
+      document.getElementById('destList').innerHTML = html;
+    }
+
+    // ---- Select & populate form ----
+    function selectDest(i) {
+      currentIndex = i;
+      renderList();
+      document.getElementById('noSelection').style.display = 'none';
+      document.getElementById('destForm').style.display = 'block';
+      populateForm(destinations[i]);
+    }
+
+    function populateForm(d) {
+      document.getElementById('formTitle').textContent = d.nome || 'NUOVA DESTINAZIONE';
+      updateUrlBadge(d.id);
+
+      // Base info
+      setValue('f-id', d.id);
+      setValue('f-nome', d.nome);
+      setValue('f-date', d.date);
+      setValue('f-tagline', d.tagline);
+      setValue('f-prezzo', d.prezzo);
+      setValue('f-imgHero', d.imgHero);
+      setValue('f-partenzaDa', d.partenzaDa);
+      setValue('f-durata', d.durata);
+      setValue('f-hotel', d.hotel);
+
+      // Tipologia + last-minute fields
+      var tipEl = document.getElementById('f-tipologia');
+      if (tipEl) tipEl.value = d.tipologia || 'mete-estive';
+      onTipologiaChange();
+      setValue('f-prezzoOriginale', d.prezzoOriginale);
+      setValue('f-linkPagamento', d.linkPagamento);
+      setValue('f-scadenza', d.scadenza ? d.scadenza.replace(' ', 'T').substring(0, 16) : '');
+
+      // Inclusi pacchetto (textarea, one per line)
+      setValue('f-inclusiPacchetto', (d.inclusiPacchetto || []).join('\n'));
+
+      // Perché
+      setValue('f-perche-titolo', d.perche && d.perche.titolo);
+      setValue('f-perche-testo', d.perche && d.perche.testo);
+      setValue('f-perche-img', d.perche && d.perche.img);
+
+      // Attività (3)
+      for (var i = 0; i < 3; i++) {
+        var att = (d.attivita && d.attivita[i]) || {};
+        setValue('f-att' + i + '-titolo', att.titolo);
+        setValue('f-att' + i + '-descrizione', att.descrizione);
+        setValue('f-att' + i + '-img', att.img);
+      }
+
+      // Inclusi con Skappa (4)
+      for (var j = 0; j < 4; j++) {
+        var inc = (d.inclusiConSkappa && d.inclusiConSkappa[j]) || {};
+        setValue('f-inc' + j + '-icona', inc.icona);
+        setValue('f-inc' + j + '-label', inc.label);
+      }
+
+      // Esperienza
+      setValue('f-esperienzaTitolo', d.esperienzaTitolo);
+      setValue('f-esperienzaTesto', d.esperienzaTesto);
+
+      // FAQ (3)
+      for (var k = 0; k < 3; k++) {
+        var faq = (d.faq && d.faq[k]) || {};
+        setValue('f-faq' + k + '-domanda', faq.domanda);
+        setValue('f-faq' + k + '-risposta', faq.risposta);
+      }
+
+      // Recensioni (4)
+      for (var r = 0; r < 4; r++) {
+        var rec = (d.recensioni && d.recensioni[r]) || {};
+        setValue('f-rec' + r + '-testo', rec.testo);
+        setValue('f-rec' + r + '-nome', rec.nome);
+        setValue('f-rec' + r + '-tag', rec.tag);
+      }
+    }
+
+    function setValue(id, val) {
+      var el = document.getElementById(id);
+      if (el) el.value = val || '';
+    }
+
+    // ---- Tipologia change handler ----
+    function onTipologiaChange() {
+      var tip = document.getElementById('f-tipologia').value;
+      document.getElementById('lm-extra-fields').style.display =
+        tip === 'last-minute' ? 'block' : 'none';
+      updateUrlBadge();
+    }
+
+    // ---- Update URL badge ----
+    function updateUrlBadge(idOverride) {
+      var id = idOverride || document.getElementById('f-id').value.trim();
+      var tipEl = document.getElementById('f-tipologia');
+      var tip = tipEl ? tipEl.value : 'mete-estive';
+      var tpl = tip === 'fughe-in-europa' ? 'viaggio-citybreak.html'
+              : tip === 'last-minute'     ? 'viaggio-lastminute.html'
+              : 'viaggio.html';
+      var url = tpl + '?id=' + (id || '…');
+      var link = document.getElementById('destUrlLink');
+      if (link) { link.textContent = url; link.href = url; }
+      var hint = document.getElementById('urlBadgeHint');
+      if (hint) { hint.textContent = url; }
+    }
+
+    // ---- Collect form data ----
+    function getFormData() {
+      var tip = v('f-tipologia') || 'mete-estive';
+      var data = {
+        id: v('f-id'),
+        nome: v('f-nome'),
+        tipologia: tip,
+        date: v('f-date'),
+        tagline: v('f-tagline'),
+        prezzo: v('f-prezzo'),
+        imgHero: v('f-imgHero'),
+        partenzaDa: v('f-partenzaDa'),
+        durata: v('f-durata'),
+        inclusiPacchetto: v('f-inclusiPacchetto').split('\n').map(function(s){return s.trim();}).filter(Boolean),
+        perche: {
+          titolo: v('f-perche-titolo'),
+          testo: v('f-perche-testo'),
+          img: v('f-perche-img')
+        },
+        attivita: [0, 1, 2].map(function (i) {
+          return {
+            titolo: v('f-att' + i + '-titolo'),
+            descrizione: v('f-att' + i + '-descrizione'),
+            img: v('f-att' + i + '-img')
+          };
+        }),
+        inclusiConSkappa: [0, 1, 2, 3].map(function (j) {
+          return {
+            icona: v('f-inc' + j + '-icona'),
+            label: v('f-inc' + j + '-label')
+          };
+        }),
+        esperienzaTitolo: v('f-esperienzaTitolo'),
+        esperienzaTesto: v('f-esperienzaTesto'),
+        faq: [0, 1, 2].map(function (k) {
+          return {
+            domanda: v('f-faq' + k + '-domanda'),
+            risposta: v('f-faq' + k + '-risposta')
+          };
+        }),
+        recensioni: [0, 1, 2, 3].map(function (r) {
+          return {
+            testo: v('f-rec' + r + '-testo'),
+            nome: v('f-rec' + r + '-nome'),
+            tag: v('f-rec' + r + '-tag')
+          };
+        })
+      };
+      // Hotel (opzionale)
+      var ho = v('f-hotel');
+      if (ho) data.hotel = ho;
+      // Prezzo originale (tutte le tipologie)
+      var po = v('f-prezzoOriginale');
+      if (po) data.prezzoOriginale = po;
+      // Link pagamento (tutte le tipologie)
+      var lp = v('f-linkPagamento');
+      if (lp) data.linkPagamento = lp;
+      // Campi last-minute
+      if (tip === 'last-minute') {
+        var sc = v('f-scadenza');
+        if (sc) data.scadenza = sc + ':00'; // append seconds
+      }
+      return data;
+    }
+
+    function v(id) {
+      var el = document.getElementById(id);
+      return el ? el.value.trim() : '';
+    }
+
+    // ---- Save ----
+    function saveDest(e) {
+      e.preventDefault();
+      if (currentIndex < 0) return;
+      destinations[currentIndex] = getFormData();
+      document.getElementById('formTitle').textContent = destinations[currentIndex].nome || 'DESTINAZIONE';
+      updateUrlBadge(destinations[currentIndex].id);
+      saveToStorage();
+      renderList();
+      showToast('Salvato! Ricordati di esportare il file.');
+    }
+
+    // ---- New destination ----
+    function newDestination() {
+      var blank = {
+        id: 'nuova-' + Date.now(),
+        nome: 'NUOVA DESTINAZIONE',
+        tipologia: 'mete-estive',
+        date: '', tagline: '', prezzo: '', prezzoOriginale: '', linkPagamento: '', imgHero: '',
+        partenzaDa: '', durata: '', hotel: '',
+        inclusiPacchetto: [],
+        perche: { titolo: '', testo: '', img: '' },
+        attivita: [
+          { titolo: '', descrizione: '', img: '' },
+          { titolo: '', descrizione: '', img: '' },
+          { titolo: '', descrizione: '', img: '' }
+        ],
+        inclusiConSkappa: [
+          { icona: '🏨', label: 'Alloggio selezionato' },
+          { icona: '✈️', label: 'Supporto SKAPPA' },
+          { icona: '🌍', label: 'Esperienze locali' },
+          { icona: '💸', label: 'Nessun costo nascosto' }
+        ],
+        esperienzaTitolo: '', esperienzaTesto: '',
+        faq: [
+          { domanda: '', risposta: '' },
+          { domanda: '', risposta: '' },
+          { domanda: '', risposta: '' }
+        ],
+        recensioni: [
+          { testo: '', nome: '', tag: '' },
+          { testo: '', nome: '', tag: '' },
+          { testo: '', nome: '', tag: '' },
+          { testo: '', nome: '', tag: '' }
+        ]
+      };
+      destinations.push(blank);
+      currentIndex = destinations.length - 1;
+      saveToStorage();
+      renderList();
+      selectDest(currentIndex);
+      // Scroll top
+      document.querySelector('.admin-main').scrollTop = 0;
+    }
+
+    // ---- Delete ----
+    function openDeleteModal() {
+      if (currentIndex < 0) return;
+      document.getElementById('deleteModalText').textContent =
+        'Stai per eliminare "' + (destinations[currentIndex].nome || destinations[currentIndex].id) + '". Ricordati di esportare il file dopo.';
+      document.getElementById('deleteModal').classList.add('open');
+    }
+    function closeDeleteModal(e) {
+      if (!e || e.target === document.getElementById('deleteModal')) {
+        document.getElementById('deleteModal').classList.remove('open');
+      }
+    }
+    function confirmDelete() {
+      if (currentIndex < 0) return;
+      destinations.splice(currentIndex, 1);
+      currentIndex = -1;
+      saveToStorage();
+      renderList();
+      document.getElementById('noSelection').style.display = 'flex';
+      document.getElementById('destForm').style.display = 'none';
+      document.getElementById('deleteModal').classList.remove('open');
+      showToast('Destinazione eliminata.');
+    }
+
+    // ---- Storage ----
+    function saveToStorage() {
+      localStorage.setItem('skappa_cms_destinations', JSON.stringify(destinations));
+    }
+
+    // ---- Export ----
+    function exportFile() {
+      var content = '// =============================================\n'
+        + '//  Skappa – Destinations Data\n'
+        + '//  Generato da admin.html il ' + new Date().toLocaleDateString('it-IT') + '\n'
+        + '// =============================================\n\n'
+        + 'window.DESTINATIONS = ' + JSON.stringify(destinations, null, 2) + ';\n';
+      var blob = new Blob([content], { type: 'application/javascript' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'destinations.js';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast('File scaricato! Sostituisci data/destinations.js');
+    }
+
+    // ---- Import ----
+    function importFile(event) {
+      var file = event.target.files[0];
+      if (!file) return;
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        try {
+          var content = e.target.result;
+          // Estrae l'array da "window.DESTINATIONS = [...];"
+          var match = content.match(/window\.DESTINATIONS\s*=\s*(\[[\s\S]*)/);
+          if (match) {
+            var jsonStr = match[1].replace(/;\s*$/, '').trim();
+            var parsed = JSON.parse(jsonStr);
+            if (!Array.isArray(parsed)) throw new Error('Formato non valido');
+            destinations = parsed;
+            saveToStorage();
+            currentIndex = -1;
+            renderList();
+            document.getElementById('noSelection').style.display = 'flex';
+            document.getElementById('destForm').style.display = 'none';
+            if (destinations.length > 0) selectDest(0);
+            showToast('Importate ' + destinations.length + ' destinazioni!');
+          } else {
+            alert('File non riconosciuto. Importa solo un destinations.js generato da questo admin.');
+          }
+        } catch (err) {
+          alert('Errore importazione: ' + err.message);
+        }
+        event.target.value = '';
+      };
+      reader.readAsText(file, 'UTF-8');
+    }
+
+    // ---- AI Content Generation ----
+    async function generateWithAI() {
+      var apiKey = document.getElementById('ai-api-key').value.trim();
+      if (!apiKey) { alert('Inserisci la tua API key Anthropic (sk-ant-...).'); return; }
+
+      var nome     = v('f-nome');
+      var tipologia = v('f-tipologia') || 'mete-estive';
+      var date     = v('f-date');
+      var prezzo   = v('f-prezzo');
+      var partenza = v('f-partenzaDa') || 'Napoli';
+      var hotel    = v('f-hotel');
+      var durata   = v('f-durata');
+
+      if (!nome) { alert('Inserisci prima il nome della destinazione.'); return; }
+
+      var tipLabel = tipologia === 'mete-estive'     ? 'meta estiva (estate, mare, party, giovani 18-28 anni)'
+                   : tipologia === 'fughe-in-europa' ? 'fuga in europa / city break culturale'
+                   : 'offerta last minute (urgenza, prezzo speciale, posti limitati)';
+
+      var prompt = 'Sei un copywriter per SKAPPA, agenzia di viaggi organizzati per giovani italiani (18-28 anni). Stile: energico, diretto, informale, coinvolgente.\n\n'
+        + 'Genera i contenuti completi per questa destinazione:\n'
+        + '- Nome: ' + nome + '\n'
+        + '- Tipologia: ' + tipLabel + '\n'
+        + '- Date: ' + (date || 'da definire') + '\n'
+        + '- Prezzo: ' + (prezzo ? prezzo + '€' : 'da definire') + '\n'
+        + '- Partenza da: ' + partenza + '\n'
+        + '- Hotel: ' + (hotel || 'da definire') + '\n'
+        + '- Durata: ' + (durata || 'da definire') + '\n\n'
+        + 'Restituisci SOLO un JSON valido (senza testo prima o dopo) con questa struttura:\n'
+        + '{\n'
+        + '  "tagline": "Frase breve e potente per l\'hero (max 12 parole)",\n'
+        + '  "perche": {\n'
+        + '    "titolo": "PERCHÉ ' + nome.toUpperCase() + '",\n'
+        + '    "testo": "Paragrafo da 3-4 frasi su perché questa meta è speciale"\n'
+        + '  },\n'
+        + '  "attivita": [\n'
+        + '    { "titolo": "NOME ATTIVITÀ", "descrizione": "2-3 frasi" },\n'
+        + '    { "titolo": "NOME ATTIVITÀ", "descrizione": "2-3 frasi" },\n'
+        + '    { "titolo": "NOME ATTIVITÀ", "descrizione": "2-3 frasi" }\n'
+        + '  ],\n'
+        + '  "inclusiConSkappa": [\n'
+        + '    { "icona": "🏨", "label": "Alloggio selezionato" },\n'
+        + '    { "icona": "✈️", "label": "Supporto SKAPPA" },\n'
+        + '    { "icona": "🌍", "label": "Esperienze locali" },\n'
+        + '    { "icona": "💸", "label": "Nessun costo nascosto" }\n'
+        + '  ],\n'
+        + '  "esperienzaTitolo": "LA TUA ESPERIENZA A ' + nome.toUpperCase() + '",\n'
+        + '  "esperienzaTesto": "2-3 frasi sull\'esperienza complessiva con SKAPPA",\n'
+        + '  "faq": [\n'
+        + '    { "domanda": "Cosa è incluso nel pacchetto SKAPPA?", "risposta": "risposta specifica" },\n'
+        + '    { "domanda": "I voli sono inclusi?", "risposta": "I voli non sono inclusi. Troverai indicazioni su come raggiungere la destinazione dopo la prenotazione." },\n'
+        + '    { "domanda": "domanda specifica su ' + nome + '?", "risposta": "risposta" }\n'
+        + '  ],\n'
+        + '  "recensioni": [\n'
+        + '    { "testo": "recensione entusiasta (max 20 parole)", "nome": "nome italiano", "tag": "Coppia" },\n'
+        + '    { "testo": "recensione entusiasta (max 20 parole)", "nome": "nome italiano", "tag": "" },\n'
+        + '    { "testo": "recensione entusiasta (max 20 parole)", "nome": "nome italiano", "tag": "Gruppo" },\n'
+        + '    { "testo": "recensione entusiasta (max 20 parole)", "nome": "nome italiano", "tag": "Coppia" }\n'
+        + '  ]\n'
+        + '}';
+
+      var btn = document.getElementById('ai-generate-btn');
+      btn.textContent = '⏳ Generando...';
+      btn.disabled = true;
+
+      try {
+        var response = await fetch('https://api.anthropic.com/v1/messages', {
+          method: 'POST',
+          headers: {
+            'content-type': 'application/json',
+            'x-api-key': apiKey,
+            'anthropic-version': '2023-06-01',
+            'anthropic-dangerous-direct-browser-access': 'true'
+          },
+          body: JSON.stringify({
+            model: 'claude-haiku-4-5-20251001',
+            max_tokens: 2048,
+            messages: [{ role: 'user', content: prompt }]
+          })
+        });
+
+        if (!response.ok) {
+          var errData = await response.json();
+          throw new Error((errData.error && errData.error.message) || 'Errore API ' + response.status);
+        }
+
+        var data = await response.json();
+        var text = data.content[0].text;
+
+        // Estrai il JSON dalla risposta
+        var jsonMatch = text.match(/\{[\s\S]*\}/);
+        if (!jsonMatch) throw new Error('Risposta non valida: nessun JSON trovato.');
+        var gen = JSON.parse(jsonMatch[0]);
+
+        // Riempi i campi del form
+        if (gen.tagline)           setValue('f-tagline', gen.tagline);
+        if (gen.perche) {
+          setValue('f-perche-titolo', gen.perche.titolo);
+          setValue('f-perche-testo',  gen.perche.testo);
+        }
+        if (gen.attivita) {
+          for (var i = 0; i < 3; i++) {
+            if (gen.attivita[i]) {
+              setValue('f-att' + i + '-titolo',      gen.attivita[i].titolo);
+              setValue('f-att' + i + '-descrizione', gen.attivita[i].descrizione);
+            }
+          }
+        }
+        if (gen.inclusiConSkappa) {
+          for (var j = 0; j < 4; j++) {
+            if (gen.inclusiConSkappa[j]) {
+              setValue('f-inc' + j + '-icona', gen.inclusiConSkappa[j].icona);
+              setValue('f-inc' + j + '-label', gen.inclusiConSkappa[j].label);
+            }
+          }
+        }
+        if (gen.esperienzaTitolo) setValue('f-esperienzaTitolo', gen.esperienzaTitolo);
+        if (gen.esperienzaTesto)  setValue('f-esperienzaTesto',  gen.esperienzaTesto);
+        if (gen.faq) {
+          for (var k = 0; k < 3; k++) {
+            if (gen.faq[k]) {
+              setValue('f-faq' + k + '-domanda', gen.faq[k].domanda);
+              setValue('f-faq' + k + '-risposta', gen.faq[k].risposta);
+            }
+          }
+        }
+        if (gen.recensioni) {
+          for (var r = 0; r < 4; r++) {
+            if (gen.recensioni[r]) {
+              setValue('f-rec' + r + '-testo', gen.recensioni[r].testo);
+              setValue('f-rec' + r + '-nome',  gen.recensioni[r].nome);
+              setValue('f-rec' + r + '-tag',   gen.recensioni[r].tag || '');
+            }
+          }
+        }
+
+        // Salva la key in localStorage per la prossima volta
+        try { localStorage.setItem('skappa_ai_key', apiKey); } catch(e) {}
+        showToast('✨ Contenuti generati! Rivedi i testi e salva.');
+
+      } catch (err) {
+        alert('Errore AI: ' + err.message);
+      } finally {
+        btn.textContent = '✨ Genera';
+        btn.disabled = false;
+      }
+    }
+
+    // Ripristina API key salvata
+    (function () {
+      try {
+        var saved = localStorage.getItem('skappa_ai_key');
+        if (saved) document.getElementById('ai-api-key').value = saved;
+      } catch(e) {}
+    })();
+
+    // ---- Toast ----
+    function showToast(msg) {
+      var t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(function () { t.classList.remove('show'); }, 3200);
+    }
+
+    // ---- Boot ----
+    init();
+  </script>
+</body>
+</html>

@@ -1,0 +1,353 @@
+﻿<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <script>!function(){var t=localStorage.getItem("skappa_theme");if(t==="light")document.documentElement.setAttribute("data-theme","light")}();</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Escape Tour 2025 – SKAPPA | Vacanze estive organizzate</title>
+  <meta name="description" content="Mete estive SKAPPA 2025: Zante, Gallipoli, Lloret de Mar. Alloggio, eventi e supporto inclusi. Da 259€, tutto organizzato." />
+  <meta property="og:title" content="Escape Tour 2025 – SKAPPA" />
+  <meta property="og:description" content="Mete estive organizzate: Zante, Gallipoli, Lloret de Mar. Da 259€." />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="it_IT" />
+  <meta property="og:url" content="https://skappa.it/summer-tour.html" />
+  <meta property="og:image" content="https://skappa.it/assets/foto/zante/hero.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Escape Tour 2025 – SKAPPA" />
+  <meta name="twitter:description" content="Mete estive SKAPPA 2025: Zante, Gallipoli, Lloret de Mar. Alloggio, eventi e supporto inclusi. Da 259€." />
+  <meta name="twitter:image" content="https://skappa.it/assets/foto/zante/hero.jpg" />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+  <link rel="canonical" href="https://skappa.it/summer-tour.html" />
+  <link rel="icon" href="assets/foto/utility/icona sito.svg" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Days+One&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="data/destinations.js"></script>
+  <style>
+    /* Search */
+    .search-toggle { background:none;border:none;cursor:pointer;color:var(--navy);padding:.3rem;display:flex;align-items:center;transition:opacity .2s; }
+    .search-toggle:hover { opacity:.65; }
+    .search-panel { position:fixed;top:44px;left:0;right:0;background:var(--navy);border-bottom:1px solid rgba(254,189,65,.2);z-index:90;max-height:0;overflow:hidden;transition:max-height .32s cubic-bezier(.4,0,.2,1),box-shadow .3s; }
+    .search-panel.open { max-height:480px;box-shadow:0 12px 48px rgba(0,0,0,.5); }
+    .search-inner { max-width:48rem;margin:0 auto;padding:1rem 1.25rem .75rem; }
+    .search-row { display:flex;align-items:center;gap:.75rem;border-bottom:1.5px solid rgba(254,189,65,.2);padding-bottom:.75rem; }
+    .search-input { flex:1;background:none;border:none;outline:none;color:#fff;font-size:1rem;font-family:inherit; }
+    .search-input::placeholder { color:rgba(255,255,255,.3); }
+    .search-close { background:none;border:none;cursor:pointer;color:rgba(255,255,255,.4);font-size:1.25rem;line-height:1;padding:.2rem;transition:color .2s; }
+    .search-close:hover { color:var(--gold); }
+    .search-results { padding:.25rem 0 .5rem; }
+    .search-result { display:flex;align-items:center;justify-content:space-between;padding:.75rem 0;border-bottom:1px solid rgba(255,255,255,.05);text-decoration:none;gap:1rem; }
+    .search-result:last-child { border-bottom:none; }
+    .search-result-name { font-weight:700;font-size:.875rem;color:#fff; }
+    .search-result-meta { font-size:.6875rem;color:rgba(255,255,255,.38);margin-top:.1rem; }
+    .search-result-price { font-family:'Days One',sans-serif;font-size:.875rem;color:var(--gold); }
+    .search-badge { font-size:.5625rem;font-weight:800;padding:.15rem .45rem;border-radius:2rem;text-transform:uppercase;letter-spacing:.07em; }
+    .badge-estive { background:rgba(254,189,65,.18);color:var(--gold); }
+    .badge-capitali { background:rgba(40,134,153,.18);color:var(--teal); }
+    .search-no-results { font-size:.8125rem;color:rgba(255,255,255,.28);padding:.5rem 0; }
+
+    /* Vetrina grid */
+    .vetrina-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.25rem; }
+    .vetrina-grid .dest-card { width:100%;scroll-snap-align:none; }
+
+    /* Summer-specific */
+    .summer-badge {
+      display:inline-flex;align-items:center;gap:.4rem;
+      background:var(--gold);color:var(--navy);
+      font-size:.875rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase;
+      padding:.45rem 1.25rem;border-radius:2rem;margin-bottom:.875rem;
+    }
+    .dest-card-summer:hover { transform:scale(1.025);box-shadow:0 16px 48px rgba(254,189,65,.2); }
+    .card-season-badge {
+      position:absolute;top:.75rem;right:.75rem;
+      background:var(--gold);color:var(--navy);
+      font-size:.6875rem;font-weight:900;padding:.35rem .875rem;border-radius:2rem;
+      letter-spacing:.08em;text-transform:uppercase;z-index:10;
+    }
+    .include-icon {
+      width:2.75rem;height:2.75rem;color:var(--gold);margin-bottom:.625rem;
+    }
+    .summer-section-wrap { background:linear-gradient(180deg,rgba(254,189,65,.045) 0%,transparent 100%); }
+    .cta-strip { background:linear-gradient(135deg,rgba(254,189,65,.1) 0%,rgba(254,189,65,.04) 100%);border-top:1px solid rgba(254,189,65,.15);border-bottom:1px solid rgba(254,189,65,.15); }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="flex items-center justify-between h-11">
+        <a href="index.html" class="flex items-center">
+          <img src="assets/foto/utility/logo skappa.svg" alt="SKAPPA" style="height:2rem;object-fit:contain"
+            onerror="this.outerHTML='<span style=&quot;color:var(--gold);font-family:Days One,sans-serif;font-size:1rem;font-weight:900&quot;>SKAPPA</span>'" />
+        </a>
+        <div class="hidden md:flex items-center gap-8">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="fughe-in-europa.html" class="nav-link">Fughe in Europa</a>
+          <a href="summer-tour.html" class="nav-link active">Escape tour</a>
+          <a href="last-minute.html" class="nav-link" style="color:#ef4444;font-weight:700">⚡ Last minute</a>
+        </div>
+        <div class="hidden md:flex items-center gap-3">
+          <button id="themeToggle" class="theme-toggle" aria-label="Cambia tema" title="Cambia tema" onclick="toggleTheme()">
+            <svg class="icon-moon w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+            <svg class="icon-sun w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          </button>
+          <button id="searchBtn" class="search-toggle" aria-label="Cerca destinazione">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg>
+          </button>
+          <a href="#mete" class="btn-navy">Scegli la meta</a>
+        </div>
+        <div class="flex items-center gap-2 md:hidden">
+          <button id="searchBtnMobile" class="search-toggle" aria-label="Cerca">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg>
+          </button>
+          <button id="themeToggleMobile" class="theme-toggle" aria-label="Cambia tema" onclick="toggleTheme()">
+            <svg class="icon-moon w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+            <svg class="icon-sun w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          </button>
+          <button id="menuBtn" class="p-2" aria-label="Menu">
+            <svg class="w-5 h-5" style="color:var(--navy)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h16"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div id="mobileMenu">
+      <div class="max-w-6xl mx-auto px-4 py-5 flex flex-col gap-4">
+        <a href="index.html" class="text-sm font-semibold" style="color:var(--gold)">Home</a>
+        <a href="fughe-in-europa.html" class="text-sm font-semibold" style="color:var(--gold)">Fughe in Europa</a>
+        <a href="summer-tour.html" class="text-sm font-semibold" style="color:var(--gold)">Escape tour</a>
+        <a href="last-minute.html" class="text-sm font-semibold" style="color:#ef4444">⚡ Last minute</a>
+        <a href="#mete" class="btn-gold mt-2" style="justify-content:center">Scegli la meta</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- SEARCH PANEL -->
+  <div id="searchPanel" class="search-panel" aria-hidden="true">
+    <div class="search-inner">
+      <div class="search-row">
+        <svg class="w-4 h-4 flex-shrink-0" style="color:rgba(255,255,255,.35)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg>
+        <input type="text" id="searchInput" class="search-input" placeholder="Cerca una destinazione..." autocomplete="off" />
+        <button class="search-close" onclick="closeSearch()">✕</button>
+      </div>
+      <div id="searchResults" class="search-results"></div>
+    </div>
+  </div>
+
+
+  <!-- HERO -->
+  <section class="hero" style="min-height:58vh">
+    <div class="hero-bg-fallback"></div>
+    <div class="hero-bg" style="background-image:url('assets/foto/zante/hero.jpg')"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <span class="summer-badge">★ IL NOSTRO PUNTO DI FORZA</span>
+      <h1 style="font-family:'Days One',sans-serif;font-size:clamp(2.25rem,7vw,4rem);font-weight:900;text-transform:uppercase;letter-spacing:.12em;color:#fff;text-shadow:0 0 40px rgba(254,189,65,.4),2px 2px 0 rgba(0,0,0,.6);line-height:1.1;margin-bottom:1rem">
+        Escape Tour 2025
+      </h1>
+      <p class="hero-subtitle">Mare, sole e party. Tutto già organizzato.</p>
+      <div class="hero-price"><span>DA 259€</span></div>
+      <br/>
+      <a href="#mete" class="btn-gold">Scegli la tua meta</a>
+    </div>
+  </section>
+
+
+  <!-- INTRO -->
+  <section class="features-section" style="padding:3.5rem 1rem">
+    <div class="max-w-3xl mx-auto text-center">
+      <p class="text-gray-300 text-sm max-w-2xl mx-auto leading-relaxed mb-2 fade-in">
+        L'Escape Tour SKAPPA è la nostra proposta di punta: mete estive selezionate, eventi già organizzati e un'esperienza pensata per chi vuole vivere l'estate al massimo.
+      </p>
+      <p class="text-gray-500 text-xs max-w-2xl mx-auto leading-relaxed fade-in">
+        Ogni viaggio include alloggio selezionato, pacchetto eventi e supporto SKAPPA per tutta la durata del soggiorno. Tu pensi solo a divertirti.
+      </p>
+    </div>
+  </section>
+
+
+  <!-- METE -->
+  <section class="destinations-section summer-section-wrap" id="mete" style="padding-top:1rem">
+    <div class="max-w-6xl mx-auto">
+      <div class="dest-card-container fade-in" style="border-color:rgba(254,189,65,.28);background:rgba(254,189,65,.025)">
+        <div class="mb-6">
+          <h2 class="section-title" style="margin-bottom:.5rem">Le mete dell'estate</h2>
+          <p class="text-gray-400 text-xs text-center">Seleziona la destinazione e scopri tutti i dettagli del pacchetto.</p>
+        </div>
+        <div id="summerGrid" class="vetrina-grid"></div>
+        <p id="summerEmpty" class="text-center text-gray-500 text-sm py-8" style="display:none">Nessuna meta estiva disponibile al momento. Torna presto!</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- COSA INCLUDE -->
+  <section class="py-16 px-4 fade-in">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="section-title mb-2">Cosa include l'Escape Tour</h2>
+      <p class="text-gray-400 text-xs mb-10">Ogni pacchetto SKAPPA include gli elementi essenziali per vivere l'estate senza pensieri.</p>
+      <div class="flex flex-wrap justify-center gap-10 md:gap-14">
+        <div class="flex flex-col items-center gap-2 w-24">
+          <svg class="include-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12"/></svg>
+          <span class="text-xs text-gray-300 text-center leading-tight">Alloggio selezionato</span>
+        </div>
+        <div class="flex flex-col items-center gap-2 w-24">
+          <svg class="include-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
+          <span class="text-xs text-gray-300 text-center leading-tight">Supporto SKAPPA</span>
+        </div>
+        <div class="flex flex-col items-center gap-2 w-24">
+          <svg class="include-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z"/></svg>
+          <span class="text-xs text-gray-300 text-center leading-tight">Nessun costo nascosto</span>
+        </div>
+        <div class="flex flex-col items-center gap-2 w-24">
+          <svg class="include-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg>
+          <span class="text-xs text-gray-300 text-center leading-tight">Esperienze locali</span>
+        </div>
+        <div class="flex flex-col items-center gap-2 w-28">
+          <svg class="include-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/></svg>
+          <span class="text-xs text-center leading-tight" style="color:rgba(255,255,255,0.45)">Boat &amp; Pool Party acquistabili in loco</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- CTA STRIP -->
+  <section class="cta-strip py-12 px-4 text-center fade-in">
+    <p class="tagline mb-4" style="font-size:.8rem;color:rgba(255,255,255,.6)">I posti si esauriscono in fretta</p>
+    <h2 class="section-title mb-2" style="font-size:clamp(1.1rem,3vw,1.5rem)">Prenota il tuo posto per l'estate</h2>
+    <p class="text-gray-400 text-sm mb-6">Seleziona la meta, controlla il pacchetto e assicurati il tuo posto.</p>
+    <a href="#mete" class="btn-gold">Vedi tutte le mete</a>
+  </section>
+
+
+  <!-- FOOTER -->
+    <footer class="footer">
+    <div class="max-w-6xl mx-auto">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:2rem;margin-bottom:2rem;flex-wrap:wrap">
+        <a href="index.html">
+          <img src="assets/foto/utility/icona sito.svg" alt="SKAPPA" style="height:5rem;width:5rem;object-fit:contain"
+            onerror="this.style.display='none'" />
+        </a>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem 2.5rem">
+          <a href="chi-siamo.html" class="footer-link">Chi siamo</a>
+          <a href="cancellazione.html" class="footer-link">Cancellazione e rimborso</a>
+          <a href="termini.html" class="footer-link">Termini e condizioni</a>
+          <a href="cookie.html" class="footer-link">Cookie Policy</a>
+          <a href="privacy.html" class="footer-link">Privacy Policy</a>
+          <a href="faq.html" class="footer-link">FAQ</a>
+        </div>
+        <img src="assets/foto/utility/i viaggi del futuro.png" alt="Viaggi del Futuro" style="height:5rem;object-fit:contain"
+          onerror="this.style.display='none'" />
+      </div>
+      <div class="flex flex-col md:flex-row items-center justify-between gap-3 text-xs" style="opacity:0.5;border-top:1px solid rgba(3,16,48,0.1);padding-top:1.25rem">
+        <span>© 2026 SKAPPA – Tutti i diritti riservati &nbsp;·&nbsp; Pagamenti sicuri con Stripe</span>
+        <div style="display:flex;align-items:center;gap:1rem">
+          <a href="https://www.instagram.com/skappa__/" target="_blank" rel="noopener" aria-label="SKAPPA su Instagram" style="color:var(--navy);display:flex;align-items:center;opacity:0.7;transition:opacity .2s" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:1.125rem;height:1.125rem"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+          </a>
+          <a href="https://www.tiktok.com/@skappa.official" target="_blank" rel="noopener" aria-label="SKAPPA su TikTok" style="color:var(--navy);display:flex;align-items:center;opacity:0.7;transition:opacity .2s" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:1.125rem;height:1.125rem"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.22 8.22 0 004.83 1.56V6.78a4.85 4.85 0 01-1.06-.09z"/></svg>
+          </a>
+          <a href="https://it.trustpilot.com" target="_blank" rel="noopener" class="footer-link text-xs">★ Trustpilot</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <script src="js/main.js"></script>
+  <script>
+    // ---- Search ----
+    (function () {
+      var panel = document.getElementById('searchPanel');
+      var input = document.getElementById('searchInput');
+      var results = document.getElementById('searchResults');
+      function openSearch() { panel.classList.add('open'); panel.setAttribute('aria-hidden','false'); setTimeout(function(){input.focus();},60); }
+      function closeSearch() { panel.classList.remove('open'); panel.setAttribute('aria-hidden','true'); input.value=''; results.innerHTML=''; }
+      window.closeSearch = closeSearch;
+      document.getElementById('searchBtn').addEventListener('click', function(){ panel.classList.contains('open') ? closeSearch() : openSearch(); });
+      var mob = document.getElementById('searchBtnMobile');
+      if (mob) mob.addEventListener('click', function(){ panel.classList.contains('open') ? closeSearch() : openSearch(); });
+      document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeSearch(); });
+      input.addEventListener('input', function(){
+        var q = input.value.toLowerCase().trim();
+        var dests = window.DESTINATIONS || [];
+        if (!q) { results.innerHTML=''; return; }
+        var filtered = dests.filter(function(d){ return d.nome.toLowerCase().includes(q) || (d.date||'').toLowerCase().includes(q); });
+        if (filtered.length === 0) { results.innerHTML='<p class="search-no-results">Nessuna destinazione trovata.</p>'; return; }
+        results.innerHTML = filtered.map(function(d){
+          var tpl = d.tipologia==='fughe-in-europa' ? 'viaggio-citybreak.html' : d.tipologia==='last-minute' ? 'viaggio-lastminute.html' : 'viaggio.html';
+          var bc = d.tipologia==='mete-estive' ? 'badge-estive' : d.tipologia==='last-minute' ? 'badge-estive' : 'badge-capitali';
+          var bt = d.tipologia==='mete-estive' ? '🌊 Estate' : d.tipologia==='fughe-in-europa' ? '✈ Europa' : '⚡ Last Minute';
+          return '<a href="'+tpl+'?id='+d.id+'" class="search-result" onclick="closeSearch()">'
+            +'<div><span class="search-result-name">'+d.nome+'</span> <span class="search-badge '+bc+'">'+bt+'</span>'
+            +'<div class="search-result-meta">'+(d.date||'')+' &nbsp;·&nbsp; '+(d.hotel||'')+'</div></div>'
+            +'<span class="search-result-price">'+d.prezzo+'€</span></a>';
+        }).join('');
+      });
+    })();
+
+    // ---- Summer cards ----
+    (function(){
+      var dests = (window.DESTINATIONS||[]).filter(function(d){ return d.tipologia==='mete-estive'; });
+      var grid = document.getElementById('summerGrid');
+      var empty = document.getElementById('summerEmpty');
+      if (dests.length === 0) { empty.style.display='block'; return; }
+      var ph = '<svg class="placeholder-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/></svg>';
+      grid.innerHTML = dests.map(function(d){
+        return '<a href="viaggio.html?id='+d.id+'" class="dest-card dest-card-summer">'
+          +'<div class="dest-card-img-placeholder">'
+          +'<img src="'+(d.imgHero||'')+'" alt="'+d.nome+'" class="dest-card-photo" onerror="this.style.display=\'none\'" />'
+          +ph+'</div>'
+          +'<div class="dest-card-overlay"></div>'
+          +'<span class="card-season-badge">🌊 Estate</span>'
+          +'<div class="dest-card-city">'+d.nome+'</div>'
+          +'<div class="dest-card-info">'
+          +'<p class="dest-card-date">'+(d.date||'')+'</p>'
+          +'<p class="dest-card-price">'+d.prezzo+'€</p>'
+          +'</div></a>';
+      }).join('');
+      // Hide SVG when image loads
+      grid.querySelectorAll('.dest-card-photo').forEach(function(img){
+        function hide(){ var s=img.nextElementSibling; if(s&&s.tagName==='svg') s.style.display='none'; }
+        if(img.complete&&img.naturalWidth>0) hide(); else img.addEventListener('load',hide);
+      });
+
+      // ---- JSON-LD ItemList ----
+      var ldScript = document.createElement('script');
+      ldScript.type = 'application/ld+json';
+      ldScript.textContent = JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": "Escape Tour SKAPPA 2025 – Mete Estive",
+        "url": "https://skappa.it/summer-tour.html",
+        "numberOfItems": dests.length,
+        "itemListElement": dests.map(function(d, i) {
+          return {
+            "@type": "ListItem",
+            "position": i + 1,
+            "name": d.nome,
+            "url": "https://skappa.it/viaggio.html?id=" + d.id,
+            "item": {
+              "@type": "TouristTrip",
+              "name": d.nome + " – Escape Tour SKAPPA",
+              "description": d.tagline,
+              "image": d.imgHero ? "https://skappa.it/" + d.imgHero : undefined,
+              "offers": {
+                "@type": "Offer",
+                "price": String(d.prezzo),
+                "priceCurrency": "EUR",
+                "availability": "https://schema.org/InStock"
+              }
+            }
+          };
+        })
+      });
+      document.head.appendChild(ldScript);
+    })();
+  </script>
+</body>
+</html>

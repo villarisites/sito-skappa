@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /test_tee.html
+
+Sitemap: https://skappa.it/sitemap.xml

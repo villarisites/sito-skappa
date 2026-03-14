@@ -1,0 +1,22 @@
+# Claude Code settings (locale)
+.claude/
+
+# File ZIP e archivi
+*.zip
+*.rar
+*.7z
+
+# Video (file pesanti, non necessari per il deploy)
+*.mp4
+*.mov
+*.avi
+
+# File di test
+test_tee.html
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node (se usato in futuro)
+node_modules/

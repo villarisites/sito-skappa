@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <script>!function(){var t=localStorage.getItem("skappa_theme");if(t==="light")document.documentElement.setAttribute("data-theme","light")}();</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fughe in Europa – SKAPPA | City break organizzati</title>
+  <meta name="description" content="City break nelle capitali europee con SKAPPA: Barcellona, Londra, Parigi, Budapest, Sofia, Tirana. Da 189€, tutto organizzato, zero stress." />
+  <meta property="og:title" content="Fughe in Europa – SKAPPA" />
+  <meta property="og:description" content="City break europei organizzati: Barcellona, Parigi, Budapest, Londra e altre capitali. Da 189€." />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="it_IT" />
+  <meta property="og:url" content="https://skappa.it/fughe-in-europa.html" />
+  <meta property="og:image" content="https://skappa.it/assets/foto/barcellona/hero.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Fughe in Europa – SKAPPA | City break organizzati" />
+  <meta name="twitter:description" content="City break nelle capitali europee con SKAPPA: Barcellona, Londra, Parigi, Budapest. Da 99€, tutto organizzato." />
+  <meta name="twitter:image" content="https://skappa.it/assets/foto/barcellona/hero.jpg" />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+  <link rel="canonical" href="https://skappa.it/fughe-in-europa.html" />
+  <link rel="icon" href="assets/foto/utility/icona sito.svg" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Days+One&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="data/destinations.js"></script>
+  <style>
+    /* Search */
+    .search-toggle { background:none;border:none;cursor:pointer;color:var(--navy);padding:.3rem;display:flex;align-items:center;transition:opacity .2s; }
+    .search-toggle:hover { opacity:.65; }
+    .search-panel { position:fixed;top:44px;left:0;right:0;background:var(--navy);border-bottom:1px solid rgba(254,189,65,.2);z-index:90;max-height:0;overflow:hidden;transition:max-height .32s cubic-bezier(.4,0,.2,1),box-shadow .3s; }
+    .search-panel.open { max-height:480px;box-shadow:0 12px 48px rgba(0,0,0,.5); }
+    .search-inner { max-width:48rem;margin:0 auto;padding:1rem 1.25rem .75rem; }
+    .search-row { display:flex;align-items:center;gap:.75rem;border-bottom:1.5px solid rgba(254,189,65,.2);padding-bottom:.75rem; }
+    .search-input { flex:1;background:none;border:none;outline:none;color:#fff;font-size:1rem;font-family:inherit; }
+    .search-input::placeholder { color:rgba(255,255,255,.3); }
+    .search-close { background:none;border:none;cursor:pointer;color:rgba(255,255,255,.4);font-size:1.25rem;line-height:1;padding:.2rem;transition:color .2s; }
+    .search-close:hover { color:var(--gold); }
+    .search-results { padding:.25rem 0 .5rem; }
+    .search-result { display:flex;align-items:center;justify-content:space-between;padding:.75rem 0;border-bottom:1px solid rgba(255,255,255,.05);text-decoration:none;gap:1rem; }
+    .search-result:last-child { border-bottom:none; }
+    .search-result-name { font-weight:700;font-size:.875rem;color:#fff; }
+    .search-result-meta { font-size:.6875rem;color:rgba(255,255,255,.38);margin-top:.1rem; }
+    .search-result-price { font-family:'Days One',sans-serif;font-size:.875rem;color:var(--gold); }
+    .search-badge { font-size:.5625rem;font-weight:800;padding:.15rem .45rem;border-radius:2rem;text-transform:uppercase;letter-spacing:.07em; }
+    .badge-estive { background:rgba(254,189,65,.18);color:var(--gold); }
+    .badge-capitali { background:rgba(40,134,153,.18);color:var(--teal); }
+    .search-no-results { font-size:.8125rem;color:rgba(255,255,255,.28);padding:.5rem 0; }
+
+    /* Vetrina grid */
+    .vetrina-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.25rem; }
+    .vetrina-grid .dest-card { width:100%;scroll-snap-align:none; }
+
+    /* Europe-specific */
+    .europe-badge {
+      display:inline-flex;align-items:center;gap:.4rem;
+      background:var(--teal);color:#fff;
+      font-size:.875rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase;
+      padding:.45rem 1.25rem;border-radius:2rem;margin-bottom:.875rem;
+    }
+    .include-icon { width:2.75rem;height:2.75rem;color:var(--teal);margin-bottom:.625rem; }
+    .step-number {
+      width:2.5rem;height:2.5rem;border-radius:50%;
+      background:rgba(40,134,153,.2);border:1.5px solid var(--teal);
+      display:flex;align-items:center;justify-content:center;
+      font-family:'Days One',sans-serif;font-size:.875rem;color:var(--teal);
+      flex-shrink:0;
+    }
+    .europe-section-wrap { background:linear-gradient(180deg,rgba(40,134,153,.06) 0%,transparent 100%); }
+    .cta-strip-teal { background:linear-gradient(135deg,rgba(40,134,153,.12) 0%,rgba(40,134,153,.03) 100%);border-top:1px solid rgba(40,134,153,.2);border-bottom:1px solid rgba(40,134,153,.2); }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="flex items-center justify-between h-11">
+        <a href="index.html" class="flex items-center">
+          <img src="assets/foto/utility/logo skappa.svg" alt="SKAPPA" style="height:2rem;object-fit:contain"
+            onerror="this.outerHTML='<span style=&quot;color:var(--gold);font-family:Days One,sans-serif;font-size:1rem;font-weight:900&quot;>SKAPPA</span>'" />
+        </a>
+        <div class="hidden md:flex items-center gap-8">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="fughe-in-europa.html" class="nav-link active">Fughe in Europa</a>
+          <a href="summer-tour.html" class="nav-link">Escape tour</a>
+          <a href="last-minute.html" class="nav-link" style="color:#ef4444;font-weight:700">⚡ Last minute</a>
+        </div>
+        <div class="hidden md:flex items-center gap-3">
+          <button id="themeToggle" class="theme-toggle" aria-label="Cambia tema" title="Cambia tema" onclick="toggleTheme()">
+            <svg class="icon-moon w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+            <svg class="icon-sun w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          </button>
+          <button id="searchBtn" class="search-toggle" aria-label="Cerca destinazione">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg>
+          </button>
+          <a href="#capitali" class="btn-navy">Scegli la capitale</a>
+        </div>
+        <div class="flex items-center gap-2 md:hidden">
+          <button id="searchBtnMobile" class="search-toggle" aria-label="Cerca">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg>
+          </button>
+          <button id="themeToggleMobile" class="theme-toggle" aria-label="Cambia tema" onclick="toggleTheme()">
+            <svg class="icon-moon w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+            <svg class="icon-sun w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          </button>
+          <button id="menuBtn" class="p-2" aria-label="Menu">
+            <svg class="w-5 h-5" style="color:var(--navy)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h16"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div id="mobileMenu">
+      <div class="max-w-6xl mx-auto px-4 py-5 flex flex-col gap-4">
+        <a href="index.html" class="text-sm font-semibold" style="color:var(--gold)">Home</a>
+        <a href="fughe-in-europa.html" class="text-sm font-semibold" style="color:var(--gold)">Fughe in Europa</a>
+        <a href="summer-tour.html" class="text-sm font-semibold" style="color:var(--gold)">Escape tour</a>
+        <a href="last-minute.html" class="text-sm font-semibold" style="color:#ef4444">⚡ Last minute</a>
+        <a href="#capitali" class="btn-gold mt-2" style="justify-content:center">Scegli la capitale</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- SEARCH PANEL -->
+  <div id="searchPanel" class="search-panel" aria-hidden="true">
+    <div class="search-inner">
+      <div class="search-row">
+        <svg class="w-4 h-4 flex-shrink-0" style="color:rgba(255,255,255,.35)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg>
+        <input type="text" id="searchInput" class="search-input" placeholder="Cerca una destinazione..." autocomplete="off" />
+        <button class="search-close" onclick="closeSearch()">✕</button>
+      </div>
+      <div id="searchResults" class="search-results"></div>
+    </div>
+  </div>
+
+
+  <!-- HERO -->
+  <section class="hero" style="min-height:58vh">
+    <div class="hero-bg-fallback" style="background:radial-gradient(ellipse at center bottom,#0d3d4d 0%,#031830 40%,#000 100%)"></div>
+    <div class="hero-bg" style="background-image:url('assets/foto/parigi/hero.jpg')"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <span class="europe-badge">✈ CITY BREAK EUROPEI</span>
+      <h1 style="font-family:'Days One',sans-serif;font-size:clamp(2.25rem,7vw,4rem);font-weight:900;text-transform:uppercase;letter-spacing:.12em;color:#fff;text-shadow:0 0 40px rgba(40,134,153,.5),2px 2px 0 rgba(0,0,0,.6);line-height:1.1;margin-bottom:1rem">
+        Fughe in Europa
+      </h1>
+      <p class="hero-subtitle">Capitali europee, weekend indimenticabili.</p>
+      <div class="hero-price" style="border-color:var(--teal)"><span style="color:var(--teal)">DA 189€</span></div>
+      <br/>
+      <a href="#capitali" class="btn-gold">Scegli la capitale</a>
+    </div>
+  </section>
+
+
+  <!-- INTRO -->
+  <section class="features-section" style="padding:3.5rem 1rem;border-top-color:rgba(40,134,153,.15)">
+    <div class="max-w-3xl mx-auto text-center">
+      <p class="text-gray-300 text-sm max-w-2xl mx-auto leading-relaxed mb-2 fade-in">
+        Le Fughe in Europa SKAPPA sono weekend intensi nelle capitali più belle del continente. 4 giorni pensati per chi vuole esplorare, vivere e sorprendersi.
+      </p>
+      <p class="text-gray-500 text-xs max-w-2xl mx-auto leading-relaxed fade-in">
+        Ogni viaggio include alloggio selezionato nel cuore della città e supporto SKAPPA per tutta la durata del soggiorno. Il resto è tutto da scoprire.
+      </p>
+    </div>
+  </section>
+
+
+  <!-- CAPITALI GRID -->
+  <section class="destinations-section europe-section-wrap" id="capitali" style="padding-top:1rem">
+    <div class="max-w-6xl mx-auto">
+      <div class="dest-card-container fade-in" style="border-color:rgba(40,134,153,.25);background:rgba(40,134,153,.025)">
+        <div class="mb-6">
+          <h2 class="section-title" style="margin-bottom:.5rem;color:var(--teal)">Le capitali disponibili</h2>
+          <p class="text-gray-400 text-xs text-center">Seleziona la destinazione e scopri tutti i dettagli del pacchetto.</p>
+        </div>
+        <div id="europeGrid" class="vetrina-grid"></div>
+        <p id="europeEmpty" class="text-center text-gray-500 text-sm py-8" style="display:none">Nessuna fuga europea disponibile al momento. Torna presto!</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- COME FUNZIONA -->
+  <section class="py-16 px-4 fade-in">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="section-title mb-2" style="color:var(--teal)">Come funziona una fuga</h2>
+      <p class="text-gray-400 text-xs text-center mb-10">Da quando scegli la meta a quando torni a casa.</p>
+      <div class="flex flex-col gap-6 max-w-lg mx-auto">
+        <div class="flex items-start gap-4">
+          <div class="step-number">1</div>
+          <div>
+            <p class="text-sm font-semibold" style="color:#fff;margin-bottom:.25rem">Scegli la capitale</p>
+            <p class="text-xs text-gray-400 leading-relaxed">Ogni meta ha date, prezzo e pacchetto già definiti. Sfoglia e trova quella che senti tua.</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-4">
+          <div class="step-number">2</div>
+          <div>
+            <p class="text-sm font-semibold" style="color:#fff;margin-bottom:.25rem">Prenota il tuo posto</p>
+            <p class="text-xs text-gray-400 leading-relaxed">Il pacchetto include alloggio selezionato e supporto SKAPPA. Prenota in pochi click.</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-4">
+          <div class="step-number">3</div>
+          <div>
+            <p class="text-sm font-semibold" style="color:#fff;margin-bottom:.25rem">Parti e vivi la città</p>
+            <p class="text-xs text-gray-400 leading-relaxed">4 giorni per esplorare, mangiare, scoprire angoli nascosti e farti sorprendere da una nuova capitale.</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-4">
+          <div class="step-number">4</div>
+          <div>
+            <p class="text-sm font-semibold" style="color:#fff;margin-bottom:.25rem">Torna cambiato</p>
+            <p class="text-xs text-gray-400 leading-relaxed">Ogni viaggio SKAPPA ti lascia qualcosa di diverso. Un ricordo, una persona, una prospettiva nuova.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- CTA STRIP -->
+  <section class="cta-strip-teal py-12 px-4 text-center fade-in">
+    <p class="tagline mb-4" style="font-size:.8rem;color:rgba(255,255,255,.6)">I posti sono limitati</p>
+    <h2 class="section-title mb-2" style="font-size:clamp(1.1rem,3vw,1.5rem);color:var(--teal)">Quale capitale sceglierai?</h2>
+    <p class="text-gray-400 text-sm mb-6">Seleziona la meta, controlla date e pacchetto, prenota il tuo posto.</p>
+    <a href="#capitali" class="btn-gold">Vedi tutte le capitali</a>
+  </section>
+
+
+  <!-- FOOTER -->
+    <footer class="footer">
+    <div class="max-w-6xl mx-auto">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:2rem;margin-bottom:2rem;flex-wrap:wrap">
+        <a href="index.html">
+          <img src="assets/foto/utility/icona sito.svg" alt="SKAPPA" style="height:5rem;width:5rem;object-fit:contain"
+            onerror="this.style.display='none'" />
+        </a>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem 2.5rem">
+          <a href="chi-siamo.html" class="footer-link">Chi siamo</a>
+          <a href="cancellazione.html" class="footer-link">Cancellazione e rimborso</a>
+          <a href="termini.html" class="footer-link">Termini e condizioni</a>
+          <a href="cookie.html" class="footer-link">Cookie Policy</a>
+          <a href="privacy.html" class="footer-link">Privacy Policy</a>
+          <a href="faq.html" class="footer-link">FAQ</a>
+        </div>
+        <img src="assets/foto/utility/i viaggi del futuro.png" alt="Viaggi del Futuro" style="height:5rem;object-fit:contain"
+          onerror="this.style.display='none'" />
+      </div>
+      <div class="flex flex-col md:flex-row items-center justify-between gap-3 text-xs" style="opacity:0.5;border-top:1px solid rgba(3,16,48,0.1);padding-top:1.25rem">
+        <span>© 2026 SKAPPA – Tutti i diritti riservati &nbsp;·&nbsp; Pagamenti sicuri con Stripe</span>
+        <div style="display:flex;align-items:center;gap:1rem">
+          <a href="https://www.instagram.com/skappa__/" target="_blank" rel="noopener" aria-label="SKAPPA su Instagram" style="color:var(--navy);display:flex;align-items:center;opacity:0.7;transition:opacity .2s" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:1.125rem;height:1.125rem"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+          </a>
+          <a href="https://www.tiktok.com/@skappa.official" target="_blank" rel="noopener" aria-label="SKAPPA su TikTok" style="color:var(--navy);display:flex;align-items:center;opacity:0.7;transition:opacity .2s" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:1.125rem;height:1.125rem"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.22 8.22 0 004.83 1.56V6.78a4.85 4.85 0 01-1.06-.09z"/></svg>
+          </a>
+          <a href="https://it.trustpilot.com" target="_blank" rel="noopener" class="footer-link text-xs">★ Trustpilot</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <script src="js/main.js"></script>
+  <script>
+    // ---- Search ----
+    (function () {
+      var panel = document.getElementById('searchPanel');
+      var input = document.getElementById('searchInput');
+      var results = document.getElementById('searchResults');
+      function openSearch() { panel.classList.add('open'); panel.setAttribute('aria-hidden','false'); setTimeout(function(){input.focus();},60); }
+      function closeSearch() { panel.classList.remove('open'); panel.setAttribute('aria-hidden','true'); input.value=''; results.innerHTML=''; }
+      window.closeSearch = closeSearch;
+      document.getElementById('searchBtn').addEventListener('click', function(){ panel.classList.contains('open') ? closeSearch() : openSearch(); });
+      var mob = document.getElementById('searchBtnMobile');
+      if (mob) mob.addEventListener('click', function(){ panel.classList.contains('open') ? closeSearch() : openSearch(); });
+      document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeSearch(); });
+      input.addEventListener('input', function(){
+        var q = input.value.toLowerCase().trim();
+        var dests = window.DESTINATIONS || [];
+        if (!q) { results.innerHTML=''; return; }
+        var filtered = dests.filter(function(d){ return d.nome.toLowerCase().includes(q) || (d.date||'').toLowerCase().includes(q); });
+        if (filtered.length === 0) { results.innerHTML='<p class="search-no-results">Nessuna destinazione trovata.</p>'; return; }
+        results.innerHTML = filtered.map(function(d){
+          var tpl = d.tipologia==='fughe-in-europa' ? 'viaggio-citybreak.html' : d.tipologia==='last-minute' ? 'viaggio-lastminute.html' : 'viaggio.html';
+          var bc = d.tipologia==='mete-estive' ? 'badge-estive' : d.tipologia==='last-minute' ? 'badge-estive' : 'badge-capitali';
+          var bt = d.tipologia==='mete-estive' ? '🌊 Estate' : d.tipologia==='fughe-in-europa' ? '✈ Europa' : '⚡ Last Minute';
+          return '<a href="'+tpl+'?id='+d.id+'" class="search-result" onclick="closeSearch()">'
+            +'<div><span class="search-result-name">'+d.nome+'</span> <span class="search-badge '+bc+'">'+bt+'</span>'
+            +'<div class="search-result-meta">'+(d.date||'')+' &nbsp;·&nbsp; '+(d.hotel||'')+'</div></div>'
+            +'<span class="search-result-price">'+d.prezzo+'€</span></a>';
+        }).join('');
+      });
+    })();
+
+    // ---- Europe cards ----
+    (function(){
+      var dests = (window.DESTINATIONS||[]).filter(function(d){ return d.tipologia==='fughe-in-europa'; });
+      var grid = document.getElementById('europeGrid');
+      var empty = document.getElementById('europeEmpty');
+      if (dests.length === 0) { empty.style.display='block'; return; }
+      var ph = '<svg class="placeholder-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/></svg>';
+      grid.innerHTML = dests.map(function(d){
+        return '<a href="viaggio-citybreak.html?id='+d.id+'" class="dest-card">'
+          +'<div class="dest-card-img-placeholder">'
+          +'<img src="'+(d.imgHero||'')+'" alt="'+d.nome+'" class="dest-card-photo" onerror="this.style.display=\'none\'" />'
+          +ph+'</div>'
+          +'<div class="dest-card-overlay"></div>'
+          +'<span style="position:absolute;top:.75rem;right:.75rem;background:var(--teal);color:#fff;font-size:.6875rem;font-weight:900;padding:.35rem .875rem;border-radius:2rem;letter-spacing:.08em;text-transform:uppercase;z-index:10">✈ Europa</span>'
+          +'<div class="dest-card-city">'+d.nome+'</div>'
+          +'<div class="dest-card-info">'
+          +'<p class="dest-card-date">'+(d.date||'')+'</p>'
+          +'<p style="font-size:.5625rem;color:var(--teal);font-weight:700;letter-spacing:.05em;margin-bottom:.15rem">✈ volo incluso</p>'
+          +'<p class="dest-card-price">'+d.prezzo+'€</p>'
+          +'</div></a>';
+      }).join('');
+      grid.querySelectorAll('.dest-card-photo').forEach(function(img){
+        function hide(){ var s=img.nextElementSibling; if(s&&s.tagName==='svg') s.style.display='none'; }
+        if(img.complete&&img.naturalWidth>0) hide(); else img.addEventListener('load',hide);
+      });
+
+      // ---- JSON-LD ItemList ----
+      var ldScript = document.createElement('script');
+      ldScript.type = 'application/ld+json';
+      ldScript.textContent = JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": "Fughe in Europa SKAPPA – City break organizzati",
+        "url": "https://skappa.it/fughe-in-europa.html",
+        "numberOfItems": dests.length,
+        "itemListElement": dests.map(function(d, i) {
+          return {
+            "@type": "ListItem",
+            "position": i + 1,
+            "name": d.nome,
+            "url": "https://skappa.it/viaggio-citybreak.html?id=" + d.id,
+            "item": {
+              "@type": "TouristTrip",
+              "name": d.nome + " – Fuga in Europa SKAPPA",
+              "description": d.tagline,
+              "image": d.imgHero ? "https://skappa.it/" + d.imgHero : undefined,
+              "offers": {
+                "@type": "Offer",
+                "price": String(d.prezzo),
+                "priceCurrency": "EUR",
+                "availability": "https://schema.org/InStock"
+              }
+            }
+          };
+        })
+      });
+      document.head.appendChild(ldScript);
+    })();
+  </script>
+</body>
+</html>

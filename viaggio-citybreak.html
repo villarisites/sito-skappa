@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <script>!function(){var t=localStorage.getItem("skappa_theme");if(t==="light")document.documentElement.setAttribute("data-theme","light")}();</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fuga – SKAPPA</title>
+  <meta name="description" content="Scopri questa fuga in Europa con SKAPPA." />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Fuga in Europa – SKAPPA" />
+  <meta property="og:description" content="Scopri questa fuga in Europa con SKAPPA." />
+  <meta property="og:image" content="" />
+  <meta property="og:url" content="" />
+  <meta property="og:locale" content="it_IT" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="" />
+  <meta name="twitter:description" content="" />
+  <meta name="twitter:image" content="" />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+  <link rel="canonical" href="" id="canonicalTag" />
+  <link rel="icon" href="assets/foto/utility/icona sito.svg" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Days+One&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="data/destinations.js"></script>
+  <style>
+    .viaggio-hero {
+      position: relative;
+      min-height: 72vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-top: 44px;
+      overflow: hidden;
+    }
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: rgba(255,255,255,0.6);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      padding: 0;
+      margin-bottom: 2rem;
+      transition: color 0.2s;
+    }
+    .back-btn:hover { color: var(--gold); }
+    .hero-tagline-dest {
+      font-size: clamp(0.9375rem, 2.5vw, 1.125rem);
+      color: rgba(255,255,255,0.82);
+      font-weight: 400;
+      max-width: 520px;
+      margin: 0 auto 1.75rem;
+      line-height: 1.6;
+    }
+    .trust-bar {
+      font-size: 0.9375rem;
+      color: rgba(255,255,255,0.85);
+      letter-spacing: 0.06em;
+      margin-top: 1.25rem;
+    }
+    /* Badge tipologia */
+    .tipo-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.375rem;
+      background: rgba(40,134,153,0.15);
+      border: 1px solid rgba(40,134,153,0.35);
+      color: #5dd8ec;
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.35rem 0.875rem;
+      border-radius: 999px;
+      margin-bottom: 1.25rem;
+    }
+    /* Pacchetto card */
+    .pacchetto-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(254,189,65,0.2);
+      border-radius: 1.25rem;
+      padding: 2rem 2rem 2.25rem;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+    .pacchetto-price {
+      font-family: 'Days One', sans-serif;
+      font-size: clamp(2.75rem, 7vw, 4.5rem);
+      font-weight: 900;
+      color: var(--gold);
+      letter-spacing: 0.04em;
+      line-height: 1;
+      margin: 0.75rem 0 0.25rem;
+    }
+    .pacchetto-euro { font-size: 0.55em; vertical-align: top; margin-top: 0.5em; }
+    .pacchetto-list {
+      list-style: none;
+      text-align: left;
+      margin: 1.25rem 0 1.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+    .pacchetto-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      font-size: 0.875rem;
+      color: rgba(255,255,255,0.75);
+      line-height: 1.5;
+    }
+    .check { color: #5dd8ec; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+    /* Sticky sidebar layout (city break) */
+    .sticky-perche-outer {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: start;
+    }
+    .activities-col { display: flex; flex-direction: column; }
+    .activity-item {
+      display: flex;
+      flex-direction: column;
+      background: var(--navy2);
+    }
+    .activity-item:nth-child(even) { background: var(--navy); }
+    .activity-img-wrap {
+      width: calc(100% - 2.5rem);
+      height: 240px;
+      overflow: hidden;
+      border-radius: 1rem;
+      margin: 1.25rem 1.25rem 0;
+      flex-shrink: 0;
+    }
+    .activity-item-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+    .activity-item-content {
+      padding: 2.5rem 2.5rem;
+      flex: 1;
+    }
+    .activity-title {
+      font-family: 'Days One', sans-serif;
+      font-size: clamp(1.25rem, 3vw, 1.875rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #5dd8ec;
+      margin-bottom: 1rem;
+    }
+    .activity-desc {
+      font-size: 0.9375rem;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.8;
+    }
+    .activity-item-placeholder {
+      width: calc(100% - 2.5rem);
+      height: 240px;
+      border-radius: 1rem;
+      margin: 1.25rem 1.25rem 0;
+      background: linear-gradient(135deg, #0a1f3d 0%, #1a3a5c 100%);
+      flex-shrink: 0;
+    }
+    .perche-sticky-col {
+      position: sticky;
+      top: 44px;
+      min-height: calc(100vh - 44px);
+      background: var(--navy);
+      display: flex;
+      flex-direction: column;
+    }
+    .perche-sticky-inner {
+      padding: 3rem 2.5rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    @media (max-width: 767px) {
+      .sticky-perche-outer { grid-template-columns: 1fr; }
+      .perche-sticky-col { position: static; min-height: auto; order: -1; }
+      .activities-col { order: 1; }
+      .activity-img-wrap { height: 140px; width: calc(100% - 2rem); margin: 0.75rem 1rem 0; }
+      .activity-item-placeholder { height: 140px; width: calc(100% - 2rem); margin: 0.75rem 1rem 0; }
+      .activity-item-content { padding: 1.5rem; }
+      .perche-sticky-inner { padding: 2rem 1.5rem; }
+    }
+    /* Hero background blur */
+    .hero-bg {
+      filter: blur(3px) brightness(0.7);
+      transform: scale(1.04);
+    }
+    /* Perché image */
+    .perche-img {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      border-radius: 1rem;
+      display: block;
+    }
+    .perche-img-placeholder {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      background: linear-gradient(135deg, #0a1f3d 0%, #1a3a5c 100%);
+      border-radius: 1rem;
+    }
+    /* Mobile icon size reduction */
+    @media (max-width: 640px) {
+      .incluso-icona { width: 2.5rem; height: 2.5rem; font-size: 1.25rem; }
+    }
+    .perche-bullets {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+    }
+    .perche-bullets li {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.875rem;
+      color: rgba(255,255,255,0.7);
+    }
+    .bullet-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: #288699;
+      flex-shrink: 0;
+    }
+    /* Inclusi con Skappa */
+    .incluso-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem 1.5rem;
+    }
+    @media (min-width: 640px) { .incluso-grid { grid-template-columns: repeat(4, 1fr); } }
+    .incluso-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.875rem;
+      text-align: center;
+    }
+    .incluso-icona {
+      font-size: 2rem;
+      width: 4rem; height: 4rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(254,189,65,0.1);
+      border-radius: 50%;
+      border: 1px solid rgba(254,189,65,0.15);
+    }
+    .incluso-label {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.8);
+      line-height: 1.4;
+    }
+    /* FAQ */
+    .faq-item { border-bottom: 1px solid rgba(254,189,65,0.12); }
+    .faq-btn {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem 0;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: rgba(255,255,255,0.88);
+      font-size: 0.9375rem;
+      font-weight: 600;
+      font-family: inherit;
+      text-align: left;
+      gap: 1rem;
+      transition: color 0.2s;
+    }
+    .faq-btn:hover { color: var(--gold); }
+    .faq-body {
+      padding: 0 0 1.25rem;
+      color: rgba(255,255,255,0.6);
+      font-size: 0.875rem;
+      line-height: 1.75;
+      display: none;
+    }
+    .faq-arrow {
+      flex-shrink: 0;
+      color: var(--gold);
+      font-size: 1.375rem;
+      font-weight: 300;
+      line-height: 1;
+      transition: transform 0.25s;
+      user-select: none;
+    }
+    .faq-arrow.open { transform: rotate(45deg); }
+    /* Sticky mobile CTA */
+    #stickyCta {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      z-index: 9990;
+      background: var(--navy2);
+      border-top: 1px solid rgba(254,189,65,0.2);
+      padding: 0.75rem 1rem;
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.4);
+      transform: translateY(110%);
+      transition: transform 0.3s ease;
+    }
+    #stickyCta.visible { transform: translateY(0); }
+    @media (min-width: 768px) { #stickyCta { display: none !important; } }
+    body.sticky-cta-visible #waBtn { bottom: 6rem !important; }
+    /* Scarcity */
+    @keyframes pulse-scarcity {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========== NAVBAR ========== -->
+  <nav class="navbar" id="navbar">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="flex items-center justify-between h-11">
+        <a href="index.html" class="flex items-center gap-2">
+          <img src="assets/foto/utility/logo skappa.svg" alt="SKAPPA" style="height:2rem;object-fit:contain"
+              onerror="this.outerHTML='<span style=&quot;color:var(--gold);font-family:Days One,sans-serif;font-size:1rem;font-weight:900&quot;>SKAPPA</span>'" />
+        </a>
+        <div class="hidden md:flex items-center gap-8">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="fughe-in-europa.html" class="nav-link">Fughe in Europa</a>
+          <a href="summer-tour.html" class="nav-link">Escape tour</a>
+          <a href="last-minute.html" class="nav-link" style="color:#ef4444;font-weight:700">⚡ Last minute</a>
+        </div>
+        <div class="hidden md:flex items-center gap-3">
+          <button id="themeToggle" class="theme-toggle" aria-label="Cambia tema" title="Cambia tema" onclick="toggleTheme()">
+            <svg class="icon-moon w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+            <svg class="icon-sun w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          </button>
+          <a href="#blocca" class="btn-navy" id="navbarCta">Blocca il tuo posto</a>
+        </div>
+        <div class="flex items-center gap-2 md:hidden">
+          <button id="themeToggleMobile" class="theme-toggle" aria-label="Cambia tema" onclick="toggleTheme()">
+            <svg class="icon-moon w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+            <svg class="icon-sun w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          </button>
+          <button id="menuBtn" class="p-2" aria-label="Menu">
+            <svg class="w-5 h-5" style="color:var(--navy)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div id="mobileMenu">
+      <div class="max-w-6xl mx-auto px-4 py-5 flex flex-col gap-4">
+        <a href="index.html" class="text-sm font-semibold" style="color:var(--gold)">Home</a>
+        <a href="fughe-in-europa.html" class="text-sm font-semibold" style="color:var(--gold)">Fughe in Europa</a>
+        <a href="summer-tour.html" class="text-sm font-semibold" style="color:var(--gold)">Escape tour</a>
+        <a href="last-minute.html" class="text-sm font-semibold" style="color:#ef4444">⚡ Last minute</a>
+        <a href="#blocca" class="btn-gold mt-2" style="justify-content:center">Blocca il tuo posto</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <!-- ========== HERO ========== -->
+  <section class="viaggio-hero">
+    <div class="hero-bg-fallback"></div>
+    <div class="hero-bg" id="heroBg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content" style="width:100%">
+      <div>
+        <button onclick="history.back()" class="back-btn">← Torna indietro</button>
+      </div>
+      <div class="tipo-badge">✈ Fuga in Europa</div>
+      <div style="display:flex;justify-content:center;margin-bottom:1.25rem">
+        <img src="assets/foto/utility/logo skappa.svg" alt="SKAPPA"
+          style="height:6rem;object-fit:contain;filter:drop-shadow(0 0 28px rgba(40,134,153,0.65))"
+          onerror="this.style.display='none'" />
+      </div>
+      <h1 class="hero-title" id="heroNome">—</h1>
+      <p class="hero-subtitle" id="heroDate"></p>
+      <p class="hero-tagline-dest" id="heroTagline"></p>
+      <div id="heroInfoRapide" style="display:flex;flex-wrap:wrap;justify-content:center;gap:0.5rem;margin-bottom:1.5rem"></div>
+      <div class="hero-price" style="margin-bottom:1.75rem">
+        <span id="heroPrezzoOriginale" style="text-decoration:line-through;font-size:0.6em;opacity:0.55;margin-right:0.5rem;vertical-align:middle"></span><span id="heroPrezzo"></span>
+      </div>
+      <a id="heroCta" href="#blocca" class="btn-gold" style="font-size:0.9375rem;padding:1.1rem 2.5rem;letter-spacing:0.1em">
+        BLOCCA IL TUO POSTO
+      </a>
+      <p class="trust-bar">Pagamento sicuro con Stripe &nbsp;·&nbsp; Nessun costo nascosto &nbsp;·&nbsp; Conferma immediata</p>
+      <p style="font-size:0.8125rem;color:rgba(255,255,255,0.5);margin-top:0.75rem;letter-spacing:0.04em">★★★★★ &nbsp;Oltre 500 giovani viaggiatori soddisfatti</p>
+    </div>
+  </section>
+
+
+  <!-- ========== PACCHETTI & DATE ========== -->
+  <section id="blocca" style="background:var(--navy);padding:5rem 1rem;border-top:1px solid rgba(254,189,65,0.1)">
+    <div class="max-w-xl mx-auto text-center">
+      <div class="fade-in">
+        <h2 class="section-title" style="margin-bottom:0.5rem">PACCHETTI & DATE</h2>
+        <p style="color:rgba(255,255,255,0.4);font-size:0.8125rem;margin-bottom:2.5rem;letter-spacing:0.04em">Seleziona il tuo viaggio ideale.</p>
+      </div>
+      <div class="pacchetto-card fade-in">
+        <h3 id="pNome" style="font-family:'Days One',sans-serif;font-size:1.375rem;color:#fff;letter-spacing:0.1em;text-transform:uppercase"></h3>
+        <p id="pPartenza" style="font-size:0.8125rem;color:rgba(255,255,255,0.4);margin-top:0.25rem"></p>
+        <p id="pHotel" style="font-size:0.8125rem;color:rgba(255,255,255,0.5);margin-top:0.2rem"></p>
+        <div id="pPrezzoOriginale" style="font-size:0.875rem;color:rgba(255,255,255,0.38);text-decoration:line-through;margin-top:0.75rem;font-family:'Days One',sans-serif;letter-spacing:0.04em"></div>
+        <div class="pacchetto-price" id="pPrezzo"></div>
+        <p id="pPrezzoGiorno" style="font-size:0.75rem;color:rgba(255,255,255,0.35);margin-top:0.2rem;letter-spacing:0.04em"></p>
+        <ul class="pacchetto-list" id="pInclusi"></ul>
+        <div id="scarcityBadge" style="display:none;align-items:center;gap:0.5rem;margin-bottom:0.875rem;background:rgba(220,38,38,0.1);border:1px solid rgba(220,38,38,0.25);border-radius:0.5rem;padding:0.6rem 0.875rem"><div style="width:7px;height:7px;border-radius:50%;background:#ef4444;flex-shrink:0;animation:pulse-scarcity 1.5s infinite"></div><span id="scarcityText" style="font-size:0.8125rem;font-weight:700;color:#fca5a5"></span></div>
+        <p style="font-size:0.75rem;color:rgba(255,255,255,0.3);margin-bottom:1rem;text-align:center"><a href="cancellazione.html" style="color:rgba(255,255,255,0.3);text-decoration:underline;text-underline-offset:2px">Condizioni di cancellazione e rimborso</a></p>
+        <a href="#" class="btn-gold" id="pacchettoBtn" style="width:100%;justify-content:center">BLOCCA IL TUO POSTO</a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ========== COSA SUCCEDE DOPO ========== -->
+  <section style="background:var(--navy2);padding:4rem 1rem;border-top:1px solid rgba(254,189,65,0.08)">
+    <div class="max-w-xl mx-auto fade-in">
+      <div class="text-center" style="margin-bottom:2rem">
+        <h2 class="section-title" style="margin-bottom:0.375rem">COSA SUCCEDE DOPO</h2>
+        <p style="color:rgba(255,255,255,0.4);font-size:0.8125rem;letter-spacing:0.04em">Il processo di prenotazione con SKAPPA è semplice e trasparente.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:1.25rem">
+        <div style="display:flex;align-items:flex-start;gap:1.25rem">
+          <div style="min-width:2.5rem;height:2.5rem;border-radius:50%;background:rgba(254,189,65,0.12);border:1px solid rgba(254,189,65,0.3);display:flex;align-items:center;justify-content:center;font-family:'Days One',sans-serif;font-size:1rem;color:var(--gold);flex-shrink:0">1</div>
+          <div>
+            <p style="font-weight:700;color:#fff;margin-bottom:0.25rem;font-size:0.9375rem">Paghi online in sicurezza</p>
+            <p style="font-size:0.8125rem;color:rgba(255,255,255,0.5);line-height:1.6">Il pagamento avviene tramite Stripe. Ricevi subito email di conferma con tutti i dettagli.</p>
+          </div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:1.25rem">
+          <div style="min-width:2.5rem;height:2.5rem;border-radius:50%;background:rgba(254,189,65,0.12);border:1px solid rgba(254,189,65,0.3);display:flex;align-items:center;justify-content:center;font-family:'Days One',sans-serif;font-size:1rem;color:var(--gold);flex-shrink:0">2</div>
+          <div>
+            <p style="font-weight:700;color:#fff;margin-bottom:0.25rem;font-size:0.9375rem">Ti contatta il team SKAPPA</p>
+            <p style="font-size:0.8125rem;color:rgba(255,255,255,0.5);line-height:1.6">Entro 24h ti raggiungiamo via WhatsApp per condividere tutti i dettagli e rispondere alle tue domande.</p>
+          </div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:1.25rem">
+          <div style="min-width:2.5rem;height:2.5rem;border-radius:50%;background:rgba(254,189,65,0.12);border:1px solid rgba(254,189,65,0.3);display:flex;align-items:center;justify-content:center;font-family:'Days One',sans-serif;font-size:1rem;color:var(--gold);flex-shrink:0">3</div>
+          <div>
+            <p style="font-weight:700;color:#fff;margin-bottom:0.25rem;font-size:0.9375rem">Parti e vivi l'esperienza</p>
+            <p style="font-size:0.8125rem;color:rgba(255,255,255,0.5);line-height:1.6">Il team SKAPPA sarà con te per tutta la durata del viaggio, pronto ad assisterti in ogni momento.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ========== ATTIVITÀ + PERCHÉ (sticky sidebar) ========== -->
+  <section style="background:var(--navy2)">
+    <div class="sticky-perche-outer">
+      <div class="activities-col" id="attivitaSection"></div>
+      <div class="perche-sticky-col">
+        <div class="perche-sticky-inner fade-in">
+          <img id="percheImg" class="perche-img" src="" alt=""
+            onerror="this.outerHTML='<div class=\'perche-img-placeholder\'></div>'" style="margin-bottom:1.75rem" />
+          <h2 class="section-title" id="percheTitolo" style="margin-bottom:1.25rem;text-align:left"></h2>
+          <p id="percheText" style="font-size:0.9375rem;color:rgba(255,255,255,0.68);line-height:1.8;margin-bottom:1.75rem"></p>
+          <a href="#blocca" class="btn-gold" id="percheBloccaBtn">BLOCCA IL TUO POSTO</a>
+          <ul class="perche-bullets" style="margin-top:1.5rem">
+            <li><span class="bullet-dot"></span>Pagamento sicuro</li>
+            <li><span class="bullet-dot"></span>Partner certificati</li>
+            <li><span class="bullet-dot"></span>Esperienza SKAPPA</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ========== COSA È INCLUSO CON SKAPPA ========== -->
+  <section style="background:var(--navy2);padding:5rem 1rem;border-top:1px solid rgba(254,189,65,0.08)">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="section-title fade-in" style="margin-bottom:3rem">COSA È INCLUSO CON SKAPPA</h2>
+      <div class="incluso-grid" id="inclusiConSkappa"></div>
+    </div>
+  </section>
+
+
+  <!-- ========== ESPERIENZA ========== -->
+  <section style="background:var(--navy);padding:5rem 1rem;text-align:center">
+    <div class="max-w-2xl mx-auto fade-in">
+      <div class="flex justify-center mb-5">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+          style="width:3.5rem;height:3.5rem;color:var(--gold);filter:drop-shadow(0 0 16px rgba(254,189,65,0.5))">
+          <path d="M3.478 2.405a.75.75 0 00-.926.94l2.432 7.905H13.5a.75.75 0 010 1.5H4.984l-2.432 7.905a.75.75 0 00.926.94 60.519 60.519 0 0018.445-8.986.75.75 0 000-1.218A60.517 60.517 0 003.478 2.405z"/>
+        </svg>
+      </div>
+      <h2 class="section-title" id="esperienzaTitolo" style="margin-bottom:1.5rem"></h2>
+      <p id="esperienzaTesto" style="font-size:0.9375rem;color:rgba(255,255,255,0.6);line-height:1.8"></p>
+    </div>
+  </section>
+
+
+  <!-- ========== FAQ ========== -->
+  <section style="background:var(--navy2);padding:5rem 1rem">
+    <div class="max-w-3xl mx-auto">
+      <div class="text-center mb-10 fade-in">
+        <h2 class="section-title">DOMANDE FREQUENTI</h2>
+        <p style="color:rgba(255,255,255,0.35);font-size:0.8125rem;margin-top:0.5rem">Tutto quello che vuoi sapere prima di partire</p>
+      </div>
+      <div id="faqContainer"></div>
+    </div>
+  </section>
+
+
+  <!-- ========== RECENSIONI ========== -->
+  <section style="background:var(--navy);padding:5rem 1rem">
+    <div class="max-w-5xl mx-auto">
+      <div class="text-center mb-10 fade-in">
+        <h2 class="section-title">RECENSIONI DI VIAGGIO</h2>
+        <p style="color:rgba(255,255,255,0.35);font-size:0.8125rem;margin-top:0.5rem">Cosa dicono i nostri clienti</p>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="recensioniContainer"></div>
+    </div>
+  </section>
+
+
+  <!-- ========== FOOTER ========== -->
+    <footer class="footer">
+    <div class="max-w-6xl mx-auto">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:2rem;margin-bottom:2rem;flex-wrap:wrap">
+        <a href="index.html">
+          <img src="assets/foto/utility/icona sito.svg" alt="SKAPPA" style="height:5rem;width:5rem;object-fit:contain"
+            onerror="this.style.display='none'" />
+        </a>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem 2.5rem">
+          <a href="chi-siamo.html" class="footer-link">Chi siamo</a>
+          <a href="cancellazione.html" class="footer-link">Cancellazione e rimborso</a>
+          <a href="termini.html" class="footer-link">Termini e condizioni</a>
+          <a href="cookie.html" class="footer-link">Cookie Policy</a>
+          <a href="privacy.html" class="footer-link">Privacy Policy</a>
+          <a href="faq.html" class="footer-link">FAQ</a>
+        </div>
+        <img src="assets/foto/utility/i viaggi del futuro.png" alt="Viaggi del Futuro" style="height:5rem;object-fit:contain"
+          onerror="this.style.display='none'" />
+      </div>
+      <div class="flex flex-col md:flex-row items-center justify-between gap-3 text-xs" style="opacity:0.5;border-top:1px solid rgba(3,16,48,0.1);padding-top:1.25rem">
+        <span>© 2026 SKAPPA – Tutti i diritti riservati &nbsp;·&nbsp; Pagamenti sicuri con Stripe</span>
+        <div style="display:flex;align-items:center;gap:1rem">
+          <a href="https://www.instagram.com/skappa__/" target="_blank" rel="noopener" aria-label="SKAPPA su Instagram" style="color:var(--navy);display:flex;align-items:center;opacity:0.7;transition:opacity .2s" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:1.125rem;height:1.125rem"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+          </a>
+          <a href="https://www.tiktok.com/@skappa.official" target="_blank" rel="noopener" aria-label="SKAPPA su TikTok" style="color:var(--navy);display:flex;align-items:center;opacity:0.7;transition:opacity .2s" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:1.125rem;height:1.125rem"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.22 8.22 0 004.83 1.56V6.78a4.85 4.85 0 01-1.06-.09z"/></svg>
+          </a>
+          <a href="https://it.trustpilot.com" target="_blank" rel="noopener" class="footer-link text-xs">
+            ★ Trustpilot
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- ========== STICKY MOBILE CTA ========== -->
+  <div id="stickyCta">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:0.75rem;max-width:480px;margin:0 auto">
+      <div>
+        <div style="font-size:0.625rem;color:rgba(255,255,255,0.45);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.1rem">Da</div>
+        <div style="font-family:'Days One',sans-serif;font-size:1.25rem;color:var(--gold);letter-spacing:0.04em;line-height:1" id="stickyPrice"></div>
+      </div>
+      <a href="#blocca" class="btn-gold" id="stickyCtaBtn" style="flex:1;max-width:220px;justify-content:center;padding:0.75rem 1rem;font-size:0.8125rem;letter-spacing:0.08em">BLOCCA IL POSTO</a>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script>
+    (function () {
+      var params = new URLSearchParams(window.location.search);
+      var id = params.get('id') || '';
+      var dest = (window.DESTINATIONS || []).find(function (d) { return d.id === id; });
+
+      if (!dest) {
+        document.getElementById('heroNome').textContent = 'DESTINAZIONE NON TROVATA';
+        document.getElementById('heroDate').textContent = '';
+        document.getElementById('heroTagline').textContent = 'Nessuna destinazione trovata per questo ID.';
+        document.getElementById('heroPrezzo').textContent = '';
+        document.getElementById('heroCta').style.display = 'none';
+        return;
+      }
+
+      // ---- Meta SEO ----
+      var metaTitle = dest.nome + ' – Fuga in Europa – SKAPPA';
+      var metaDesc = dest.tagline + ' Da ' + dest.prezzo + '€ a persona. Volo A/R incluso.';
+      document.title = metaTitle;
+      document.querySelector('meta[name="description"]').setAttribute('content', metaDesc);
+      document.querySelector('meta[property="og:title"]').setAttribute('content', metaTitle);
+      document.querySelector('meta[property="og:description"]').setAttribute('content', metaDesc);
+      if (dest.imgHero) {
+        document.querySelector('meta[property="og:image"]').setAttribute('content', dest.imgHero);
+      }
+      var pageUrl = 'https://skappa.it/viaggio-citybreak.html?id=' + id;
+      document.querySelector('meta[property="og:url"]').setAttribute('content', pageUrl);
+      document.querySelector('meta[name="twitter:title"]').setAttribute('content', metaTitle);
+      document.querySelector('meta[name="twitter:description"]').setAttribute('content', metaDesc);
+      if (dest.imgHero) {
+        var absImg = 'https://skappa.it/' + dest.imgHero;
+        document.querySelector('meta[name="twitter:image"]').setAttribute('content', absImg);
+        document.querySelector('meta[property="og:image"]').setAttribute('content', absImg);
+      }
+      var canonical = document.getElementById('canonicalTag');
+      if (canonical) canonical.setAttribute('href', pageUrl);
+
+      // ---- Hero ----
+      if (dest.imgHero) {
+        document.getElementById('heroBg').style.backgroundImage = "url('" + dest.imgHero + "')";
+      }
+      document.getElementById('heroNome').textContent = dest.nome;
+      document.getElementById('heroDate').textContent = dest.date;
+      document.getElementById('heroTagline').textContent = dest.tagline;
+      if (dest.infoRapide && dest.infoRapide.length) {
+        document.getElementById('heroInfoRapide').innerHTML = dest.infoRapide.map(function (item) {
+          return '<span style="display:inline-flex;align-items:center;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:999px;padding:0.3rem 0.75rem;font-size:0.75rem;color:rgba(255,255,255,0.8);font-weight:600;letter-spacing:0.04em">' + item + '</span>';
+        }).join('');
+      }
+      document.getElementById('heroPrezzo').textContent = dest.prezzo + '€';
+      if (dest.prezzoOriginale) {
+        document.getElementById('heroPrezzoOriginale').textContent = dest.prezzoOriginale + '€';
+      }
+      if (dest.linkPagamento) {
+        ['heroCta', 'pacchettoBtn', 'percheBloccaBtn', 'navbarCta'].forEach(function(id) {
+          var el = document.getElementById(id);
+          if (el) { el.href = dest.linkPagamento; el.target = '_blank'; el.rel = 'noopener'; }
+        });
+      }
+
+      // ---- Pacchetti ----
+      document.getElementById('pNome').textContent = dest.nome;
+      document.getElementById('pPartenza').textContent = 'Partenza da ' + dest.partenzaDa;
+      document.getElementById('pPrezzo').innerHTML =
+        '<span class="pacchetto-euro">€</span>' + dest.prezzo;
+      if (dest.prezzoOriginale) {
+        document.getElementById('pPrezzoOriginale').textContent = '€' + dest.prezzoOriginale + ' a persona';
+      }
+      if (dest.hotel) {
+        var pHotel = document.getElementById('pHotel');
+        if (pHotel) pHotel.textContent = '🏨 ' + dest.hotel;
+      }
+      if (dest.durata) {
+        var mGiorni = (dest.durata || '').match(/(\d+)\s*giorn/);
+        var gg = mGiorni ? parseInt(mGiorni[1]) : 0;
+        if (gg > 0) {
+          var ppg = Math.round(dest.prezzo / gg);
+          var elPPG = document.getElementById('pPrezzoGiorno');
+          if (elPPG) elPPG.textContent = '≈ ' + ppg + '€ al giorno a persona';
+        }
+      }
+      document.getElementById('pInclusi').innerHTML = (dest.inclusiPacchetto || []).map(function (item) {
+        return '<li><span class="check">✓</span><span>' + item + '</span></li>';
+      }).join('');
+
+      // ---- Perché (sticky col) ----
+      var percheImgEl = document.getElementById('percheImg');
+      if (percheImgEl) {
+        if (dest.perche && dest.perche.img) {
+          percheImgEl.src = dest.perche.img;
+          percheImgEl.alt = dest.perche.titolo || '';
+        } else {
+          percheImgEl.outerHTML = '<div class="perche-img-placeholder" style="margin-bottom:1.75rem"></div>';
+        }
+      }
+      document.getElementById('percheTitolo').textContent = (dest.perche && dest.perche.titolo) || '';
+      document.getElementById('percheText').textContent = (dest.perche && dest.perche.testo) || '';
+
+      // ---- Attività (stacked items) ----
+      document.getElementById('attivitaSection').innerHTML = (dest.attivita || []).map(function (att) {
+        var imgHtml = att.img
+          ? '<div class="activity-img-wrap"><img src="' + att.img + '" alt="' + att.titolo + '" class="activity-item-img" onerror="this.parentElement.className=\'activity-item-placeholder\';this.remove()"></div>'
+          : '<div class="activity-item-placeholder"></div>';
+        return '<div class="activity-item fade-in">'
+          + imgHtml
+          + '<div class="activity-item-content">'
+          + '<h3 class="activity-title">' + att.titolo + '</h3>'
+          + '<p class="activity-desc">' + att.descrizione + '</p>'
+          + '</div></div>';
+      }).join('');
+
+      // ---- Inclusi con Skappa ----
+      document.getElementById('inclusiConSkappa').innerHTML = (dest.inclusiConSkappa || []).map(function (item) {
+        return '<div class="incluso-item fade-in">'
+          + '<div class="incluso-icona">' + (item.icona || '★') + '</div>'
+          + '<span class="incluso-label">' + item.label + '</span>'
+          + '</div>';
+      }).join('');
+
+      // ---- Esperienza ----
+      document.getElementById('esperienzaTitolo').textContent = dest.esperienzaTitolo || '';
+      document.getElementById('esperienzaTesto').textContent = dest.esperienzaTesto || '';
+
+      // ---- FAQ ----
+      document.getElementById('faqContainer').innerHTML = (dest.faq || []).map(function (item) {
+        return '<div class="faq-item fade-in">'
+          + '<button class="faq-btn" onclick="skappaToggleFaq(this)">'
+          + '<span>' + item.domanda + '</span>'
+          + '<span class="faq-arrow">+</span>'
+          + '</button>'
+          + '<div class="faq-body">' + item.risposta + '</div>'
+          + '</div>';
+      }).join('');
+
+      // ---- Recensioni ----
+      document.getElementById('recensioniContainer').innerHTML = (dest.recensioni || []).map(function (r) {
+        var tag = r.tag ? ' &nbsp;·&nbsp; ' + r.tag : '';
+        return '<div class="review-card fade-in">'
+          + '<div style="color:#febd41;font-size:0.875rem;margin-bottom:0.5rem;letter-spacing:0.05em">★★★★★</div>'
+          + '<p class="review-text">"' + r.testo + '"</p>'
+          + '<div class="review-author">— ' + r.nome + tag + '</div>'
+          + '<div style="display:inline-flex;align-items:center;gap:0.3rem;margin-top:0.6rem;background:rgba(254,189,65,0.08);border:1px solid rgba(254,189,65,0.15);border-radius:999px;padding:0.2rem 0.6rem;font-size:0.6rem;font-weight:700;color:rgba(254,189,65,0.7);letter-spacing:0.06em;text-transform:uppercase">✓ Partecipante confermato</div>'
+          + '</div>';
+      }).join('');
+
+      // ---- Scarcity badge ----
+      if (dest.postiRimasti) {
+        var sb = document.getElementById('scarcityBadge');
+        var st = document.getElementById('scarcityText');
+        if (sb && st) { st.textContent = 'Solo ' + dest.postiRimasti + ' posti rimasti a questo prezzo'; sb.style.display = 'flex'; }
+      }
+
+      // ---- Sticky mobile CTA ----
+      var stickyCta = document.getElementById('stickyCta');
+      if (stickyCta) {
+        var spEl = document.getElementById('stickyPrice');
+        if (spEl) spEl.textContent = dest.prezzo + '€';
+        if (dest.linkPagamento) {
+          var sBtn = document.getElementById('stickyCtaBtn');
+          if (sBtn) { sBtn.href = dest.linkPagamento; sBtn.target = '_blank'; sBtn.rel = 'noopener'; }
+        }
+        var heroEl = document.querySelector('.viaggio-hero');
+        if (heroEl) {
+          var heroObs = new IntersectionObserver(function (entries) {
+            entries.forEach(function (e) {
+              if (window.innerWidth >= 768) return;
+              stickyCta.classList.toggle('visible', !e.isIntersecting);
+              document.body.classList.toggle('sticky-cta-visible', !e.isIntersecting);
+            });
+          }, { threshold: 0 });
+          heroObs.observe(heroEl);
+        }
+      }
+
+      // ---- Attiva fade-in ----
+      setTimeout(function () {
+        var obs = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+          });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.fade-in').forEach(function (el) { obs.observe(el); });
+      }, 0);
+
+      // ---- JSON-LD Structured Data ----
+      var baseUrl = 'https://skappa.it';
+      var tripImg = dest.imgHero ? baseUrl + '/' + dest.imgHero : null;
+      var graph = [
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {"@type":"ListItem","position":1,"name":"Home","item":baseUrl+"/"},
+            {"@type":"ListItem","position":2,"name":"Fughe in Europa","item":baseUrl+"/fughe-in-europa.html"},
+            {"@type":"ListItem","position":3,"name":dest.nome,"item":pageUrl}
+          ]
+        },
+        {
+          "@type": "TouristTrip",
+          "name": dest.nome + " – Fuga in Europa SKAPPA",
+          "description": dest.tagline,
+          "url": pageUrl,
+          "image": tripImg || undefined,
+          "touristType": "Giovani viaggiatori",
+          "provider": {"@type":"TravelAgency","name":"SKAPPA","url":baseUrl},
+          "offers": {
+            "@type": "Offer",
+            "price": String(dest.prezzo),
+            "priceCurrency": "EUR",
+            "url": dest.linkPagamento || pageUrl,
+            "availability": "https://schema.org/InStock"
+          },
+          "aggregateRating": (dest.recensioni && dest.recensioni.length >= 2) ? {
+            "@type": "AggregateRating",
+            "ratingValue": "4.8",
+            "bestRating": "5",
+            "worstRating": "1",
+            "reviewCount": String(dest.recensioni.length)
+          } : undefined
+        }
+      ];
+      if (dest.faq && dest.faq.length) {
+        graph.push({
+          "@type": "FAQPage",
+          "mainEntity": dest.faq.map(function(q) {
+            return {"@type":"Question","name":q.domanda,"acceptedAnswer":{"@type":"Answer","text":q.risposta}};
+          })
+        });
+      }
+      var ldScript = document.createElement('script');
+      ldScript.type = 'application/ld+json';
+      ldScript.textContent = JSON.stringify({"@context":"https://schema.org","@graph":graph});
+      document.head.appendChild(ldScript);
+    })();
+
+    function skappaToggleFaq(btn) {
+      var body = btn.nextElementSibling;
+      var arrow = btn.querySelector('.faq-arrow');
+      var isOpen = body.style.display === 'block';
+      body.style.display = isOpen ? 'none' : 'block';
+      arrow.classList.toggle('open', !isOpen);
+    }
+  </script>
+</body>
+</html>
