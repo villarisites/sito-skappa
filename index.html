@@ -5,10 +5,10 @@
   <script>!function(){var t=localStorage.getItem("skappa_theme");if(t==="light")document.documentElement.setAttribute("data-theme","light")}();</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SKAPPA – Viaggi organizzati | Escape Tour, Fughe in Europa, Last Minute</title>
-  <meta name="description" content="Viaggi già organizzati a partire da 189€. Escape Tour estivi, fughe in Europa nelle capitali e offerte last minute con countdown. Parti, vivi, torna cambiato." />
+  <meta name="description" content="Viaggi già organizzati a partire da 99€. Escape Tour estivi, fughe in Europa nelle capitali e offerte last minute con countdown. Parti, vivi, torna cambiato." />
   <meta name="keywords" content="viaggi organizzati, escape tour, viaggi giovani, last minute, capitali europee, Zante, Malta, Barcellona, Parigi, Budapest, vacanze economiche" />
   <meta property="og:title" content="SKAPPA – Viaggi organizzati | Escape Tour & Fughe in Europa" />
-  <meta property="og:description" content="Viaggi già organizzati a partire da 189€. Pochi viaggi. Curati. Con partner certificati." />
+  <meta property="og:description" content="Viaggi già organizzati a partire da 99€. Pochi viaggi. Curati. Con partner certificati." />
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="it_IT" />
   <meta property="og:image" content="https://skappa.it/assets/foto/utility/sfondo hero.png" />
@@ -16,7 +16,7 @@
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="SKAPPA – Viaggi organizzati" />
-  <meta name="twitter:description" content="Escape Tour, fughe in Europa e last minute da 189€." />
+  <meta name="twitter:description" content="Escape Tour, fughe in Europa e last minute da 99€." />
   <meta name="twitter:image" content="https://skappa.it/assets/foto/utility/sfondo hero.png" />
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
   <link rel="canonical" href="https://skappa.it/" />
@@ -279,7 +279,7 @@
     <div class="hero-content">
       <img src="assets/foto/utility/scritta skappa.png" alt="SKAPPA" class="hero-title-img" />
       <p class="hero-subtitle">Viaggi già organizzati a partire</p>
-      <div class="hero-price"><span>DA 189€</span></div>
+      <div class="hero-price"><span id="heroPriceMin">DA 99€</span></div>
       <br/>
       <a href="#summer" class="btn-gold">Scopri i viaggi disponibili</a>
     </div>
@@ -647,6 +647,14 @@
             + '</a>';
         }).join('');
       });
+    })();
+
+    // ---- Prezzo minimo dinamico hero ----
+    (function(){
+      var dests = window.DESTINATIONS || [];
+      if (!dests.length) return;
+      var min = Math.min.apply(null, dests.map(function(d){ return parseInt(d.prezzo,10)||Infinity; }));
+      if (isFinite(min)) { var el = document.getElementById('heroPriceMin'); if(el) el.textContent = 'DA '+min+'€'; }
     })();
   </script>
 </body>

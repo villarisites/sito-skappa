@@ -5,9 +5,9 @@
   <script>!function(){var t=localStorage.getItem("skappa_theme");if(t==="light")document.documentElement.setAttribute("data-theme","light")}();</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Fughe in Europa – SKAPPA | City break organizzati</title>
-  <meta name="description" content="City break nelle capitali europee con SKAPPA: Barcellona, Londra, Parigi, Budapest, Sofia, Tirana. Da 189€, tutto organizzato, zero stress." />
+  <meta name="description" content="City break nelle capitali europee con SKAPPA: Barcellona, Londra, Parigi, Budapest, Sofia, Tirana. Da 99€, tutto organizzato, zero stress." />
   <meta property="og:title" content="Fughe in Europa – SKAPPA" />
-  <meta property="og:description" content="City break europei organizzati: Barcellona, Parigi, Budapest, Londra e altre capitali. Da 189€." />
+  <meta property="og:description" content="City break europei organizzati: Barcellona, Parigi, Budapest, Londra e altre capitali. Da 99€." />
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="it_IT" />
   <meta property="og:url" content="https://skappa.it/fughe-in-europa.html" />
@@ -146,7 +146,7 @@
         Fughe in Europa
       </h1>
       <p class="hero-subtitle">Capitali europee, weekend indimenticabili.</p>
-      <div class="hero-price" style="border-color:var(--teal)"><span style="color:var(--teal)">DA 189€</span></div>
+      <div class="hero-price" style="border-color:var(--teal)"><span id="heroPriceMin" style="color:var(--teal)">DA 99€</span></div>
       <br/>
       <a href="#capitali" class="btn-gold">Scegli la capitale</a>
     </div>
@@ -353,6 +353,14 @@
         })
       });
       document.head.appendChild(ldScript);
+    })();
+
+    // ---- Prezzo minimo dinamico ----
+    (function(){
+      var dests = (window.DESTINATIONS||[]).filter(function(d){ return d.tipologia==='fughe-in-europa'; });
+      if (!dests.length) return;
+      var min = Math.min.apply(null, dests.map(function(d){ return parseInt(d.prezzo,10)||Infinity; }));
+      if (isFinite(min)) { var el = document.getElementById('heroPriceMin'); if(el) el.textContent = 'DA '+min+'€'; }
     })();
   </script>
 </body>

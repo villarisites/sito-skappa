@@ -148,7 +148,7 @@
         Escape Tour 2025
       </h1>
       <p class="hero-subtitle">Mare, sole e party. Tutto già organizzato.</p>
-      <div class="hero-price"><span>DA 259€</span></div>
+      <div class="hero-price"><span id="heroPriceMin">DA 259€</span></div>
       <br/>
       <a href="#mete" class="btn-gold">Scegli la tua meta</a>
     </div>
@@ -347,6 +347,14 @@
         })
       });
       document.head.appendChild(ldScript);
+    })();
+
+    // ---- Prezzo minimo dinamico ----
+    (function(){
+      var dests = (window.DESTINATIONS||[]).filter(function(d){ return d.tipologia==='mete-estive'; });
+      if (!dests.length) return;
+      var min = Math.min.apply(null, dests.map(function(d){ return parseInt(d.prezzo,10)||Infinity; }));
+      if (isFinite(min)) { var el = document.getElementById('heroPriceMin'); if(el) el.textContent = 'DA '+min+'€'; }
     })();
   </script>
 </body>
