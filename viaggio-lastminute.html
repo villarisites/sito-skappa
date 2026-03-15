@@ -212,6 +212,8 @@
       line-height: 1.5;
     }
     .check { color: var(--gold); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+    .prenota-grid { display:grid; grid-template-columns:1fr 1fr; gap:3.5rem; align-items:start; }
+    @media(max-width:768px){ .prenota-grid { grid-template-columns:1fr; gap:2.5rem; } }
     /* Banner urgenza */
     .urgenza-banner {
       background: rgba(220,38,38,0.08);
@@ -461,77 +463,78 @@
   </div>
 
 
-  <!-- ========== PACCHETTI & DATE ========== -->
+  <!-- ========== PRENOTA IL TUO POSTO + COSA SUCCEDE DOPO ========== -->
   <section id="blocca" style="background:var(--navy);padding:5rem 1rem;border-top:1px solid rgba(254,189,65,0.1)">
-    <div class="max-w-xl mx-auto text-center">
-      <div class="fade-in">
-        <h2 class="section-title" style="margin-bottom:0.5rem">BLOCCA IL TUO POSTO</h2>
-        <p style="color:rgba(255,255,255,0.4);font-size:0.8125rem;margin-bottom:2.5rem;letter-spacing:0.04em">Offerta a tempo limitato.</p>
-      </div>
-      <div class="pacchetto-card fade-in" style="text-align:left">
-        <!-- Banner urgenza -->
-        <div class="urgenza-banner" style="margin-bottom:1rem">
-          <div class="urgenza-dot"></div>
-          <div class="urgenza-text" id="urgenzaMsg">Offerta in scadenza — prenota subito per garantirti il prezzo speciale</div>
-        </div>
-        <!-- Nome -->
-        <h3 id="pNome" style="font-family:'Days One',sans-serif;font-size:1.25rem;color:#fff;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.875rem"></h3>
-        <!-- Box date + hotel -->
-        <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(239,68,68,0.15);border-radius:0.625rem;padding:0.875rem 1rem;margin-bottom:1.25rem;display:flex;flex-direction:column;gap:0.4rem">
-          <p id="pPartenza" style="font-size:0.8125rem;color:rgba(255,255,255,0.6)"></p>
-          <p id="pHotel" style="font-size:0.8125rem;color:rgba(255,255,255,0.45)"></p>
-        </div>
-        <!-- Lista inclusi -->
-        <ul class="pacchetto-list" id="pInclusi"></ul>
-        <!-- Scarcity -->
-        <div id="scarcityBadge" style="display:none;align-items:center;gap:0.5rem;margin-bottom:1rem;background:rgba(220,38,38,0.1);border:1px solid rgba(220,38,38,0.25);border-radius:0.5rem;padding:0.6rem 0.875rem"><div style="width:7px;height:7px;border-radius:50%;background:#ef4444;flex-shrink:0;animation:pulse-dot 1.5s infinite"></div><span id="scarcityText" style="font-size:0.8125rem;font-weight:700;color:#fca5a5"></span></div>
-        <!-- Separatore -->
-        <hr style="border:none;border-top:1px solid rgba(239,68,68,0.15);margin:0.5rem 0 1.25rem">
-        <!-- Prezzo + CTA sulla stessa riga -->
-        <div style="display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap">
-          <div>
-            <div id="pPrezzoOriginale" style="font-size:0.8125rem;color:rgba(255,255,255,0.38);text-decoration:line-through;font-family:'Days One',sans-serif;letter-spacing:0.04em;min-height:1.1em"></div>
-            <div class="pacchetto-price" id="pPrezzo"></div>
-            <p id="pPrezzoGiorno" style="font-size:0.6875rem;color:rgba(255,255,255,0.35);margin-top:0.15rem;letter-spacing:0.04em"></p>
-          </div>
-          <a href="#" class="btn-gold" id="pacchettoBtn" style="background:#ef4444;border-color:#ef4444">⚡ BLOCCA IL PREZZO ORA</a>
-        </div>
-        <!-- Condizioni -->
-        <p style="font-size:0.6875rem;color:rgba(255,255,255,0.25);margin-top:0.875rem;text-align:center"><a href="cancellazione.html" style="color:rgba(255,255,255,0.25);text-decoration:underline;text-underline-offset:2px">Condizioni di cancellazione e rimborso</a></p>
-      </div>
-    </div>
-  </section>
+    <div class="max-w-5xl mx-auto">
+      <div class="prenota-grid">
 
+        <!-- SX: Pacchetto -->
+        <div>
+          <div class="fade-in" style="margin-bottom:2rem">
+            <h2 class="section-title" style="margin-bottom:0.5rem">PRENOTA IL TUO POSTO</h2>
+            <p style="color:rgba(255,255,255,0.4);font-size:0.8125rem;letter-spacing:0.04em">Offerta a tempo limitato.</p>
+          </div>
+          <div class="pacchetto-card fade-in" style="text-align:left;max-width:none">
+            <!-- Banner urgenza -->
+            <div class="urgenza-banner" style="margin-bottom:1rem">
+              <div class="urgenza-dot"></div>
+              <div class="urgenza-text" id="urgenzaMsg">Offerta in scadenza — prenota subito per garantirti il prezzo speciale</div>
+            </div>
+            <!-- Nome -->
+            <h3 id="pNome" style="font-family:'Days One',sans-serif;font-size:1.25rem;color:#fff;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.875rem"></h3>
+            <!-- Box date + hotel -->
+            <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(239,68,68,0.15);border-radius:0.625rem;padding:0.875rem 1rem;margin-bottom:1.25rem;display:flex;flex-direction:column;gap:0.4rem">
+              <p id="pPartenza" style="font-size:0.8125rem;color:rgba(255,255,255,0.6)"></p>
+              <p id="pHotel" style="font-size:0.8125rem;color:rgba(255,255,255,0.45)"></p>
+            </div>
+            <!-- Lista inclusi -->
+            <ul class="pacchetto-list" id="pInclusi"></ul>
+            <!-- Scarcity -->
+            <div id="scarcityBadge" style="display:none;align-items:center;gap:0.5rem;margin-bottom:1rem;background:rgba(220,38,38,0.1);border:1px solid rgba(220,38,38,0.25);border-radius:0.5rem;padding:0.6rem 0.875rem"><div style="width:7px;height:7px;border-radius:50%;background:#ef4444;flex-shrink:0;animation:pulse-dot 1.5s infinite"></div><span id="scarcityText" style="font-size:0.8125rem;font-weight:700;color:#fca5a5"></span></div>
+            <!-- Separatore -->
+            <hr style="border:none;border-top:1px solid rgba(239,68,68,0.15);margin:0.5rem 0 1.25rem">
+            <!-- Prezzo + CTA sulla stessa riga -->
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap">
+              <div>
+                <div id="pPrezzoOriginale" style="font-size:0.8125rem;color:rgba(255,255,255,0.38);text-decoration:line-through;font-family:'Days One',sans-serif;letter-spacing:0.04em;min-height:1.1em"></div>
+                <div class="pacchetto-price" id="pPrezzo"></div>
+                <p id="pPrezzoGiorno" style="font-size:0.6875rem;color:rgba(255,255,255,0.35);margin-top:0.15rem;letter-spacing:0.04em"></p>
+              </div>
+              <a href="#" class="btn-gold" id="pacchettoBtn" style="background:#ef4444;border-color:#ef4444">⚡ BLOCCA IL PREZZO ORA</a>
+            </div>
+            <!-- Condizioni -->
+            <p style="font-size:0.6875rem;color:rgba(255,255,255,0.25);margin-top:0.875rem;text-align:center"><a href="cancellazione.html" style="color:rgba(255,255,255,0.25);text-decoration:underline;text-underline-offset:2px">Condizioni di cancellazione e rimborso</a></p>
+          </div>
+        </div>
 
-  <!-- ========== COSA SUCCEDE DOPO ========== -->
-  <section style="background:var(--navy2);padding:4rem 1rem;border-top:1px solid rgba(220,38,38,0.12)">
-    <div class="max-w-xl mx-auto fade-in">
-      <div class="text-center" style="margin-bottom:2rem">
-        <h2 class="section-title" style="margin-bottom:0.375rem">COSA SUCCEDE DOPO</h2>
-        <p style="color:rgba(255,255,255,0.4);font-size:0.8125rem;letter-spacing:0.04em">Il processo di prenotazione con SKAPPA è semplice e trasparente.</p>
-      </div>
-      <div style="display:flex;flex-direction:column;gap:1.25rem">
-        <div style="display:flex;align-items:flex-start;gap:1.25rem">
-          <div style="min-width:2.5rem;height:2.5rem;border-radius:50%;background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.35);display:flex;align-items:center;justify-content:center;font-family:'Days One',sans-serif;font-size:1rem;color:#ef4444;flex-shrink:0">1</div>
-          <div>
-            <p style="font-weight:700;color:#fff;margin-bottom:0.25rem;font-size:0.9375rem">Paghi online in sicurezza</p>
-            <p style="font-size:0.8125rem;color:rgba(255,255,255,0.5);line-height:1.6">Il pagamento avviene tramite Stripe. Ricevi subito email di conferma con tutti i dettagli.</p>
+        <!-- DX: Cosa succede dopo -->
+        <div class="fade-in">
+          <h2 class="section-title" style="margin-bottom:2rem">COSA SUCCEDE DOPO</h2>
+          <div style="display:flex;flex-direction:column;gap:2rem">
+            <div style="display:flex;align-items:flex-start;gap:1.25rem">
+              <div style="width:2.5rem;height:2.5rem;border-radius:50%;background:#ef4444;color:#fff;font-family:'Days One',sans-serif;font-size:1.125rem;display:flex;align-items:center;justify-content:center;flex-shrink:0">1</div>
+              <div>
+                <h3 style="font-family:'Days One',sans-serif;font-size:1.0625rem;color:#fff;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:0.375rem">Confermi il pagamento</h3>
+                <p style="font-size:0.875rem;color:rgba(255,255,255,0.55);line-height:1.65">Pagamento sicuro via Stripe. Ricevi subito la conferma via email con tutti i dettagli del viaggio.</p>
+              </div>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:1.25rem">
+              <div style="width:2.5rem;height:2.5rem;border-radius:50%;background:#ef4444;color:#fff;font-family:'Days One',sans-serif;font-size:1.125rem;display:flex;align-items:center;justify-content:center;flex-shrink:0">2</div>
+              <div>
+                <h3 style="font-family:'Days One',sans-serif;font-size:1.0625rem;color:#fff;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:0.375rem">Entra nel gruppo</h3>
+                <p style="font-size:0.875rem;color:rgba(255,255,255,0.55);line-height:1.65">Ti aggiungiamo al gruppo WhatsApp dedicato con tutti i partecipanti e le info logistiche aggiornate in tempo reale.</p>
+              </div>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:1.25rem">
+              <div style="width:2.5rem;height:2.5rem;border-radius:50%;background:#ef4444;color:#fff;font-family:'Days One',sans-serif;font-size:1.125rem;display:flex;align-items:center;justify-content:center;flex-shrink:0">3</div>
+              <div>
+                <h3 style="font-family:'Days One',sans-serif;font-size:1.0625rem;color:#fff;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:0.375rem">Parti e vivi l'esperienza</h3>
+                <p style="font-size:0.875rem;color:rgba(255,255,255,0.55);line-height:1.65">Il team SKAPPA ti accoglie sul posto. Tutto organizzato: non devi pensare a nulla, solo goderti il viaggio.</p>
+              </div>
+            </div>
           </div>
         </div>
-        <div style="display:flex;align-items:flex-start;gap:1.25rem">
-          <div style="min-width:2.5rem;height:2.5rem;border-radius:50%;background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.35);display:flex;align-items:center;justify-content:center;font-family:'Days One',sans-serif;font-size:1rem;color:#ef4444;flex-shrink:0">2</div>
-          <div>
-            <p style="font-weight:700;color:#fff;margin-bottom:0.25rem;font-size:0.9375rem">Ti contatta il team SKAPPA</p>
-            <p style="font-size:0.8125rem;color:rgba(255,255,255,0.5);line-height:1.6">Entro 24h ti raggiungiamo via WhatsApp per condividere tutti i dettagli e rispondere alle tue domande.</p>
-          </div>
-        </div>
-        <div style="display:flex;align-items:flex-start;gap:1.25rem">
-          <div style="min-width:2.5rem;height:2.5rem;border-radius:50%;background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.35);display:flex;align-items:center;justify-content:center;font-family:'Days One',sans-serif;font-size:1rem;color:#ef4444;flex-shrink:0">3</div>
-          <div>
-            <p style="font-weight:700;color:#fff;margin-bottom:0.25rem;font-size:0.9375rem">Parti e vivi l'esperienza</p>
-            <p style="font-size:0.8125rem;color:rgba(255,255,255,0.5);line-height:1.6">Il team SKAPPA sarà con te per tutta la durata del viaggio, pronto ad assisterti in ogni momento.</p>
-          </div>
-        </div>
+
       </div>
     </div>
   </section>
@@ -600,7 +603,7 @@
     <footer class="footer">
     <div class="max-w-6xl mx-auto">
       <div style="display:flex;justify-content:space-between;align-items:center;gap:2rem;margin-bottom:2rem;flex-wrap:wrap">
-        <a href="index.html">
+        <a href="index.html" style="display:flex;line-height:0">
           <img src="assets/foto/utility/icona sito.svg" alt="SKAPPA" style="height:5rem;width:5rem;object-fit:contain"
             onerror="this.style.display='none'" />
         </a>
