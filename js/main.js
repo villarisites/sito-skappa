@@ -76,7 +76,7 @@ if (menuBtn && mobileMenu) {
   });
 }
 
-// ---- Carousel factory ----
+// ---- Carousel factory (loop infinito) ----
 function initCarousel(trackId, prevId, nextId, dotsId) {
   const track = document.getElementById(trackId);
   const prevBtn = document.getElementById(prevId);
@@ -84,39 +84,81 @@ function initCarousel(trackId, prevId, nextId, dotsId) {
   const dotsContainer = document.getElementById(dotsId);
   if (!track) return;
 
+  const realCards = Array.from(track.querySelectorAll('.dest-card'));
+  const total = realCards.length;
+  if (total === 0) return;
+
   const dots = dotsContainer ? dotsContainer.querySelectorAll('.carousel-dot') : [];
-  let currentIndex = 0;
 
-  function updateDots(i) {
-    dots.forEach((d, idx) => d.classList.toggle('active', idx === i));
+  function updateDots(realIdx) {
+    dots.forEach((d, idx) => d.classList.toggle('active', idx === realIdx));
   }
 
-  function getCardSlotWidth() {
-    const first = track.querySelector('.dest-card');
-    if (!first) return 296;
-    // card width + gap (1rem = 16px)
-    return first.offsetWidth + 16;
-  }
+  if (total === 1) { updateDots(0); return; }
 
-  function scrollTo(i) {
-    const cards = track.querySelectorAll('.dest-card');
-    const total = cards.length;
-    if (total === 0) return;
-    currentIndex = ((i % total) + total) % total;
-    const targetCard = cards[currentIndex];
-    track.scrollTo({ left: targetCard ? targetCard.offsetLeft : 0, behavior: 'smooth' });
-    updateDots(currentIndex);
-  }
-
-  if (prevBtn) prevBtn.addEventListener('click', () => scrollTo(currentIndex - 1));
-  if (nextBtn) nextBtn.addEventListener('click', () => scrollTo(currentIndex + 1));
-  dots.forEach((dot, i) => dot.addEventListener('click', () => scrollTo(i)));
-
-  track.addEventListener('scroll', () => {
-    const slotW = getCardSlotWidth();
-    const i = Math.round(track.scrollLeft / slotW);
-    if (i !== currentIndex) { currentIndex = i; updateDots(currentIndex); }
+  // --- Clona card per loop infinito ---
+  // Layout finale: [total cloni-prima] [total card reali] [total cloni-dopo]
+  realCards.forEach(c => {
+    const cl = c.cloneNode(true);
+    cl.setAttribute('aria-hidden', 'true');
+    track.appendChild(cl);
   });
+  realCards.slice().reverse().forEach(c => {
+    const cl = c.cloneNode(true);
+    cl.setAttribute('aria-hidden', 'true');
+    track.insertBefore(cl, track.firstChild);
+  });
+
+  // currentAllIdx: indice assoluto in tutte le card (0-based).
+  // Le card reali sono a [total … 2*total-1].
+  let currentAllIdx = total;
+  let isResetting = false;
+
+  function goToAllIdx(allIdx, smooth) {
+    const allCards = track.querySelectorAll('.dest-card');
+    const target = allCards[allIdx];
+    if (!target) return;
+    currentAllIdx = allIdx;
+    updateDots(allIdx % total);
+    if (smooth) {
+      track.scrollTo({ left: target.offsetLeft, behavior: 'smooth' });
+    } else {
+      isResetting = true;
+      track.scrollLeft = target.offsetLeft;
+      setTimeout(() => { isResetting = false; }, 100);
+    }
+  }
+
+  // Posizionamento iniziale sulla prima card reale (senza animazione)
+  requestAnimationFrame(() => goToAllIdx(total, false));
+
+  // Dopo lo scroll, se siamo in zona clone → salto silenzioso alla card reale
+  let scrollTimer = null;
+  track.addEventListener('scroll', () => {
+    if (isResetting) return;
+    clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(() => {
+      const allCards = Array.from(track.querySelectorAll('.dest-card'));
+      const sl = track.scrollLeft;
+      let closestIdx = 0, minDist = Infinity;
+      allCards.forEach((card, idx) => {
+        const dist = Math.abs(card.offsetLeft - sl);
+        if (dist < minDist) { minDist = dist; closestIdx = idx; }
+      });
+      const realIdx = closestIdx % total;
+      if (closestIdx < total || closestIdx >= 2 * total) {
+        // Zona clone → reset istantaneo alla card reale corrispondente
+        goToAllIdx(total + realIdx, false);
+      } else {
+        currentAllIdx = closestIdx;
+        updateDots(realIdx);
+      }
+    }, 150);
+  });
+
+  if (prevBtn) prevBtn.addEventListener('click', () => goToAllIdx(currentAllIdx - 1, true));
+  if (nextBtn) nextBtn.addEventListener('click', () => goToAllIdx(currentAllIdx + 1, true));
+  dots.forEach((dot, i) => dot.addEventListener('click', () => goToAllIdx(total + i, true)));
 }
 
 // Carousel init per index.html è in index.html (dopo generazione dinamica card)
