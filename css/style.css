@@ -523,8 +523,13 @@ body {
 /* ---- Responsive ---- */
 @media (max-width: 639px) {
   .hero-content { padding: 4rem 1rem 3rem; }
-  .dest-card { width: 240px; height: 280px; }
   .features-section { padding: 3.5rem 1rem; }
+
+  /* Carousel mobile */
+  .dest-card-container { padding: 1.25rem 1rem; }
+  .carousel-btn { display: none; }           /* swipe nativo su touch */
+  .dest-card { width: 78vw; height: 280px; } /* mostra ~20vw della card successiva */
+  .carousel-track { padding-right: 1rem; }   /* respiro finale */
 }
 
 /* ============================================

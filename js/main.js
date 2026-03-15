@@ -85,11 +85,17 @@ function initCarousel(trackId, prevId, nextId, dotsId) {
   if (!track) return;
 
   const dots = dotsContainer ? dotsContainer.querySelectorAll('.carousel-dot') : [];
-  const CARD_WIDTH = 296;
   let currentIndex = 0;
 
   function updateDots(i) {
     dots.forEach((d, idx) => d.classList.toggle('active', idx === i));
+  }
+
+  function getCardSlotWidth() {
+    const first = track.querySelector('.dest-card');
+    if (!first) return 296;
+    // card width + gap (1rem = 16px)
+    return first.offsetWidth + 16;
   }
 
   function scrollTo(i) {
@@ -97,7 +103,8 @@ function initCarousel(trackId, prevId, nextId, dotsId) {
     const total = cards.length;
     if (total === 0) return;
     currentIndex = ((i % total) + total) % total;
-    track.scrollTo({ left: currentIndex * CARD_WIDTH, behavior: 'smooth' });
+    const targetCard = cards[currentIndex];
+    track.scrollTo({ left: targetCard ? targetCard.offsetLeft : 0, behavior: 'smooth' });
     updateDots(currentIndex);
   }
 
@@ -106,7 +113,8 @@ function initCarousel(trackId, prevId, nextId, dotsId) {
   dots.forEach((dot, i) => dot.addEventListener('click', () => scrollTo(i)));
 
   track.addEventListener('scroll', () => {
-    const i = Math.round(track.scrollLeft / CARD_WIDTH);
+    const slotW = getCardSlotWidth();
+    const i = Math.round(track.scrollLeft / slotW);
     if (i !== currentIndex) { currentIndex = i; updateDots(currentIndex); }
   });
 }
