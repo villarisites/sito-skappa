@@ -207,20 +207,6 @@
       filter: blur(3px) brightness(0.7);
       transform: scale(1.04);
     }
-    /* Perché image */
-    .perche-img {
-      width: 100%;
-      aspect-ratio: 4 / 3;
-      object-fit: cover;
-      border-radius: 1rem;
-      display: block;
-    }
-    .perche-img-placeholder {
-      width: 100%;
-      aspect-ratio: 4 / 3;
-      background: linear-gradient(135deg, #0a1f3d 0%, #1a3a5c 100%);
-      border-radius: 1rem;
-    }
     /* Mobile icon size reduction */
     @media (max-width: 640px) {
       .incluso-icona { width: 2.5rem; height: 2.5rem; font-size: 1.25rem; }
@@ -685,7 +671,7 @@
       // ---- Attività (stacked items) ----
       document.getElementById('attivitaSection').innerHTML = (dest.attivita || []).map(function (att) {
         var imgHtml = att.img
-          ? '<div class="activity-img-wrap"><img src="' + att.img + '" alt="' + att.titolo + '" class="activity-item-img" onerror="this.parentElement.className=\'activity-item-placeholder\';this.remove()"></div>'
+          ? '<div class="activity-img-wrap"><img src="' + att.img + '" alt="' + att.titolo + '" class="activity-item-img" loading="lazy" decoding="async" onerror="this.parentElement.className=\'activity-item-placeholder\';this.remove()"></div>'
           : '<div class="activity-item-placeholder"></div>';
         return '<div class="activity-item fade-in">'
           + imgHtml

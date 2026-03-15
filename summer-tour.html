@@ -303,7 +303,7 @@
       grid.innerHTML = dests.map(function(d){
         return '<a href="viaggio.html?id='+d.id+'" class="dest-card dest-card-summer">'
           +'<div class="dest-card-img-placeholder">'
-          +'<img src="'+(d.imgHero||'')+'" alt="'+d.nome+'" class="dest-card-photo" onerror="this.style.display=\'none\'" />'
+          +'<img src="'+(d.imgHero||'')+'" alt="'+d.nome+'" class="dest-card-photo" loading="lazy" decoding="async" onerror="this.style.display=\'none\'" />'
           +ph+'</div>'
           +'<div class="dest-card-overlay"></div>'
           +'<span class="card-season-badge">🌊 Estate</span>'

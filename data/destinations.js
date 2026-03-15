@@ -25,22 +25,21 @@ window.DESTINATIONS = [
     "perche": {
       "titolo": "PERCHÉ LLORET DE MAR",
       "testo": "Lloret è party puro: eventi enormi, persone da tutta Europa e serate leggendarie.",
-      "img": "assets/foto/lloret-de-mar/perche.jpg"
     },
     "attivita": [
       {
-        "titolo": "BOAT PARTY",
-        "descrizione": "Barca su due piani, free bar e food mentre il sole scende sul mare.",
+        "titolo": "BOAT PARTY NEL GOLFO",
+        "descrizione": "Barca a due piani nel Golfo di Lloret: dj set, free bar, cibo e il mare della Costa Brava tutto per voi. La festa più bella dell'estate parte dall'acqua.",
         "img": "assets/foto/lloret-de-mar/activity-1.jpg"
       },
       {
         "titolo": "POOL PARTY SUDDENESS",
-        "descrizione": "Schiuma party, beer pong, giochi e festa continua.",
+        "descrizione": "L'evento estivo più esplosivo della Costa Brava: 2000 persone, schiuma, beer pong, musica ad alto volume e un'atmosfera che non si dimentica.",
         "img": "assets/foto/lloret-de-mar/activity-2.jpg"
       },
       {
         "titolo": "BARCELLONA BY NIGHT",
-        "descrizione": "Tour + serata a Barceloneta con ingresso al Pacha e drink incluso.",
+        "descrizione": "Pullman, tour serale a Barceloneta, ingresso al Pacha e un drink incluso. Una notte nella città più viva del Mediterraneo — poi si torna a Lloret pronti per il giorno dopo.",
         "img": "assets/foto/lloret-de-mar/activity-3.jpg"
       }
     ],
@@ -122,22 +121,21 @@ window.DESTINATIONS = [
     "perche": {
       "titolo": "PERCHÉ GALLIPOLI",
       "testo": "Gallipoli è mare, sole e notti infuocate. Una delle mete estive più amate in Italia per chi vuole divertirsi senza andare all'estero.",
-      "img": "assets/foto/gallipoli/perche.jpg"
     },
     "attivita": [
       {
-        "titolo": "BOAT PARTY",
-        "descrizione": "Festa in barca tra mare e musica.",
+        "titolo": "BARCA PARTY SALENTINO",
+        "descrizione": "Giro in barca tra le acque cristalline di Gallipoli e Punta della Suina. Musica, sole e il Salento visto dal mare: un pomeriggio che vale tutto il viaggio.",
         "img": "assets/foto/gallipoli/activity-1.jpg"
       },
       {
-        "titolo": "POOL PARTY",
-        "descrizione": "Piscina, drink e giochi per scaldare le serate.",
+        "titolo": "LE GROTTE DEL CENTRO STORICO",
+        "descrizione": "La movida gallipolina è unica: locali e club ricavati dentro le grotte del centro storico medievale. Musica, gente e un'atmosfera che non trovi da nessun'altra parte.",
         "img": "assets/foto/gallipoli/activity-2.jpg"
       },
       {
-        "titolo": "DISCOTECHE TOP",
-        "descrizione": "Ingresso gratuito tutte le sere nei locali convenzionati.",
+        "titolo": "ISOLA DI SANT'ANDREA",
+        "descrizione": "Escursione in barca all'isola più bella del Salento. Acqua turchese, snorkeling tra i fondali e relax totale — la pausa perfetta tra una serata e l'altra.",
         "img": "assets/foto/gallipoli/activity-3.jpg"
       }
     ],
@@ -218,22 +216,21 @@ window.DESTINATIONS = [
     "perche": {
       "titolo": "PERCHÉ ZANTE",
       "testo": "Zante è una delle capitali europee del divertimento estivo. Spiagge incredibili e feste che partono di giorno e finiscono quando sorge il sole.",
-      "img": "assets/foto/zante/perche.jpg"
     },
     "attivita": [
       {
-        "titolo": "BOAT PARTY",
-        "descrizione": "Musica, mare e festa su una barca in mezzo al blu.",
+        "titolo": "NAVAGIO BEACH IN BARCA",
+        "descrizione": "La spiaggia del relitto più fotografata al mondo, raggiungibile solo via mare. Con SKAPPA ci arrivi in barca, ti tuffi nelle acque turchesi e torni con un ricordo impossibile da dimenticare.",
         "img": "assets/foto/zante/activity-1.jpg"
       },
       {
-        "titolo": "POOL PARTY",
-        "descrizione": "Piscina, giochi, drink e vibes SKAPPA non-stop.",
+        "titolo": "BOAT PARTY IONIO",
+        "descrizione": "Festa su barca tra le acque azzurre dello Ionio: free bar, musica dal vivo e un panorama che toglie il fiato. La versione più bella del party che puoi fare.",
         "img": "assets/foto/zante/activity-2.jpg"
       },
       {
-        "titolo": "ZANTE NIGHTLIFE",
-        "descrizione": "Serate nei club più famosi dell'isola.",
+        "titolo": "LAGANAS NIGHTLIFE",
+        "descrizione": "Il lungomare più selvaggio della Grecia: beach bar, club sulla sabbia e serate che non hanno un orario di chiusura. Zante di notte è un'altra dimensione.",
         "img": "assets/foto/zante/activity-3.jpg"
       }
     ],
@@ -296,6 +293,196 @@ window.DESTINATIONS = [
     "linkPagamento": "https://book.stripe.com/4gM00igs48Xy7vG4Ly4ZG0m"
   },
   {
+    "id": "ibiza",
+    "nome": "IBIZA",
+    "tipologia": "mete-estive",
+    "date": "WIP",
+    "tagline": "L'isola che ha inventato la festa.",
+    "prezzo": "WIP",
+    "imgHero": "assets/foto/ibiza/hero.jpg",
+    "partenzaDa": "Napoli",
+    "durata": "WIP",
+    "hotel": "WIP",
+    "inclusiPacchetto": [
+      "WIP",
+      "WIP",
+      "WIP",
+      "Ingressi e drink inclusi"
+    ],
+    "perche": {
+      "titolo": "PERCHÉ IBIZA",
+      "testo": "Ibiza è leggenda. Non esiste posto al mondo dove musica, mare e divertimento si fondano così perfettamente. Di giorno le spiagge sono paradisi cristallini. Di notte la musica esplode e le serate si trasformano in ricordi che ti porti per sempre. Con SKAPPA vivi l'isola al massimo, senza pensieri.",
+    },
+    "attivita": [
+      {
+        "titolo": "SUNSET APERITIVO",
+        "descrizione": "I tramonti di Ibiza sono famosi in tutto il mondo. Musica, cocktail e vista sul mare mentre il cielo si tinge d'arancio: un momento che vale tutto il viaggio.",
+        "img": "assets/foto/ibiza/activity-1.jpg"
+      },
+      {
+        "titolo": "BOAT PARTY",
+        "descrizione": "Barca a due piani, free bar, musica dal vivo e mare cristallino. Una festa galleggiante tra le acque più belle del Mediterraneo che non puoi assolutamente perderti.",
+        "img": "assets/foto/ibiza/activity-2.jpg"
+      },
+      {
+        "titolo": "NOTTI LEGGENDARIE",
+        "descrizione": "Club iconici, DJ set di livello assoluto e un'atmosfera irripetibile. Ibiza non è solo un'isola: è uno stile di vita, e con SKAPPA lo vivi dall'interno.",
+        "img": "assets/foto/ibiza/activity-3.jpg"
+      }
+    ],
+    "inclusiConSkappa": [
+      {
+        "icona": "🏨",
+        "label": "Alloggio selezionato"
+      },
+      {
+        "icona": "✈️",
+        "label": "Supporto SKAPPA"
+      },
+      {
+        "icona": "🌍",
+        "label": "Esperienze locali"
+      },
+      {
+        "icona": "💸",
+        "label": "Nessun costo nascosto"
+      }
+    ],
+    "esperienzaTitolo": "L'ESPERIENZA SKAPPA A IBIZA",
+    "esperienzaTesto": "Una settimana sull'isola più famosa del mondo, vissuta come si deve: eventi esclusivi, persone che condividono la tua stessa energia e la libertà di vivere Ibiza senza limiti. SKAPPA ci ha già pensato a tutto.",
+    "faq": [
+      {
+        "domanda": "Cosa è incluso nel pacchetto SKAPPA?",
+        "risposta": "Il pacchetto include alloggio, ingressi e drink inclusi e il supporto SKAPPA per tutta la durata del viaggio. Boat Party e altri eventi possono essere acquistati tramite pacchetto eventi in loco."
+      },
+      {
+        "domanda": "I voli sono inclusi?",
+        "risposta": "I voli non sono inclusi. Troverai indicazioni su come raggiungere la destinazione dopo la prenotazione."
+      },
+      {
+        "domanda": "Ibiza è adatta anche a chi non è un habitué dei club?",
+        "risposta": "Assolutamente sì. Ibiza offre molto di più dei club: spiagge meravigliose, mercatini, tramonti iconici e una vita diurna ricchissima. Con SKAPPA trovi il tuo ritmo."
+      }
+    ],
+    "recensioni": [
+      {
+        "testo": "Ibiza con SKAPPA è stata la vacanza che sognavo da anni. Ogni serata era qualcosa di assurdo.",
+        "nome": "Giulia",
+        "tag": "Gruppo"
+      },
+      {
+        "testo": "Organizzazione perfetta, hotel ottimo e un'atmosfera che non descriverei mai a parole.",
+        "nome": "Tommaso",
+        "tag": ""
+      },
+      {
+        "testo": "Il boat party al tramonto è stato il momento più bello della mia estate. Imperdibile.",
+        "nome": "Federica",
+        "tag": "Gruppo"
+      },
+      {
+        "testo": "Zero stress, solo divertimento. SKAPPA sa esattamente come far vivere Ibiza.",
+        "nome": "Marco",
+        "tag": "Coppia"
+      }
+    ]
+  },
+  {
+    "id": "mykonos",
+    "nome": "MYKONOS",
+    "tipologia": "mete-estive",
+    "date": "WIP",
+    "tagline": "Bianco abbagliante di giorno, festa inarrestabile di notte.",
+    "prezzo": "WIP",
+    "imgHero": "assets/foto/mykonos/hero.jpg",
+    "partenzaDa": "Napoli",
+    "durata": "WIP",
+    "hotel": "WIP",
+    "inclusiPacchetto": [
+      "WIP",
+      "WIP",
+      "WIP",
+      "Ingressi e drink inclusi"
+    ],
+    "perche": {
+      "titolo": "PERCHÉ MYKONOS",
+      "testo": "Mykonos è il sogno greco che tutti vogliono vivere. Villette bianche, mare turchese, locali esclusivi e una libertà totale. È un'isola che non ti chiede nulla, ti dà tutto. Ogni angolo è una foto, ogni serata è una storia. Con SKAPPA la vivi senza filtri.",
+    },
+    "attivita": [
+      {
+        "titolo": "SPIAGGE ICONICHE",
+        "descrizione": "Paradise Beach, Super Paradise: le spiagge di Mykonos sono uno spettacolo. Musica, lettini, cocktail e un mare da sogno tutto il giorno, dall'alba al tramonto.",
+        "img": "assets/foto/mykonos/activity-1.jpg"
+      },
+      {
+        "titolo": "WINDMILLS & LITTLE VENICE",
+        "descrizione": "I mulini a vento bianchi e le case sul mare di Little Venice sono gli scorci più iconici della Grecia. Strade strette, fiori colorati e un'atmosfera unica che non dimenticherai.",
+        "img": "assets/foto/mykonos/activity-2.jpg"
+      },
+      {
+        "titolo": "PARTY CHE NON FINISCONO",
+        "descrizione": "Sunset bar sulla spiaggia, club esclusivi e locali che partono a mezzogiorno e finiscono all'alba. Mykonos è sinonimo di festa e SKAPPA sa esattamente dove portarti.",
+        "img": "assets/foto/mykonos/activity-3.jpg"
+      }
+    ],
+    "inclusiConSkappa": [
+      {
+        "icona": "🏨",
+        "label": "Alloggio selezionato"
+      },
+      {
+        "icona": "✈️",
+        "label": "Supporto SKAPPA"
+      },
+      {
+        "icona": "🌍",
+        "label": "Esperienze locali"
+      },
+      {
+        "icona": "💸",
+        "label": "Nessun costo nascosto"
+      }
+    ],
+    "esperienzaTitolo": "L'ESPERIENZA SKAPPA A MYKONOS",
+    "esperienzaTesto": "Vivi la Grecia che non si accontenta. Giorni tra spiagge leggendarie, aperitivi al tramonto e serate nei locali più belli dell'isola. Mykonos con SKAPPA è un'esperienza che ti cambia l'estate.",
+    "faq": [
+      {
+        "domanda": "Cosa è incluso nel pacchetto SKAPPA?",
+        "risposta": "Il pacchetto include alloggio, ingressi e drink inclusi e il supporto SKAPPA per tutta la durata del viaggio. Ulteriori eventi possono essere acquistati tramite pacchetto in loco."
+      },
+      {
+        "domanda": "I voli sono inclusi?",
+        "risposta": "I voli non sono inclusi. Troverai indicazioni su come raggiungere la destinazione dopo la prenotazione."
+      },
+      {
+        "domanda": "Mykonos è cara? Come gestisco le spese in loco?",
+        "risposta": "Mykonos è una meta premium ma con SKAPPA ottieni accesso a esperienze selezionate al miglior prezzo. Ti forniremo anche consigli pratici per gestire al meglio le spese in loco."
+      }
+    ],
+    "recensioni": [
+      {
+        "testo": "Mykonos con SKAPPA è stata la vacanza più bella di sempre. Un'isola che ti lascia senza fiato.",
+        "nome": "Sara",
+        "tag": "Gruppo"
+      },
+      {
+        "testo": "Le spiagge, i tramonti, i locali. Tutto perfetto. SKAPPA ha reso ogni momento speciale.",
+        "nome": "Luca",
+        "tag": "Coppia"
+      },
+      {
+        "testo": "Ho già prenotato per l'anno prossimo. Mykonos con SKAPPA è un'altra dimensione.",
+        "nome": "Alessia",
+        "tag": "Gruppo"
+      },
+      {
+        "testo": "Organizzazione eccellente e un'isola che supera ogni aspettativa. Tornerò sicuramente.",
+        "nome": "Riccardo",
+        "tag": "Coppia"
+      }
+    ]
+  },
+  {
     "id": "barcellona",
     "nome": "BARCELLONA",
     "tipologia": "fughe-in-europa",
@@ -316,7 +503,6 @@ window.DESTINATIONS = [
     "perche": {
       "titolo": "PERCHÉ BARCELLONA",
       "testo": "Barcellona è ritmo, colore e libertà. Una città dove il giorno è lento e il divertimento esplode di notte. Qui ogni strada racconta una storia, ogni locale diventa un'esperienza e ogni serata può trasformarsi in qualcosa che non avevi pianificato.",
-      "img": "assets/foto/barcellona/perche.jpg"
     },
     "attivita": [
       {
@@ -416,7 +602,6 @@ window.DESTINATIONS = [
     "perche": {
       "titolo": "PERCHÉ LONDRA",
       "testo": "Londra è una città che non si ferma mai. Tradizione e innovazione convivono in ogni quartiere, rendendola perfetta per chi vuole un viaggio pieno di stimoli, ritmo e varietà.",
-      "img": "assets/foto/londra/perche.jpg"
     },
     "attivita": [
       {
@@ -515,7 +700,6 @@ window.DESTINATIONS = [
     "perche": {
       "titolo": "PERCHÉ PARIGI",
       "testo": "Parigi non ha bisogno di presentazioni. È una città che emoziona sempre, anche alla prima volta. Elegante, intensa e viva, è la meta ideale per chi vuole un viaggio che unisce bellezza, cultura e sensazioni forti.",
-      "img": "assets/foto/parigi/perche.jpg"
     },
     "attivita": [
       {
@@ -614,7 +798,6 @@ window.DESTINATIONS = [
     "perche": {
       "titolo": "PERCHÉ SOFIA",
       "testo": "Sofia sorprende per la sua autenticità. È una città che non si mostra subito, ma conquista lentamente: tra strade storiche, caffè locali e panorami montani, offre un'esperienza vera, rilassata e profondamente diversa dalle classiche capitali europee.",
-      "img": "assets/foto/sofia/perche.jpg"
     },
     "attivita": [
       {
@@ -713,7 +896,6 @@ window.DESTINATIONS = [
     "perche": {
       "titolo": "PERCHÉ TIRANA",
       "testo": "Tirana è perfetta per chi cerca qualcosa di diverso. Vera, diretta e senza filtri, è una città che si lascia scoprire lentamente e regala un'esperienza genuina e fuori dal turismo di massa.",
-      "img": "assets/foto/tirana/perche.jpg"
     },
     "attivita": [
       {
@@ -812,7 +994,6 @@ window.DESTINATIONS = [
     "perche": {
       "titolo": "PERCHÉ BUDAPEST",
       "testo": "Budapest è una città che sa rallentare e accelerare allo stesso tempo. Elegante e vibrante, unisce relax, cultura e divertimento in un equilibrio perfetto. È la meta ideale per chi vuole vivere un weekend intenso, autentico e memorabile.",
-      "img": "assets/foto/budapest/perche.jpg"
     },
     "attivita": [
       {
@@ -914,7 +1095,6 @@ window.DESTINATIONS = [
     "perche": {
       "titolo": "PERCHÉ MALTA",
       "testo": "Malta è il mix perfetto tra mare cristallino, party esclusivi e un'atmosfera internazionale. Qui si dorme poco e si vive tanto, tra pool party di giorno e serate che finiscono all'alba.",
-      "img": "assets/foto/malta/perche.jpg"
     },
     "attivita": [
       {
@@ -1013,7 +1193,6 @@ window.DESTINATIONS = [
     "perche": {
       "titolo": "PERCHÉ BUCAREST",
       "testo": "Bucarest è una città che sorprende. Elegante, dinamica e piena di contrasti, unisce storia e modernità in un mix unico. È la meta perfetta per chi vuole scoprire una capitale europea ancora autentica e tutta da vivere.",
-      "img": "assets/foto/bucarest/perche.jpg"
     },
     "attivita": [
       {
@@ -1113,7 +1292,6 @@ window.DESTINATIONS = [
     "perche": {
       "titolo": "PERCHÉ VARSAVIA",
       "testo": "Varsavia è una città che ha saputo rinascere e reinventarsi. Oggi è una capitale vibrante, dove cultura, storia e modernità convivono creando un'esperienza autentica e affascinante.",
-      "img": "assets/foto/varsavia/perche.jpg"
     },
     "attivita": [
       {

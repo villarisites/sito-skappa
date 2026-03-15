@@ -530,15 +530,9 @@
         <!-- ── SEZIONE 3: Perché [destinazione] ── -->
         <div class="form-section">
           <div class="form-section-title">Sezione "Perché"</div>
-          <div class="form-grid-2" style="margin-bottom:1rem">
-            <div class="form-row">
-              <label class="form-label" for="f-perche-titolo">Titolo sezione</label>
-              <input class="form-input" id="f-perche-titolo" type="text" placeholder="PERCHÉ MALTA">
-            </div>
-            <div class="form-row">
-              <label class="form-label" for="f-perche-img">Immagine <span>(percorso)</span></label>
-              <input class="form-input" id="f-perche-img" type="text" placeholder="img/destinazioni/malta-perche.jpg">
-            </div>
+          <div class="form-row" style="margin-bottom:1rem">
+            <label class="form-label" for="f-perche-titolo">Titolo sezione</label>
+            <input class="form-input" id="f-perche-titolo" type="text" placeholder="PERCHÉ MALTA">
           </div>
           <div class="form-row">
             <label class="form-label" for="f-perche-testo">Testo descrittivo</label>
@@ -834,7 +828,6 @@
       // Perché
       setValue('f-perche-titolo', d.perche && d.perche.titolo);
       setValue('f-perche-testo', d.perche && d.perche.testo);
-      setValue('f-perche-img', d.perche && d.perche.img);
 
       // Attività (3)
       for (var i = 0; i < 3; i++) {
@@ -915,8 +908,7 @@
         inclusiPacchetto: v('f-inclusiPacchetto').split('\n').map(function(s){return s.trim();}).filter(Boolean),
         perche: {
           titolo: v('f-perche-titolo'),
-          testo: v('f-perche-testo'),
-          img: v('f-perche-img')
+          testo: v('f-perche-testo')
         },
         attivita: [0, 1, 2].map(function (i) {
           return {
