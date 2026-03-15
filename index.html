@@ -3,6 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <script>!function(){var t=localStorage.getItem("skappa_theme");if(t==="light")document.documentElement.setAttribute("data-theme","light")}();</script>
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-QLB6Z4V7M0"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QLB6Z4V7M0');</script>
+  <!-- Preload hero bg -->
+  <link rel="preload" as="image" href="assets/foto/utility/sfondo hero.png" fetchpriority="high" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="google-site-verification" content="Wl6vOAAPrWaRdty9m6M9SjxS3HI-NMc360HTUn_Z1SE" />
   <title>SKAPPA – Viaggi organizzati | Escape Tour, Fughe in Europa, Last Minute</title>
@@ -39,7 +44,11 @@
         "address": {
           "@type": "PostalAddress",
           "addressCountry": "IT"
-        }
+        },
+        "sameAs": [
+          "https://www.instagram.com/skappa__/",
+          "https://www.tiktok.com/@skappa.official"
+        ]
       },
       {
         "@type": "WebSite",
@@ -404,12 +413,15 @@
         Lascia la tua email per salire a bordo e non perdere la partenza.<br/>
         Offerte esclusive, aggiornamenti, consigli su cosa portare, vedere e dove mangiare
       </p>
-      <form id="kitForm" action="https://formspree.io/f/INSERISCI_QUI_IL_TUO_ID" method="POST" class="flex flex-col gap-4 text-left">
+      <form id="kitForm" action="https://formspree.io/f/xlgpwjlj" method="POST" class="flex flex-col gap-4 text-left">
         <div>
           <input type="text" name="nome" placeholder="Come ti chiami?" class="kit-input" required autocomplete="given-name" />
         </div>
         <div>
           <input type="email" name="email" placeholder="La tua email" class="kit-input" required autocomplete="email" />
+        </div>
+        <div>
+          <input type="tel" name="whatsapp" placeholder="WhatsApp (facoltativo)" class="kit-input" autocomplete="tel" />
         </div>
         <div>
           <select name="interesse" class="kit-input kit-select">
