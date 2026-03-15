@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function () {
 // ---- Configurazione WhatsApp ----
 // Cambia questo numero con quello di SKAPPA (formato internazionale, senza +)
 var SKAPPA_WA_NUMBER = '3930306294';
-var SKAPPA_WA_MESSAGE = 'Ciao! Vorrei informazioni sui viaggi SKAPPA 🌍';
+var SKAPPA_WA_MESSAGE = 'Salve, potrei avere più informazioni?';
 
 // ---- Navbar scroll shadow ----
 const navbar = document.getElementById('navbar');
@@ -209,6 +209,76 @@ if (kitForm) {
     }
   });
 }
+
+// ---- Preventivo form (Formspree AJAX) ----
+const preventivoForm = document.getElementById('preventivoForm');
+if (preventivoForm) {
+  preventivoForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('preventivoSubmitBtn');
+    const originalText = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = 'Invio in corso…';
+
+    try {
+      const res = await fetch(preventivoForm.action, {
+        method: 'POST',
+        body: new FormData(preventivoForm),
+        headers: { 'Accept': 'application/json' }
+      });
+      if (res.ok) {
+        preventivoForm.innerHTML = '<p style="color:var(--teal);font-weight:700;text-align:center;padding:2rem;font-size:1.05rem">✓ Richiesta inviata!<br/><span style="font-size:.875rem;font-weight:400;opacity:.8;color:rgba(255,255,255,.65)">Ti risponderemo entro 24 ore con il tuo preventivo.</span></p>';
+        if (typeof gtag === 'function') {
+          gtag('event', 'request_quote', { event_category: 'form', event_label: 'preventivo_su_misura' });
+        }
+      } else {
+        throw new Error('server');
+      }
+    } catch {
+      btn.disabled = false;
+      btn.textContent = originalText;
+      const errEl = preventivoForm.querySelector('.kit-error');
+      if (!errEl) {
+        btn.insertAdjacentHTML('afterend', '<p class="kit-error" style="color:#ef4444;text-align:center;font-size:.875rem;margin-top:.5rem">Ops, qualcosa è andato storto. Riprova o scrivici su WhatsApp.</p>');
+      }
+    }
+  });
+}
+
+// ---- Search ----
+(function () {
+  var panel = document.getElementById('searchPanel');
+  var input = document.getElementById('searchInput');
+  var results = document.getElementById('searchResults');
+  if (!panel || !input || !results) return;
+
+  function openSearch() { panel.classList.add('open'); panel.setAttribute('aria-hidden','false'); setTimeout(function(){ input.focus(); }, 60); }
+  function closeSearch() { panel.classList.remove('open'); panel.setAttribute('aria-hidden','true'); input.value=''; results.innerHTML=''; }
+  window.closeSearch = closeSearch;
+
+  var btn = document.getElementById('searchBtn');
+  if (btn) btn.addEventListener('click', function(){ panel.classList.contains('open') ? closeSearch() : openSearch(); });
+  var mob = document.getElementById('searchBtnMobile');
+  if (mob) mob.addEventListener('click', function(){ panel.classList.contains('open') ? closeSearch() : openSearch(); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeSearch(); });
+
+  input.addEventListener('input', function () {
+    var q = input.value.toLowerCase().trim();
+    var dests = window.DESTINATIONS || [];
+    if (!q) { results.innerHTML = ''; return; }
+    var filtered = dests.filter(function(d){ return d.nome.toLowerCase().includes(q) || (d.date||'').toLowerCase().includes(q); });
+    if (!filtered.length) { results.innerHTML = '<p class="search-no-results">Nessuna destinazione trovata.</p>'; return; }
+    results.innerHTML = filtered.map(function(d) {
+      var tpl = d.tipologia === 'fughe-in-europa' ? 'viaggio-citybreak.html' : d.tipologia === 'last-minute' ? 'viaggio-lastminute.html' : 'viaggio.html';
+      var bc  = d.tipologia === 'fughe-in-europa' ? 'badge-capitali' : 'badge-estive';
+      var bt  = d.tipologia === 'mete-estive' ? '🌊 Estate' : d.tipologia === 'fughe-in-europa' ? '✈ Europa' : '⚡ Last Minute';
+      return '<a href="'+tpl+'?id='+d.id+'" class="search-result" onclick="closeSearch()">'
+        + '<div><span class="search-result-name">'+d.nome+'</span> <span class="search-badge '+bc+'">'+bt+'</span>'
+        + '<div class="search-result-meta">'+(d.date||'')+' &nbsp;·&nbsp; '+(d.hotel||'')+'</div></div>'
+        + '<span class="search-result-price">'+d.prezzo+'€</span></a>';
+    }).join('');
+  });
+})();
 
 // ---- Cookie banner ----
 (function () {

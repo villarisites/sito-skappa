@@ -51,15 +51,23 @@
             <svg class="icon-moon w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
             <svg class="icon-sun w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
           </button>
-          <a href="index.html#summer" class="btn-navy">Scopri i viaggi</a>
+          <button id="searchBtn" class="search-toggle" aria-label="Cerca destinazione" title="Cerca">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg>
+          </button>
+          <a href="index.html#offerte" class="btn-navy">Scopri i viaggi</a>
         </div>
-        <button id="themeToggleMobile" class="theme-toggle" aria-label="Cambia tema" onclick="toggleTheme()">
+        <div class="flex items-center gap-2 md:hidden">
+          <button id="searchBtnMobile" class="search-toggle" aria-label="Cerca">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg>
+          </button>
+          <button id="themeToggleMobile" class="theme-toggle" aria-label="Cambia tema" onclick="toggleTheme()">
             <svg class="icon-moon w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
             <svg class="icon-sun w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
           </button>
-          <button id="menuBtn" class="p-2 md:hidden" aria-label="Menu">
-          <svg class="w-5 h-5" style="color:var(--navy)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h16"/></svg>
-        </button>
+          <button id="menuBtn" class="p-2" aria-label="Menu">
+            <svg class="w-5 h-5" style="color:var(--navy)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h16"/></svg>
+          </button>
+        </div>
       </div>
     </div>
     <div id="mobileMenu">
@@ -68,9 +76,24 @@
         <a href="fughe-in-europa.html" class="text-sm font-semibold" style="color:var(--gold)">Fughe in Europa</a>
         <a href="summer-tour.html" class="text-sm font-semibold" style="color:var(--gold)">Escape tour</a>
         <a href="last-minute.html" class="text-sm font-semibold" style="color:#ef4444">⚡ Last minute</a>
+        <a href="index.html#offerte" class="btn-gold mt-2" style="justify-content:center">Scopri i viaggi</a>
       </div>
     </div>
   </nav>
+
+  <!-- SEARCH PANEL -->
+  <div id="searchPanel" class="search-panel" aria-hidden="true">
+    <div class="search-inner">
+      <div class="search-row">
+        <svg class="w-4 h-4 flex-shrink-0" style="color:rgba(255,255,255,0.35)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
+        </svg>
+        <input type="text" id="searchInput" class="search-input" placeholder="Cerca una destinazione..." autocomplete="off" />
+        <button class="search-close" onclick="closeSearch()" aria-label="Chiudi ricerca">✕</button>
+      </div>
+      <div id="searchResults" class="search-results"></div>
+    </div>
+  </div>
 
 
   <div class="page-header">
@@ -181,6 +204,7 @@
     </div>
   </footer>
 
+  <script src="data/destinations.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

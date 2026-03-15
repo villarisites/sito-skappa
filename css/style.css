@@ -263,9 +263,9 @@ body {
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
-  /* Padding interno per non tagliare shadow e scale su hover */
-  padding: 12px 4px 56px;
-  margin: -12px -4px -52px;
+  /* Padding interno per non tagliare shadow e scale su hover, lati compresi */
+  padding: 12px 20px 56px;
+  margin: -12px -20px -52px;
 }
 .carousel-track::-webkit-scrollbar { display: none; }
 
@@ -350,8 +350,17 @@ body {
   color: var(--gold);
 }
 
+/* Carousel wrap */
+.carousel-wrap {
+  position: relative;
+}
+
 /* Carousel arrows */
 .carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
   width: 2.25rem;
   height: 2.25rem;
   border-radius: 50%;
@@ -365,9 +374,10 @@ body {
   font-size: 1.25rem;
   line-height: 1;
   transition: opacity 0.25s cubic-bezier(0.22, 1, 0.36, 1), transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s;
-  flex-shrink: 0;
 }
-.carousel-btn:hover { opacity: 0.9; transform: scale(1.12); box-shadow: 0 4px 16px rgba(254,189,65,0.25); }
+.carousel-btn-prev { left: 0.75rem; }
+.carousel-btn-next { right: 0.75rem; }
+.carousel-btn:hover { opacity: 0.9; transform: translateY(-50%) scale(1.12); box-shadow: 0 4px 16px rgba(254,189,65,0.25); }
 
 /* Dots */
 .carousel-dots {
@@ -436,6 +446,43 @@ body {
 .fade-in-d2 { transition-delay: 0.16s; }
 .fade-in-d3 { transition-delay: 0.24s; }
 .fade-in-d4 { transition-delay: 0.32s; }
+
+/* ---- Search ---- */
+.search-toggle {
+  background: none; border: none; cursor: pointer;
+  color: var(--navy); padding: 0.3rem;
+  display: flex; align-items: center;
+  transition: opacity 0.2s;
+}
+.search-toggle:hover { opacity: 0.65; }
+.search-panel {
+  position: fixed;
+  top: 2.75rem; left: 0; right: 0;
+  background: var(--navy);
+  border-bottom: 1px solid rgba(254,189,65,0.2);
+  z-index: 90;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.32s cubic-bezier(.4,0,.2,1), box-shadow 0.3s;
+}
+.search-panel.open { max-height: 480px; box-shadow: 0 12px 48px rgba(0,0,0,0.5); }
+.search-inner { max-width: 48rem; margin: 0 auto; padding: 1rem 1.25rem 0.75rem; }
+.search-row { display: flex; align-items: center; gap: 0.75rem; border-bottom: 1.5px solid rgba(254,189,65,0.2); padding-bottom: 0.75rem; }
+.search-input { flex: 1; background: none; border: none; outline: none; color: #fff; font-size: 1rem; font-family: inherit; }
+.search-input::placeholder { color: rgba(255,255,255,0.3); }
+.search-close { background: none; border: none; cursor: pointer; color: rgba(255,255,255,0.4); font-size: 1.25rem; line-height: 1; padding: 0.2rem; transition: color 0.2s; }
+.search-close:hover { color: var(--gold); }
+.search-results { padding: 0.25rem 0 0.5rem; }
+.search-result { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); text-decoration: none; gap: 1rem; }
+.search-result:last-child { border-bottom: none; }
+.search-result-name { font-weight: 700; font-size: 0.875rem; color: #fff; }
+.search-result-meta { font-size: 0.6875rem; color: rgba(255,255,255,0.38); margin-top: 0.1rem; }
+.search-result-right { display: flex; align-items: center; gap: 0.625rem; flex-shrink: 0; }
+.search-result-price { font-family: 'Days One', sans-serif; font-size: 0.875rem; color: var(--gold); }
+.search-badge { font-size: 0.5625rem; font-weight: 800; padding: 0.15rem 0.45rem; border-radius: 2rem; text-transform: uppercase; letter-spacing: 0.07em; }
+.badge-estive { background: rgba(254,189,65,0.18); color: var(--gold); }
+.badge-capitali { background: rgba(40,134,153,0.18); color: var(--teal); }
+.search-no-results { font-size: 0.8125rem; color: rgba(255,255,255,0.28); padding: 0.5rem 0; }
 
 /* ---- Kit form input ---- */
 .kit-input {
@@ -544,7 +591,7 @@ body {
   .dest-card-container { padding: 1.25rem 1rem; }
   .carousel-btn { display: none; }           /* swipe nativo su touch */
   .dest-card { width: 78vw; height: 280px; } /* mostra ~20vw della card successiva */
-  .carousel-track { padding: 8px 1rem 48px; margin: -8px -1rem -44px; } /* respiro finale + shadow room */
+  .carousel-track { padding: 8px 1.25rem 48px; margin: -8px -1.25rem -44px; } /* respiro laterale + shadow room */
 }
 
 /* ============================================
@@ -759,3 +806,6 @@ html[data-theme="light"] .activity-item-placeholder { background: linear-gradien
 /* JS-generated perché in lastminute */
 html[data-theme="light"] #percheCol p          { color: rgba(3,16,48,0.68) !important; }
 html[data-theme="light"] #percheCol li         { color: rgba(3,16,48,0.7) !important; }
+
+/* --- Sezione preventivo su misura --- */
+html[data-theme="light"] #preventivoForm textarea.kit-input { background: rgba(255,255,255,0.85); }

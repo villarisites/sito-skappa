@@ -1278,7 +1278,7 @@ window.DESTINATIONS = [
     "date": "Dal 23 al 26 Aprile",
     "tagline": "Inizia il tuo viaggio tra storia, cultura e una capitale europea moderna e piena di energia.",
     "prezzo": "169",
-    "imgHero": "assets/foto/varsavia/hero.png",
+    "imgHero": "assets/foto/varsavia/hero.jpg",
     "partenzaDa": "Napoli",
     "durata": "4 giorni e 3 notti",
     "inclusiPacchetto": [
@@ -1297,12 +1297,12 @@ window.DESTINATIONS = [
       {
         "titolo": "CENTRO STORICO RICOSTRUITO",
         "descrizione": "Passeggia tra le piazze colorate e i palazzi storici della Old Town, patrimonio UNESCO.",
-        "img": "assets/foto/varsavia/activity-1.png"
+        "img": "assets/foto/varsavia/activity-1.jpg"
       },
       {
         "titolo": "MODERNITÀ E SKYLINE",
         "descrizione": "Scopri una città moderna, dove grattacieli e architetture contemporanee convivono con la storia.",
-        "img": "assets/foto/varsavia/activity-2.png"
+        "img": "assets/foto/varsavia/activity-2.jpg"
       },
       {
         "titolo": "VITA CULTURALE E LOCALE",
