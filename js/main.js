@@ -192,6 +192,10 @@ if (kitForm) {
       });
       if (res.ok) {
         kitForm.innerHTML = '<p style="color:var(--gold);font-weight:700;text-align:center;padding:1.5rem;font-size:1.1rem">🎒 Benvenuto a bordo!<br/><span style="font-size:.9rem;font-weight:400;opacity:.8">Controlla la tua email — ti scriviamo presto.</span></p>';
+        // GA4: traccia conversione lead
+        if (typeof gtag === 'function') {
+          gtag('event', 'generate_lead', { event_category: 'form', event_label: 'kit_sopravvivenza' });
+        }
       } else {
         throw new Error('server');
       }
