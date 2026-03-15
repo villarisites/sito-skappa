@@ -45,11 +45,14 @@ body {
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 100;
-  background: var(--gold);
-  transition: box-shadow 0.3s;
+  background: rgba(254,189,65,0.68);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  transition: box-shadow 0.3s, background 0.3s;
 }
 .navbar.scrolled {
-  box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+  background: rgba(254,189,65,0.82);
+  box-shadow: 0 2px 24px rgba(0,0,0,0.18);
 }
 
 .nav-link {
@@ -260,7 +263,9 @@ body {
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
-  padding-bottom: 0.5rem;
+  /* Padding interno per non tagliare shadow e scale su hover */
+  padding: 12px 4px 56px;
+  margin: -12px -4px -52px;
 }
 .carousel-track::-webkit-scrollbar { display: none; }
 
@@ -539,7 +544,7 @@ body {
   .dest-card-container { padding: 1.25rem 1rem; }
   .carousel-btn { display: none; }           /* swipe nativo su touch */
   .dest-card { width: 78vw; height: 280px; } /* mostra ~20vw della card successiva */
-  .carousel-track { padding-right: 1rem; }   /* respiro finale */
+  .carousel-track { padding: 8px 1rem 48px; margin: -8px -1rem -44px; } /* respiro finale + shadow room */
 }
 
 /* ============================================
@@ -631,9 +636,12 @@ html[data-theme="light"] .tagline {
   color: var(--teal);
 }
 
+html[data-theme="light"] .kit-section {
+  background: rgba(3,16,48,0.06) !important;
+}
 html[data-theme="light"] .kit-input {
   color: var(--navy);
-  background: rgba(3,16,48,0.05);
+  background: rgba(255,255,255,0.85);
   border-color: rgba(3,16,48,0.2);
 }
 html[data-theme="light"] .kit-input::placeholder {
@@ -684,7 +692,7 @@ html[data-theme="light"] .search-result-meta   { color: rgba(3,16,48,0.45) !impo
 html[data-theme="light"] .search-no-results    { color: rgba(3,16,48,0.4) !important; }
 
 /* --- Template viaggio: classi da <style> block --- */
-html[data-theme="light"] .back-btn             { color: rgba(3,16,48,0.55) !important; }
+html[data-theme="light"] .back-btn             { color: rgba(255,255,255,0.9) !important; background: rgba(0,0,0,0.35) !important; border-color: rgba(255,255,255,0.12) !important; }
 html[data-theme="light"] .pacchetto-card       { background: rgba(3,16,48,0.05) !important; border-color: rgba(3,16,48,0.15) !important; }
 html[data-theme="light"] .pacchetto-list li    { color: rgba(3,16,48,0.72) !important; }
 html[data-theme="light"] .perche-bullets li    { color: rgba(3,16,48,0.7) !important; }
@@ -718,6 +726,10 @@ html[data-theme="light"] .prose-legal li      { color: rgba(3,16,48,0.72) !impor
 html[data-theme="light"] .prose-legal strong  { color: var(--navy) !important; }
 html[data-theme="light"] .refund-table td,
 html[data-theme="light"] .cookie-table td     { color: rgba(3,16,48,0.68) !important; border-bottom-color: rgba(3,16,48,0.07) !important; }
+/* Mantieni i colori rimborso anche in light mode */
+html[data-theme="light"] .refund-table .highlight { color: #15803d !important; }
+html[data-theme="light"] .refund-table .mid       { color: #b45309 !important; }
+html[data-theme="light"] .refund-table .low       { color: #dc2626 !important; }
 
 /* --- Last-minute specifici --- */
 html[data-theme="light"] .card-lm-prezzo-orig { color: rgba(3,16,48,0.38) !important; }

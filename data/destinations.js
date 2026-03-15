@@ -1,6 +1,6 @@
 // =============================================
 //  Skappa – Destinations Data
-//  Generato da admin.html il 14/03/2026
+//  Generato da admin.html il 15/03/2026
 // =============================================
 
 window.DESTINATIONS = [
@@ -11,10 +11,9 @@ window.DESTINATIONS = [
     "date": "Dal 30 Luglio al 4 Agosto",
     "tagline": "La Costa Brava che non dorme mai.",
     "prezzo": "349",
-    "imgHero": "assets/foto/lloret-de-mar/hero.jpg",
+    "imgHero": "assets/foto/lloret-de-mar/hero.png",
     "partenzaDa": "Napoli",
     "durata": "6 giorni e 5 notti",
-    "hotel": "Bolero Park Hotel",
     "inclusiPacchetto": [
       "Dal 30 Luglio al 4 Agosto",
       "6 giorni e 5 notti",
@@ -24,23 +23,23 @@ window.DESTINATIONS = [
     ],
     "perche": {
       "titolo": "PERCHÉ LLORET DE MAR",
-      "testo": "Lloret è party puro: eventi enormi, persone da tutta Europa e serate leggendarie.",
+      "testo": "Lloret è party puro: eventi enormi, persone da tutta Europa e serate leggendarie."
     },
     "attivita": [
       {
         "titolo": "BOAT PARTY NEL GOLFO",
         "descrizione": "Barca a due piani nel Golfo di Lloret: dj set, free bar, cibo e il mare della Costa Brava tutto per voi. La festa più bella dell'estate parte dall'acqua.",
-        "img": "assets/foto/lloret-de-mar/activity-1.jpg"
+        "img": "assets/foto/lloret-de-mar/activity-1.png"
       },
       {
         "titolo": "POOL PARTY SUDDENESS",
         "descrizione": "L'evento estivo più esplosivo della Costa Brava: 2000 persone, schiuma, beer pong, musica ad alto volume e un'atmosfera che non si dimentica.",
-        "img": "assets/foto/lloret-de-mar/activity-2.jpg"
+        "img": "assets/foto/lloret-de-mar/activity-2.png"
       },
       {
         "titolo": "BARCELLONA BY NIGHT",
         "descrizione": "Pullman, tour serale a Barceloneta, ingresso al Pacha e un drink incluso. Una notte nella città più viva del Mediterraneo — poi si torna a Lloret pronti per il giorno dopo.",
-        "img": "assets/foto/lloret-de-mar/activity-3.jpg"
+        "img": "assets/foto/lloret-de-mar/activity-3.png"
       }
     ],
     "inclusiConSkappa": [
@@ -99,6 +98,7 @@ window.DESTINATIONS = [
         "tag": "Coppia"
       }
     ],
+    "hotel": "Bolero Park Hotel",
     "linkPagamento": "https://book.stripe.com/fZu6oGcbO7TueY80vi4ZG0o"
   },
   {
@@ -108,10 +108,9 @@ window.DESTINATIONS = [
     "date": "Dal 23 al 28 Luglio",
     "tagline": "Il Salento che balla fino all'alba.",
     "prezzo": "259",
-    "imgHero": "assets/foto/gallipoli/hero.jpg",
+    "imgHero": "assets/foto/gallipoli/hero.png",
     "partenzaDa": "Napoli",
     "durata": "6 giorni e 5 notti",
-    "hotel": "Apulia Home Residence",
     "inclusiPacchetto": [
       "Dal 23 al 28 Luglio",
       "6 giorni e 5 notti",
@@ -120,23 +119,23 @@ window.DESTINATIONS = [
     ],
     "perche": {
       "titolo": "PERCHÉ GALLIPOLI",
-      "testo": "Gallipoli è mare, sole e notti infuocate. Una delle mete estive più amate in Italia per chi vuole divertirsi senza andare all'estero.",
+      "testo": "Gallipoli è mare, sole e notti infuocate. Una delle mete estive più amate in Italia per chi vuole divertirsi senza andare all'estero."
     },
     "attivita": [
       {
         "titolo": "BARCA PARTY SALENTINO",
         "descrizione": "Giro in barca tra le acque cristalline di Gallipoli e Punta della Suina. Musica, sole e il Salento visto dal mare: un pomeriggio che vale tutto il viaggio.",
-        "img": "assets/foto/gallipoli/activity-1.jpg"
+        "img": "assets/foto/gallipoli/activity-1.png"
       },
       {
         "titolo": "LE GROTTE DEL CENTRO STORICO",
         "descrizione": "La movida gallipolina è unica: locali e club ricavati dentro le grotte del centro storico medievale. Musica, gente e un'atmosfera che non trovi da nessun'altra parte.",
-        "img": "assets/foto/gallipoli/activity-2.jpg"
+        "img": "assets/foto/gallipoli/activity-2.png"
       },
       {
         "titolo": "ISOLA DI SANT'ANDREA",
         "descrizione": "Escursione in barca all'isola più bella del Salento. Acqua turchese, snorkeling tra i fondali e relax totale — la pausa perfetta tra una serata e l'altra.",
-        "img": "assets/foto/gallipoli/activity-3.jpg"
+        "img": "assets/foto/gallipoli/activity-3.png"
       }
     ],
     "inclusiConSkappa": [
@@ -195,6 +194,7 @@ window.DESTINATIONS = [
         "tag": "Gruppo"
       }
     ],
+    "hotel": "Apulia Home Residence",
     "linkPagamento": "https://book.stripe.com/9B6bJ0gs48XyeY81zm4ZG0n"
   },
   {
@@ -207,7 +207,6 @@ window.DESTINATIONS = [
     "imgHero": "assets/foto/zante/hero.jpg",
     "partenzaDa": "Napoli",
     "durata": "6 giorni e 5 notti",
-    "hotel": "Jenny Hotel",
     "inclusiPacchetto": [
       "Dal 16 al 21 Luglio",
       "6 giorni e 5 notti",
@@ -215,23 +214,23 @@ window.DESTINATIONS = [
     ],
     "perche": {
       "titolo": "PERCHÉ ZANTE",
-      "testo": "Zante è una delle capitali europee del divertimento estivo. Spiagge incredibili e feste che partono di giorno e finiscono quando sorge il sole.",
+      "testo": "Zante è una delle capitali europee del divertimento estivo. Spiagge incredibili e feste che partono di giorno e finiscono quando sorge il sole."
     },
     "attivita": [
       {
         "titolo": "NAVAGIO BEACH IN BARCA",
         "descrizione": "La spiaggia del relitto più fotografata al mondo, raggiungibile solo via mare. Con SKAPPA ci arrivi in barca, ti tuffi nelle acque turchesi e torni con un ricordo impossibile da dimenticare.",
-        "img": "assets/foto/zante/activity-1.jpg"
+        "img": "assets/foto/zante/activity-1.png"
       },
       {
         "titolo": "BOAT PARTY IONIO",
         "descrizione": "Festa su barca tra le acque azzurre dello Ionio: free bar, musica dal vivo e un panorama che toglie il fiato. La versione più bella del party che puoi fare.",
-        "img": "assets/foto/zante/activity-2.jpg"
+        "img": "assets/foto/zante/activity-2.png"
       },
       {
         "titolo": "LAGANAS NIGHTLIFE",
         "descrizione": "Il lungomare più selvaggio della Grecia: beach bar, club sulla sabbia e serate che non hanno un orario di chiusura. Zante di notte è un'altra dimensione.",
-        "img": "assets/foto/zante/activity-3.jpg"
+        "img": "assets/foto/zante/activity-3.png"
       }
     ],
     "inclusiConSkappa": [
@@ -290,6 +289,7 @@ window.DESTINATIONS = [
         "tag": "Gruppo"
       }
     ],
+    "hotel": "Jenny Hotel",
     "linkPagamento": "https://book.stripe.com/4gM00igs48Xy7vG4Ly4ZG0m"
   },
   {
@@ -299,10 +299,9 @@ window.DESTINATIONS = [
     "date": "WIP",
     "tagline": "L'isola che ha inventato la festa.",
     "prezzo": "WIP",
-    "imgHero": "assets/foto/ibiza/hero.jpg",
+    "imgHero": "assets/foto/ibiza/hero.png",
     "partenzaDa": "Napoli",
     "durata": "WIP",
-    "hotel": "WIP",
     "inclusiPacchetto": [
       "WIP",
       "WIP",
@@ -311,23 +310,23 @@ window.DESTINATIONS = [
     ],
     "perche": {
       "titolo": "PERCHÉ IBIZA",
-      "testo": "Ibiza è leggenda. Non esiste posto al mondo dove musica, mare e divertimento si fondano così perfettamente. Di giorno le spiagge sono paradisi cristallini. Di notte la musica esplode e le serate si trasformano in ricordi che ti porti per sempre. Con SKAPPA vivi l'isola al massimo, senza pensieri.",
+      "testo": "Ibiza è leggenda. Non esiste posto al mondo dove musica, mare e divertimento si fondano così perfettamente. Di giorno le spiagge sono paradisi cristallini. Di notte la musica esplode e le serate si trasformano in ricordi che ti porti per sempre. Con SKAPPA vivi l'isola al massimo, senza pensieri."
     },
     "attivita": [
       {
         "titolo": "SUNSET APERITIVO",
         "descrizione": "I tramonti di Ibiza sono famosi in tutto il mondo. Musica, cocktail e vista sul mare mentre il cielo si tinge d'arancio: un momento che vale tutto il viaggio.",
-        "img": "assets/foto/ibiza/activity-1.jpg"
+        "img": "assets/foto/ibiza/activity-1.png"
       },
       {
         "titolo": "BOAT PARTY",
         "descrizione": "Barca a due piani, free bar, musica dal vivo e mare cristallino. Una festa galleggiante tra le acque più belle del Mediterraneo che non puoi assolutamente perderti.",
-        "img": "assets/foto/ibiza/activity-2.jpg"
+        "img": "assets/foto/ibiza/activity-2.png"
       },
       {
         "titolo": "NOTTI LEGGENDARIE",
         "descrizione": "Club iconici, DJ set di livello assoluto e un'atmosfera irripetibile. Ibiza non è solo un'isola: è uno stile di vita, e con SKAPPA lo vivi dall'interno.",
-        "img": "assets/foto/ibiza/activity-3.jpg"
+        "img": "assets/foto/ibiza/activity-3.png"
       }
     ],
     "inclusiConSkappa": [
@@ -385,7 +384,8 @@ window.DESTINATIONS = [
         "nome": "Marco",
         "tag": "Coppia"
       }
-    ]
+    ],
+    "hotel": "WIP"
   },
   {
     "id": "mykonos",
@@ -394,10 +394,9 @@ window.DESTINATIONS = [
     "date": "WIP",
     "tagline": "Bianco abbagliante di giorno, festa inarrestabile di notte.",
     "prezzo": "WIP",
-    "imgHero": "assets/foto/mykonos/hero.jpg",
+    "imgHero": "assets/foto/mykonos/hero.png",
     "partenzaDa": "Napoli",
     "durata": "WIP",
-    "hotel": "WIP",
     "inclusiPacchetto": [
       "WIP",
       "WIP",
@@ -406,23 +405,23 @@ window.DESTINATIONS = [
     ],
     "perche": {
       "titolo": "PERCHÉ MYKONOS",
-      "testo": "Mykonos è il sogno greco che tutti vogliono vivere. Villette bianche, mare turchese, locali esclusivi e una libertà totale. È un'isola che non ti chiede nulla, ti dà tutto. Ogni angolo è una foto, ogni serata è una storia. Con SKAPPA la vivi senza filtri.",
+      "testo": "Mykonos è il sogno greco che tutti vogliono vivere. Villette bianche, mare turchese, locali esclusivi e una libertà totale. È un'isola che non ti chiede nulla, ti dà tutto. Ogni angolo è una foto, ogni serata è una storia. Con SKAPPA la vivi senza filtri."
     },
     "attivita": [
       {
         "titolo": "SPIAGGE ICONICHE",
         "descrizione": "Paradise Beach, Super Paradise: le spiagge di Mykonos sono uno spettacolo. Musica, lettini, cocktail e un mare da sogno tutto il giorno, dall'alba al tramonto.",
-        "img": "assets/foto/mykonos/activity-1.jpg"
+        "img": "assets/foto/mykonos/activity-1.png"
       },
       {
         "titolo": "WINDMILLS & LITTLE VENICE",
         "descrizione": "I mulini a vento bianchi e le case sul mare di Little Venice sono gli scorci più iconici della Grecia. Strade strette, fiori colorati e un'atmosfera unica che non dimenticherai.",
-        "img": "assets/foto/mykonos/activity-2.jpg"
+        "img": "assets/foto/mykonos/activity-2.png"
       },
       {
         "titolo": "PARTY CHE NON FINISCONO",
         "descrizione": "Sunset bar sulla spiaggia, club esclusivi e locali che partono a mezzogiorno e finiscono all'alba. Mykonos è sinonimo di festa e SKAPPA sa esattamente dove portarti.",
-        "img": "assets/foto/mykonos/activity-3.jpg"
+        "img": "assets/foto/mykonos/activity-3.png"
       }
     ],
     "inclusiConSkappa": [
@@ -480,7 +479,8 @@ window.DESTINATIONS = [
         "nome": "Riccardo",
         "tag": "Coppia"
       }
-    ]
+    ],
+    "hotel": "WIP"
   },
   {
     "id": "barcellona",
@@ -502,7 +502,7 @@ window.DESTINATIONS = [
     ],
     "perche": {
       "titolo": "PERCHÉ BARCELLONA",
-      "testo": "Barcellona è ritmo, colore e libertà. Una città dove il giorno è lento e il divertimento esplode di notte. Qui ogni strada racconta una storia, ogni locale diventa un'esperienza e ogni serata può trasformarsi in qualcosa che non avevi pianificato.",
+      "testo": "Barcellona è ritmo, colore e libertà. Una città dove il giorno è lento e il divertimento esplode di notte. Qui ogni strada racconta una storia, ogni locale diventa un'esperienza e ogni serata può trasformarsi in qualcosa che non avevi pianificato."
     },
     "attivita": [
       {
@@ -601,7 +601,7 @@ window.DESTINATIONS = [
     ],
     "perche": {
       "titolo": "PERCHÉ LONDRA",
-      "testo": "Londra è una città che non si ferma mai. Tradizione e innovazione convivono in ogni quartiere, rendendola perfetta per chi vuole un viaggio pieno di stimoli, ritmo e varietà.",
+      "testo": "Londra è una città che non si ferma mai. Tradizione e innovazione convivono in ogni quartiere, rendendola perfetta per chi vuole un viaggio pieno di stimoli, ritmo e varietà."
     },
     "attivita": [
       {
@@ -699,7 +699,7 @@ window.DESTINATIONS = [
     ],
     "perche": {
       "titolo": "PERCHÉ PARIGI",
-      "testo": "Parigi non ha bisogno di presentazioni. È una città che emoziona sempre, anche alla prima volta. Elegante, intensa e viva, è la meta ideale per chi vuole un viaggio che unisce bellezza, cultura e sensazioni forti.",
+      "testo": "Parigi non ha bisogno di presentazioni. È una città che emoziona sempre, anche alla prima volta. Elegante, intensa e viva, è la meta ideale per chi vuole un viaggio che unisce bellezza, cultura e sensazioni forti."
     },
     "attivita": [
       {
@@ -797,7 +797,7 @@ window.DESTINATIONS = [
     ],
     "perche": {
       "titolo": "PERCHÉ SOFIA",
-      "testo": "Sofia sorprende per la sua autenticità. È una città che non si mostra subito, ma conquista lentamente: tra strade storiche, caffè locali e panorami montani, offre un'esperienza vera, rilassata e profondamente diversa dalle classiche capitali europee.",
+      "testo": "Sofia sorprende per la sua autenticità. È una città che non si mostra subito, ma conquista lentamente: tra strade storiche, caffè locali e panorami montani, offre un'esperienza vera, rilassata e profondamente diversa dalle classiche capitali europee."
     },
     "attivita": [
       {
@@ -895,7 +895,7 @@ window.DESTINATIONS = [
     ],
     "perche": {
       "titolo": "PERCHÉ TIRANA",
-      "testo": "Tirana è perfetta per chi cerca qualcosa di diverso. Vera, diretta e senza filtri, è una città che si lascia scoprire lentamente e regala un'esperienza genuina e fuori dal turismo di massa.",
+      "testo": "Tirana è perfetta per chi cerca qualcosa di diverso. Vera, diretta e senza filtri, è una città che si lascia scoprire lentamente e regala un'esperienza genuina e fuori dal turismo di massa."
     },
     "attivita": [
       {
@@ -993,7 +993,7 @@ window.DESTINATIONS = [
     ],
     "perche": {
       "titolo": "PERCHÉ BUDAPEST",
-      "testo": "Budapest è una città che sa rallentare e accelerare allo stesso tempo. Elegante e vibrante, unisce relax, cultura e divertimento in un equilibrio perfetto. È la meta ideale per chi vuole vivere un weekend intenso, autentico e memorabile.",
+      "testo": "Budapest è una città che sa rallentare e accelerare allo stesso tempo. Elegante e vibrante, unisce relax, cultura e divertimento in un equilibrio perfetto. È la meta ideale per chi vuole vivere un weekend intenso, autentico e memorabile."
     },
     "attivita": [
       {
@@ -1081,7 +1081,6 @@ window.DESTINATIONS = [
     "imgHero": "assets/foto/malta/hero.jpg",
     "partenzaDa": "Napoli",
     "durata": "4 giorni e 3 notti",
-    "hotel": "The St. George's Park Hotel",
     "inclusiPacchetto": [
       "Volo A/R incluso",
       "Dal 16 al 19 Aprile",
@@ -1094,23 +1093,23 @@ window.DESTINATIONS = [
     ],
     "perche": {
       "titolo": "PERCHÉ MALTA",
-      "testo": "Malta è il mix perfetto tra mare cristallino, party esclusivi e un'atmosfera internazionale. Qui si dorme poco e si vive tanto, tra pool party di giorno e serate che finiscono all'alba.",
+      "testo": "Malta è il mix perfetto tra mare cristallino, party esclusivi e un'atmosfera internazionale. Qui si dorme poco e si vive tanto, tra pool party di giorno e serate che finiscono all'alba."
     },
     "attivita": [
       {
         "titolo": "POOL PARTY SENZA LIMITI",
         "descrizione": "Due pool party organizzati SKAPPA, musica, drink e vibrazioni estive dal primo all'ultimo giorno.",
-        "img": "assets/foto/malta/activity-1.jpg"
+        "img": "assets/foto/malta/activity-1.png"
       },
       {
         "titolo": "ROOFTOP AL TRAMONTO",
         "descrizione": "Aperitivi rooftop con vista, luci calde e la sensazione che la serata stia per esplodere.",
-        "img": "assets/foto/malta/activity-2.jpg"
+        "img": "assets/foto/malta/activity-2.png"
       },
       {
         "titolo": "NOTTI MALTA STYLE",
         "descrizione": "Serate in discoteca selezionate, ingresso facilitato e atmosfera internazionale.",
-        "img": "assets/foto/malta/activity-3.jpg"
+        "img": "assets/foto/malta/activity-3.png"
       }
     ],
     "inclusiConSkappa": [
@@ -1169,6 +1168,7 @@ window.DESTINATIONS = [
         "tag": "Coppia"
       }
     ],
+    "hotel": "The St. George's Park Hotel",
     "prezzoOriginale": "189",
     "linkPagamento": "https://book.stripe.com/9B68wOb7KehS3fqb9W4ZG0q"
   },
@@ -1192,7 +1192,7 @@ window.DESTINATIONS = [
     ],
     "perche": {
       "titolo": "PERCHÉ BUCAREST",
-      "testo": "Bucarest è una città che sorprende. Elegante, dinamica e piena di contrasti, unisce storia e modernità in un mix unico. È la meta perfetta per chi vuole scoprire una capitale europea ancora autentica e tutta da vivere.",
+      "testo": "Bucarest è una città che sorprende. Elegante, dinamica e piena di contrasti, unisce storia e modernità in un mix unico. È la meta perfetta per chi vuole scoprire una capitale europea ancora autentica e tutta da vivere."
     },
     "attivita": [
       {
@@ -1278,7 +1278,7 @@ window.DESTINATIONS = [
     "date": "Dal 23 al 26 Aprile",
     "tagline": "Inizia il tuo viaggio tra storia, cultura e una capitale europea moderna e piena di energia.",
     "prezzo": "169",
-    "imgHero": "assets/foto/varsavia/hero.jpg",
+    "imgHero": "assets/foto/varsavia/hero.png",
     "partenzaDa": "Napoli",
     "durata": "4 giorni e 3 notti",
     "inclusiPacchetto": [
@@ -1291,7 +1291,7 @@ window.DESTINATIONS = [
     ],
     "perche": {
       "titolo": "PERCHÉ VARSAVIA",
-      "testo": "Varsavia è una città che ha saputo rinascere e reinventarsi. Oggi è una capitale vibrante, dove cultura, storia e modernità convivono creando un'esperienza autentica e affascinante.",
+      "testo": "Varsavia è una città che ha saputo rinascere e reinventarsi. Oggi è una capitale vibrante, dove cultura, storia e modernità convivono creando un'esperienza autentica e affascinante."
     },
     "attivita": [
       {

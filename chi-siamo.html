@@ -148,6 +148,18 @@
       margin-bottom: 1.25rem;
     }
     .storia-par:last-child { margin-bottom: 0; }
+
+    /* ---- Light mode overrides (solo questa pagina) ---- */
+    html[data-theme="light"] { --navy: #eef0f7; --navy2: #e4e7f3; }
+    html[data-theme="light"] .storia-par        { color: rgba(3,16,48,0.68) !important; }
+    html[data-theme="light"] .valore-testo      { color: rgba(3,16,48,0.65) !important; }
+    html[data-theme="light"] .numero-label      { color: rgba(3,16,48,0.55) !important; }
+    html[data-theme="light"] .valore-card       { background: rgba(255,255,255,0.8) !important; border-color: rgba(3,16,48,0.12) !important; }
+    html[data-theme="light"] .valore-icon       { background: rgba(3,16,48,0.06) !important; border-color: rgba(3,16,48,0.1) !important; }
+    html[data-theme="light"] .chi-sub           { color: rgba(3,16,48,0.55) !important; }
+    html[data-theme="light"] .chi-box-text      { color: rgba(3,16,48,0.65) !important; }
+    html[data-theme="light"] .chi-cta-btn-alt   { background: rgba(3,16,48,0.08) !important; color: var(--navy) !important; border-color: rgba(3,16,48,0.2) !important; }
+    html[data-theme="light"] .chi-box-wrap      { background: rgba(3,16,48,0.05) !important; border-color: rgba(3,16,48,0.12) !important; }
   </style>
 </head>
 <body>
@@ -230,10 +242,10 @@
           </p>
         </div>
         <div class="fade-in">
-          <div style="background:rgba(254,189,65,0.06);border:1px solid rgba(254,189,65,0.15);border-radius:1.5rem;padding:2.5rem;text-align:center">
+          <div class="chi-box-wrap" style="background:rgba(254,189,65,0.06);border:1px solid rgba(254,189,65,0.15);border-radius:1.5rem;padding:2.5rem;text-align:center">
             <div style="font-size:4rem;margin-bottom:1rem">✈</div>
             <p style="font-family:'Days One',sans-serif;font-size:1.125rem;color:var(--gold);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.75rem">La promessa SKAPPA</p>
-            <p style="font-size:0.875rem;color:rgba(255,255,255,0.62);line-height:1.8">
+            <p class="chi-box-text" style="font-size:0.875rem;color:rgba(255,255,255,0.62);line-height:1.8">
               Prezzo fisso tutto incluso.<br>
               Zero sorprese. Zero stress.<br>
               Solo esperienze da ricordare.
@@ -250,7 +262,7 @@
     <div class="max-w-4xl mx-auto">
       <div class="text-center mb-12 fade-in">
         <h2 class="section-title">SKAPPA IN NUMERI</h2>
-        <p style="color:rgba(255,255,255,0.35);font-size:0.8125rem;margin-top:0.5rem">Piccoli ma concreti</p>
+        <p class="chi-sub" style="color:rgba(255,255,255,0.35);font-size:0.8125rem;margin-top:0.5rem">Piccoli ma concreti</p>
       </div>
       <div class="grid grid-cols-2 md:grid-cols-4 gap-8 fade-in">
         <div class="numero-item">
@@ -279,7 +291,7 @@
     <div class="max-w-5xl mx-auto">
       <div class="text-center mb-12 fade-in">
         <h2 class="section-title">I NOSTRI VALORI</h2>
-        <p style="color:rgba(255,255,255,0.35);font-size:0.8125rem;margin-top:0.5rem">Quello in cui crediamo ogni giorno</p>
+        <p class="chi-sub" style="color:rgba(255,255,255,0.35);font-size:0.8125rem;margin-top:0.5rem">Quello in cui crediamo ogni giorno</p>
       </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
         <div class="valore-card fade-in">
@@ -339,12 +351,12 @@
         </svg>
       </div>
       <h2 class="section-title" style="margin-bottom:1.25rem">PRONTO A PARTIRE?</h2>
-      <p style="font-size:0.9375rem;color:rgba(255,255,255,0.6);line-height:1.8;margin-bottom:2.5rem">
+      <p class="chi-sub" style="font-size:0.9375rem;color:rgba(255,255,255,0.6);line-height:1.8;margin-bottom:2.5rem">
         Sfoglia le destinazioni disponibili, scegli quella che fa per te e blocca il tuo posto in pochi clic.
       </p>
       <div style="display:flex;justify-content:center;gap:1rem;flex-wrap:wrap">
         <a href="fughe-in-europa.html" class="btn-gold">Fughe in Europa</a>
-        <a href="summer-tour.html" class="btn-navy" style="background:rgba(255,255,255,0.08);color:#fff;border:1px solid rgba(255,255,255,0.15)">Escape tour</a>
+        <a href="summer-tour.html" class="btn-navy chi-cta-btn-alt" style="background:rgba(255,255,255,0.08);color:#fff;border:1px solid rgba(255,255,255,0.15)">Escape tour</a>
       </div>
     </div>
   </section>
