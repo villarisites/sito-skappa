@@ -404,21 +404,32 @@
         Lascia la tua email per salire a bordo e non perdere la partenza.<br/>
         Offerte esclusive, aggiornamenti, consigli su cosa portare, vedere e dove mangiare
       </p>
-      <form id="kitForm" class="flex flex-col gap-4 text-left">
+      <form id="kitForm" action="https://formspree.io/f/INSERISCI_QUI_IL_TUO_ID" method="POST" class="flex flex-col gap-4 text-left">
         <div>
-          <input type="text" placeholder="Nome e Cognome" class="kit-input" required />
+          <input type="text" name="nome" placeholder="Come ti chiami?" class="kit-input" required autocomplete="given-name" />
         </div>
         <div>
-          <input type="email" placeholder="alwaysalone@gmail.com" class="kit-input" required />
+          <input type="email" name="email" placeholder="La tua email" class="kit-input" required autocomplete="email" />
+        </div>
+        <div>
+          <select name="interesse" class="kit-input kit-select">
+            <option value="" disabled selected>Cosa sogni di più? (facoltativo)</option>
+            <option value="mare">🌊 Mare e party — Escape Tour</option>
+            <option value="europa">🏙️ Weekend in Europa — City break</option>
+            <option value="lastminute">⚡ Offerta last minute</option>
+            <option value="tutto">Tutto mi interessa!</option>
+          </select>
         </div>
         <div class="flex items-start gap-2 mt-1">
-          <input type="checkbox" id="privacy" class="mt-0.5 accent-yellow-400" required />
+          <input type="checkbox" id="privacy" name="privacy" value="accettata" class="mt-0.5 accent-yellow-400" required />
           <label for="privacy" class="text-xs text-gray-400">
             Accetto la <a href="privacy.html" class="underline" style="color:var(--gold)">Privacy Policy</a>
           </label>
         </div>
-        <button type="submit" class="btn-gold mt-2" style="justify-content:center;width:100%">
-          Voglio il kit
+        <!-- Honeypot anti-spam (Formspree lo ignora se compilato da bot) -->
+        <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
+        <button type="submit" id="kitSubmitBtn" class="btn-gold mt-2" style="justify-content:center;width:100%">
+          Voglio il kit 🎒
         </button>
       </form>
     </div>

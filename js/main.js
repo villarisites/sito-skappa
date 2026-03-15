@@ -174,12 +174,35 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.12 });
 document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
-// ---- Kit form ----
+// ---- Kit form (Formspree AJAX) ----
 const kitForm = document.getElementById('kitForm');
 if (kitForm) {
-  kitForm.addEventListener('submit', (e) => {
+  kitForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    kitForm.innerHTML = '<p style="color:var(--gold);font-weight:700;text-align:center;padding:1rem">✓ Iscritto! Ti contatteremo presto.</p>';
+    const btn = document.getElementById('kitSubmitBtn');
+    const originalText = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = 'Invio in corso…';
+
+    try {
+      const res = await fetch(kitForm.action, {
+        method: 'POST',
+        body: new FormData(kitForm),
+        headers: { 'Accept': 'application/json' }
+      });
+      if (res.ok) {
+        kitForm.innerHTML = '<p style="color:var(--gold);font-weight:700;text-align:center;padding:1.5rem;font-size:1.1rem">🎒 Benvenuto a bordo!<br/><span style="font-size:.9rem;font-weight:400;opacity:.8">Controlla la tua email — ti scriviamo presto.</span></p>';
+      } else {
+        throw new Error('server');
+      }
+    } catch {
+      btn.disabled = false;
+      btn.textContent = originalText;
+      const errEl = kitForm.querySelector('.kit-error');
+      if (!errEl) {
+        btn.insertAdjacentHTML('afterend', '<p class="kit-error" style="color:#ef4444;text-align:center;font-size:.875rem;margin-top:.5rem">Ops, qualcosa è andato storto. Riprova o scrivici su WhatsApp.</p>');
+      }
+    }
   });
 }
 
