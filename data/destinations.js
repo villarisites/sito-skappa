@@ -1,6 +1,6 @@
 // =============================================
 //  Skappa – Destinations Data
-//  Generato da admin.html il 15/03/2026
+//  Generato da admin.html il 16/03/2026
 // =============================================
 
 window.DESTINATIONS = [
@@ -123,7 +123,7 @@ window.DESTINATIONS = [
     },
     "attivita": [
       {
-        "titolo": "BARCA PARTY SALENTINO",
+        "titolo": "BOAT PARTY SALENTINO",
         "descrizione": "Giro in barca tra le acque cristalline di Gallipoli e Punta della Suina. Musica, sole e il Salento visto dal mare: un pomeriggio che vale tutto il viaggio.",
         "img": "assets/foto/gallipoli/activity-1.png"
       },
@@ -431,7 +431,7 @@ window.DESTINATIONS = [
       },
       {
         "icona": "✈️",
-        "label": "Supporto SKAPPA"
+        "label": "volo A/R"
       },
       {
         "icona": "🌍",

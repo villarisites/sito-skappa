@@ -597,7 +597,7 @@
     // ---- SVG placeholder helper ----
     var SVG_PH = '<svg class="placeholder-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/></svg>';
 
-    function buildCard(d) {
+    function buildCard(d, idx) {
       var isSummer = d.tipologia === 'mete-estive';
       var isEuropa = d.tipologia === 'fughe-in-europa';
       var url = isSummer ? 'viaggio.html?id=' + d.id : 'viaggio-citybreak.html?id=' + d.id;
@@ -608,9 +608,11 @@
       var voloRow = isEuropa
         ? '<p style="font-size:0.5625rem;color:var(--teal);font-weight:700;letter-spacing:0.05em;margin-bottom:0.15rem">✈ volo incluso</p>'
         : '';
+      /* Prima card: carica subito (above-the-fold); le altre: lazy */
+      var imgLoad = (idx === 0) ? 'fetchpriority="high"' : 'loading="lazy" decoding="async"';
       return '<a href="' + url + '" class="dest-card' + extraClass + '">'
         + '<div class="dest-card-img-placeholder">'
-        + '<img src="' + (d.imgHero || '') + '" alt="' + d.nome + '" class="dest-card-photo" loading="lazy" decoding="async" onerror="this.style.display=\'none\'" />'
+        + '<img src="' + (d.imgHero || '') + '" alt="' + d.nome + '" class="dest-card-photo" ' + imgLoad + ' onerror="this.style.display=\'none\'" />'
         + SVG_PH
         + '</div>'
         + '<div class="dest-card-overlay"></div>'
@@ -690,13 +692,14 @@
       var lmDests = (window.DESTINATIONS || []).filter(function (d) { return d.tipologia === 'last-minute'; });
       var lmContainer = document.getElementById('lastMinuteCards');
       if (lmDests.length > 0) {
-        lmContainer.innerHTML = lmDests.map(function (d) {
+        lmContainer.innerHTML = lmDests.map(function (d, lmIdx) {
           var sconto = d.prezzoOriginale
             ? Math.round((1 - d.prezzo / d.prezzoOriginale) * 100)
             : null;
+          var lmImgLoad = (lmIdx === 0) ? 'fetchpriority="high"' : 'loading="lazy" decoding="async"';
           return '<a href="viaggio-lastminute.html?id=' + d.id + '" class="dest-card dest-card-lm" style="flex:0 0 260px;max-width:280px">'
             + '<div class="dest-card-img-placeholder">'
-            + '<img src="' + (d.imgHero || '') + '" alt="' + d.nome + '" class="dest-card-photo" loading="lazy" decoding="async" onerror="this.style.display=\'none\'" />'
+            + '<img src="' + (d.imgHero || '') + '" alt="' + d.nome + '" class="dest-card-photo" ' + lmImgLoad + ' onerror="this.style.display=\'none\'" />'
             + '<svg class="placeholder-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/></svg>'
             + '</div>'
             + '<div class="dest-card-overlay"></div>'
