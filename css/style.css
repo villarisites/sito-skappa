@@ -45,13 +45,11 @@ body {
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 100;
-  background: rgba(254,189,65,0.68);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+  background: #febd41;
   transition: box-shadow 0.3s, background 0.3s;
 }
 .navbar.scrolled {
-  background: rgba(254,189,65,0.82);
+  background: #febd41;
   box-shadow: 0 2px 24px rgba(0,0,0,0.18);
 }
 
@@ -165,7 +163,7 @@ body {
 
 .hero-title {
   font-family: 'Days One', sans-serif;
-  font-size: clamp(4rem, 12vw, 8rem);
+  font-size: clamp(1.75rem, 9vw, 8rem);
   font-weight: 900;
   letter-spacing: 0.15em;
   text-transform: uppercase;
@@ -597,6 +595,9 @@ body {
 
   /* Nome meta su mobile: più piccolo e più leggibile */
   .dest-card-city { font-size: 0.875rem; letter-spacing: 0.07em; }
+
+  /* Titolo hero destinazione su mobile */
+  .hero-title { letter-spacing: 0.05em; line-height: 1.05; }
 }
 
 /* ============================================
