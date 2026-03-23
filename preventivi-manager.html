@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SKAPPA – Gestione Preventivi</title>
+  <link rel="icon" href="assets/logo.png" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Days+One&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy:    #031030;
+      --navy2:   #020c24;
+      --gold:    #febd41;
+      --teal:    #288699;
+      --surface: #071848;
+      --surface2:#0a1f55;
+      --border:  rgba(254,189,65,0.15);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--navy2);
+      color: #fff;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: var(--navy2); }
+    ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+
+    /* ---- Password Gate ---- */
+    #passwordGate {
+      position: fixed; inset: 0;
+      background: var(--navy2);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    #passwordGate.hidden { display: none; }
+    .gate-brand {
+      font-family: 'Days One', sans-serif;
+      font-size: 2rem;
+      font-weight: 900;
+      letter-spacing: 0.18em;
+      color: var(--gold);
+    }
+    .gate-subtitle {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.35);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-top: -1rem;
+    }
+    .gate-box {
+      background: var(--navy);
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+      padding: 2rem 2.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      min-width: 320px;
+      text-align: center;
+    }
+    .gate-title { font-size: 0.875rem; color: rgba(255,255,255,0.5); letter-spacing: 0.05em; }
+    .gate-input {
+      padding: 0.75rem 1rem;
+      background: rgba(255,255,255,0.05);
+      border: 1.5px solid rgba(254,189,65,0.2);
+      border-radius: 0.375rem;
+      color: #fff;
+      font-size: 1rem;
+      font-family: inherit;
+      text-align: center;
+      letter-spacing: 0.15em;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .gate-input:focus { border-color: var(--gold); }
+    .gate-error { font-size: 0.75rem; color: #f87171; min-height: 1rem; }
+
+    /* ---- Header ---- */
+    .pm-header {
+      position: sticky; top: 0; z-index: 50;
+      background: var(--navy);
+      border-bottom: 1px solid var(--border);
+      padding: 0 1.5rem;
+      height: 3.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .header-brand {
+      font-family: 'Days One', sans-serif;
+      font-size: 1rem;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      color: var(--gold);
+    }
+    .header-tag {
+      font-size: 0.6875rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.3);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-left: 0.75rem;
+    }
+    .header-actions { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+
+    /* ---- Buttons ---- */
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.375rem;
+      padding: 0.5rem 1rem;
+      border-radius: 0.375rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      font-family: inherit;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      border: none;
+      transition: opacity 0.2s, transform 0.15s;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .btn:hover { opacity: 0.85; transform: translateY(-1px); }
+    .btn-gold { background: var(--gold); color: var(--navy); }
+    .btn-outline { background: transparent; color: var(--gold); border: 1.5px solid var(--gold); }
+    .btn-teal { background: var(--teal); color: #fff; }
+    .btn-danger { background: rgba(239,68,68,0.15); color: #f87171; border: 1.5px solid rgba(239,68,68,0.3); }
+    .btn-sm { padding: 0.3rem 0.625rem; font-size: 0.6875rem; }
+
+    /* ---- Main content ---- */
+    .pm-content { padding: 1.5rem; max-width: 1400px; margin: 0 auto; }
+
+    /* ---- Stats Cards ---- */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    @media (max-width: 900px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 500px) { .stats-grid { grid-template-columns: 1fr; } }
+    .stat-card {
+      background: var(--navy);
+      border: 1px solid var(--border);
+      border-radius: 0.75rem;
+      padding: 1.25rem 1.5rem;
+    }
+    .stat-label {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      color: rgba(255,255,255,0.35);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+    .stat-value {
+      font-family: 'Days One', sans-serif;
+      font-size: 1.75rem;
+      font-weight: 900;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .stat-sub { font-size: 0.6875rem; color: rgba(255,255,255,0.3); margin-top: 0.375rem; }
+    .stat-card.alert .stat-value { color: #f87171; }
+    .stat-card.teal .stat-value { color: var(--teal); }
+    .stat-card.green .stat-value { color: #4ade80; }
+
+    /* ---- Filters ---- */
+    .filters-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+    .filter-input, .filter-select {
+      padding: 0.5rem 0.875rem;
+      background: rgba(255,255,255,0.05);
+      border: 1.5px solid rgba(254,189,65,0.15);
+      border-radius: 0.375rem;
+      color: #fff;
+      font-size: 0.8125rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .filter-input:focus, .filter-select:focus { border-color: var(--gold); }
+    .filter-input::placeholder { color: rgba(255,255,255,0.2); }
+    .filter-input { flex: 1; min-width: 200px; }
+    .filter-select { min-width: 160px; cursor: pointer; }
+    .filter-select option { background: var(--navy); }
+    .filter-count {
+      font-size: 0.6875rem;
+      color: rgba(255,255,255,0.3);
+      white-space: nowrap;
+    }
+
+    /* ---- Table ---- */
+    .table-wrap {
+      background: var(--navy);
+      border: 1px solid var(--border);
+      border-radius: 0.75rem;
+      overflow-x: auto;
+    }
+    table { width: 100%; border-collapse: collapse; min-width: 900px; }
+    thead tr {
+      background: rgba(254,189,65,0.08);
+      border-bottom: 1px solid var(--border);
+    }
+    th {
+      padding: 0.75rem 0.875rem;
+      text-align: left;
+      font-size: 0.6875rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      white-space: nowrap;
+    }
+    td {
+      padding: 0.75rem 0.875rem;
+      font-size: 0.8125rem;
+      border-bottom: 1px solid rgba(254,189,65,0.06);
+      vertical-align: middle;
+    }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:hover { background: rgba(255,255,255,0.02); }
+
+    /* Row coloring by stato */
+    tr.stato-confermato td:first-child { border-left: 3px solid var(--gold); }
+    tr.stato-acconto td:first-child { border-left: 3px solid var(--teal); }
+    tr.stato-saldo td:first-child { border-left: 3px solid #4ade80; }
+    tr.stato-annullato td:first-child { border-left: 3px solid #f87171; }
+    tr.stato-preventivo td:first-child { border-left: 3px solid rgba(255,255,255,0.2); }
+
+    tr.stato-annullato td { opacity: 0.5; }
+
+    .badge-stato {
+      display: inline-block;
+      padding: 0.2rem 0.625rem;
+      border-radius: 999px;
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+    .badge-Preventivo     { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.5); }
+    .badge-Confermato     { background: rgba(254,189,65,0.15); color: var(--gold); }
+    .badge-Acconto        { background: rgba(40,134,153,0.2); color: var(--teal); }
+    .badge-Saldo          { background: rgba(74,222,128,0.15); color: #4ade80; }
+    .badge-Annullato      { background: rgba(239,68,68,0.12); color: #f87171; }
+
+    .scadenza-alert { color: #f87171; font-weight: 700; }
+    .empty-state {
+      text-align: center;
+      padding: 3rem 2rem;
+      color: rgba(255,255,255,0.2);
+      font-size: 0.875rem;
+    }
+    .empty-icon { font-size: 2.5rem; margin-bottom: 0.75rem; opacity: 0.3; }
+
+    /* ---- Modal ---- */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.75);
+      z-index: 200;
+      display: none;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 1.5rem 1rem;
+      overflow-y: auto;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-box {
+      background: var(--navy);
+      border: 1px solid rgba(254,189,65,0.2);
+      border-radius: 1rem;
+      padding: 2rem;
+      width: 100%;
+      max-width: 760px;
+      margin: auto;
+    }
+    .modal-title {
+      font-family: 'Days One', sans-serif;
+      font-size: 1.125rem;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .modal-title-confirm { font-family: 'Days One', sans-serif; font-size: 1.125rem; color: var(--gold); margin-bottom: 0.75rem; }
+    .modal-text { font-size: 0.875rem; color: rgba(255,255,255,0.65); margin-bottom: 1.5rem; line-height: 1.6; }
+    .modal-actions { display: flex; justify-content: center; gap: 0.75rem; }
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.75rem;
+      padding-top: 1.5rem;
+      margin-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ---- Form ---- */
+    .form-section {
+      background: rgba(0,0,0,0.2);
+      border: 1px solid rgba(254,189,65,0.08);
+      border-radius: 0.625rem;
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+    }
+    .form-section-title {
+      font-size: 0.6875rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+      padding-bottom: 0.625rem;
+      border-bottom: 1px solid rgba(254,189,65,0.08);
+    }
+    .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.875rem; }
+    .form-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.875rem; }
+    .form-grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 0.875rem; }
+    @media (max-width: 640px) {
+      .form-grid-2, .form-grid-3, .form-grid-4 { grid-template-columns: 1fr; }
+    }
+    .form-label {
+      display: block;
+      font-size: 0.6875rem;
+      font-weight: 700;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      margin-bottom: 0.3rem;
+    }
+    .form-input, .form-textarea, .form-select {
+      width: 100%;
+      padding: 0.5625rem 0.75rem;
+      background: rgba(255,255,255,0.05);
+      border: 1.5px solid rgba(254,189,65,0.15);
+      border-radius: 0.375rem;
+      color: #fff;
+      font-size: 0.875rem;
+      font-family: inherit;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+    }
+    .form-input:focus, .form-textarea:focus, .form-select:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(254,189,65,0.08);
+    }
+    .form-input::placeholder, .form-textarea::placeholder { color: rgba(255,255,255,0.2); }
+    .form-input[readonly] { opacity: 0.6; cursor: default; }
+    .form-select { cursor: pointer; }
+    .form-select option { background: var(--navy); }
+    .form-textarea { resize: vertical; line-height: 1.6; }
+
+    /* ---- Confirm modal ---- */
+    .confirm-box {
+      background: var(--navy);
+      border: 1px solid rgba(254,189,65,0.2);
+      border-radius: 1rem;
+      padding: 2rem;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+      margin: auto;
+    }
+
+    /* ---- Toast ---- */
+    #toast {
+      position: fixed;
+      bottom: 1.5rem; right: 1.5rem;
+      background: var(--gold);
+      color: var(--navy);
+      font-weight: 700;
+      font-size: 0.8125rem;
+      padding: 0.75rem 1.25rem;
+      border-radius: 0.5rem;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      transform: translateY(120%);
+      opacity: 0;
+      transition: transform 0.3s, opacity 0.3s;
+      z-index: 9999;
+      max-width: 320px;
+    }
+    #toast.show { transform: translateY(0); opacity: 1; }
+    #toast.error { background: #ef4444; color: #fff; }
+  </style>
+</head>
+<body>
+
+<!-- ========== PASSWORD GATE ========== -->
+<div id="passwordGate">
+  <div class="gate-brand">SKAPPA</div>
+  <div class="gate-subtitle">Area Riservata</div>
+  <div class="gate-box">
+    <div class="gate-title">Inserisci la password per accedere</div>
+    <input type="password" id="gateInput" class="gate-input" placeholder="••••••••"
+           onkeydown="if(event.key==='Enter') checkPassword()" autocomplete="current-password" />
+    <div class="gate-error" id="gateError"></div>
+    <button class="btn btn-gold" onclick="checkPassword()" style="width:100%;justify-content:center;padding:0.75rem">
+      Entra
+    </button>
+  </div>
+</div>
+
+
+<!-- ========== HEADER ========== -->
+<header class="pm-header">
+  <div style="display:flex;align-items:center">
+    <span class="header-brand">SKAPPA</span>
+    <span class="header-tag">Gestione Preventivi</span>
+  </div>
+  <div class="header-actions">
+    <button onclick="openAddModal()" class="btn btn-gold">+ Nuovo Preventivo</button>
+    <button onclick="exportExcel()" class="btn btn-teal">↓ Excel</button>
+    <button onclick="exportJSON()" class="btn btn-outline">↓ JSON</button>
+    <label class="btn btn-outline" style="cursor:pointer">
+      ↑ Importa JSON
+      <input type="file" accept=".json" style="display:none" id="importInput" onchange="importJSON(event)">
+    </label>
+  </div>
+</header>
+
+
+<!-- ========== MAIN CONTENT ========== -->
+<main class="pm-content">
+
+  <!-- Stats -->
+  <div class="stats-grid" id="statsGrid">
+    <div class="stat-card">
+      <div class="stat-label">Totale Pratiche</div>
+      <div class="stat-value" id="statTotale">0</div>
+      <div class="stat-sub" id="statTotaleSub">preventivi registrati</div>
+    </div>
+    <div class="stat-card green">
+      <div class="stat-label">Totale Incassato</div>
+      <div class="stat-value" id="statIncassato">€0</div>
+      <div class="stat-sub">acconti + saldi versati</div>
+    </div>
+    <div class="stat-card teal">
+      <div class="stat-label">Da Incassare</div>
+      <div class="stat-value" id="statDaIncassare">€0</div>
+      <div class="stat-sub">saldi pendenti</div>
+    </div>
+    <div class="stat-card alert">
+      <div class="stat-label">In Scadenza</div>
+      <div class="stat-value" id="statScadenza">0</div>
+      <div class="stat-sub">saldo scade entro 7 giorni</div>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="filters-bar">
+    <input type="text" id="filterSearch" class="filter-input" placeholder="Cerca cliente, destinazione..."
+           oninput="renderTable()" />
+    <select id="filterStato" class="filter-select" onchange="renderTable()">
+      <option value="">Tutti gli stati</option>
+      <option value="Preventivo">Preventivo</option>
+      <option value="Confermato">Confermato</option>
+      <option value="Acconto versato">Acconto versato</option>
+      <option value="Saldo versato">Saldo versato</option>
+      <option value="Annullato">Annullato</option>
+    </select>
+    <select id="filterSort" class="filter-select" onchange="renderTable()">
+      <option value="data_creazione">Ordina: Data creazione</option>
+      <option value="data_partenza">Ordina: Data partenza</option>
+      <option value="scadenza_saldo">Ordina: Scadenza saldo</option>
+    </select>
+    <span class="filter-count" id="filterCount"></span>
+  </div>
+
+  <!-- Table -->
+  <div class="table-wrap">
+    <table id="preventiviTable">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Cliente</th>
+          <th>Destinazione</th>
+          <th>Partenza</th>
+          <th>Persone</th>
+          <th>Totale</th>
+          <th>Acconto</th>
+          <th>Saldo</th>
+          <th>Scad. Saldo</th>
+          <th>Stato</th>
+          <th>Azioni</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+  </div>
+
+</main>
+
+
+<!-- ========== MODAL ADD/EDIT ========== -->
+<div class="modal-overlay" id="editModal" onclick="closeEditModalOnBg(event)">
+  <div class="modal-box">
+    <div class="modal-title" id="editModalTitle">Nuovo Preventivo</div>
+
+    <!-- Cliente -->
+    <div class="form-section">
+      <div class="form-section-title">Cliente</div>
+      <div class="form-grid-3">
+        <div>
+          <label class="form-label">Nome e Cognome</label>
+          <input class="form-input" id="f-cliente" type="text" placeholder="Mario Rossi" />
+        </div>
+        <div>
+          <label class="form-label">Telefono</label>
+          <input class="form-input" id="f-telefono" type="tel" placeholder="+39 333 1234567" />
+        </div>
+        <div>
+          <label class="form-label">Email</label>
+          <input class="form-input" id="f-email" type="email" placeholder="mario@email.com" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Viaggio -->
+    <div class="form-section">
+      <div class="form-section-title">Viaggio</div>
+      <div class="form-grid-3">
+        <div>
+          <label class="form-label">Destinazione</label>
+          <input class="form-input" id="f-destinazione" type="text" placeholder="Malta, Zante…" />
+        </div>
+        <div>
+          <label class="form-label">Fornitore</label>
+          <input class="form-input" id="f-fornitore" type="text" placeholder="Tour operator, hotel…" />
+        </div>
+        <div>
+          <label class="form-label">Stato</label>
+          <select class="form-select" id="f-stato">
+            <option value="Preventivo">Preventivo</option>
+            <option value="Confermato">Confermato</option>
+            <option value="Acconto versato">Acconto versato</option>
+            <option value="Saldo versato">Saldo versato</option>
+            <option value="Annullato">Annullato</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Date & persone -->
+    <div class="form-section">
+      <div class="form-section-title">Date e Partecipanti</div>
+      <div class="form-grid-4">
+        <div>
+          <label class="form-label">Data Partenza</label>
+          <input class="form-input" id="f-data_partenza" type="date" />
+        </div>
+        <div>
+          <label class="form-label">Data Ritorno</label>
+          <input class="form-input" id="f-data_ritorno" type="date" />
+        </div>
+        <div>
+          <label class="form-label">Adulti</label>
+          <input class="form-input" id="f-adulti" type="number" min="1" value="1" placeholder="1" />
+        </div>
+        <div>
+          <label class="form-label">Bambini</label>
+          <input class="form-input" id="f-bambini" type="number" min="0" value="0" placeholder="0" />
+        </div>
+      </div>
+      <div style="margin-top:0.875rem">
+        <label class="form-label">Sistemazione</label>
+        <input class="form-input" id="f-sistemazione" type="text" placeholder="Camera doppia, BB…" />
+      </div>
+    </div>
+
+    <!-- Finanziario -->
+    <div class="form-section">
+      <div class="form-section-title">Finanziario</div>
+      <div class="form-grid-4">
+        <div>
+          <label class="form-label">Prezzo Totale €</label>
+          <input class="form-input" id="f-prezzo_totale" type="number" min="0" step="0.01" placeholder="0.00"
+                 oninput="calcSaldo()" />
+        </div>
+        <div>
+          <label class="form-label">Acconto €</label>
+          <input class="form-input" id="f-acconto" type="number" min="0" step="0.01" placeholder="0.00"
+                 oninput="calcSaldo()" />
+        </div>
+        <div>
+          <label class="form-label">Data Acconto</label>
+          <input class="form-input" id="f-data_acconto" type="date" />
+        </div>
+        <div>
+          <label class="form-label">Saldo € (auto)</label>
+          <input class="form-input" id="f-saldo_display" type="text" readonly placeholder="—" />
+        </div>
+      </div>
+      <div style="margin-top:0.875rem;max-width:300px">
+        <label class="form-label">Scadenza Saldo</label>
+        <input class="form-input" id="f-scadenza_saldo" type="date" />
+      </div>
+    </div>
+
+    <!-- Note -->
+    <div class="form-section">
+      <div class="form-section-title">Note</div>
+      <textarea class="form-textarea" id="f-note" rows="3" placeholder="Richieste particolari, note interne…"></textarea>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeEditModal()">Annulla</button>
+      <button class="btn btn-gold" onclick="savePreventivo()">Salva</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ========== MODAL CONFERMA ELIMINA ========== -->
+<div class="modal-overlay" id="deleteModal" onclick="closeDeleteModalOnBg(event)">
+  <div class="confirm-box">
+    <div class="modal-title-confirm">Eliminare questo preventivo?</div>
+    <p class="modal-text" id="deleteModalText">Questa operazione non può essere annullata.</p>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeDeleteModal()">Annulla</button>
+      <button class="btn btn-danger" onclick="confirmDelete()">Sì, elimina</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- Toast -->
+<div id="toast"></div>
+
+
+<script>
+// =============================================
+//  SKAPPA Preventivi Manager
+// =============================================
+
+var ADMIN_PASSWORD = 'skappa2024';
+var LS_KEY = 'skappa_preventivi';
+
+var preventivi = [];
+var editingId = null;
+var deletingId = null;
+
+// ---- UUID ----
+function uuid() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    var r = Math.random() * 16 | 0;
+    return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+  });
+}
+
+// ---- Password Gate ----
+function checkPassword() {
+  var val = document.getElementById('gateInput').value;
+  if (val === ADMIN_PASSWORD) {
+    sessionStorage.setItem('pm_auth', '1');
+    document.getElementById('passwordGate').classList.add('hidden');
+    document.getElementById('gateError').textContent = '';
+  } else {
+    document.getElementById('gateError').textContent = 'Password errata. Riprova.';
+    document.getElementById('gateInput').focus();
+  }
+}
+
+function checkAuth() {
+  if (sessionStorage.getItem('pm_auth') !== '1') {
+    document.getElementById('passwordGate').classList.remove('hidden');
+  } else {
+    document.getElementById('passwordGate').classList.add('hidden');
+  }
+}
+
+// ---- Storage ----
+function loadData() {
+  try {
+    var raw = localStorage.getItem(LS_KEY);
+    preventivi = raw ? JSON.parse(raw) : [];
+  } catch (e) { preventivi = []; }
+}
+
+function saveData() {
+  localStorage.setItem(LS_KEY, JSON.stringify(preventivi));
+}
+
+// ---- Calcolo saldo ----
+function calcSaldo() {
+  var tot = parseFloat(document.getElementById('f-prezzo_totale').value) || 0;
+  var acc = parseFloat(document.getElementById('f-acconto').value) || 0;
+  var saldo = tot - acc;
+  document.getElementById('f-saldo_display').value = saldo > 0 ? formatEur(saldo) : '€ 0,00';
+}
+
+// ---- Format ----
+function formatEur(n) {
+  return '€ ' + parseFloat(n || 0).toLocaleString('it-IT', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+function formatDate(d) {
+  if (!d) return '—';
+  var parts = d.split('-');
+  if (parts.length !== 3) return d;
+  return parts[2] + '/' + parts[1] + '/' + parts[0];
+}
+
+function isScadenzaVicina(dateStr) {
+  if (!dateStr) return false;
+  var oggi = new Date(); oggi.setHours(0,0,0,0);
+  var scad = new Date(dateStr); scad.setHours(0,0,0,0);
+  var diff = (scad - oggi) / (1000 * 60 * 60 * 24);
+  return diff >= 0 && diff <= 7;
+}
+
+function isScaduta(dateStr) {
+  if (!dateStr) return false;
+  var oggi = new Date(); oggi.setHours(0,0,0,0);
+  var scad = new Date(dateStr); scad.setHours(0,0,0,0);
+  return scad < oggi;
+}
+
+// ---- Stats ----
+function updateStats() {
+  var active = preventivi.filter(function(p) { return p.stato !== 'Annullato'; });
+  var totale = preventivi.length;
+
+  var incassato = preventivi.reduce(function(sum, p) {
+    var acc = parseFloat(p.acconto) || 0;
+    var tot = parseFloat(p.prezzo_totale) || 0;
+    if (p.stato === 'Saldo versato') return sum + tot;
+    return sum + acc;
+  }, 0);
+
+  var daIncassare = preventivi.reduce(function(sum, p) {
+    if (p.stato === 'Saldo versato' || p.stato === 'Annullato') return sum;
+    var tot = parseFloat(p.prezzo_totale) || 0;
+    var acc = parseFloat(p.acconto) || 0;
+    return sum + Math.max(0, tot - acc);
+  }, 0);
+
+  var scadenza = preventivi.filter(function(p) {
+    return p.stato !== 'Saldo versato' && p.stato !== 'Annullato'
+      && p.scadenza_saldo && isScadenzaVicina(p.scadenza_saldo);
+  }).length;
+
+  document.getElementById('statTotale').textContent = totale;
+  document.getElementById('statTotaleSub').textContent = totale === 1 ? '1 preventivo registrato' : totale + ' preventivi registrati';
+  document.getElementById('statIncassato').textContent = formatEur(incassato);
+  document.getElementById('statDaIncassare').textContent = formatEur(daIncassare);
+  document.getElementById('statScadenza').textContent = scadenza;
+}
+
+// ---- Filtered & sorted list ----
+function getFiltered() {
+  var q = (document.getElementById('filterSearch').value || '').toLowerCase().trim();
+  var stato = document.getElementById('filterStato').value;
+  var sort = document.getElementById('filterSort').value;
+
+  var result = preventivi.filter(function(p) {
+    var matchQ = !q
+      || (p.cliente || '').toLowerCase().includes(q)
+      || (p.destinazione || '').toLowerCase().includes(q)
+      || (p.fornitore || '').toLowerCase().includes(q)
+      || (p.email || '').toLowerCase().includes(q);
+    var matchS = !stato || p.stato === stato;
+    return matchQ && matchS;
+  });
+
+  result.sort(function(a, b) {
+    var va = a[sort] || '';
+    var vb = b[sort] || '';
+    if (!va && !vb) return 0;
+    if (!va) return 1;
+    if (!vb) return -1;
+    return va < vb ? -1 : va > vb ? 1 : 0;
+  });
+
+  return result;
+}
+
+// ---- Render table ----
+function renderTable() {
+  updateStats();
+  var list = getFiltered();
+  var tbody = document.getElementById('tableBody');
+
+  document.getElementById('filterCount').textContent =
+    list.length + ' di ' + preventivi.length + ' pratiche';
+
+  if (list.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="11"><div class="empty-state"><div class="empty-icon">📋</div>'
+      + (preventivi.length === 0
+          ? 'Nessun preventivo ancora.<br>Clicca "+ Nuovo Preventivo" per iniziare.'
+          : 'Nessun risultato per i filtri selezionati.')
+      + '</div></td></tr>';
+    return;
+  }
+
+  var html = '';
+  list.forEach(function(p, idx) {
+    var saldo = Math.max(0, (parseFloat(p.prezzo_totale) || 0) - (parseFloat(p.acconto) || 0));
+    var statoClass = {
+      'Preventivo':     'stato-preventivo',
+      'Confermato':     'stato-confermato',
+      'Acconto versato':'stato-acconto',
+      'Saldo versato':  'stato-saldo',
+      'Annullato':      'stato-annullato'
+    }[p.stato] || '';
+
+    var badgeClass = {
+      'Preventivo':     'badge-Preventivo',
+      'Confermato':     'badge-Confermato',
+      'Acconto versato':'badge-Acconto',
+      'Saldo versato':  'badge-Saldo',
+      'Annullato':      'badge-Annullato'
+    }[p.stato] || 'badge-Preventivo';
+
+    var scadCls = '';
+    var scadTxt = formatDate(p.scadenza_saldo);
+    if (p.stato !== 'Saldo versato' && p.stato !== 'Annullato') {
+      if (p.scadenza_saldo && isScaduta(p.scadenza_saldo)) scadCls = 'scadenza-alert';
+      else if (p.scadenza_saldo && isScadenzaVicina(p.scadenza_saldo)) scadCls = 'scadenza-alert';
+    }
+
+    var persone = (parseInt(p.adulti) || 1) + (parseInt(p.bambini) ? '+' + p.bambini + 'b' : '');
+
+    html += '<tr class="' + statoClass + '">'
+      + '<td style="color:rgba(255,255,255,0.3);font-size:0.6875rem">' + (idx + 1) + '</td>'
+      + '<td>'
+      +   '<div style="font-weight:600">' + esc(p.cliente || '—') + '</div>'
+      +   (p.telefono ? '<div style="font-size:0.6875rem;color:rgba(255,255,255,0.35)">' + esc(p.telefono) + '</div>' : '')
+      + '</td>'
+      + '<td>'
+      +   '<div style="font-weight:600">' + esc(p.destinazione || '—') + '</div>'
+      +   (p.fornitore ? '<div style="font-size:0.6875rem;color:rgba(255,255,255,0.35)">' + esc(p.fornitore) + '</div>' : '')
+      + '</td>'
+      + '<td>' + formatDate(p.data_partenza) + '</td>'
+      + '<td style="text-align:center">' + esc(String(persone)) + '</td>'
+      + '<td style="font-weight:600">' + (p.prezzo_totale ? formatEur(p.prezzo_totale) : '—') + '</td>'
+      + '<td>' + (p.acconto ? formatEur(p.acconto) : '—') + '</td>'
+      + '<td>' + (p.stato !== 'Saldo versato' && saldo > 0 ? formatEur(saldo) : (p.stato === 'Saldo versato' ? '<span style="color:#4ade80">✓ Pagato</span>' : '—')) + '</td>'
+      + '<td class="' + scadCls + '">' + scadTxt + '</td>'
+      + '<td><span class="badge-stato ' + badgeClass + '">' + esc(p.stato) + '</span></td>'
+      + '<td>'
+      +   '<div style="display:flex;gap:0.375rem">'
+      +   '<button class="btn btn-outline btn-sm" onclick="openEditModal(\'' + p.id + '\')">✏️</button>'
+      +   '<button class="btn btn-danger btn-sm" onclick="openDeleteModal(\'' + p.id + '\')">🗑️</button>'
+      +   '</div>'
+      + '</td>'
+      + '</tr>';
+  });
+
+  tbody.innerHTML = html;
+}
+
+function esc(str) {
+  return String(str || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+// ---- Modal Add ----
+function openAddModal() {
+  editingId = null;
+  document.getElementById('editModalTitle').textContent = 'Nuovo Preventivo';
+  clearForm();
+  document.getElementById('editModal').classList.add('open');
+}
+
+// ---- Modal Edit ----
+function openEditModal(id) {
+  var p = preventivi.find(function(x) { return x.id === id; });
+  if (!p) return;
+  editingId = id;
+  document.getElementById('editModalTitle').textContent = 'Modifica Preventivo — ' + (p.cliente || p.destinazione || '');
+  fillForm(p);
+  document.getElementById('editModal').classList.add('open');
+}
+
+function closeEditModal() {
+  document.getElementById('editModal').classList.remove('open');
+}
+
+function closeEditModalOnBg(e) {
+  if (e.target === document.getElementById('editModal')) closeEditModal();
+}
+
+function clearForm() {
+  var ids = ['f-cliente','f-telefono','f-email','f-destinazione','f-fornitore',
+             'f-data_partenza','f-data_ritorno','f-sistemazione',
+             'f-prezzo_totale','f-acconto','f-data_acconto','f-scadenza_saldo','f-note'];
+  ids.forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  document.getElementById('f-adulti').value = '1';
+  document.getElementById('f-bambini').value = '0';
+  document.getElementById('f-stato').value = 'Preventivo';
+  document.getElementById('f-saldo_display').value = '';
+}
+
+function fillForm(p) {
+  var map = {
+    'f-cliente': p.cliente, 'f-telefono': p.telefono, 'f-email': p.email,
+    'f-destinazione': p.destinazione, 'f-fornitore': p.fornitore,
+    'f-stato': p.stato,
+    'f-data_partenza': p.data_partenza, 'f-data_ritorno': p.data_ritorno,
+    'f-adulti': p.adulti, 'f-bambini': p.bambini,
+    'f-sistemazione': p.sistemazione,
+    'f-prezzo_totale': p.prezzo_totale, 'f-acconto': p.acconto,
+    'f-data_acconto': p.data_acconto, 'f-scadenza_saldo': p.scadenza_saldo,
+    'f-note': p.note
+  };
+  Object.keys(map).forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.value = map[id] || '';
+  });
+  calcSaldo();
+}
+
+function getFormData() {
+  var tot = parseFloat(document.getElementById('f-prezzo_totale').value) || 0;
+  var acc = parseFloat(document.getElementById('f-acconto').value) || 0;
+  return {
+    cliente:       document.getElementById('f-cliente').value.trim(),
+    telefono:      document.getElementById('f-telefono').value.trim(),
+    email:         document.getElementById('f-email').value.trim(),
+    destinazione:  document.getElementById('f-destinazione').value.trim(),
+    fornitore:     document.getElementById('f-fornitore').value.trim(),
+    stato:         document.getElementById('f-stato').value,
+    data_partenza: document.getElementById('f-data_partenza').value,
+    data_ritorno:  document.getElementById('f-data_ritorno').value,
+    adulti:        parseInt(document.getElementById('f-adulti').value) || 1,
+    bambini:       parseInt(document.getElementById('f-bambini').value) || 0,
+    sistemazione:  document.getElementById('f-sistemazione').value.trim(),
+    prezzo_totale: tot,
+    acconto:       acc,
+    data_acconto:  document.getElementById('f-data_acconto').value,
+    scadenza_saldo:document.getElementById('f-scadenza_saldo').value,
+    note:          document.getElementById('f-note').value.trim()
+  };
+}
+
+// ---- Save preventivo ----
+function savePreventivo() {
+  var data = getFormData();
+  if (!data.cliente && !data.destinazione) {
+    showToast('Inserisci almeno il nome del cliente o la destinazione.', true);
+    return;
+  }
+
+  if (editingId) {
+    var idx = preventivi.findIndex(function(x) { return x.id === editingId; });
+    if (idx !== -1) {
+      data.id = editingId;
+      data.data_creazione = preventivi[idx].data_creazione;
+      preventivi[idx] = data;
+    }
+  } else {
+    data.id = uuid();
+    data.data_creazione = new Date().toISOString().split('T')[0];
+    preventivi.push(data);
+  }
+
+  saveData();
+  renderTable();
+  closeEditModal();
+  showToast(editingId ? 'Preventivo aggiornato.' : 'Preventivo aggiunto!');
+}
+
+// ---- Delete ----
+function openDeleteModal(id) {
+  var p = preventivi.find(function(x) { return x.id === id; });
+  if (!p) return;
+  deletingId = id;
+  document.getElementById('deleteModalText').textContent =
+    'Stai per eliminare il preventivo di "' + (p.cliente || p.destinazione || 'questo cliente') + '" per ' + (p.destinazione || 'questa destinazione') + '.';
+  document.getElementById('deleteModal').classList.add('open');
+}
+
+function closeDeleteModal() {
+  document.getElementById('deleteModal').classList.remove('open');
+  deletingId = null;
+}
+
+function closeDeleteModalOnBg(e) {
+  if (e.target === document.getElementById('deleteModal')) closeDeleteModal();
+}
+
+function confirmDelete() {
+  if (!deletingId) return;
+  preventivi = preventivi.filter(function(x) { return x.id !== deletingId; });
+  saveData();
+  renderTable();
+  closeDeleteModal();
+  showToast('Preventivo eliminato.');
+}
+
+// ---- Export Excel (SheetJS) ----
+function exportExcel() {
+  if (!window.XLSX) { showToast('SheetJS non caricato. Controlla la connessione.', true); return; }
+  if (preventivi.length === 0) { showToast('Nessun dato da esportare.', true); return; }
+
+  var rows = [
+    ['#', 'Cliente', 'Telefono', 'Email', 'Destinazione', 'Fornitore', 'Stato',
+     'Data Partenza', 'Data Ritorno', 'Adulti', 'Bambini', 'Sistemazione',
+     'Prezzo Totale €', 'Acconto €', 'Data Acconto', 'Saldo da Pagare €',
+     'Scadenza Saldo', 'Note', 'Data Creazione']
+  ];
+
+  preventivi.forEach(function(p, i) {
+    var saldo = Math.max(0, (parseFloat(p.prezzo_totale) || 0) - (parseFloat(p.acconto) || 0));
+    rows.push([
+      i + 1,
+      p.cliente || '',
+      p.telefono || '',
+      p.email || '',
+      p.destinazione || '',
+      p.fornitore || '',
+      p.stato || '',
+      p.data_partenza || '',
+      p.data_ritorno || '',
+      p.adulti || 1,
+      p.bambini || 0,
+      p.sistemazione || '',
+      parseFloat(p.prezzo_totale) || 0,
+      parseFloat(p.acconto) || 0,
+      p.data_acconto || '',
+      saldo,
+      p.scadenza_saldo || '',
+      p.note || '',
+      p.data_creazione || ''
+    ]);
+  });
+
+  var ws = XLSX.utils.aoa_to_sheet(rows);
+
+  // Column widths
+  ws['!cols'] = [
+    {wch:4}, {wch:22}, {wch:16}, {wch:26}, {wch:18}, {wch:18}, {wch:16},
+    {wch:13}, {wch:13}, {wch:7}, {wch:8}, {wch:20},
+    {wch:14}, {wch:12}, {wch:13}, {wch:16},
+    {wch:14}, {wch:32}, {wch:14}
+  ];
+
+  // Style header row
+  var headerStyle = {
+    font: { bold: true, color: { rgb: '031030' } },
+    fill: { fgColor: { rgb: 'FEBD41' } },
+    alignment: { horizontal: 'center' }
+  };
+
+  // Currency format for columns M, N, P (indices 12, 13, 15)
+  var currFmt = '€ #,##0.00';
+  var currCols = [12, 13, 15];
+  for (var r = 1; r < rows.length; r++) {
+    currCols.forEach(function(c) {
+      var cellRef = XLSX.utils.encode_cell({ r: r, c: c });
+      if (ws[cellRef]) {
+        ws[cellRef].z = currFmt;
+        ws[cellRef].t = 'n';
+      }
+    });
+  }
+
+  // Apply header styles
+  for (var c = 0; c < rows[0].length; c++) {
+    var ref = XLSX.utils.encode_cell({ r: 0, c: c });
+    if (!ws[ref]) continue;
+    ws[ref].s = headerStyle;
+  }
+
+  var wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Preventivi');
+
+  var today = new Date().toISOString().split('T')[0];
+  XLSX.writeFile(wb, 'preventivi_' + today + '.xlsx');
+  showToast('Excel esportato!');
+}
+
+// ---- Export JSON ----
+function exportJSON() {
+  if (preventivi.length === 0) { showToast('Nessun dato da esportare.', true); return; }
+  var blob = new Blob([JSON.stringify(preventivi, null, 2)], { type: 'application/json' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'preventivi_backup_' + new Date().toISOString().split('T')[0] + '.json';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast('Backup JSON scaricato!');
+}
+
+// ---- Import JSON ----
+function importJSON(event) {
+  var file = event.target.files[0];
+  if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      var parsed = JSON.parse(e.target.result);
+      if (!Array.isArray(parsed)) throw new Error('Il file non contiene un array di preventivi.');
+
+      var action = confirm(
+        'Trovati ' + parsed.length + ' preventivi nel backup.\n\n'
+        + 'Clicca OK per SOSTITUIRE tutti i dati attuali.\n'
+        + 'Clicca Annulla per AGGIUNGERE ai dati esistenti.'
+      );
+
+      if (action) {
+        preventivi = parsed;
+      } else {
+        // Merge: aggiunge solo quelli con id non esistente
+        var existingIds = preventivi.map(function(x) { return x.id; });
+        var added = 0;
+        parsed.forEach(function(p) {
+          if (!existingIds.includes(p.id)) {
+            preventivi.push(p);
+            added++;
+          }
+        });
+        showToast('Aggiunti ' + added + ' nuovi preventivi (duplicati ignorati).');
+        saveData();
+        renderTable();
+        event.target.value = '';
+        return;
+      }
+
+      saveData();
+      renderTable();
+      showToast('Importati ' + preventivi.length + ' preventivi!');
+    } catch (err) {
+      showToast('Errore importazione: ' + err.message, true);
+    }
+    event.target.value = '';
+  };
+  reader.readAsText(file, 'UTF-8');
+}
+
+// ---- Toast ----
+function showToast(msg, isError) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.remove('error');
+  if (isError) t.classList.add('error');
+  t.classList.add('show');
+  setTimeout(function() { t.classList.remove('show'); }, 3500);
+}
+
+// ---- Init ----
+function init() {
+  checkAuth();
+  loadData();
+  renderTable();
+}
+
+init();
+</script>
+</body>
+</html>
