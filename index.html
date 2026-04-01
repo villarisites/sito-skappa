@@ -68,15 +68,15 @@
     ]
   }
   </script>
-  <link rel="stylesheet" href="css/tailwind.min.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
   <link rel="dns-prefetch" href="//formspree.io" />
-  <link rel="preconnect" href="https://formspree.io" crossorigin />
+  <link rel="dns-prefetch" href="//cdn.tailwindcss.com" />
   <link rel="dns-prefetch" href="//www.googletagmanager.com" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Days+One&family=Inter:wght@400;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
-  <noscript><link href="https://fonts.googleapis.com/css2?family=Days+One&family=Inter:wght@400;600;700&display=swap" rel="stylesheet" /></noscript>
+  <link href="https://fonts.googleapis.com/css2?family=Days+One&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
+  <script src="data/destinations.js"></script>
 </head>
 <body>
 
@@ -86,7 +86,7 @@
       <div class="flex items-center justify-between h-11">
         <!-- Logo -->
         <a href="index.html" class="flex items-center">
-          <img src="assets/foto/utility/logo skappa.svg" alt="SKAPPA" width="32" height="32" style="height:2rem;object-fit:contain"
+          <img src="assets/foto/utility/logo skappa.svg" alt="SKAPPA" style="height:2rem;object-fit:contain"
             onerror="this.outerHTML='<span style=&quot;color:var(--gold);font-family:Days One,sans-serif;font-size:1rem;font-weight:900&quot;>SKAPPA</span>'" />
         </a>
         <!-- Nav links (desktop) -->
@@ -166,7 +166,7 @@
     <canvas id="heroShader" class="hero-shader-canvas" aria-hidden="true"></canvas>
     <div class="hero-overlay"></div>
     <div class="hero-content">
-      <img src="assets/foto/utility/scritta skappa.png" alt="SKAPPA" class="hero-title-img" width="480" height="96" />
+      <img src="assets/foto/utility/scritta skappa.png" alt="SKAPPA" class="hero-title-img" />
       <p class="hero-subtitle">Viaggi già organizzati a partire</p>
       <div class="hero-price"><span id="heroPriceMin">DA 99€</span></div>
       <br/>
@@ -524,7 +524,7 @@
           <a href="privacy.html" class="footer-link">Privacy Policy</a>
           <a href="faq.html" class="footer-link">FAQ</a>
         </div>
-        <img src="assets/foto/utility/i viaggi del futuro.png" alt="Viaggi del Futuro" width="80" height="80" style="height:5rem;object-fit:contain"
+        <img src="assets/foto/utility/i viaggi del futuro.png" alt="Viaggi del Futuro" style="height:5rem;object-fit:contain"
           onerror="this.style.display='none'" />
       </div>
       <div class="flex flex-col md:flex-row items-center justify-between gap-3 text-xs" style="opacity:0.5;border-top:1px solid rgba(3,16,48,0.1);padding-top:1.25rem">
@@ -543,8 +543,7 @@
   </footer>
 
 
-  <script src="data/destinations.js"></script>
-  <script src="js/main.js" defer></script>
+  <script src="js/main.js"></script>
   <script src="js/hero-shader.js" defer></script>
   <script src="js/animations.js" defer></script>
   <script>
@@ -566,7 +565,7 @@
       var imgLoad = (idx === 0) ? 'fetchpriority="high"' : 'loading="lazy" decoding="async"';
       return '<a href="' + url + '" class="dest-card' + extraClass + '">'
         + '<div class="dest-card-img-placeholder">'
-        + '<img src="' + (d.imgHero || '') + '" alt="' + d.nome + '" class="dest-card-photo" width="280" height="320" ' + imgLoad + ' onerror="this.style.display=\'none\'" />'
+        + '<img src="' + (d.imgHero || '') + '" alt="' + d.nome + '" class="dest-card-photo" ' + imgLoad + ' onerror="this.style.display=\'none\'" />'
         + SVG_PH
         + '</div>'
         + '<div class="dest-card-overlay"></div>'
@@ -620,7 +619,7 @@
         var lmImgLoad = (lmIdx === 0) ? 'fetchpriority="high"' : 'loading="lazy" decoding="async"';
         return '<a href="viaggio-lastminute.html?id=' + d.id + '" class="dest-card dest-card-lm" style="flex:0 0 260px;max-width:280px">'
           + '<div class="dest-card-img-placeholder">'
-          + '<img src="' + (d.imgHero || '') + '" alt="' + d.nome + '" class="dest-card-photo" width="280" height="320" ' + lmImgLoad + ' onerror="this.style.display=\'none\'" />'
+          + '<img src="' + (d.imgHero || '') + '" alt="' + d.nome + '" class="dest-card-photo" ' + lmImgLoad + ' onerror="this.style.display=\'none\'" />'
           + '<svg class="placeholder-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/></svg>'
           + '</div>'
           + '<div class="dest-card-overlay"></div>'

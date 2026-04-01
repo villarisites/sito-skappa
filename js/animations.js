@@ -13,14 +13,9 @@
   if (!reducedMotion) {
     var heroBg = document.querySelector('.hero-bg');
     if (heroBg) {
-      var rafPending = false;
       window.addEventListener('scroll', function () {
-        if (rafPending) return;
-        rafPending = true;
-        requestAnimationFrame(function () {
-          heroBg.style.transform = 'translateY(' + (window.pageYOffset * 0.28) + 'px)';
-          rafPending = false;
-        });
+        var scrolled = window.pageYOffset;
+        heroBg.style.transform = 'translateY(' + (scrolled * 0.28) + 'px)';
       }, { passive: true });
     }
   }
