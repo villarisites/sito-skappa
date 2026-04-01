@@ -73,7 +73,8 @@
   <link rel="dns-prefetch" href="//www.googletagmanager.com" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Days+One&family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Days+One&family=Inter:wght@400;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Days+One&family=Inter:wght@400;600;700&display=swap" rel="stylesheet"></noscript>
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
@@ -541,7 +542,7 @@
   </footer>
 
 
-  <script src="data/destinations.js"></script>
+  <script src="data/destinations.js" defer></script>
   <script src="js/main.js" defer></script>
   <script src="js/hero-shader.js" defer></script>
   <script src="js/animations.js" defer></script>
@@ -585,7 +586,7 @@
       if (!track || !dests.length) return;
       track.innerHTML = dests.map(buildCard).join('');
       dotsEl.innerHTML = dests.map(function (_, i) {
-        return '<button class="carousel-dot' + (i === 0 ? ' active' : '') + '"></button>';
+        return '<button class="carousel-dot' + (i === 0 ? ' active' : '') + '" aria-label="Slide ' + (i + 1) + '"></button>';
       }).join('');
     }
 
@@ -640,15 +641,15 @@
       document.getElementById('lastminute').style.display = 'none';
     }
 
-  }); // end DOMContentLoaded
+    // ---- Prezzo minimo dinamico hero ----
+    (function(){
+      var dests = window.DESTINATIONS || [];
+      if (!dests.length) return;
+      var min = Math.min.apply(null, dests.map(function(d){ return parseInt(d.prezzo,10)||Infinity; }));
+      if (isFinite(min)) { var el = document.getElementById('heroPriceMin'); if(el) el.textContent = 'DA '+min+'€'; }
+    })();
 
-  // ---- Prezzo minimo dinamico hero (sincrono: destinations.js già caricato) ----
-  (function(){
-    var dests = window.DESTINATIONS || [];
-    if (!dests.length) return;
-    var min = Math.min.apply(null, dests.map(function(d){ return parseInt(d.prezzo,10)||Infinity; }));
-    if (isFinite(min)) { var el = document.getElementById('heroPriceMin'); if(el) el.textContent = 'DA '+min+'€'; }
-  })();
+  }); // end DOMContentLoaded
   </script>
 </body>
 </html>
