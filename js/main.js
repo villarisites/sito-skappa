@@ -339,7 +339,8 @@ window.skappaCookieAccept = function (type) {
     '#waBtn:hover{transform:scale(1.1);box-shadow:0 6px 28px rgba(37,211,102,0.45);animation:none}',
     '#waBtn svg{width:1.625rem;height:1.625rem;fill:#fff;flex-shrink:0}',
     '#waBtn .wa-tooltip{position:absolute;right:calc(100% + 0.75rem);top:50%;transform:translateY(-50%);background:rgba(2,12,36,0.92);color:#fff;font-size:0.6875rem;font-weight:700;white-space:nowrap;padding:0.35rem 0.75rem;border-radius:0.375rem;pointer-events:none;opacity:0;transition:opacity .2s;font-family:Inter,sans-serif;letter-spacing:0.04em}',
-    '#waBtn:hover .wa-tooltip{opacity:1}'
+    '#waBtn:hover .wa-tooltip{opacity:1}',
+    '@media(max-width:767px){#waBtn{bottom:2rem;right:2rem}}'
   ].join('');
   document.head.appendChild(s);
 

@@ -132,7 +132,7 @@ body {
 .hero-bg {
   position: absolute;
   inset: 0;
-  background-image: url('../img/hero-bg.jpg');
+  background-image: url('../assets/foto/utility/sfondo hero.webp');
   background-size: cover;
   background-position: center 30%;
   background-repeat: no-repeat;
@@ -941,6 +941,9 @@ html[data-theme="light"] #preventivoForm textarea.kit-input { background: rgba(2
 }
 
 /* ---- Hero shader canvas ---- */
+#heroShader { opacity: 0; transition: opacity 1.2s ease; }
+#heroShader.shader-ready { opacity: 1; }
+
 .hero-shader-canvas {
   position: absolute;
   inset: 0;
