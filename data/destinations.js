@@ -11,7 +11,7 @@ window.DESTINATIONS = [
     "date": "Dal 30 Luglio al 4 Agosto",
     "tagline": "La Costa Brava che non dorme mai.",
     "prezzo": "349",
-    "imgHero": "assets/foto/lloret-de-mar/hero.png",
+    "imgHero": "assets/foto/lloret-de-mar/hero.webp",
     "partenzaDa": "Napoli",
     "durata": "6 giorni e 5 notti",
     "inclusiPacchetto": [
@@ -29,17 +29,17 @@ window.DESTINATIONS = [
       {
         "titolo": "BOAT PARTY NEL GOLFO",
         "descrizione": "Barca a due piani nel Golfo di Lloret: dj set, free bar, cibo e il mare della Costa Brava tutto per voi. La festa più bella dell'estate parte dall'acqua.",
-        "img": "assets/foto/lloret-de-mar/activity-1.png"
+        "img": "assets/foto/lloret-de-mar/activity-1.webp"
       },
       {
         "titolo": "POOL PARTY SUDDENESS",
         "descrizione": "L'evento estivo più esplosivo della Costa Brava: 2000 persone, schiuma, beer pong, musica ad alto volume e un'atmosfera che non si dimentica.",
-        "img": "assets/foto/lloret-de-mar/activity-2.png"
+        "img": "assets/foto/lloret-de-mar/activity-2.webp"
       },
       {
         "titolo": "BARCELLONA BY NIGHT",
         "descrizione": "Pullman, tour serale a Barceloneta, ingresso al Pacha e un drink incluso. Una notte nella città più viva del Mediterraneo — poi si torna a Lloret pronti per il giorno dopo.",
-        "img": "assets/foto/lloret-de-mar/activity-3.png"
+        "img": "assets/foto/lloret-de-mar/activity-3.webp"
       }
     ],
     "inclusiConSkappa": [
@@ -108,7 +108,7 @@ window.DESTINATIONS = [
     "date": "Dal 23 al 28 Luglio",
     "tagline": "Il Salento che balla fino all'alba.",
     "prezzo": "259",
-    "imgHero": "assets/foto/gallipoli/hero.png",
+    "imgHero": "assets/foto/gallipoli/hero.webp",
     "partenzaDa": "Napoli",
     "durata": "6 giorni e 5 notti",
     "inclusiPacchetto": [
@@ -125,17 +125,17 @@ window.DESTINATIONS = [
       {
         "titolo": "BOAT PARTY SALENTINO",
         "descrizione": "Giro in barca tra le acque cristalline di Gallipoli e Punta della Suina. Musica, sole e il Salento visto dal mare: un pomeriggio che vale tutto il viaggio.",
-        "img": "assets/foto/gallipoli/activity-1.png"
+        "img": "assets/foto/gallipoli/activity-1.webp"
       },
       {
         "titolo": "LE GROTTE DEL CENTRO STORICO",
         "descrizione": "La movida gallipolina è unica: locali e club ricavati dentro le grotte del centro storico medievale. Musica, gente e un'atmosfera che non trovi da nessun'altra parte.",
-        "img": "assets/foto/gallipoli/activity-2.png"
+        "img": "assets/foto/gallipoli/activity-2.webp"
       },
       {
         "titolo": "ISOLA DI SANT'ANDREA",
         "descrizione": "Escursione in barca all'isola più bella del Salento. Acqua turchese, snorkeling tra i fondali e relax totale — la pausa perfetta tra una serata e l'altra.",
-        "img": "assets/foto/gallipoli/activity-3.png"
+        "img": "assets/foto/gallipoli/activity-3.webp"
       }
     ],
     "inclusiConSkappa": [
@@ -204,7 +204,7 @@ window.DESTINATIONS = [
     "date": "Dal 16 al 21 Luglio",
     "tagline": "Mare azzurro di giorno, party folli di notte.",
     "prezzo": "349",
-    "imgHero": "assets/foto/zante/hero.jpg",
+    "imgHero": "assets/foto/zante/hero.webp",
     "partenzaDa": "Napoli",
     "durata": "6 giorni e 5 notti",
     "inclusiPacchetto": [
@@ -220,17 +220,17 @@ window.DESTINATIONS = [
       {
         "titolo": "NAVAGIO BEACH IN BARCA",
         "descrizione": "La spiaggia del relitto più fotografata al mondo, raggiungibile solo via mare. Con SKAPPA ci arrivi in barca, ti tuffi nelle acque turchesi e torni con un ricordo impossibile da dimenticare.",
-        "img": "assets/foto/zante/activity-1.png"
+        "img": "assets/foto/zante/activity-1.webp"
       },
       {
         "titolo": "BOAT PARTY IONIO",
         "descrizione": "Festa su barca tra le acque azzurre dello Ionio: free bar, musica dal vivo e un panorama che toglie il fiato. La versione più bella del party che puoi fare.",
-        "img": "assets/foto/zante/activity-2.png"
+        "img": "assets/foto/zante/activity-2.webp"
       },
       {
         "titolo": "LAGANAS NIGHTLIFE",
         "descrizione": "Il lungomare più selvaggio della Grecia: beach bar, club sulla sabbia e serate che non hanno un orario di chiusura. Zante di notte è un'altra dimensione.",
-        "img": "assets/foto/zante/activity-3.png"
+        "img": "assets/foto/zante/activity-3.webp"
       }
     ],
     "inclusiConSkappa": [
@@ -299,7 +299,7 @@ window.DESTINATIONS = [
     "date": "WIP",
     "tagline": "L'isola che ha inventato la festa.",
     "prezzo": "WIP",
-    "imgHero": "assets/foto/ibiza/hero.png",
+    "imgHero": "assets/foto/ibiza/hero.webp",
     "partenzaDa": "Napoli",
     "durata": "WIP",
     "inclusiPacchetto": [
@@ -316,17 +316,17 @@ window.DESTINATIONS = [
       {
         "titolo": "SUNSET APERITIVO",
         "descrizione": "I tramonti di Ibiza sono famosi in tutto il mondo. Musica, cocktail e vista sul mare mentre il cielo si tinge d'arancio: un momento che vale tutto il viaggio.",
-        "img": "assets/foto/ibiza/activity-1.png"
+        "img": "assets/foto/ibiza/activity-1.webp"
       },
       {
         "titolo": "BOAT PARTY",
         "descrizione": "Barca a due piani, free bar, musica dal vivo e mare cristallino. Una festa galleggiante tra le acque più belle del Mediterraneo che non puoi assolutamente perderti.",
-        "img": "assets/foto/ibiza/activity-2.png"
+        "img": "assets/foto/ibiza/activity-2.webp"
       },
       {
         "titolo": "NOTTI LEGGENDARIE",
         "descrizione": "Club iconici, DJ set di livello assoluto e un'atmosfera irripetibile. Ibiza non è solo un'isola: è uno stile di vita, e con SKAPPA lo vivi dall'interno.",
-        "img": "assets/foto/ibiza/activity-3.png"
+        "img": "assets/foto/ibiza/activity-3.webp"
       }
     ],
     "inclusiConSkappa": [
@@ -394,7 +394,7 @@ window.DESTINATIONS = [
     "date": "WIP",
     "tagline": "Bianco abbagliante di giorno, festa inarrestabile di notte.",
     "prezzo": "WIP",
-    "imgHero": "assets/foto/mykonos/hero.png",
+    "imgHero": "assets/foto/mykonos/hero.webp",
     "partenzaDa": "Napoli",
     "durata": "WIP",
     "inclusiPacchetto": [
@@ -411,17 +411,17 @@ window.DESTINATIONS = [
       {
         "titolo": "SPIAGGE ICONICHE",
         "descrizione": "Paradise Beach, Super Paradise: le spiagge di Mykonos sono uno spettacolo. Musica, lettini, cocktail e un mare da sogno tutto il giorno, dall'alba al tramonto.",
-        "img": "assets/foto/mykonos/activity-1.png"
+        "img": "assets/foto/mykonos/activity-1.webp"
       },
       {
         "titolo": "WINDMILLS & LITTLE VENICE",
         "descrizione": "I mulini a vento bianchi e le case sul mare di Little Venice sono gli scorci più iconici della Grecia. Strade strette, fiori colorati e un'atmosfera unica che non dimenticherai.",
-        "img": "assets/foto/mykonos/activity-2.png"
+        "img": "assets/foto/mykonos/activity-2.webp"
       },
       {
         "titolo": "PARTY CHE NON FINISCONO",
         "descrizione": "Sunset bar sulla spiaggia, club esclusivi e locali che partono a mezzogiorno e finiscono all'alba. Mykonos è sinonimo di festa e SKAPPA sa esattamente dove portarti.",
-        "img": "assets/foto/mykonos/activity-3.png"
+        "img": "assets/foto/mykonos/activity-3.webp"
       }
     ],
     "inclusiConSkappa": [
@@ -489,7 +489,7 @@ window.DESTINATIONS = [
     "date": "Dal 16 al 19 Aprile",
     "tagline": "Energia mediterranea, notti infinite e una città che non ti lascia dormire.",
     "prezzo": "429",
-    "imgHero": "assets/foto/barcellona/hero.jpg",
+    "imgHero": "assets/foto/barcellona/hero.webp",
     "partenzaDa": "Napoli",
     "durata": "4 giorni e 3 notti",
     "inclusiPacchetto": [
@@ -507,17 +507,17 @@ window.DESTINATIONS = [
       {
         "titolo": "ICONE SENZA TEMPO",
         "descrizione": "Dalla Sagrada Família al Parc Güell, Barcellona è un museo a cielo aperto. Architettura visionaria, panorami urbani e scorci che sembrano usciti da un film.",
-        "img": "assets/foto/barcellona/activity-1.jpg"
+        "img": "assets/foto/barcellona/activity-1.webp"
       },
       {
         "titolo": "QUARTIERI CHE VIVONO",
         "descrizione": "El Born, Barceloneta, El Raval. Ogni quartiere ha una sua anima, tra bar nascosti, street art, musica e locali che si accendono dopo il tramonto.",
-        "img": "assets/foto/barcellona/activity-2.jpg"
+        "img": "assets/foto/barcellona/activity-2.webp"
       },
       {
         "titolo": "NOTTI CHE NON FINISCONO",
         "descrizione": "Club iconici, beach party, serate che iniziano tardi e finiscono all'alba. A Barcellona il divertimento non ha orari e SKAPPA sa esattamente dove portarti.",
-        "img": "assets/foto/barcellona/activity-3.jpg"
+        "img": "assets/foto/barcellona/activity-3.webp"
       }
     ],
     "inclusiConSkappa": [
@@ -608,7 +608,7 @@ window.DESTINATIONS = [
     "date": "Dal 23 al 26 Aprile",
     "tagline": "Inizia il tuo viaggio in una capitale dinamica, cosmopolita e sempre sorprendente.",
     "prezzo": "389",
-    "imgHero": "assets/foto/londra/hero.jpg",
+    "imgHero": "assets/foto/londra/hero.webp",
     "partenzaDa": "Napoli",
     "durata": "4 giorni e 3 notti",
     "hotel": "Orlando Hotel",
@@ -627,17 +627,17 @@ window.DESTINATIONS = [
       {
         "titolo": "ICONE BRITANNICHE",
         "descrizione": "Dal Big Ben a Buckingham Palace, vivi i simboli più famosi della città.",
-        "img": "assets/foto/londra/activity-1.jpg"
+        "img": "assets/foto/londra/activity-1.webp"
       },
       {
         "titolo": "QUARTIERI ALTERNATIVI",
         "descrizione": "Scopri Camden, Soho e zone creative dove Londra mostra la sua anima più autentica.",
-        "img": "assets/foto/londra/activity-2.jpg"
+        "img": "assets/foto/londra/activity-2.webp"
       },
       {
         "titolo": "NIGHTLIFE E CULTURA",
         "descrizione": "Pub storici, musica dal vivo e una scena culturale tra le più vivaci d'Europa.",
-        "img": "assets/foto/londra/activity-3.jpg"
+        "img": "assets/foto/londra/activity-3.webp"
       }
     ],
     "inclusiConSkappa": [
@@ -727,7 +727,7 @@ window.DESTINATIONS = [
     "date": "Dal 23 al 26 Aprile",
     "tagline": "Inizia il tuo viaggio nella città più iconica d'Europa, tra romanticismo, arte e atmosfera senza tempo.",
     "prezzo": "429",
-    "imgHero": "assets/foto/parigi/hero.jpg",
+    "imgHero": "assets/foto/parigi/hero.webp",
     "partenzaDa": "Napoli",
     "durata": "4 giorni e 3 notti",
     "inclusiPacchetto": [
@@ -745,17 +745,17 @@ window.DESTINATIONS = [
       {
         "titolo": "ICONE SENZA TEMPO",
         "descrizione": "Passeggia tra la Tour Eiffel, Montmartre e i boulevard parigini, vivendo la città più fotografata al mondo.",
-        "img": "assets/foto/parigi/activity-1.jpg"
+        "img": "assets/foto/parigi/activity-1.webp"
       },
       {
         "titolo": "ARTE E CULTURA",
         "descrizione": "Musei, quartieri storici e angoli pieni di storia rendono ogni passeggiata un'esperienza.",
-        "img": "assets/foto/parigi/activity-2.jpg"
+        "img": "assets/foto/parigi/activity-2.webp"
       },
       {
         "titolo": "ATMOSFERA ROMANTICA",
         "descrizione": "Caffè, luci soffuse e scorci suggestivi rendono Parigi perfetta da vivere con calma.",
-        "img": "assets/foto/parigi/activity-3.jpg"
+        "img": "assets/foto/parigi/activity-3.webp"
       }
     ],
     "inclusiConSkappa": [
@@ -847,7 +847,7 @@ window.DESTINATIONS = [
     "date": "Dal 23 al 26 Aprile",
     "tagline": "Inizia il tuo viaggio in una capitale autentica, tra storia millenaria e natura sorprendente.",
     "prezzo": "219",
-    "imgHero": "assets/foto/sofia/hero.jpg",
+    "imgHero": "assets/foto/sofia/hero.webp",
     "partenzaDa": "Napoli",
     "durata": "4 giorni e 3 notti",
     "inclusiPacchetto": [
@@ -865,17 +865,17 @@ window.DESTINATIONS = [
       {
         "titolo": "STORIA E CULTURA MILLENARIA",
         "descrizione": "Passeggia tra chiese ortodosse, rovine romane e palazzi simbolo della città.",
-        "img": "assets/foto/sofia/activity-1.jpg"
+        "img": "assets/foto/sofia/activity-1.webp"
       },
       {
         "titolo": "NATURA E RELAX URBANO",
         "descrizione": "Sofia è una delle poche capitali europee circondate dalla natura e dalle montagne.",
-        "img": "assets/foto/sofia/activity-2.jpg"
+        "img": "assets/foto/sofia/activity-2.webp"
       },
       {
         "titolo": "VITA LOCALE AUTENTICA",
         "descrizione": "Scopri mercati, locali tradizionali e un'atmosfera genuina, lontana dal turismo di massa.",
-        "img": "assets/foto/sofia/activity-3.jpg"
+        "img": "assets/foto/sofia/activity-3.webp"
       }
     ],
     "inclusiConSkappa": [
@@ -966,7 +966,7 @@ window.DESTINATIONS = [
     "date": "Dal 23 al 26 Aprile",
     "tagline": "Inizia il tuo viaggio in una capitale sorprendente, autentica e fuori dai soliti circuiti.",
     "prezzo": "169",
-    "imgHero": "assets/foto/tirana/hero.jpg",
+    "imgHero": "assets/foto/tirana/hero.webp",
     "partenzaDa": "Napoli",
     "durata": "4 giorni e 3 notti",
     "inclusiPacchetto": [
@@ -984,17 +984,17 @@ window.DESTINATIONS = [
       {
         "titolo": "STORIA E IDENTITÀ",
         "descrizione": "Scopri una città segnata dalla sua storia recente, tra architetture simboliche e piazze vive.",
-        "img": "assets/foto/tirana/activity-1.jpg"
+        "img": "assets/foto/tirana/activity-1.webp"
       },
       {
         "titolo": "VITA LOCALE AUTENTICA",
         "descrizione": "Mercati, caffè e ritmi rilassati raccontano la vera anima di Tirana.",
-        "img": "assets/foto/tirana/activity-2.jpg"
+        "img": "assets/foto/tirana/activity-2.webp"
       },
       {
         "titolo": "ENERGIA GIOVANE",
         "descrizione": "Una capitale in crescita, dinamica e sorprendentemente vivace.",
-        "img": "assets/foto/tirana/activity-3.jpg"
+        "img": "assets/foto/tirana/activity-3.webp"
       }
     ],
     "inclusiConSkappa": [
@@ -1085,7 +1085,7 @@ window.DESTINATIONS = [
     "date": "Dal 16 al 19 Aprile",
     "tagline": "Inizia il tuo viaggio tra terme storiche, luci sul Danubio e atmosfera senza tempo.",
     "prezzo": "279",
-    "imgHero": "assets/foto/budapest/hero.png",
+    "imgHero": "assets/foto/budapest/hero.webp",
     "partenzaDa": "Napoli",
     "durata": "4 giorni e 3 notti",
     "inclusiPacchetto": [
@@ -1103,17 +1103,17 @@ window.DESTINATIONS = [
       {
         "titolo": "TERME STORICHE",
         "descrizione": "Rilassati nelle iconiche terme di Budapest, tra architetture eleganti e vasche calde all'aperto.",
-        "img": "assets/foto/budapest/activity-1.jpg"
+        "img": "assets/foto/budapest/activity-1.webp"
       },
       {
         "titolo": "DANUBIO BY NIGHT",
         "descrizione": "Scopri la città quando si accende: ponti illuminati, riflessi sull'acqua e panorami suggestivi.",
-        "img": "assets/foto/budapest/activity-2.jpg"
+        "img": "assets/foto/budapest/activity-2.webp"
       },
       {
         "titolo": "RUIN BAR",
         "descrizione": "Vivi la nightlife più originale d'Europa nei famosi ruin bar, tra musica, luci soffuse e locali alternativi.",
-        "img": "assets/foto/budapest/activity-3.jpg"
+        "img": "assets/foto/budapest/activity-3.webp"
       }
     ],
     "inclusiConSkappa": [
@@ -1204,7 +1204,7 @@ window.DESTINATIONS = [
     "date": "Dal 16 al 19 Aprile",
     "tagline": "Pool party, rooftop al tramonto e notti infinite nel cuore del Mediterraneo.",
     "prezzo": "189",
-    "imgHero": "assets/foto/malta/hero.jpg",
+    "imgHero": "assets/foto/malta/hero.webp",
     "partenzaDa": "Napoli",
     "durata": "4 giorni e 3 notti",
     "inclusiPacchetto": [
@@ -1225,17 +1225,17 @@ window.DESTINATIONS = [
       {
         "titolo": "POOL PARTY SENZA LIMITI",
         "descrizione": "Due pool party organizzati SKAPPA, musica, drink e vibrazioni estive dal primo all'ultimo giorno.",
-        "img": "assets/foto/malta/activity-1.png"
+        "img": "assets/foto/malta/activity-1.webp"
       },
       {
         "titolo": "ROOFTOP AL TRAMONTO",
         "descrizione": "Aperitivi rooftop con vista, luci calde e la sensazione che la serata stia per esplodere.",
-        "img": "assets/foto/malta/activity-2.png"
+        "img": "assets/foto/malta/activity-2.webp"
       },
       {
         "titolo": "NOTTI MALTA STYLE",
         "descrizione": "Serate in discoteca selezionate, ingresso facilitato e atmosfera internazionale.",
-        "img": "assets/foto/malta/activity-3.png"
+        "img": "assets/foto/malta/activity-3.webp"
       }
     ],
     "inclusiConSkappa": [
@@ -1326,7 +1326,7 @@ window.DESTINATIONS = [
     "date": "Dal 23 al 26 Aprile",
     "tagline": "Inizia il tuo viaggio tra architetture monumentali, quartieri vivaci e un'atmosfera sorprendente nel cuore dell'Europa dell'Est.",
     "prezzo": "219",
-    "imgHero": "assets/foto/bucarest/hero.png",
+    "imgHero": "assets/foto/bucarest/hero.webp",
     "partenzaDa": "Napoli",
     "durata": "4 giorni e 3 notti",
     "inclusiPacchetto": [
@@ -1345,17 +1345,17 @@ window.DESTINATIONS = [
       {
         "titolo": "ARCHITETTURE MONUMENTALI",
         "descrizione": "Scopri il celebre Palazzo del Parlamento e le grandi piazze della città, simboli di una capitale ricca di storia.",
-        "img": "assets/foto/bucarest/activity-1.png"
+        "img": "assets/foto/bucarest/activity-1.webp"
       },
       {
         "titolo": "QUARTIERI STORICI E LOCALI",
         "descrizione": "Passeggia nel centro storico tra palazzi eleganti, caffè vivaci e strade piene di vita.",
-        "img": "assets/foto/bucarest/activity-2.png"
+        "img": "assets/foto/bucarest/activity-2.webp"
       },
       {
         "titolo": "NIGHTLIFE SORPRENDENTE",
         "descrizione": "Bucarest è famosa per la sua scena notturna: locali eleganti, cocktail bar e club tra i migliori dell'Europa orientale.",
-        "img": "assets/foto/bucarest/activity-3.png"
+        "img": "assets/foto/bucarest/activity-3.webp"
       }
     ],
     "inclusiConSkappa": [
@@ -1446,7 +1446,7 @@ window.DESTINATIONS = [
     "date": "Dal 23 al 26 Aprile",
     "tagline": "Inizia il tuo viaggio tra storia, cultura e una capitale europea moderna e piena di energia.",
     "prezzo": "239",
-    "imgHero": "assets/foto/varsavia/hero.jpg",
+    "imgHero": "assets/foto/varsavia/hero.webp",
     "partenzaDa": "Napoli",
     "durata": "4 giorni e 3 notti",
     "inclusiPacchetto": [
@@ -1465,17 +1465,17 @@ window.DESTINATIONS = [
       {
         "titolo": "CENTRO STORICO RICOSTRUITO",
         "descrizione": "Passeggia tra le piazze colorate e i palazzi storici della Old Town, patrimonio UNESCO.",
-        "img": "assets/foto/varsavia/activity-1.jpg"
+        "img": "assets/foto/varsavia/activity-1.webp"
       },
       {
         "titolo": "MODERNITÀ E SKYLINE",
         "descrizione": "Scopri una città moderna, dove grattacieli e architetture contemporanee convivono con la storia.",
-        "img": "assets/foto/varsavia/activity-2.jpg"
+        "img": "assets/foto/varsavia/activity-2.webp"
       },
       {
         "titolo": "VITA CULTURALE E LOCALE",
         "descrizione": "Musei, caffè storici e quartieri creativi rendono Varsavia una capitale sorprendente.",
-        "img": "assets/foto/varsavia/activity-3.jpg"
+        "img": "assets/foto/varsavia/activity-3.webp"
       }
     ],
     "inclusiConSkappa": [
