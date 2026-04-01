@@ -38,366 +38,199 @@
       position: fixed; inset: 0;
       background: var(--navy2);
       z-index: 9999;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      gap: 1.5rem;
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 1.5rem;
     }
     #passwordGate.hidden { display: none; }
-    .gate-brand {
-      font-family: 'Days One', sans-serif;
-      font-size: 2rem;
-      font-weight: 900;
-      letter-spacing: 0.18em;
-      color: var(--gold);
-    }
-    .gate-subtitle {
-      font-size: 0.75rem;
-      color: rgba(255,255,255,0.35);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      margin-top: -1rem;
-    }
-    .gate-box {
-      background: var(--navy);
-      border: 1px solid var(--border);
-      border-radius: 1rem;
-      padding: 2rem 2.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      min-width: 320px;
-      text-align: center;
-    }
-    .gate-title { font-size: 0.875rem; color: rgba(255,255,255,0.5); letter-spacing: 0.05em; }
-    .gate-input {
-      padding: 0.75rem 1rem;
-      background: rgba(255,255,255,0.05);
-      border: 1.5px solid rgba(254,189,65,0.2);
-      border-radius: 0.375rem;
-      color: #fff;
-      font-size: 1rem;
-      font-family: inherit;
-      text-align: center;
-      letter-spacing: 0.15em;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-    .gate-input:focus { border-color: var(--gold); }
-    .gate-error { font-size: 0.75rem; color: #f87171; min-height: 1rem; }
+    .gate-brand { font-family:'Days One',sans-serif; font-size:2rem; font-weight:900; letter-spacing:0.18em; color:var(--gold); }
+    .gate-subtitle { font-size:0.75rem; color:rgba(255,255,255,0.35); letter-spacing:0.1em; text-transform:uppercase; margin-top:-1rem; }
+    .gate-box { background:var(--navy); border:1px solid var(--border); border-radius:1rem; padding:2rem 2.5rem; display:flex; flex-direction:column; gap:1rem; min-width:320px; text-align:center; }
+    .gate-title { font-size:0.875rem; color:rgba(255,255,255,0.5); letter-spacing:0.05em; }
+    .gate-input { padding:0.75rem 1rem; background:rgba(255,255,255,0.05); border:1.5px solid rgba(254,189,65,0.2); border-radius:0.375rem; color:#fff; font-size:1rem; font-family:inherit; text-align:center; letter-spacing:0.15em; outline:none; transition:border-color 0.2s; }
+    .gate-input:focus { border-color:var(--gold); }
+    .gate-error { font-size:0.75rem; color:#f87171; min-height:1rem; }
 
     /* ---- Header ---- */
-    .pm-header {
-      position: sticky; top: 0; z-index: 50;
-      background: var(--navy);
-      border-bottom: 1px solid var(--border);
-      padding: 0 1.5rem;
-      height: 3.25rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-    .header-brand {
-      font-family: 'Days One', sans-serif;
-      font-size: 1rem;
-      font-weight: 900;
-      letter-spacing: 0.12em;
-      color: var(--gold);
-    }
-    .header-tag {
-      font-size: 0.6875rem;
-      font-weight: 600;
-      color: rgba(255,255,255,0.3);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      margin-left: 0.75rem;
-    }
-    .header-actions { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+    .pm-header { position:sticky; top:0; z-index:50; background:var(--navy); border-bottom:1px solid var(--border); padding:0 1.5rem; height:3.25rem; display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; }
+    .header-brand { font-family:'Days One',sans-serif; font-size:1rem; font-weight:900; letter-spacing:0.12em; color:var(--gold); }
+    .header-tag { font-size:0.6875rem; font-weight:600; color:rgba(255,255,255,0.3); letter-spacing:0.08em; text-transform:uppercase; margin-left:0.75rem; }
+    .header-actions { display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap; }
 
     /* ---- Buttons ---- */
-    .btn {
-      display: inline-flex; align-items: center; gap: 0.375rem;
-      padding: 0.5rem 1rem;
-      border-radius: 0.375rem;
-      font-size: 0.75rem;
-      font-weight: 700;
-      font-family: inherit;
-      letter-spacing: 0.05em;
-      cursor: pointer;
-      border: none;
-      transition: opacity 0.2s, transform 0.15s;
-      text-decoration: none;
-      white-space: nowrap;
-    }
-    .btn:hover { opacity: 0.85; transform: translateY(-1px); }
-    .btn-gold { background: var(--gold); color: var(--navy); }
-    .btn-outline { background: transparent; color: var(--gold); border: 1.5px solid var(--gold); }
-    .btn-teal { background: var(--teal); color: #fff; }
-    .btn-danger { background: rgba(239,68,68,0.15); color: #f87171; border: 1.5px solid rgba(239,68,68,0.3); }
-    .btn-sm { padding: 0.3rem 0.625rem; font-size: 0.6875rem; }
+    .btn { display:inline-flex; align-items:center; gap:0.375rem; padding:0.5rem 1rem; border-radius:0.375rem; font-size:0.75rem; font-weight:700; font-family:inherit; letter-spacing:0.05em; cursor:pointer; border:none; transition:opacity 0.2s,transform 0.15s; text-decoration:none; white-space:nowrap; }
+    .btn:hover { opacity:0.85; transform:translateY(-1px); }
+    .btn-gold    { background:var(--gold); color:var(--navy); }
+    .btn-outline { background:transparent; color:var(--gold); border:1.5px solid var(--gold); }
+    .btn-teal    { background:var(--teal); color:#fff; }
+    .btn-danger  { background:rgba(239,68,68,0.15); color:#f87171; border:1.5px solid rgba(239,68,68,0.3); }
+    .btn-ghost   { background:rgba(255,255,255,0.06); color:rgba(255,255,255,0.7); border:1.5px solid rgba(255,255,255,0.1); }
+    .btn-sm      { padding:0.3rem 0.625rem; font-size:0.6875rem; }
 
-    /* ---- Main content ---- */
-    .pm-content { padding: 1.5rem; max-width: 1400px; margin: 0 auto; }
+    /* ---- Main ---- */
+    .pm-content { padding:1.5rem; max-width:1400px; margin:0 auto; }
 
-    /* ---- Stats Cards ---- */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1rem;
-      margin-bottom: 1.5rem;
-    }
-    @media (max-width: 900px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 500px) { .stats-grid { grid-template-columns: 1fr; } }
-    .stat-card {
-      background: var(--navy);
-      border: 1px solid var(--border);
-      border-radius: 0.75rem;
-      padding: 1.25rem 1.5rem;
-    }
-    .stat-label {
-      font-size: 0.6875rem;
-      font-weight: 700;
-      color: rgba(255,255,255,0.35);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      margin-bottom: 0.5rem;
-    }
-    .stat-value {
-      font-family: 'Days One', sans-serif;
-      font-size: 1.75rem;
-      font-weight: 900;
-      color: var(--gold);
-      line-height: 1;
-    }
-    .stat-sub { font-size: 0.6875rem; color: rgba(255,255,255,0.3); margin-top: 0.375rem; }
-    .stat-card.alert .stat-value { color: #f87171; }
-    .stat-card.teal .stat-value { color: var(--teal); }
-    .stat-card.green .stat-value { color: #4ade80; }
+    /* ---- Stats ---- */
+    .stats-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:1rem; margin-bottom:1.5rem; }
+    @media (max-width:1100px) { .stats-grid { grid-template-columns:repeat(3,1fr); } }
+    @media (max-width:700px)  { .stats-grid { grid-template-columns:repeat(2,1fr); } }
+    @media (max-width:400px)  { .stats-grid { grid-template-columns:1fr; } }
+    .stat-card { background:var(--navy); border:1px solid var(--border); border-radius:0.75rem; padding:1.25rem 1.5rem; }
+    .stat-label { font-size:0.6875rem; font-weight:700; color:rgba(255,255,255,0.35); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:0.5rem; }
+    .stat-value { font-family:'Days One',sans-serif; font-size:1.75rem; font-weight:900; color:var(--gold); line-height:1; }
+    .stat-sub   { font-size:0.6875rem; color:rgba(255,255,255,0.3); margin-top:0.375rem; }
+    .stat-card.alert  .stat-value { color:#f87171; }
+    .stat-card.teal   .stat-value { color:var(--teal); }
+    .stat-card.green  .stat-value { color:#4ade80; }
+    .stat-card.purple .stat-value { color:#a78bfa; }
 
     /* ---- Filters ---- */
-    .filters-bar {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      margin-bottom: 1rem;
-      flex-wrap: wrap;
-    }
-    .filter-input, .filter-select {
-      padding: 0.5rem 0.875rem;
-      background: rgba(255,255,255,0.05);
-      border: 1.5px solid rgba(254,189,65,0.15);
-      border-radius: 0.375rem;
-      color: #fff;
-      font-size: 0.8125rem;
-      font-family: inherit;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-    .filter-input:focus, .filter-select:focus { border-color: var(--gold); }
-    .filter-input::placeholder { color: rgba(255,255,255,0.2); }
-    .filter-input { flex: 1; min-width: 200px; }
-    .filter-select { min-width: 160px; cursor: pointer; }
-    .filter-select option { background: var(--navy); }
-    .filter-count {
-      font-size: 0.6875rem;
-      color: rgba(255,255,255,0.3);
-      white-space: nowrap;
-    }
+    .filters-bar { display:flex; align-items:center; gap:0.75rem; margin-bottom:1rem; flex-wrap:wrap; }
+    .filter-input, .filter-select { padding:0.5rem 0.875rem; background:rgba(255,255,255,0.05); border:1.5px solid rgba(254,189,65,0.15); border-radius:0.375rem; color:#fff; font-size:0.8125rem; font-family:inherit; outline:none; transition:border-color 0.2s; }
+    .filter-input:focus, .filter-select:focus { border-color:var(--gold); }
+    .filter-input::placeholder { color:rgba(255,255,255,0.2); }
+    .filter-input { flex:1; min-width:200px; }
+    .filter-select { min-width:160px; cursor:pointer; }
+    .filter-select option { background:var(--navy); }
+    .filter-count { font-size:0.6875rem; color:rgba(255,255,255,0.3); white-space:nowrap; }
 
     /* ---- Table ---- */
-    .table-wrap {
-      background: var(--navy);
-      border: 1px solid var(--border);
-      border-radius: 0.75rem;
-      overflow-x: auto;
-    }
-    table { width: 100%; border-collapse: collapse; min-width: 900px; }
-    thead tr {
-      background: rgba(254,189,65,0.08);
-      border-bottom: 1px solid var(--border);
-    }
-    th {
-      padding: 0.75rem 0.875rem;
-      text-align: left;
-      font-size: 0.6875rem;
-      font-weight: 800;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.4);
-      white-space: nowrap;
-    }
-    td {
-      padding: 0.75rem 0.875rem;
-      font-size: 0.8125rem;
-      border-bottom: 1px solid rgba(254,189,65,0.06);
-      vertical-align: middle;
-    }
-    tbody tr:last-child td { border-bottom: none; }
-    tbody tr:hover { background: rgba(255,255,255,0.02); }
+    .table-wrap { background:var(--navy); border:1px solid var(--border); border-radius:0.75rem; overflow-x:auto; }
+    table { width:100%; border-collapse:collapse; min-width:1120px; }
+    thead tr { background:rgba(254,189,65,0.08); border-bottom:1px solid var(--border); }
+    th { padding:0.75rem 0.875rem; text-align:left; font-size:0.6875rem; font-weight:800; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.4); white-space:nowrap; }
+    td { padding:0.75rem 0.875rem; font-size:0.8125rem; border-bottom:1px solid rgba(254,189,65,0.06); vertical-align:middle; }
+    tbody tr:last-child td { border-bottom:none; }
+    tbody tr:hover { background:rgba(255,255,255,0.02); }
 
-    /* Row coloring by stato */
-    tr.stato-confermato td:first-child { border-left: 3px solid var(--gold); }
-    tr.stato-acconto td:first-child { border-left: 3px solid var(--teal); }
-    tr.stato-saldo td:first-child { border-left: 3px solid #4ade80; }
-    tr.stato-annullato td:first-child { border-left: 3px solid #f87171; }
-    tr.stato-preventivo td:first-child { border-left: 3px solid rgba(255,255,255,0.2); }
+    tr.stato-confermato  td:first-child { border-left:3px solid var(--gold); }
+    tr.stato-acconto     td:first-child { border-left:3px solid var(--teal); }
+    tr.stato-saldo       td:first-child { border-left:3px solid #4ade80; }
+    tr.stato-annullato   td:first-child { border-left:3px solid #f87171; }
+    tr.stato-preventivo  td:first-child { border-left:3px solid rgba(255,255,255,0.2); }
+    tr.stato-comitiva    td:first-child { border-left:3px solid #a78bfa; }
+    tr.stato-annullato td { opacity:0.5; }
 
-    tr.stato-annullato td { opacity: 0.5; }
+    .badge-stato { display:inline-block; padding:0.2rem 0.625rem; border-radius:999px; font-size:0.6875rem; font-weight:700; letter-spacing:0.04em; white-space:nowrap; }
+    .badge-Preventivo  { background:rgba(255,255,255,0.08);  color:rgba(255,255,255,0.5); }
+    .badge-Confermato  { background:rgba(254,189,65,0.15);   color:var(--gold); }
+    .badge-Acconto     { background:rgba(40,134,153,0.2);    color:var(--teal); }
+    .badge-Saldo       { background:rgba(74,222,128,0.15);   color:#4ade80; }
+    .badge-Annullato   { background:rgba(239,68,68,0.12);    color:#f87171; }
 
-    .badge-stato {
-      display: inline-block;
-      padding: 0.2rem 0.625rem;
-      border-radius: 999px;
-      font-size: 0.6875rem;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      white-space: nowrap;
-    }
-    .badge-Preventivo     { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.5); }
-    .badge-Confermato     { background: rgba(254,189,65,0.15); color: var(--gold); }
-    .badge-Acconto        { background: rgba(40,134,153,0.2); color: var(--teal); }
-    .badge-Saldo          { background: rgba(74,222,128,0.15); color: #4ade80; }
-    .badge-Annullato      { background: rgba(239,68,68,0.12); color: #f87171; }
-
-    .scadenza-alert { color: #f87171; font-weight: 700; }
-    .empty-state {
-      text-align: center;
-      padding: 3rem 2rem;
-      color: rgba(255,255,255,0.2);
-      font-size: 0.875rem;
-    }
-    .empty-icon { font-size: 2.5rem; margin-bottom: 0.75rem; opacity: 0.3; }
+    .scadenza-alert { color:#f87171; font-weight:700; }
+    .empty-state { text-align:center; padding:3rem 2rem; color:rgba(255,255,255,0.2); font-size:0.875rem; }
+    .empty-icon  { font-size:2.5rem; margin-bottom:0.75rem; opacity:0.3; }
 
     /* ---- Modal ---- */
-    .modal-overlay {
-      position: fixed; inset: 0;
-      background: rgba(0,0,0,0.75);
-      z-index: 200;
-      display: none;
-      align-items: flex-start;
-      justify-content: center;
-      padding: 1.5rem 1rem;
-      overflow-y: auto;
-    }
-    .modal-overlay.open { display: flex; }
-    .modal-box {
-      background: var(--navy);
-      border: 1px solid rgba(254,189,65,0.2);
-      border-radius: 1rem;
-      padding: 2rem;
-      width: 100%;
-      max-width: 760px;
-      margin: auto;
-    }
-    .modal-title {
-      font-family: 'Days One', sans-serif;
-      font-size: 1.125rem;
-      color: var(--gold);
-      margin-bottom: 1.5rem;
-      padding-bottom: 1rem;
-      border-bottom: 1px solid var(--border);
-    }
-    .modal-title-confirm { font-family: 'Days One', sans-serif; font-size: 1.125rem; color: var(--gold); margin-bottom: 0.75rem; }
-    .modal-text { font-size: 0.875rem; color: rgba(255,255,255,0.65); margin-bottom: 1.5rem; line-height: 1.6; }
-    .modal-actions { display: flex; justify-content: center; gap: 0.75rem; }
-    .modal-footer {
-      display: flex;
-      justify-content: flex-end;
-      gap: 0.75rem;
-      padding-top: 1.5rem;
-      margin-top: 1rem;
-      border-top: 1px solid var(--border);
-    }
+    .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.75); z-index:200; display:none; align-items:flex-start; justify-content:center; padding:1.5rem 1rem; overflow-y:auto; }
+    .modal-overlay.open { display:flex; }
+    .modal-box { background:var(--navy); border:1px solid rgba(254,189,65,0.2); border-radius:1rem; padding:2rem; width:100%; max-width:800px; margin:auto; }
+    .modal-box-wide { max-width:960px; }
+    .modal-title { font-family:'Days One',sans-serif; font-size:1.125rem; color:var(--gold); margin-bottom:1.5rem; padding-bottom:1rem; border-bottom:1px solid var(--border); }
+    .modal-title-confirm { font-family:'Days One',sans-serif; font-size:1.125rem; color:var(--gold); margin-bottom:0.75rem; }
+    .modal-text { font-size:0.875rem; color:rgba(255,255,255,0.65); margin-bottom:1.5rem; line-height:1.6; }
+    .modal-actions { display:flex; justify-content:center; gap:0.75rem; }
+    .modal-footer { display:flex; justify-content:flex-end; gap:0.75rem; padding-top:1.5rem; margin-top:1rem; border-top:1px solid var(--border); }
 
     /* ---- Form ---- */
-    .form-section {
-      background: rgba(0,0,0,0.2);
-      border: 1px solid rgba(254,189,65,0.08);
-      border-radius: 0.625rem;
-      padding: 1.25rem;
-      margin-bottom: 1rem;
-    }
-    .form-section-title {
-      font-size: 0.6875rem;
-      font-weight: 800;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 1rem;
-      padding-bottom: 0.625rem;
-      border-bottom: 1px solid rgba(254,189,65,0.08);
-    }
-    .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.875rem; }
-    .form-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.875rem; }
-    .form-grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 0.875rem; }
-    @media (max-width: 640px) {
-      .form-grid-2, .form-grid-3, .form-grid-4 { grid-template-columns: 1fr; }
-    }
-    .form-label {
-      display: block;
-      font-size: 0.6875rem;
-      font-weight: 700;
-      color: rgba(255,255,255,0.4);
-      letter-spacing: 0.07em;
-      text-transform: uppercase;
-      margin-bottom: 0.3rem;
-    }
-    .form-input, .form-textarea, .form-select {
-      width: 100%;
-      padding: 0.5625rem 0.75rem;
-      background: rgba(255,255,255,0.05);
-      border: 1.5px solid rgba(254,189,65,0.15);
-      border-radius: 0.375rem;
-      color: #fff;
-      font-size: 0.875rem;
-      font-family: inherit;
-      transition: border-color 0.2s, box-shadow 0.2s;
-      outline: none;
-    }
-    .form-input:focus, .form-textarea:focus, .form-select:focus {
-      border-color: var(--gold);
-      box-shadow: 0 0 0 3px rgba(254,189,65,0.08);
-    }
-    .form-input::placeholder, .form-textarea::placeholder { color: rgba(255,255,255,0.2); }
-    .form-input[readonly] { opacity: 0.6; cursor: default; }
-    .form-select { cursor: pointer; }
-    .form-select option { background: var(--navy); }
-    .form-textarea { resize: vertical; line-height: 1.6; }
+    .form-section { background:rgba(0,0,0,0.2); border:1px solid rgba(254,189,65,0.08); border-radius:0.625rem; padding:1.25rem; margin-bottom:1rem; }
+    .form-section-title { font-size:0.6875rem; font-weight:800; letter-spacing:0.12em; text-transform:uppercase; color:var(--gold); margin-bottom:1rem; padding-bottom:0.625rem; border-bottom:1px solid rgba(254,189,65,0.08); }
+    .form-section-title-row { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:0.5rem; margin-bottom:1rem; padding-bottom:0.625rem; border-bottom:1px solid rgba(254,189,65,0.08); }
+    .form-section-title-row .form-section-title { margin-bottom:0; padding-bottom:0; border-bottom:none; }
+    .form-grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:0.875rem; }
+    .form-grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.875rem; }
+    .form-grid-4 { display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:0.875rem; }
+    @media (max-width:640px) { .form-grid-2,.form-grid-3,.form-grid-4 { grid-template-columns:1fr; } }
+    .form-label { display:block; font-size:0.6875rem; font-weight:700; color:rgba(255,255,255,0.4); letter-spacing:0.07em; text-transform:uppercase; margin-bottom:0.3rem; }
+    .form-input, .form-textarea, .form-select { width:100%; padding:0.5625rem 0.75rem; background:rgba(255,255,255,0.05); border:1.5px solid rgba(254,189,65,0.15); border-radius:0.375rem; color:#fff; font-size:0.875rem; font-family:inherit; transition:border-color 0.2s,box-shadow 0.2s; outline:none; }
+    .form-input:focus,.form-textarea:focus,.form-select:focus { border-color:var(--gold); box-shadow:0 0 0 3px rgba(254,189,65,0.08); }
+    .form-input::placeholder,.form-textarea::placeholder { color:rgba(255,255,255,0.2); }
+    .form-input[readonly],.form-input:disabled { opacity:0.55; cursor:default; }
+    .form-select { cursor:pointer; }
+    .form-select option { background:var(--navy); }
+    .form-textarea { resize:vertical; line-height:1.6; }
 
-    /* ---- Confirm modal ---- */
-    .confirm-box {
-      background: var(--navy);
-      border: 1px solid rgba(254,189,65,0.2);
-      border-radius: 1rem;
-      padding: 2rem;
-      max-width: 400px;
-      width: 100%;
-      text-align: center;
-      margin: auto;
-    }
+    /* ---- Confirm box ---- */
+    .confirm-box { background:var(--navy); border:1px solid rgba(254,189,65,0.2); border-radius:1rem; padding:2rem; max-width:400px; width:100%; text-align:center; margin:auto; }
 
     /* ---- Toast ---- */
-    #toast {
-      position: fixed;
-      bottom: 1.5rem; right: 1.5rem;
-      background: var(--gold);
-      color: var(--navy);
-      font-weight: 700;
-      font-size: 0.8125rem;
-      padding: 0.75rem 1.25rem;
-      border-radius: 0.5rem;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-      transform: translateY(120%);
-      opacity: 0;
-      transition: transform 0.3s, opacity 0.3s;
-      z-index: 9999;
-      max-width: 320px;
-    }
-    #toast.show { transform: translateY(0); opacity: 1; }
-    #toast.error { background: #ef4444; color: #fff; }
+    #toast { position:fixed; bottom:1.5rem; right:1.5rem; background:var(--gold); color:var(--navy); font-weight:700; font-size:0.8125rem; padding:0.75rem 1.25rem; border-radius:0.5rem; box-shadow:0 8px 32px rgba(0,0,0,0.4); transform:translateY(120%); opacity:0; transition:transform 0.3s,opacity 0.3s; z-index:9999; max-width:320px; }
+    #toast.show  { transform:translateY(0); opacity:1; }
+    #toast.error { background:#ef4444; color:#fff; }
+
+    /* ===== COMITIVA ===== */
+    .comitiva-toggle { display:inline-flex; align-items:center; gap:0.5rem; cursor:pointer; user-select:none; }
+    .comitiva-toggle input[type=checkbox] { accent-color:var(--gold); width:1rem; height:1rem; cursor:pointer; }
+    .comitiva-toggle-label { font-size:0.75rem; font-weight:700; color:rgba(255,255,255,0.6); letter-spacing:0.05em; }
+    .comitiva-toggle:hover .comitiva-toggle-label { color:var(--gold); }
+
+    .group-header { display:grid; grid-template-columns:155px 72px 115px 115px 90px 34px; gap:0.4375rem; margin-bottom:0.35rem; }
+    .group-header span { font-size:0.5875rem; font-weight:800; letter-spacing:0.08em; text-transform:uppercase; color:rgba(255,255,255,0.22); padding-left:0.1rem; }
+    @media (max-width:640px) { .group-header { display:none; } }
+
+    .group-row { display:grid; grid-template-columns:155px 72px 115px 115px 90px 34px; gap:0.4375rem; align-items:center; margin-bottom:0.4375rem; background:rgba(255,255,255,0.025); border:1px solid rgba(255,255,255,0.05); border-radius:0.375rem; padding:0.4375rem; }
+    @media (max-width:640px) { .group-row { grid-template-columns:1fr 1fr; gap:0.5rem; } }
+    .group-row .form-input,.group-row .form-select { padding:0.4rem 0.5rem; font-size:0.8125rem; height:2rem; }
+    .g-subtotale { font-size:0.8125rem; font-weight:700; color:var(--gold); text-align:right; padding-right:0.25rem; white-space:nowrap; }
+    .g-subtotale.indeciso  { color:rgba(255,255,255,0.35); font-style:italic; }
+    .g-subtotale.annullato { color:#f87171; }
+
+    .comitiva-summary { background:rgba(254,189,65,0.04); border:1px solid rgba(254,189,65,0.12); border-radius:0.5rem; padding:1rem; margin-top:1rem; display:grid; grid-template-columns:repeat(3,1fr); gap:0.875rem 1.25rem; }
+    @media (max-width:640px) { .comitiva-summary { grid-template-columns:1fr 1fr; } }
+    .cs-label { font-size:0.6rem; font-weight:800; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.28); margin-bottom:0.2rem; }
+    .cs-value { font-size:1rem; font-weight:700; color:#fff; }
+    .cs-value.green  { color:#4ade80; }
+    .cs-value.teal   { color:var(--teal); }
+    .cs-value.gold   { color:var(--gold); }
+    .cs-value.muted  { color:rgba(255,255,255,0.3); font-style:italic; }
+    .cs-value.purple { color:#a78bfa; }
+
+    .fin-computed { background:rgba(254,189,65,0.04); border:1px solid rgba(254,189,65,0.1); border-radius:0.375rem; padding:0.5rem 0.75rem; display:flex; flex-direction:column; gap:0.1rem; }
+    .fin-computed-label { font-size:0.6rem; font-weight:800; letter-spacing:0.08em; text-transform:uppercase; color:rgba(255,255,255,0.28); }
+    .fin-computed-value { font-size:0.9375rem; font-weight:700; color:var(--gold); }
+    .fin-computed-value.green  { color:#4ade80; }
+    .fin-computed-value.teal   { color:var(--teal); }
+    .fin-computed-value.muted  { color:rgba(255,255,255,0.3); font-style:italic; }
+    .fin-computed-value.purple { color:#a78bfa; }
+
+    .comitiva-badge { display:inline-block; padding:0.1rem 0.45rem; border-radius:999px; font-size:0.58rem; font-weight:800; letter-spacing:0.07em; text-transform:uppercase; background:rgba(167,139,250,0.18); color:#a78bfa; border:1px solid rgba(167,139,250,0.3); margin-bottom:0.2rem; }
+    .persone-breakdown { display:flex; gap:0.275rem; flex-wrap:wrap; margin-top:0.15rem; }
+    .pb-chip { display:inline-flex; align-items:center; gap:0.15rem; padding:0.1rem 0.4rem; border-radius:999px; font-size:0.6rem; font-weight:800; }
+    .pb-chip.pagato   { background:rgba(74,222,128,0.14);  color:#4ade80; }
+    .pb-chip.acconto  { background:rgba(40,134,153,0.18);  color:var(--teal); }
+    .pb-chip.indeciso { background:rgba(255,255,255,0.06); color:rgba(255,255,255,0.4); }
+    .pb-chip.annullato{ background:rgba(239,68,68,0.1);    color:#f87171; }
+
+    /* ===== PDF SECTION ===== */
+    .pdf-drop-zone { display:flex; align-items:center; gap:1rem; padding:1rem 1.25rem; border:1.5px dashed rgba(254,189,65,0.2); border-radius:0.5rem; cursor:pointer; transition:border-color 0.2s,background 0.2s; }
+    .pdf-drop-zone:hover { border-color:rgba(254,189,65,0.5); background:rgba(254,189,65,0.03); }
+    .pdf-icon { font-size:1.75rem; line-height:1; flex-shrink:0; }
+    .pdf-file-card { display:flex; align-items:center; gap:0.75rem; padding:0.75rem 1rem; background:rgba(239,68,68,0.05); border:1px solid rgba(239,68,68,0.18); border-radius:0.5rem; }
+    .pdf-file-card.pending { background:rgba(254,189,65,0.05); border-color:rgba(254,189,65,0.2); }
+    .pdf-file-name { font-size:0.875rem; font-weight:600; }
+    .pdf-file-meta { font-size:0.6875rem; color:rgba(255,255,255,0.35); margin-top:0.1rem; }
+
+    /* ===== COMITIVA DETAIL MODAL ===== */
+    .cd-stat-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:0.75rem; margin-bottom:1.25rem; }
+    @media (max-width:640px) { .cd-stat-grid { grid-template-columns:repeat(2,1fr); } }
+    .cd-stat { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.07); border-radius:0.5rem; padding:0.75rem 1rem; }
+    .cd-stat-label { font-size:0.6rem; font-weight:800; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.28); margin-bottom:0.3rem; }
+    .cd-stat-value { font-family:'Days One',sans-serif; font-size:1.375rem; font-weight:900; color:var(--gold); line-height:1; }
+    .cd-stat-value.green  { color:#4ade80; }
+    .cd-stat-value.teal   { color:var(--teal); }
+    .cd-stat-value.muted  { color:rgba(255,255,255,0.3); }
+    .cd-stat-value.purple { color:#a78bfa; }
+
+    .cd-groups-table { width:100%; border-collapse:collapse; }
+    .cd-groups-table th { padding:0.5rem 0.75rem; font-size:0.6rem; font-weight:800; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.28); border-bottom:1px solid rgba(255,255,255,0.07); text-align:left; }
+    .cd-groups-table td { padding:0.625rem 0.75rem; font-size:0.8125rem; border-bottom:1px solid rgba(255,255,255,0.04); vertical-align:middle; }
+    .cd-groups-table tbody tr:last-child td { border-bottom:none; }
+    .cd-groups-table tfoot td { padding:0.625rem 0.75rem; font-size:0.8125rem; border-top:1px solid rgba(254,189,65,0.2); font-weight:700; }
+    .gs-badge { display:inline-flex; align-items:center; gap:0.3rem; padding:0.2rem 0.625rem; border-radius:999px; font-size:0.6875rem; font-weight:700; white-space:nowrap; }
+    .gs-pagato   { background:rgba(74,222,128,0.14);  color:#4ade80; }
+    .gs-acconto  { background:rgba(40,134,153,0.18);  color:var(--teal); }
+    .gs-indeciso { background:rgba(255,255,255,0.06); color:rgba(255,255,255,0.45); }
+    .gs-annullato{ background:rgba(239,68,68,0.1);    color:#f87171; }
   </style>
 </head>
 <body>
@@ -411,12 +244,9 @@
     <input type="password" id="gateInput" class="gate-input" placeholder="••••••••"
            onkeydown="if(event.key==='Enter') checkPassword()" autocomplete="current-password" />
     <div class="gate-error" id="gateError"></div>
-    <button class="btn btn-gold" onclick="checkPassword()" style="width:100%;justify-content:center;padding:0.75rem">
-      Entra
-    </button>
+    <button class="btn btn-gold" onclick="checkPassword()" style="width:100%;justify-content:center;padding:0.75rem">Entra</button>
   </div>
 </div>
-
 
 <!-- ========== HEADER ========== -->
 <header class="pm-header">
@@ -435,12 +265,11 @@
   </div>
 </header>
 
-
-<!-- ========== MAIN CONTENT ========== -->
+<!-- ========== MAIN ========== -->
 <main class="pm-content">
 
   <!-- Stats -->
-  <div class="stats-grid" id="statsGrid">
+  <div class="stats-grid">
     <div class="stat-card">
       <div class="stat-label">Totale Pratiche</div>
       <div class="stat-value" id="statTotale">0</div>
@@ -454,19 +283,23 @@
     <div class="stat-card teal">
       <div class="stat-label">Da Incassare</div>
       <div class="stat-value" id="statDaIncassare">€0</div>
-      <div class="stat-sub">saldi pendenti</div>
+      <div class="stat-sub">saldi pendenti confermati</div>
     </div>
     <div class="stat-card alert">
       <div class="stat-label">In Scadenza</div>
       <div class="stat-value" id="statScadenza">0</div>
       <div class="stat-sub">saldo scade entro 7 giorni</div>
     </div>
+    <div class="stat-card green">
+      <div class="stat-label">Guadagno Netto</div>
+      <div class="stat-value" id="statGuadagno">€0</div>
+      <div class="stat-sub" id="statGuadagnoSub">da pratiche confermate</div>
+    </div>
   </div>
 
   <!-- Filters -->
   <div class="filters-bar">
-    <input type="text" id="filterSearch" class="filter-input" placeholder="Cerca cliente, destinazione..."
-           oninput="renderTable()" />
+    <input type="text" id="filterSearch" class="filter-input" placeholder="Cerca cliente, destinazione, comitiva..." oninput="renderTable()" />
     <select id="filterStato" class="filter-select" onchange="renderTable()">
       <option value="">Tutti gli stati</option>
       <option value="Preventivo">Preventivo</option>
@@ -474,6 +307,7 @@
       <option value="Acconto versato">Acconto versato</option>
       <option value="Saldo versato">Saldo versato</option>
       <option value="Annullato">Annullato</option>
+      <option value="__comitiva__">Solo Comitivi</option>
     </select>
     <select id="filterSort" class="filter-select" onchange="renderTable()">
       <option value="data_creazione">Ordina: Data creazione</option>
@@ -485,17 +319,18 @@
 
   <!-- Table -->
   <div class="table-wrap">
-    <table id="preventiviTable">
+    <table>
       <thead>
         <tr>
           <th>#</th>
           <th>Cliente</th>
           <th>Destinazione</th>
           <th>Partenza</th>
-          <th>Persone</th>
-          <th>Totale</th>
-          <th>Acconto</th>
-          <th>Saldo</th>
+          <th>Partecipanti</th>
+          <th>Totale / Bloccato</th>
+          <th>Incassato</th>
+          <th>Da Incassare</th>
+          <th>Guadagno</th>
           <th>Scad. Saldo</th>
           <th>Stato</th>
           <th>Azioni</th>
@@ -504,13 +339,12 @@
       <tbody id="tableBody"></tbody>
     </table>
   </div>
-
 </main>
 
 
 <!-- ========== MODAL ADD/EDIT ========== -->
 <div class="modal-overlay" id="editModal" onclick="closeEditModalOnBg(event)">
-  <div class="modal-box">
+  <div class="modal-box modal-box-wide">
     <div class="modal-title" id="editModalTitle">Nuovo Preventivo</div>
 
     <!-- Cliente -->
@@ -545,7 +379,7 @@
           <input class="form-input" id="f-fornitore" type="text" placeholder="Tour operator, hotel…" />
         </div>
         <div>
-          <label class="form-label">Stato</label>
+          <label class="form-label">Stato pratica</label>
           <select class="form-select" id="f-stato">
             <option value="Preventivo">Preventivo</option>
             <option value="Confermato">Confermato</option>
@@ -557,10 +391,16 @@
       </div>
     </div>
 
-    <!-- Date & persone -->
+    <!-- Date & Partecipanti -->
     <div class="form-section">
-      <div class="form-section-title">Date e Partecipanti</div>
-      <div class="form-grid-4">
+      <div class="form-section-title-row">
+        <span class="form-section-title">Date e Partecipanti</span>
+        <label class="comitiva-toggle">
+          <input type="checkbox" id="f-is_comitiva" onchange="toggleComitiva()" />
+          <span class="comitiva-toggle-label">👥 Gestisci come Comitiva</span>
+        </label>
+      </div>
+      <div class="form-grid-2" style="margin-bottom:0.875rem">
         <div>
           <label class="form-label">Data Partenza</label>
           <input class="form-input" id="f-data_partenza" type="date" />
@@ -569,48 +409,156 @@
           <label class="form-label">Data Ritorno</label>
           <input class="form-input" id="f-data_ritorno" type="date" />
         </div>
-        <div>
-          <label class="form-label">Adulti</label>
-          <input class="form-input" id="f-adulti" type="number" min="1" value="1" placeholder="1" />
-        </div>
-        <div>
-          <label class="form-label">Bambini</label>
-          <input class="form-input" id="f-bambini" type="number" min="0" value="0" placeholder="0" />
+      </div>
+      <!-- Normale -->
+      <div id="normalPartecipanti">
+        <div class="form-grid-3">
+          <div>
+            <label class="form-label">Adulti</label>
+            <input class="form-input" id="f-adulti" type="number" min="1" value="1" placeholder="1" oninput="calcSaldo()" />
+          </div>
+          <div>
+            <label class="form-label">Bambini</label>
+            <input class="form-input" id="f-bambini" type="number" min="0" value="0" placeholder="0" oninput="calcSaldo()" />
+          </div>
+          <div>
+            <label class="form-label">Sistemazione</label>
+            <input class="form-input" id="f-sistemazione" type="text" placeholder="Camera doppia, BB…" />
+          </div>
         </div>
       </div>
-      <div style="margin-top:0.875rem">
-        <label class="form-label">Sistemazione</label>
-        <input class="form-input" id="f-sistemazione" type="text" placeholder="Camera doppia, BB…" />
+      <!-- Comitiva -->
+      <div id="comitivaPartecipanti" style="display:none">
+        <div class="form-grid-2" style="margin-bottom:0.875rem">
+          <div>
+            <label class="form-label">Nome Comitiva (opzionale)</label>
+            <input class="form-input" id="f-comitiva_nome" type="text" placeholder="es. Comitiva Estiva 2025" />
+          </div>
+          <div>
+            <label class="form-label">Sistemazione</label>
+            <input class="form-input" id="f-sistemazione-c" type="text" placeholder="Camera doppia, BB…" />
+          </div>
+        </div>
+        <div class="group-header">
+          <span>Stato pagamento</span><span>N. pers.</span><span>Prezzo €/pers</span><span>Acconto €/pers</span><span style="text-align:right">Subtotale</span><span></span>
+        </div>
+        <div id="groupRows"></div>
+        <button type="button" class="btn btn-ghost btn-sm" onclick="addGroup(null)" style="margin-top:0.5rem">+ Aggiungi gruppo</button>
+        <div class="comitiva-summary">
+          <div><div class="cs-label">Tot. persone</div><div class="cs-value" id="cs-n-totale">0</div></div>
+          <div><div class="cs-label">Confermati (bloc.)</div><div class="cs-value gold" id="cs-bloccato">€ 0</div></div>
+          <div><div class="cs-label">Già incassato</div><div class="cs-value green" id="cs-incassato">€ 0</div></div>
+          <div><div class="cs-label">Da incassare (conf.)</div><div class="cs-value teal" id="cs-da-incassare">€ 0</div></div>
+          <div><div class="cs-label">Potenziale indecisi</div><div class="cs-value muted" id="cs-potenziale">—</div></div>
+          <div><div class="cs-label">Breakdown</div><div class="cs-value" id="cs-breakdown" style="font-size:0.8125rem">—</div></div>
+        </div>
       </div>
     </div>
 
     <!-- Finanziario -->
     <div class="form-section">
       <div class="form-section-title">Finanziario</div>
-      <div class="form-grid-4">
+
+      <!-- Margine (sempre visibile) -->
+      <div style="display:grid;grid-template-columns:180px 1fr 1fr;gap:0.875rem;align-items:end;margin-bottom:1rem">
         <div>
-          <label class="form-label">Prezzo Totale €</label>
-          <input class="form-input" id="f-prezzo_totale" type="number" min="0" step="0.01" placeholder="0.00"
-                 oninput="calcSaldo()" />
+          <label class="form-label">Margine €/persona</label>
+          <input class="form-input" id="f-margine_pp" type="number" min="0" step="0.01" value="10"
+                 oninput="calcSaldo();calcComitiva();" placeholder="10" />
         </div>
         <div>
-          <label class="form-label">Acconto €</label>
-          <input class="form-input" id="f-acconto" type="number" min="0" step="0.01" placeholder="0.00"
-                 oninput="calcSaldo()" />
+          <div class="fin-computed">
+            <div class="fin-computed-label">Guadagno Confermato</div>
+            <div class="fin-computed-value green" id="fin-guadagno-conf">€ 0,00</div>
+          </div>
         </div>
         <div>
-          <label class="form-label">Data Acconto</label>
-          <input class="form-input" id="f-data_acconto" type="date" />
-        </div>
-        <div>
-          <label class="form-label">Saldo € (auto)</label>
-          <input class="form-input" id="f-saldo_display" type="text" readonly placeholder="—" />
+          <div class="fin-computed">
+            <div class="fin-computed-label">Guadagno Potenziale</div>
+            <div class="fin-computed-value muted" id="fin-guadagno-pot">—</div>
+          </div>
         </div>
       </div>
-      <div style="margin-top:0.875rem;max-width:300px">
-        <label class="form-label">Scadenza Saldo</label>
-        <input class="form-input" id="f-scadenza_saldo" type="date" />
+
+      <!-- Normale -->
+      <div id="finNormale">
+        <div class="form-grid-4">
+          <div>
+            <label class="form-label">Prezzo Totale €</label>
+            <input class="form-input" id="f-prezzo_totale" type="number" min="0" step="0.01" placeholder="0.00" oninput="calcSaldo()" />
+          </div>
+          <div>
+            <label class="form-label">Acconto €</label>
+            <input class="form-input" id="f-acconto" type="number" min="0" step="0.01" placeholder="0.00" oninput="calcSaldo()" />
+          </div>
+          <div>
+            <label class="form-label">Data Acconto</label>
+            <input class="form-input" id="f-data_acconto" type="date" />
+          </div>
+          <div>
+            <label class="form-label">Saldo € (auto)</label>
+            <input class="form-input" id="f-saldo_display" type="text" readonly placeholder="—" />
+          </div>
+        </div>
+        <div style="margin-top:0.875rem;max-width:300px">
+          <label class="form-label">Scadenza Saldo</label>
+          <input class="form-input" id="f-scadenza_saldo" type="date" />
+        </div>
       </div>
+
+      <!-- Comitiva: calcolato -->
+      <div id="finComitiva" style="display:none">
+        <div class="form-grid-4" style="margin-bottom:0.875rem">
+          <div><div class="fin-computed"><div class="fin-computed-label">Totale Bloccato</div><div class="fin-computed-value" id="fc-bloccato">€ 0,00</div></div></div>
+          <div><div class="fin-computed"><div class="fin-computed-label">Già Incassato</div><div class="fin-computed-value green" id="fc-incassato">€ 0,00</div></div></div>
+          <div><div class="fin-computed"><div class="fin-computed-label">Da Incassare</div><div class="fin-computed-value teal" id="fc-da-incassare">€ 0,00</div></div></div>
+          <div><div class="fin-computed"><div class="fin-computed-label">Potenziale Indecisi</div><div class="fin-computed-value muted" id="fc-potenziale">—</div></div></div>
+        </div>
+        <div style="max-width:300px">
+          <label class="form-label">Scadenza Saldo Globale</label>
+          <input class="form-input" id="f-scadenza_saldo_c" type="date" />
+        </div>
+      </div>
+    </div>
+
+    <!-- PDF Allegato -->
+    <div class="form-section">
+      <div class="form-section-title">PDF Preventivo</div>
+
+      <!-- File già allegato in DB -->
+      <div id="pdfCurrentFile" style="display:none;margin-bottom:0.75rem">
+        <div class="pdf-file-card">
+          <span class="pdf-icon">📄</span>
+          <div style="flex:1;min-width:0">
+            <div class="pdf-file-name" id="pdfCurrentName">—</div>
+            <div class="pdf-file-meta" id="pdfCurrentSize">—</div>
+          </div>
+          <button type="button" class="btn btn-teal btn-sm" onclick="viewCurrentPdf()">👁 Visualizza</button>
+          <button type="button" class="btn btn-danger btn-sm" onclick="removePdf()">✕ Rimuovi</button>
+        </div>
+      </div>
+
+      <!-- File selezionato (non ancora salvato) -->
+      <div id="pdfSelectedFile" style="display:none;margin-bottom:0.75rem">
+        <div class="pdf-file-card pending">
+          <span class="pdf-icon">📎</span>
+          <div style="flex:1;min-width:0">
+            <div class="pdf-file-name" id="pdfSelectedName">—</div>
+            <div class="pdf-file-meta" id="pdfSelectedSize">— · in attesa di salvataggio</div>
+          </div>
+          <button type="button" class="btn btn-outline btn-sm" onclick="cancelPdfSelect()">✕ Annulla</button>
+        </div>
+      </div>
+
+      <!-- Area upload -->
+      <label class="pdf-drop-zone" id="pdfUploadArea" for="pdfInput">
+        <span class="pdf-icon">📎</span>
+        <div>
+          <div style="font-size:0.875rem;font-weight:600;color:rgba(255,255,255,0.7)">Allega PDF preventivo</div>
+          <div style="font-size:0.6875rem;color:rgba(255,255,255,0.3)">Clicca per selezionare · Max 15 MB</div>
+        </div>
+      </label>
+      <input type="file" accept=".pdf,application/pdf" style="display:none" id="pdfInput" onchange="handlePdfSelect(event)" />
     </div>
 
     <!-- Note -->
@@ -627,7 +575,42 @@
 </div>
 
 
-<!-- ========== MODAL CONFERMA ELIMINA ========== -->
+<!-- ========== MODAL DETTAGLIO COMITIVA ========== -->
+<div class="modal-overlay" id="comitivaModal" onclick="closeComitivaModalOnBg(event)">
+  <div class="modal-box modal-box-wide">
+    <div class="modal-title" id="cmTitle">Dettaglio Comitiva</div>
+    <div class="cd-stat-grid" id="cmStats"></div>
+    <div style="overflow-x:auto;margin-bottom:1.25rem">
+      <table class="cd-groups-table">
+        <thead>
+          <tr>
+            <th>Stato</th>
+            <th style="text-align:right">N. Persone</th>
+            <th style="text-align:right">Prezzo €/pers</th>
+            <th style="text-align:right">Acconto €/pers</th>
+            <th style="text-align:right">Saldo €/pers</th>
+            <th style="text-align:right">Subtotale</th>
+            <th style="text-align:right">Acconto Tot.</th>
+            <th style="text-align:right">Saldo Tot.</th>
+          </tr>
+        </thead>
+        <tbody id="cmGroupsBody"></tbody>
+        <tfoot id="cmGroupsFoot"></tfoot>
+      </table>
+    </div>
+    <div id="cmNote" style="display:none;margin-bottom:1.25rem">
+      <div style="font-size:0.6875rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:rgba(255,255,255,0.3);margin-bottom:0.375rem">Note</div>
+      <div id="cmNoteText" style="font-size:0.875rem;color:rgba(255,255,255,0.6);line-height:1.6"></div>
+    </div>
+    <div class="modal-footer" style="justify-content:space-between">
+      <button class="btn btn-gold btn-sm" id="cmEditBtn">✏️ Modifica</button>
+      <button class="btn btn-outline" onclick="closeComitivaModal()">Chiudi</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ========== MODAL ELIMINA ========== -->
 <div class="modal-overlay" id="deleteModal" onclick="closeDeleteModalOnBg(event)">
   <div class="confirm-box">
     <div class="modal-title-confirm">Eliminare questo preventivo?</div>
@@ -639,8 +622,6 @@
   </div>
 </div>
 
-
-<!-- Toast -->
 <div id="toast"></div>
 
 
@@ -651,230 +632,495 @@
 
 var ADMIN_PASSWORD = 'skappa2024';
 var LS_KEY = 'skappa_preventivi';
+var preventivi  = [];
+var editingId   = null;
+var deletingId  = null;
+var _gidCounter = 0;
 
-var preventivi = [];
-var editingId = null;
-var deletingId = null;
+// =============================================
+//  IndexedDB — PDF storage
+// =============================================
+var IDB_NAME  = 'skappa_pm_db';
+var IDB_VER   = 1;
+var IDB_STORE = 'pdfs';
+var _db = null;
 
-// ---- UUID ----
+function openDB(cb) {
+  if (_db) { cb(_db); return; }
+  var req = indexedDB.open(IDB_NAME, IDB_VER);
+  req.onupgradeneeded = function(e) {
+    var db = e.target.result;
+    if (!db.objectStoreNames.contains(IDB_STORE)) {
+      db.createObjectStore(IDB_STORE, { keyPath: 'id' });
+    }
+  };
+  req.onsuccess = function(e) { _db = e.target.result; cb(_db); };
+  req.onerror   = function()  { console.error('IndexedDB non disponibile'); };
+}
+
+function savePdfToDB(id, file, cb) {
+  openDB(function(db) {
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      var tx    = db.transaction(IDB_STORE, 'readwrite');
+      var store = tx.objectStore(IDB_STORE);
+      store.put({ id: id, name: file.name, size: file.size, data: e.target.result });
+      tx.oncomplete = function() { if (cb) cb(true); };
+      tx.onerror    = function() { if (cb) cb(false); };
+    };
+    reader.readAsArrayBuffer(file);
+  });
+}
+
+function getPdfFromDB(id, cb) {
+  openDB(function(db) {
+    var tx  = db.transaction(IDB_STORE, 'readonly');
+    var req = tx.objectStore(IDB_STORE).get(id);
+    req.onsuccess = function(e) { cb(e.target.result || null); };
+    req.onerror   = function()  { cb(null); };
+  });
+}
+
+function deletePdfFromDB(id) {
+  openDB(function(db) {
+    db.transaction(IDB_STORE, 'readwrite').objectStore(IDB_STORE).delete(id);
+  });
+}
+
+// =============================================
+//  PDF form state
+// =============================================
+var _pdfFile   = null;   // File selezionato in questa sessione
+var _pdfRemove = false;  // Utente ha cliccato "Rimuovi"
+
+function handlePdfSelect(event) {
+  var file = event.target.files[0];
+  if (!file) return;
+  if (file.size > 15 * 1024 * 1024) {
+    showToast('File troppo grande. Max 15 MB.', true);
+    event.target.value = '';
+    return;
+  }
+  _pdfFile   = file;
+  _pdfRemove = false;
+  document.getElementById('pdfSelectedName').textContent = file.name;
+  document.getElementById('pdfSelectedSize').textContent = fmtSize(file.size);
+  document.getElementById('pdfSelectedFile').style.display = '';
+  document.getElementById('pdfUploadArea').style.display   = 'none';
+  document.getElementById('pdfCurrentFile').style.display  = 'none';
+}
+
+function cancelPdfSelect() {
+  _pdfFile = null;
+  document.getElementById('pdfInput').value = '';
+  document.getElementById('pdfSelectedFile').style.display = 'none';
+  // Ripristina eventuale file esistente
+  if (editingId) {
+    var p = preventivi.find(function(x) { return x.id === editingId; });
+    if (p && p.pdf_name) { showCurrentPdf(p.pdf_name, p.pdf_size); return; }
+  }
+  document.getElementById('pdfUploadArea').style.display = '';
+}
+
+function removePdf() {
+  _pdfRemove = true;
+  _pdfFile   = null;
+  document.getElementById('pdfCurrentFile').style.display  = 'none';
+  document.getElementById('pdfSelectedFile').style.display = 'none';
+  document.getElementById('pdfUploadArea').style.display   = '';
+}
+
+function showCurrentPdf(name, size) {
+  document.getElementById('pdfCurrentName').textContent   = name;
+  document.getElementById('pdfCurrentSize').textContent   = fmtSize(size);
+  document.getElementById('pdfCurrentFile').style.display = '';
+  document.getElementById('pdfUploadArea').style.display  = 'none';
+  document.getElementById('pdfSelectedFile').style.display = 'none';
+}
+
+function viewCurrentPdf() {
+  if (editingId) viewPdfById(editingId);
+}
+
+function viewPdfById(id) {
+  getPdfFromDB(id, function(rec) {
+    if (!rec) { showToast('PDF non trovato. Riapri e salva di nuovo.', true); return; }
+    var blob = new Blob([rec.data], { type: 'application/pdf' });
+    var url  = URL.createObjectURL(blob);
+    window.open(url, '_blank');
+    setTimeout(function() { URL.revokeObjectURL(url); }, 60000);
+  });
+}
+
+function fmtSize(bytes) {
+  if (!bytes) return '—';
+  if (bytes < 1024)        return bytes + ' B';
+  if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+  return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+}
+
+// =============================================
+//  UUID / GID
+// =============================================
 function uuid() {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
     var r = Math.random() * 16 | 0;
     return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
   });
 }
+function newGid() { return 'g' + (++_gidCounter) + '_' + Math.random().toString(36).substr(2,5); }
 
-// ---- Password Gate ----
+// =============================================
+//  Password Gate
+// =============================================
 function checkPassword() {
   var val = document.getElementById('gateInput').value;
   if (val === ADMIN_PASSWORD) {
     sessionStorage.setItem('pm_auth', '1');
     document.getElementById('passwordGate').classList.add('hidden');
-    document.getElementById('gateError').textContent = '';
+    renderTable(); // ri-renderizza dopo login per evitare filtri stantii
   } else {
     document.getElementById('gateError').textContent = 'Password errata. Riprova.';
     document.getElementById('gateInput').focus();
   }
 }
-
 function checkAuth() {
-  if (sessionStorage.getItem('pm_auth') !== '1') {
+  if (sessionStorage.getItem('pm_auth') !== '1')
     document.getElementById('passwordGate').classList.remove('hidden');
-  } else {
+  else
     document.getElementById('passwordGate').classList.add('hidden');
-  }
 }
 
-// ---- Storage ----
+// =============================================
+//  Storage
+// =============================================
 function loadData() {
-  try {
-    var raw = localStorage.getItem(LS_KEY);
-    preventivi = raw ? JSON.parse(raw) : [];
-  } catch (e) { preventivi = []; }
+  try { preventivi = JSON.parse(localStorage.getItem(LS_KEY)) || []; }
+  catch(e) { preventivi = []; }
 }
+function saveData() { localStorage.setItem(LS_KEY, JSON.stringify(preventivi)); }
 
-function saveData() {
-  localStorage.setItem(LS_KEY, JSON.stringify(preventivi));
-}
-
-// ---- Calcolo saldo ----
-function calcSaldo() {
-  var tot = parseFloat(document.getElementById('f-prezzo_totale').value) || 0;
-  var acc = parseFloat(document.getElementById('f-acconto').value) || 0;
-  var saldo = tot - acc;
-  document.getElementById('f-saldo_display').value = saldo > 0 ? formatEur(saldo) : '€ 0,00';
-}
-
-// ---- Format ----
+// =============================================
+//  Formatters
+// =============================================
 function formatEur(n) {
-  return '€ ' + parseFloat(n || 0).toLocaleString('it-IT', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  return '€ ' + parseFloat(n || 0).toLocaleString('it-IT', { minimumFractionDigits:2, maximumFractionDigits:2 });
 }
-
 function formatDate(d) {
   if (!d) return '—';
-  var parts = d.split('-');
-  if (parts.length !== 3) return d;
-  return parts[2] + '/' + parts[1] + '/' + parts[0];
+  var p = d.split('-');
+  return p.length === 3 ? p[2]+'/'+p[1]+'/'+p[0] : d;
 }
-
-function isScadenzaVicina(dateStr) {
-  if (!dateStr) return false;
+function isScadenzaVicina(ds) {
+  if (!ds) return false;
   var oggi = new Date(); oggi.setHours(0,0,0,0);
-  var scad = new Date(dateStr); scad.setHours(0,0,0,0);
-  var diff = (scad - oggi) / (1000 * 60 * 60 * 24);
+  var scad = new Date(ds); scad.setHours(0,0,0,0);
+  var diff = (scad - oggi) / 86400000;
   return diff >= 0 && diff <= 7;
 }
-
-function isScaduta(dateStr) {
-  if (!dateStr) return false;
+function isScaduta(ds) {
+  if (!ds) return false;
   var oggi = new Date(); oggi.setHours(0,0,0,0);
-  var scad = new Date(dateStr); scad.setHours(0,0,0,0);
+  var scad = new Date(ds); scad.setHours(0,0,0,0);
   return scad < oggi;
 }
+function esc(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
 
-// ---- Stats ----
+// =============================================
+//  Comitiva — core
+// =============================================
+function calcComitivaTotali(gruppi) {
+  var r = { n_pagato:0,n_acconto:0,n_indeciso:0,n_annullato:0,n_totale:0,
+            bloccato:0,incassato:0,da_saldare:0,potenziale:0 };
+  (gruppi||[]).forEach(function(g) {
+    var n=parseInt(g.n_persone)||0, pp=parseFloat(g.prezzo_pp)||0, app=parseFloat(g.acconto_pp)||0;
+    r.n_totale += n;
+    if (g.stato==='pagato_tutto')    { r.n_pagato+=n; r.bloccato+=n*pp; r.incassato+=n*pp; }
+    else if (g.stato==='acconto_versato') { r.n_acconto+=n; r.bloccato+=n*pp; r.incassato+=n*app; r.da_saldare+=n*Math.max(0,pp-app); }
+    else if (g.stato==='indeciso')   { r.n_indeciso+=n; r.potenziale+=n*pp; }
+    else if (g.stato==='annullato')  { r.n_annullato+=n; }
+  });
+  return r;
+}
+
+// =============================================
+//  Comitiva — form toggle
+// =============================================
+function toggleComitiva() {
+  var isOn = document.getElementById('f-is_comitiva').checked;
+  document.getElementById('normalPartecipanti').style.display   = isOn ? 'none' : '';
+  document.getElementById('comitivaPartecipanti').style.display = isOn ? '' : 'none';
+  document.getElementById('finNormale').style.display           = isOn ? 'none' : '';
+  document.getElementById('finComitiva').style.display          = isOn ? '' : 'none';
+  if (isOn && document.getElementById('groupRows').children.length === 0) {
+    addGroup({ id:newGid(), stato:'pagato_tutto',    n_persone:0, prezzo_pp:'', acconto_pp:'' });
+    addGroup({ id:newGid(), stato:'acconto_versato', n_persone:0, prezzo_pp:'', acconto_pp:'' });
+    addGroup({ id:newGid(), stato:'indeciso',        n_persone:0, prezzo_pp:'', acconto_pp:'' });
+  }
+  calcComitiva();
+}
+
+function addGroup(data) {
+  data = data || { id:newGid(), stato:'pagato_tutto', n_persone:1, prezzo_pp:'', acconto_pp:'' };
+  var row = document.createElement('div');
+  row.className = 'group-row'; row.dataset.gid = data.id;
+  var opts = [['pagato_tutto','✓ Pagato tutto'],['acconto_versato','A Acconto versato'],['indeciso','? Indeciso'],['annullato','✗ Annullato']];
+  var sel = '<select class="form-select g-stato" onchange="updateGroupRow(this.closest(\'.group-row\'));calcComitiva()">';
+  opts.forEach(function(o){ sel += '<option value="'+o[0]+'"'+(data.stato===o[0]?' selected':'')+'>'+o[1]+'</option>'; });
+  sel += '</select>';
+  row.innerHTML = sel
+    + '<input class="form-input g-n" type="number" min="0" value="'+(data.n_persone!=null?data.n_persone:1)+'" placeholder="0" oninput="calcComitiva()" />'
+    + '<input class="form-input g-prezzo" type="number" min="0" step="0.01" value="'+(data.prezzo_pp||'')+'" placeholder="es. 1200" oninput="calcComitiva()" />'
+    + '<input class="form-input g-acconto" type="number" min="0" step="0.01" value="'+(data.acconto_pp||'')+'" placeholder="es. 300" oninput="calcComitiva()" />'
+    + '<span class="g-subtotale">—</span>'
+    + '<button type="button" class="btn btn-danger btn-sm" onclick="removeGroup(this.closest(\'.group-row\'))" style="padding:0.3rem 0.5rem">🗑</button>';
+  document.getElementById('groupRows').appendChild(row);
+  updateGroupRow(row);
+}
+
+function updateGroupRow(row) {
+  var stato = row.querySelector('.g-stato').value;
+  var ai = row.querySelector('.g-acconto'), pi = row.querySelector('.g-prezzo');
+  ai.disabled = stato !== 'acconto_versato'; ai.style.opacity = stato==='acconto_versato'?'1':'0.3';
+  if (stato!=='acconto_versato') ai.value = '';
+  pi.disabled = stato==='annullato'; pi.style.opacity = stato==='annullato'?'0.3':'1';
+  pi.placeholder = stato==='indeciso'?'Prezzo stimato':stato==='annullato'?'—':'Prezzo bloccato';
+  calcComitiva();
+}
+
+function removeGroup(row) { row.parentNode.removeChild(row); calcComitiva(); }
+
+function getGroupData() {
+  var rows = document.querySelectorAll('#groupRows .group-row'), gruppi = [];
+  rows.forEach(function(r) {
+    gruppi.push({ id:r.dataset.gid, stato:r.querySelector('.g-stato').value,
+      n_persone:parseInt(r.querySelector('.g-n').value)||0,
+      prezzo_pp:parseFloat(r.querySelector('.g-prezzo').value)||0,
+      acconto_pp:parseFloat(r.querySelector('.g-acconto').value)||0 });
+  });
+  return gruppi;
+}
+
+function renderGroupRows(gruppi) {
+  document.getElementById('groupRows').innerHTML = '';
+  (gruppi||[]).forEach(function(g){ addGroup(g); });
+  calcComitiva();
+}
+
+function calcComitiva() {
+  if (!document.getElementById('f-is_comitiva').checked) return;
+  var gruppi = getGroupData(), t = calcComitivaTotali(gruppi);
+
+  document.querySelectorAll('#groupRows .group-row').forEach(function(row) {
+    var stato=row.querySelector('.g-stato').value, n=parseInt(row.querySelector('.g-n').value)||0;
+    var pp=parseFloat(row.querySelector('.g-prezzo').value)||0;
+    var sub=row.querySelector('.g-subtotale');
+    if (stato==='pagato_tutto'||stato==='acconto_versato') { sub.textContent=formatEur(n*pp); sub.className='g-subtotale'; }
+    else if (stato==='indeciso')  { sub.textContent=n*pp>0?'~'+formatEur(n*pp):'—'; sub.className='g-subtotale indeciso'; }
+    else { sub.textContent='—'; sub.className='g-subtotale annullato'; }
+  });
+
+  var bp = [];
+  if (t.n_pagato)    bp.push('<span class="pb-chip pagato">✓ '+t.n_pagato+' pag.</span>');
+  if (t.n_acconto)   bp.push('<span class="pb-chip acconto">A '+t.n_acconto+' acc.</span>');
+  if (t.n_indeciso)  bp.push('<span class="pb-chip indeciso">? '+t.n_indeciso+' ind.</span>');
+  if (t.n_annullato) bp.push('<span class="pb-chip annullato">✗ '+t.n_annullato+' ann.</span>');
+
+  document.getElementById('cs-n-totale').textContent     = t.n_totale+(t.n_annullato?' (di cui '+t.n_annullato+' ann.)':'');
+  document.getElementById('cs-bloccato').textContent     = formatEur(t.bloccato);
+  document.getElementById('cs-incassato').textContent    = formatEur(t.incassato);
+  document.getElementById('cs-da-incassare').textContent = formatEur(t.da_saldare);
+  document.getElementById('cs-potenziale').textContent   = t.n_indeciso>0?'~'+formatEur(t.potenziale):'—';
+  document.getElementById('cs-breakdown').innerHTML      = bp.join(' ')||'—';
+
+  document.getElementById('fc-bloccato').textContent     = formatEur(t.bloccato);
+  document.getElementById('fc-incassato').textContent    = formatEur(t.incassato);
+  document.getElementById('fc-da-incassare').textContent = formatEur(t.da_saldare);
+  document.getElementById('fc-potenziale').textContent   = t.n_indeciso>0?'~'+formatEur(t.potenziale):'—';
+  document.getElementById('fc-potenziale').className     = 'fin-computed-value'+(t.n_indeciso>0?' purple':' muted');
+
+  // Guadagno
+  var mpp  = parseFloat(document.getElementById('f-margine_pp').value)||0;
+  var gConf = mpp*(t.n_pagato+t.n_acconto), gPot = mpp*t.n_indeciso;
+  document.getElementById('fin-guadagno-conf').textContent = formatEur(gConf);
+  document.getElementById('fin-guadagno-pot').textContent  = gPot>0?'~'+formatEur(gPot):'—';
+  document.getElementById('fin-guadagno-pot').className    = 'fin-computed-value'+(gPot>0?' purple':' muted');
+}
+
+// =============================================
+//  Calcolo saldo (normale)
+// =============================================
+function calcSaldo() {
+  var tot = parseFloat(document.getElementById('f-prezzo_totale').value)||0;
+  var acc = parseFloat(document.getElementById('f-acconto').value)||0;
+  document.getElementById('f-saldo_display').value = tot-acc>0?formatEur(tot-acc):'€ 0,00';
+  // Guadagno
+  var mpp     = parseFloat(document.getElementById('f-margine_pp').value)||0;
+  var adulti  = parseInt(document.getElementById('f-adulti').value)||1;
+  var bambini = parseInt(document.getElementById('f-bambini').value)||0;
+  document.getElementById('fin-guadagno-conf').textContent = formatEur(mpp*(adulti+bambini));
+  document.getElementById('fin-guadagno-pot').textContent  = '—';
+  document.getElementById('fin-guadagno-pot').className    = 'fin-computed-value muted';
+}
+
+// =============================================
+//  Stats
+// =============================================
 function updateStats() {
-  var active = preventivi.filter(function(p) { return p.stato !== 'Annullato'; });
   var totale = preventivi.length;
+  var incassato=0, daIncassare=0, scadenza=0, guadagno=0, guadagnoPot=0;
 
-  var incassato = preventivi.reduce(function(sum, p) {
-    var acc = parseFloat(p.acconto) || 0;
-    var tot = parseFloat(p.prezzo_totale) || 0;
-    if (p.stato === 'Saldo versato') return sum + tot;
-    return sum + acc;
-  }, 0);
+  preventivi.forEach(function(p) {
+    var mpp = parseFloat(p.margine_pp)||10;
+    if (p.is_comitiva && p.gruppi) {
+      var t = calcComitivaTotali(p.gruppi);
+      incassato   += t.incassato;
+      daIncassare += t.da_saldare;
+      guadagno    += mpp*(t.n_pagato+t.n_acconto);
+      guadagnoPot += mpp*t.n_indeciso;
+    } else {
+      var acc=parseFloat(p.acconto)||0, tot=parseFloat(p.prezzo_totale)||0;
+      if (p.stato==='Saldo versato')        { incassato+=tot; }
+      else if (p.stato!=='Annullato') { incassato+=acc; daIncassare+=Math.max(0,tot-acc); }
+      if (p.stato!=='Annullato') guadagno += mpp*((parseInt(p.adulti)||1)+(parseInt(p.bambini)||0));
+    }
+    if (p.stato!=='Saldo versato'&&p.stato!=='Annullato') {
+      var sf = p.is_comitiva?p.scadenza_saldo_c:p.scadenza_saldo;
+      if (sf&&isScadenzaVicina(sf)) scadenza++;
+    }
+  });
 
-  var daIncassare = preventivi.reduce(function(sum, p) {
-    if (p.stato === 'Saldo versato' || p.stato === 'Annullato') return sum;
-    var tot = parseFloat(p.prezzo_totale) || 0;
-    var acc = parseFloat(p.acconto) || 0;
-    return sum + Math.max(0, tot - acc);
-  }, 0);
-
-  var scadenza = preventivi.filter(function(p) {
-    return p.stato !== 'Saldo versato' && p.stato !== 'Annullato'
-      && p.scadenza_saldo && isScadenzaVicina(p.scadenza_saldo);
-  }).length;
-
-  document.getElementById('statTotale').textContent = totale;
-  document.getElementById('statTotaleSub').textContent = totale === 1 ? '1 preventivo registrato' : totale + ' preventivi registrati';
-  document.getElementById('statIncassato').textContent = formatEur(incassato);
+  document.getElementById('statTotale').textContent      = totale;
+  document.getElementById('statTotaleSub').textContent   = totale===1?'1 preventivo registrato':totale+' preventivi registrati';
+  document.getElementById('statIncassato').textContent   = formatEur(incassato);
   document.getElementById('statDaIncassare').textContent = formatEur(daIncassare);
-  document.getElementById('statScadenza').textContent = scadenza;
+  document.getElementById('statScadenza').textContent    = scadenza;
+  document.getElementById('statGuadagno').textContent    = formatEur(guadagno);
+  document.getElementById('statGuadagnoSub').textContent = guadagnoPot>0?'+~'+formatEur(guadagnoPot)+' pot. indecisi':'da pratiche confermate';
 }
 
-// ---- Filtered & sorted list ----
+// =============================================
+//  Filtri
+// =============================================
 function getFiltered() {
-  var q = (document.getElementById('filterSearch').value || '').toLowerCase().trim();
-  var stato = document.getElementById('filterStato').value;
-  var sort = document.getElementById('filterSort').value;
-
-  var result = preventivi.filter(function(p) {
-    var matchQ = !q
-      || (p.cliente || '').toLowerCase().includes(q)
-      || (p.destinazione || '').toLowerCase().includes(q)
-      || (p.fornitore || '').toLowerCase().includes(q)
-      || (p.email || '').toLowerCase().includes(q);
-    var matchS = !stato || p.stato === stato;
-    return matchQ && matchS;
+  var q=((document.getElementById('filterSearch').value)||'').toLowerCase().trim();
+  var stato=document.getElementById('filterStato').value;
+  var sort=document.getElementById('filterSort').value;
+  var res = preventivi.filter(function(p) {
+    var mQ = !q||(p.cliente||'').toLowerCase().includes(q)||(p.destinazione||'').toLowerCase().includes(q)
+              ||(p.fornitore||'').toLowerCase().includes(q)||(p.email||'').toLowerCase().includes(q)
+              ||(p.comitiva_nome||'').toLowerCase().includes(q);
+    var mS = stato==='__comitiva__'?!!p.is_comitiva:(!stato||p.stato===stato);
+    return mQ&&mS;
   });
-
-  result.sort(function(a, b) {
-    var va = a[sort] || '';
-    var vb = b[sort] || '';
-    if (!va && !vb) return 0;
-    if (!va) return 1;
-    if (!vb) return -1;
-    return va < vb ? -1 : va > vb ? 1 : 0;
+  res.sort(function(a,b) {
+    var va=a[sort==='scadenza_saldo'&&a.is_comitiva?'scadenza_saldo_c':sort]||'';
+    var vb=b[sort==='scadenza_saldo'&&b.is_comitiva?'scadenza_saldo_c':sort]||'';
+    if (!va&&!vb) return 0; if (!va) return 1; if (!vb) return -1;
+    return va<vb?-1:va>vb?1:0;
   });
-
-  return result;
+  return res;
 }
 
-// ---- Render table ----
+// =============================================
+//  Render table
+// =============================================
 function renderTable() {
   updateStats();
-  var list = getFiltered();
-  var tbody = document.getElementById('tableBody');
+  var list=getFiltered(), tbody=document.getElementById('tableBody');
+  document.getElementById('filterCount').textContent = list.length+' di '+preventivi.length+' pratiche';
 
-  document.getElementById('filterCount').textContent =
-    list.length + ' di ' + preventivi.length + ' pratiche';
-
-  if (list.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="11"><div class="empty-state"><div class="empty-icon">📋</div>'
-      + (preventivi.length === 0
-          ? 'Nessun preventivo ancora.<br>Clicca "+ Nuovo Preventivo" per iniziare.'
-          : 'Nessun risultato per i filtri selezionati.')
-      + '</div></td></tr>';
+  if (list.length===0) {
+    tbody.innerHTML='<tr><td colspan="12"><div class="empty-state"><div class="empty-icon">📋</div>'
+      +(preventivi.length===0?'Nessun preventivo ancora.<br>Clicca "+ Nuovo Preventivo" per iniziare.':'Nessun risultato.')
+      +'</div></td></tr>';
     return;
   }
 
-  var html = '';
-  list.forEach(function(p, idx) {
-    var saldo = Math.max(0, (parseFloat(p.prezzo_totale) || 0) - (parseFloat(p.acconto) || 0));
-    var statoClass = {
-      'Preventivo':     'stato-preventivo',
-      'Confermato':     'stato-confermato',
-      'Acconto versato':'stato-acconto',
-      'Saldo versato':  'stato-saldo',
-      'Annullato':      'stato-annullato'
-    }[p.stato] || '';
+  var html='';
+  list.forEach(function(p,idx) {
+    var isC = p.is_comitiva&&p.gruppi&&p.gruppi.length>0;
+    var t   = isC ? calcComitivaTotali(p.gruppi) : null;
+    var mpp = parseFloat(p.margine_pp)||10;
 
-    var badgeClass = {
-      'Preventivo':     'badge-Preventivo',
-      'Confermato':     'badge-Confermato',
-      'Acconto versato':'badge-Acconto',
-      'Saldo versato':  'badge-Saldo',
-      'Annullato':      'badge-Annullato'
-    }[p.stato] || 'badge-Preventivo';
+    var sc = isC?'stato-comitiva':({'Preventivo':'stato-preventivo','Confermato':'stato-confermato','Acconto versato':'stato-acconto','Saldo versato':'stato-saldo','Annullato':'stato-annullato'}[p.stato]||'');
+    var bc = {'Preventivo':'badge-Preventivo','Confermato':'badge-Confermato','Acconto versato':'badge-Acconto','Saldo versato':'badge-Saldo','Annullato':'badge-Annullato'}[p.stato]||'badge-Preventivo';
 
-    var scadCls = '';
-    var scadTxt = formatDate(p.scadenza_saldo);
-    if (p.stato !== 'Saldo versato' && p.stato !== 'Annullato') {
-      if (p.scadenza_saldo && isScaduta(p.scadenza_saldo)) scadCls = 'scadenza-alert';
-      else if (p.scadenza_saldo && isScadenzaVicina(p.scadenza_saldo)) scadCls = 'scadenza-alert';
+    var scadF = isC?p.scadenza_saldo_c:p.scadenza_saldo;
+    var scadCls = (p.stato!=='Saldo versato'&&p.stato!=='Annullato'&&scadF&&(isScaduta(scadF)||isScadenzaVicina(scadF)))?'scadenza-alert':'';
+
+    // Partecipanti
+    var persTd;
+    if (isC) {
+      var chips='';
+      if (t.n_pagato)    chips+='<span class="pb-chip pagato">✓'+t.n_pagato+'</span>';
+      if (t.n_acconto)   chips+='<span class="pb-chip acconto">A'+t.n_acconto+'</span>';
+      if (t.n_indeciso)  chips+='<span class="pb-chip indeciso">?'+t.n_indeciso+'</span>';
+      if (t.n_annullato) chips+='<span class="pb-chip annullato">✗'+t.n_annullato+'</span>';
+      persTd='<div><span class="comitiva-badge">COMITIVA</span>'+(p.comitiva_nome?'<span style="font-size:0.6875rem;color:rgba(255,255,255,0.45);margin-left:0.3rem">'+esc(p.comitiva_nome)+'</span>':'')+'</div>'
+            +'<div class="persone-breakdown" style="margin-top:0.2rem">'+chips+'</div>';
+    } else {
+      persTd='<span style="font-weight:600">'+esc(String((parseInt(p.adulti)||1)+(parseInt(p.bambini)?'+'+p.bambini+'b':'')))+'</span>';
     }
 
-    var persone = (parseInt(p.adulti) || 1) + (parseInt(p.bambini) ? '+' + p.bambini + 'b' : '');
+    // Finanziario
+    var totaleTd, incassatoTd, daIncassareTd;
+    if (isC) {
+      totaleTd     = '<div style="font-weight:600">'+formatEur(t.bloccato)+'</div>'+(t.potenziale>0?'<div style="font-size:0.6875rem;color:#a78bfa">+~'+formatEur(t.potenziale)+'</div>':'');
+      incassatoTd  = '<div style="color:#4ade80;font-weight:600">'+formatEur(t.incassato)+'</div>';
+      daIncassareTd= t.da_saldare>0?'<div style="color:var(--teal);font-weight:600">'+formatEur(t.da_saldare)+'</div>':'<span style="color:#4ade80">✓ Conf. pagato</span>';
+    } else {
+      var saldo=Math.max(0,(parseFloat(p.prezzo_totale)||0)-(parseFloat(p.acconto)||0));
+      totaleTd     = p.prezzo_totale?'<span style="font-weight:600">'+formatEur(p.prezzo_totale)+'</span>':'—';
+      incassatoTd  = p.acconto?formatEur(p.acconto):'—';
+      daIncassareTd= p.stato!=='Saldo versato'&&saldo>0?formatEur(saldo):(p.stato==='Saldo versato'?'<span style="color:#4ade80">✓ Pagato</span>':'—');
+    }
 
-    html += '<tr class="' + statoClass + '">'
-      + '<td style="color:rgba(255,255,255,0.3);font-size:0.6875rem">' + (idx + 1) + '</td>'
-      + '<td>'
-      +   '<div style="font-weight:600">' + esc(p.cliente || '—') + '</div>'
-      +   (p.telefono ? '<div style="font-size:0.6875rem;color:rgba(255,255,255,0.35)">' + esc(p.telefono) + '</div>' : '')
-      + '</td>'
-      + '<td>'
-      +   '<div style="font-weight:600">' + esc(p.destinazione || '—') + '</div>'
-      +   (p.fornitore ? '<div style="font-size:0.6875rem;color:rgba(255,255,255,0.35)">' + esc(p.fornitore) + '</div>' : '')
-      + '</td>'
-      + '<td>' + formatDate(p.data_partenza) + '</td>'
-      + '<td style="text-align:center">' + esc(String(persone)) + '</td>'
-      + '<td style="font-weight:600">' + (p.prezzo_totale ? formatEur(p.prezzo_totale) : '—') + '</td>'
-      + '<td>' + (p.acconto ? formatEur(p.acconto) : '—') + '</td>'
-      + '<td>' + (p.stato !== 'Saldo versato' && saldo > 0 ? formatEur(saldo) : (p.stato === 'Saldo versato' ? '<span style="color:#4ade80">✓ Pagato</span>' : '—')) + '</td>'
-      + '<td class="' + scadCls + '">' + scadTxt + '</td>'
-      + '<td><span class="badge-stato ' + badgeClass + '">' + esc(p.stato) + '</span></td>'
-      + '<td>'
-      +   '<div style="display:flex;gap:0.375rem">'
-      +   '<button class="btn btn-outline btn-sm" onclick="openEditModal(\'' + p.id + '\')">✏️</button>'
-      +   '<button class="btn btn-danger btn-sm" onclick="openDeleteModal(\'' + p.id + '\')">🗑️</button>'
-      +   '</div>'
-      + '</td>'
-      + '</tr>';
+    // Guadagno
+    var guadagnoTd;
+    if (isC) {
+      var gC=mpp*(t.n_pagato+t.n_acconto), gP=mpp*t.n_indeciso;
+      guadagnoTd='<div style="color:#4ade80;font-weight:600">'+formatEur(gC)+'</div>'+(gP>0?'<div style="font-size:0.6875rem;color:#a78bfa">+~'+formatEur(gP)+'</div>':'');
+    } else {
+      var nT=(parseInt(p.adulti)||1)+(parseInt(p.bambini)||0);
+      guadagnoTd='<span style="color:#4ade80;font-weight:600">'+formatEur(mpp*nT)+'</span>';
+    }
+
+    // Azioni
+    var az='<div style="display:flex;gap:0.25rem;flex-wrap:wrap">';
+    if (isC) az+='<button class="btn btn-ghost btn-sm" onclick="openComitivaModal(\''+p.id+'\')" title="Dettaglio comitiva">👥</button>';
+    if (p.pdf_name) {
+      az+='<button class="btn btn-ghost btn-sm" onclick="viewPdfById(\''+p.id+'\')" title="'+esc(p.pdf_name)+'">📄</button>';
+    } else {
+      az+='<button class="btn btn-ghost btn-sm" onclick="openEditModal(\''+p.id+'\')" title="Allega PDF" style="opacity:0.4">📎</button>';
+    }
+    az+='<button class="btn btn-outline btn-sm" onclick="openEditModal(\''+p.id+'\')">✏️</button>';
+    az+='<button class="btn btn-danger btn-sm" onclick="openDeleteModal(\''+p.id+'\')">🗑️</button>';
+    az+='</div>';
+
+    html+='<tr class="'+sc+'">'
+      +'<td style="color:rgba(255,255,255,0.3);font-size:0.6875rem">'+(idx+1)+'</td>'
+      +'<td><div style="font-weight:600">'+esc(p.cliente||'—')+'</div>'+(p.telefono?'<div style="font-size:0.6875rem;color:rgba(255,255,255,0.35)">'+esc(p.telefono)+'</div>':'')+'</td>'
+      +'<td><div style="font-weight:600">'+esc(p.destinazione||'—')+'</div>'+(p.fornitore?'<div style="font-size:0.6875rem;color:rgba(255,255,255,0.35)">'+esc(p.fornitore)+'</div>':'')+'</td>'
+      +'<td>'+formatDate(p.data_partenza)+'</td>'
+      +'<td>'+persTd+'</td>'
+      +'<td>'+totaleTd+'</td>'
+      +'<td>'+incassatoTd+'</td>'
+      +'<td>'+daIncassareTd+'</td>'
+      +'<td>'+guadagnoTd+'</td>'
+      +'<td class="'+scadCls+'">'+formatDate(scadF)+'</td>'
+      +'<td><span class="badge-stato '+bc+'">'+esc(p.stato)+'</span></td>'
+      +'<td>'+az+'</td>'
+      +'</tr>';
   });
-
   tbody.innerHTML = html;
 }
 
-function esc(str) {
-  return String(str || '')
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
-}
-
-// ---- Modal Add ----
+// =============================================
+//  Modal Add / Edit
+// =============================================
 function openAddModal() {
   editingId = null;
   document.getElementById('editModalTitle').textContent = 'Nuovo Preventivo';
@@ -882,296 +1128,451 @@ function openAddModal() {
   document.getElementById('editModal').classList.add('open');
 }
 
-// ---- Modal Edit ----
 function openEditModal(id) {
-  var p = preventivi.find(function(x) { return x.id === id; });
+  var p = preventivi.find(function(x){ return x.id===id; });
   if (!p) return;
   editingId = id;
-  document.getElementById('editModalTitle').textContent = 'Modifica Preventivo — ' + (p.cliente || p.destinazione || '');
+  document.getElementById('editModalTitle').textContent =
+    'Modifica — '+(p.is_comitiva?'👥 '+(p.comitiva_nome||'Comitiva'):(p.cliente||p.destinazione||''));
   fillForm(p);
   document.getElementById('editModal').classList.add('open');
 }
-
-function closeEditModal() {
-  document.getElementById('editModal').classList.remove('open');
-}
-
-function closeEditModalOnBg(e) {
-  if (e.target === document.getElementById('editModal')) closeEditModal();
-}
+function closeEditModal() { document.getElementById('editModal').classList.remove('open'); }
+function closeEditModalOnBg(e) { if (e.target===document.getElementById('editModal')) closeEditModal(); }
 
 function clearForm() {
-  var ids = ['f-cliente','f-telefono','f-email','f-destinazione','f-fornitore',
-             'f-data_partenza','f-data_ritorno','f-sistemazione',
-             'f-prezzo_totale','f-acconto','f-data_acconto','f-scadenza_saldo','f-note'];
-  ids.forEach(function(id) {
-    var el = document.getElementById(id);
-    if (el) el.value = '';
+  ['f-cliente','f-telefono','f-email','f-destinazione','f-fornitore',
+   'f-data_partenza','f-data_ritorno','f-sistemazione','f-sistemazione-c',
+   'f-prezzo_totale','f-acconto','f-data_acconto','f-scadenza_saldo',
+   'f-scadenza_saldo_c','f-comitiva_nome','f-note','f-saldo_display'].forEach(function(id){
+    var el=document.getElementById(id); if(el) el.value='';
   });
-  document.getElementById('f-adulti').value = '1';
-  document.getElementById('f-bambini').value = '0';
-  document.getElementById('f-stato').value = 'Preventivo';
-  document.getElementById('f-saldo_display').value = '';
+  document.getElementById('f-adulti').value   = '1';
+  document.getElementById('f-bambini').value  = '0';
+  document.getElementById('f-margine_pp').value = '10';
+  document.getElementById('f-stato').value    = 'Preventivo';
+  document.getElementById('f-is_comitiva').checked = false;
+  document.getElementById('groupRows').innerHTML = '';
+  document.getElementById('normalPartecipanti').style.display   = '';
+  document.getElementById('comitivaPartecipanti').style.display = 'none';
+  document.getElementById('finNormale').style.display           = '';
+  document.getElementById('finComitiva').style.display          = 'none';
+  // PDF reset
+  _pdfFile = null; _pdfRemove = false;
+  document.getElementById('pdfInput').value = '';
+  document.getElementById('pdfCurrentFile').style.display  = 'none';
+  document.getElementById('pdfSelectedFile').style.display = 'none';
+  document.getElementById('pdfUploadArea').style.display   = '';
+  // Reset guadagno display
+  document.getElementById('fin-guadagno-conf').textContent = '€ 0,00';
+  document.getElementById('fin-guadagno-pot').textContent  = '—';
 }
 
 function fillForm(p) {
+  var isC = !!p.is_comitiva;
   var map = {
-    'f-cliente': p.cliente, 'f-telefono': p.telefono, 'f-email': p.email,
-    'f-destinazione': p.destinazione, 'f-fornitore': p.fornitore,
-    'f-stato': p.stato,
-    'f-data_partenza': p.data_partenza, 'f-data_ritorno': p.data_ritorno,
-    'f-adulti': p.adulti, 'f-bambini': p.bambini,
-    'f-sistemazione': p.sistemazione,
-    'f-prezzo_totale': p.prezzo_totale, 'f-acconto': p.acconto,
-    'f-data_acconto': p.data_acconto, 'f-scadenza_saldo': p.scadenza_saldo,
-    'f-note': p.note
+    'f-cliente':p.cliente,'f-telefono':p.telefono,'f-email':p.email,
+    'f-destinazione':p.destinazione,'f-fornitore':p.fornitore,'f-stato':p.stato,
+    'f-data_partenza':p.data_partenza,'f-data_ritorno':p.data_ritorno,
+    'f-margine_pp': p.margine_pp!=null?p.margine_pp:10,
+    'f-note':p.note
   };
-  Object.keys(map).forEach(function(id) {
-    var el = document.getElementById(id);
-    if (el) el.value = map[id] || '';
-  });
-  calcSaldo();
+  if (!isC) {
+    map['f-adulti']       = p.adulti;
+    map['f-bambini']      = p.bambini;
+    map['f-sistemazione'] = p.sistemazione;
+    map['f-prezzo_totale']= p.prezzo_totale;
+    map['f-acconto']      = p.acconto;
+    map['f-data_acconto'] = p.data_acconto;
+    map['f-scadenza_saldo'] = p.scadenza_saldo;
+  } else {
+    map['f-comitiva_nome']  = p.comitiva_nome;
+    map['f-sistemazione-c'] = p.sistemazione;
+    map['f-scadenza_saldo_c'] = p.scadenza_saldo_c;
+  }
+  Object.keys(map).forEach(function(id){ var el=document.getElementById(id); if(el) el.value=map[id]||''; });
+
+  document.getElementById('f-is_comitiva').checked          = isC;
+  document.getElementById('normalPartecipanti').style.display   = isC?'none':'';
+  document.getElementById('comitivaPartecipanti').style.display = isC?'':'none';
+  document.getElementById('finNormale').style.display           = isC?'none':'';
+  document.getElementById('finComitiva').style.display          = isC?'':'none';
+
+  if (isC) { document.getElementById('groupRows').innerHTML=''; renderGroupRows(p.gruppi||[]); }
+  else calcSaldo();
+
+  // PDF
+  _pdfFile = null; _pdfRemove = false;
+  document.getElementById('pdfInput').value = '';
+  document.getElementById('pdfSelectedFile').style.display = 'none';
+  if (p.pdf_name) { showCurrentPdf(p.pdf_name, p.pdf_size); }
+  else { document.getElementById('pdfCurrentFile').style.display='none'; document.getElementById('pdfUploadArea').style.display=''; }
 }
 
 function getFormData() {
-  var tot = parseFloat(document.getElementById('f-prezzo_totale').value) || 0;
-  var acc = parseFloat(document.getElementById('f-acconto').value) || 0;
-  return {
-    cliente:       document.getElementById('f-cliente').value.trim(),
-    telefono:      document.getElementById('f-telefono').value.trim(),
-    email:         document.getElementById('f-email').value.trim(),
-    destinazione:  document.getElementById('f-destinazione').value.trim(),
-    fornitore:     document.getElementById('f-fornitore').value.trim(),
-    stato:         document.getElementById('f-stato').value,
-    data_partenza: document.getElementById('f-data_partenza').value,
-    data_ritorno:  document.getElementById('f-data_ritorno').value,
-    adulti:        parseInt(document.getElementById('f-adulti').value) || 1,
-    bambini:       parseInt(document.getElementById('f-bambini').value) || 0,
-    sistemazione:  document.getElementById('f-sistemazione').value.trim(),
-    prezzo_totale: tot,
-    acconto:       acc,
-    data_acconto:  document.getElementById('f-data_acconto').value,
-    scadenza_saldo:document.getElementById('f-scadenza_saldo').value,
-    note:          document.getElementById('f-note').value.trim()
-  };
+  var isC = document.getElementById('f-is_comitiva').checked;
+  var mpp = parseFloat(document.getElementById('f-margine_pp').value)||10;
+
+  if (isC) {
+    var gruppi=getGroupData(), t=calcComitivaTotali(gruppi);
+    return {
+      cliente:document.getElementById('f-cliente').value.trim(),
+      telefono:document.getElementById('f-telefono').value.trim(),
+      email:document.getElementById('f-email').value.trim(),
+      destinazione:document.getElementById('f-destinazione').value.trim(),
+      fornitore:document.getElementById('f-fornitore').value.trim(),
+      stato:document.getElementById('f-stato').value,
+      data_partenza:document.getElementById('f-data_partenza').value,
+      data_ritorno:document.getElementById('f-data_ritorno').value,
+      sistemazione:document.getElementById('f-sistemazione-c').value.trim(),
+      note:document.getElementById('f-note').value.trim(),
+      margine_pp:mpp,
+      is_comitiva:true,
+      comitiva_nome:document.getElementById('f-comitiva_nome').value.trim(),
+      gruppi:gruppi,
+      adulti:t.n_pagato+t.n_acconto+t.n_indeciso,
+      bambini:0,
+      prezzo_totale:t.bloccato, acconto:t.incassato, data_acconto:'',
+      scadenza_saldo:'',
+      scadenza_saldo_c:document.getElementById('f-scadenza_saldo_c').value
+    };
+  } else {
+    var tot=parseFloat(document.getElementById('f-prezzo_totale').value)||0;
+    var acc=parseFloat(document.getElementById('f-acconto').value)||0;
+    return {
+      cliente:document.getElementById('f-cliente').value.trim(),
+      telefono:document.getElementById('f-telefono').value.trim(),
+      email:document.getElementById('f-email').value.trim(),
+      destinazione:document.getElementById('f-destinazione').value.trim(),
+      fornitore:document.getElementById('f-fornitore').value.trim(),
+      stato:document.getElementById('f-stato').value,
+      data_partenza:document.getElementById('f-data_partenza').value,
+      data_ritorno:document.getElementById('f-data_ritorno').value,
+      adulti:parseInt(document.getElementById('f-adulti').value)||1,
+      bambini:parseInt(document.getElementById('f-bambini').value)||0,
+      sistemazione:document.getElementById('f-sistemazione').value.trim(),
+      prezzo_totale:tot, acconto:acc,
+      data_acconto:document.getElementById('f-data_acconto').value,
+      scadenza_saldo:document.getElementById('f-scadenza_saldo').value,
+      note:document.getElementById('f-note').value.trim(),
+      margine_pp:mpp,
+      is_comitiva:false, comitiva_nome:'', gruppi:[], scadenza_saldo_c:''
+    };
+  }
 }
 
-// ---- Save preventivo ----
 function savePreventivo() {
   var data = getFormData();
-  if (!data.cliente && !data.destinazione) {
-    showToast('Inserisci almeno il nome del cliente o la destinazione.', true);
-    return;
-  }
+  if (!data.cliente && !data.destinazione) { showToast('Inserisci almeno il cliente o la destinazione.', true); return; }
 
-  if (editingId) {
-    var idx = preventivi.findIndex(function(x) { return x.id === editingId; });
-    if (idx !== -1) {
-      data.id = editingId;
-      data.data_creazione = preventivi[idx].data_creazione;
-      preventivi[idx] = data;
+  var isNew = !editingId;
+  var id;
+
+  if (!isNew) {
+    var idx = preventivi.findIndex(function(x){ return x.id===editingId; });
+    if (idx===-1) return;
+    id = editingId;
+    if (_pdfRemove) {
+      data.pdf_name=''; data.pdf_size=0;
+      deletePdfFromDB(id);
+    } else if (_pdfFile) {
+      data.pdf_name=_pdfFile.name; data.pdf_size=_pdfFile.size;
+      savePdfToDB(id, _pdfFile, null);
+    } else {
+      data.pdf_name = preventivi[idx].pdf_name||'';
+      data.pdf_size = preventivi[idx].pdf_size||0;
     }
+    data.id = id;
+    data.data_creazione = preventivi[idx].data_creazione;
+    preventivi[idx] = data;
   } else {
-    data.id = uuid();
+    id = uuid();
+    data.id = id;
     data.data_creazione = new Date().toISOString().split('T')[0];
+    if (_pdfFile) {
+      data.pdf_name=_pdfFile.name; data.pdf_size=_pdfFile.size;
+      savePdfToDB(id, _pdfFile, null);
+    } else {
+      data.pdf_name=''; data.pdf_size=0;
+    }
     preventivi.push(data);
   }
 
-  saveData();
-  renderTable();
-  closeEditModal();
-  showToast(editingId ? 'Preventivo aggiornato.' : 'Preventivo aggiunto!');
+  saveData(); renderTable(); closeEditModal();
+  showToast(isNew?'Preventivo aggiunto!':'Preventivo aggiornato.');
 }
 
-// ---- Delete ----
+// =============================================
+//  Modal Comitiva
+// =============================================
+function openComitivaModal(id) {
+  var p = preventivi.find(function(x){ return x.id===id; });
+  if (!p||!p.is_comitiva) return;
+  var t   = calcComitivaTotali(p.gruppi||[]);
+  var mpp = parseFloat(p.margine_pp)||10;
+  var gC  = mpp*(t.n_pagato+t.n_acconto), gP=mpp*t.n_indeciso;
+  var nome = p.comitiva_nome||((p.cliente||'Comitiva')+(p.destinazione?' — '+p.destinazione:''));
+  document.getElementById('cmTitle').textContent = '👥 '+nome;
+
+  document.getElementById('cmStats').innerHTML =
+    cdStat('Tot. Persone',      t.n_totale,                          '')
+  + cdStat('Totale Bloccato',   formatEur(t.bloccato),               '')
+  + cdStat('Già Incassato',     formatEur(t.incassato),              'green')
+  + cdStat('Da Incassare',      formatEur(t.da_saldare),             'teal')
+  + cdStat('Indecisi',          t.n_indeciso+' pers.',               'purple')
+  + cdStat('Pot. Indecisi',     t.n_indeciso>0?'~'+formatEur(t.potenziale):'—', t.n_indeciso>0?'purple':'muted')
+  + cdStat('Guadagno (€'+mpp+'/pp)', formatEur(gC),                 'green')
+  + cdStat('Guadagno Pot.',     gP>0?'~'+formatEur(gP):'—',         gP>0?'purple':'muted');
+
+  var stL={'pagato_tutto':'✓ Pagato tutto','acconto_versato':'A Acconto versato','indeciso':'? Indeciso','annullato':'✗ Annullato'};
+  var stC={'pagato_tutto':'gs-pagato','acconto_versato':'gs-acconto','indeciso':'gs-indeciso','annullato':'gs-annullato'};
+  var bh='';
+  (p.gruppi||[]).forEach(function(g) {
+    var n=parseInt(g.n_persone)||0,pp=parseFloat(g.prezzo_pp)||0,app=parseFloat(g.acconto_pp)||0;
+    var sp=g.stato==='acconto_versato'?Math.max(0,pp-app):0;
+    var sub,at,st;
+    if (g.stato==='pagato_tutto')    { sub=formatEur(n*pp); at=formatEur(n*pp); st='<span style="color:#4ade80">€ 0,00</span>'; }
+    else if (g.stato==='acconto_versato'){ sub=formatEur(n*pp); at=formatEur(n*app); st=formatEur(n*sp); }
+    else if (g.stato==='indeciso')   { sub=pp>0?'<em style="color:rgba(255,255,255,0.35)">~'+formatEur(n*pp)+'</em>':'—'; at='—'; st='—'; }
+    else                             { sub='<span style="color:#f87171">Annullato</span>'; at='—'; st='—'; }
+    bh+='<tr><td><span class="gs-badge '+(stC[g.stato]||'gs-indeciso')+'">'+(stL[g.stato]||g.stato)+'</span></td>'
+      +'<td style="text-align:right;font-weight:700">'+n+'</td>'
+      +'<td style="text-align:right">'+(pp>0?formatEur(pp):'—')+'</td>'
+      +'<td style="text-align:right">'+(app>0?formatEur(app):(g.stato==='pagato_tutto'?'<span style="color:#4ade80">tutto</span>':'—'))+'</td>'
+      +'<td style="text-align:right">'+(sp>0?formatEur(sp):(g.stato==='annullato'||g.stato==='indeciso'?'—':'<span style="color:#4ade80">€ 0,00</span>'))+'</td>'
+      +'<td style="text-align:right;font-weight:700">'+sub+'</td>'
+      +'<td style="text-align:right">'+at+'</td>'
+      +'<td style="text-align:right">'+st+'</td></tr>';
+  });
+  document.getElementById('cmGroupsBody').innerHTML = bh;
+  document.getElementById('cmGroupsFoot').innerHTML =
+    '<tr><td colspan="5" style="font-weight:700;color:rgba(255,255,255,0.5)">TOTALI</td>'
+    +'<td style="text-align:right;font-weight:800;color:var(--gold)">'+formatEur(t.bloccato)+(t.potenziale>0?'<br><span style="font-size:0.7rem;color:#a78bfa">+~'+formatEur(t.potenziale)+'</span>':'')+'</td>'
+    +'<td style="text-align:right;font-weight:800;color:#4ade80">'+formatEur(t.incassato)+'</td>'
+    +'<td style="text-align:right;font-weight:800;color:var(--teal)">'+formatEur(t.da_saldare)+'</td></tr>';
+
+  if (p.note) { document.getElementById('cmNote').style.display=''; document.getElementById('cmNoteText').textContent=p.note; }
+  else document.getElementById('cmNote').style.display='none';
+
+  document.getElementById('cmEditBtn').onclick = function(){ closeComitivaModal(); openEditModal(id); };
+  document.getElementById('comitivaModal').classList.add('open');
+}
+function cdStat(l,v,c){ return '<div class="cd-stat"><div class="cd-stat-label">'+l+'</div><div class="cd-stat-value'+(c?' '+c:'')+'">'+v+'</div></div>'; }
+function closeComitivaModal() { document.getElementById('comitivaModal').classList.remove('open'); }
+function closeComitivaModalOnBg(e) { if(e.target===document.getElementById('comitivaModal')) closeComitivaModal(); }
+
+// =============================================
+//  Delete
+// =============================================
 function openDeleteModal(id) {
-  var p = preventivi.find(function(x) { return x.id === id; });
-  if (!p) return;
-  deletingId = id;
+  var p=preventivi.find(function(x){return x.id===id;}); if(!p) return;
+  deletingId=id;
   document.getElementById('deleteModalText').textContent =
-    'Stai per eliminare il preventivo di "' + (p.cliente || p.destinazione || 'questo cliente') + '" per ' + (p.destinazione || 'questa destinazione') + '.';
+    'Stai per eliminare '+(p.is_comitiva?'la comitiva "'+(p.comitiva_nome||p.destinazione||'questa pratica'):'il preventivo di "'+(p.cliente||'questo cliente')+'" per '+(p.destinazione||'questa destinazione'))+'".';
   document.getElementById('deleteModal').classList.add('open');
 }
-
-function closeDeleteModal() {
-  document.getElementById('deleteModal').classList.remove('open');
-  deletingId = null;
-}
-
-function closeDeleteModalOnBg(e) {
-  if (e.target === document.getElementById('deleteModal')) closeDeleteModal();
-}
-
+function closeDeleteModal() { document.getElementById('deleteModal').classList.remove('open'); deletingId=null; }
+function closeDeleteModalOnBg(e) { if(e.target===document.getElementById('deleteModal')) closeDeleteModal(); }
 function confirmDelete() {
   if (!deletingId) return;
-  preventivi = preventivi.filter(function(x) { return x.id !== deletingId; });
-  saveData();
-  renderTable();
-  closeDeleteModal();
+  deletePdfFromDB(deletingId);
+  preventivi = preventivi.filter(function(x){ return x.id!==deletingId; });
+  saveData(); renderTable(); closeDeleteModal();
   showToast('Preventivo eliminato.');
 }
 
-// ---- Export Excel (SheetJS) ----
+// =============================================
+//  Export Excel — 3 fogli
+// =============================================
 function exportExcel() {
-  if (!window.XLSX) { showToast('SheetJS non caricato. Controlla la connessione.', true); return; }
-  if (preventivi.length === 0) { showToast('Nessun dato da esportare.', true); return; }
-
-  var rows = [
-    ['#', 'Cliente', 'Telefono', 'Email', 'Destinazione', 'Fornitore', 'Stato',
-     'Data Partenza', 'Data Ritorno', 'Adulti', 'Bambini', 'Sistemazione',
-     'Prezzo Totale €', 'Acconto €', 'Data Acconto', 'Saldo da Pagare €',
-     'Scadenza Saldo', 'Note', 'Data Creazione']
-  ];
-
-  preventivi.forEach(function(p, i) {
-    var saldo = Math.max(0, (parseFloat(p.prezzo_totale) || 0) - (parseFloat(p.acconto) || 0));
-    rows.push([
-      i + 1,
-      p.cliente || '',
-      p.telefono || '',
-      p.email || '',
-      p.destinazione || '',
-      p.fornitore || '',
-      p.stato || '',
-      p.data_partenza || '',
-      p.data_ritorno || '',
-      p.adulti || 1,
-      p.bambini || 0,
-      p.sistemazione || '',
-      parseFloat(p.prezzo_totale) || 0,
-      parseFloat(p.acconto) || 0,
-      p.data_acconto || '',
-      saldo,
-      p.scadenza_saldo || '',
-      p.note || '',
-      p.data_creazione || ''
-    ]);
-  });
-
-  var ws = XLSX.utils.aoa_to_sheet(rows);
-
-  // Column widths
-  ws['!cols'] = [
-    {wch:4}, {wch:22}, {wch:16}, {wch:26}, {wch:18}, {wch:18}, {wch:16},
-    {wch:13}, {wch:13}, {wch:7}, {wch:8}, {wch:20},
-    {wch:14}, {wch:12}, {wch:13}, {wch:16},
-    {wch:14}, {wch:32}, {wch:14}
-  ];
-
-  // Style header row
-  var headerStyle = {
-    font: { bold: true, color: { rgb: '031030' } },
-    fill: { fgColor: { rgb: 'FEBD41' } },
-    alignment: { horizontal: 'center' }
-  };
-
-  // Currency format for columns M, N, P (indices 12, 13, 15)
-  var currFmt = '€ #,##0.00';
-  var currCols = [12, 13, 15];
-  for (var r = 1; r < rows.length; r++) {
-    currCols.forEach(function(c) {
-      var cellRef = XLSX.utils.encode_cell({ r: r, c: c });
-      if (ws[cellRef]) {
-        ws[cellRef].z = currFmt;
-        ws[cellRef].t = 'n';
-      }
-    });
-  }
-
-  // Apply header styles
-  for (var c = 0; c < rows[0].length; c++) {
-    var ref = XLSX.utils.encode_cell({ r: 0, c: c });
-    if (!ws[ref]) continue;
-    ws[ref].s = headerStyle;
-  }
+  if (!window.XLSX) { showToast('SheetJS non caricato.', true); return; }
+  if (!preventivi.length) { showToast('Nessun dato da esportare.', true); return; }
 
   var wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, 'Preventivi');
-
   var today = new Date().toISOString().split('T')[0];
-  XLSX.writeFile(wb, 'preventivi_' + today + '.xlsx');
-  showToast('Excel esportato!');
+  var hStyle = { font:{bold:true,color:{rgb:'031030'}}, fill:{fgColor:{rgb:'FEBD41'}}, alignment:{horizontal:'center'} };
+  var currFmt = '€ #,##0.00';
+
+  // ---- Foglio 1: Preventivi ----
+  var h1 = ['#','Tipo','Cliente','Telefono','Email','Destinazione','Fornitore','Stato',
+             'Data Partenza','Data Ritorno','Sistemazione','N. Persone','Nome Comitiva',
+             'Tot. Bloccato €','Tot. Incassato €','Da Incassare €','Pot. Indecisi €',
+             'Margine €/pp','Guadagno Conf. €','Guadagno Pot. €',
+             'Scadenza Saldo','Note','PDF Allegato','Data Creazione'];
+  var r1 = [h1];
+  preventivi.forEach(function(p,i) {
+    var isC=p.is_comitiva&&p.gruppi&&p.gruppi.length>0, t=isC?calcComitivaTotali(p.gruppi):null;
+    var mpp=parseFloat(p.margine_pp)||10;
+    var nN=(parseInt(p.adulti)||1)+(parseInt(p.bambini)||0);
+    var bloc=isC?t.bloccato:(parseFloat(p.prezzo_totale)||0);
+    var inc=isC?t.incassato:(p.stato==='Saldo versato'?(parseFloat(p.prezzo_totale)||0):(parseFloat(p.acconto)||0));
+    var daI=isC?t.da_saldare:Math.max(0,bloc-inc);
+    var pot=isC?t.potenziale:0;
+    var gC=isC?mpp*(t.n_pagato+t.n_acconto):mpp*nN;
+    var gP=isC?mpp*t.n_indeciso:0;
+    var sc=isC?(p.scadenza_saldo_c||''):(p.scadenza_saldo||'');
+    r1.push([i+1, isC?'COMITIVA':'Individuale',
+      p.cliente||'',p.telefono||'',p.email||'',
+      p.destinazione||'',p.fornitore||'',p.stato||'',
+      p.data_partenza||'',p.data_ritorno||'',p.sistemazione||'',
+      isC?(t.n_pagato+t.n_acconto+t.n_indeciso):nN,
+      isC?(p.comitiva_nome||''):'',
+      bloc,inc,daI,pot, mpp,gC,gP, sc,p.note||'',
+      p.pdf_name||'—', p.data_creazione||''
+    ]);
+  });
+  var ws1=XLSX.utils.aoa_to_sheet(r1);
+  ws1['!cols']=[{wch:4},{wch:12},{wch:22},{wch:16},{wch:26},{wch:18},{wch:18},{wch:16},
+    {wch:13},{wch:13},{wch:20},{wch:10},{wch:22},
+    {wch:16},{wch:16},{wch:16},{wch:16},{wch:11},{wch:16},{wch:16},
+    {wch:14},{wch:32},{wch:28},{wch:14}];
+  for (var c=0;c<h1.length;c++) { var ref=XLSX.utils.encode_cell({r:0,c:c}); if(ws1[ref]) ws1[ref].s=hStyle; }
+  for (var rr=1;rr<r1.length;rr++) {
+    [13,14,15,16,18,19].forEach(function(ci){
+      var cr=XLSX.utils.encode_cell({r:rr,c:ci}); if(ws1[cr]&&typeof ws1[cr].v==='number'){ws1[cr].z=currFmt;ws1[cr].t='n';}
+    });
+  }
+  XLSX.utils.book_append_sheet(wb,ws1,'Preventivi');
+
+  // ---- Foglio 2: Dettaglio Comitivi ----
+  var comitivi=preventivi.filter(function(p){return p.is_comitiva&&p.gruppi&&p.gruppi.length>0;});
+  if (comitivi.length>0) {
+    var h2=['#','Cliente','Destinazione','Data Partenza','Nome Comitiva',
+            'Gruppo - Stato','N. Persone','Prezzo Blocc. €/pp','Acconto €/pp','Saldo €/pp',
+            'Subtotale €','Acconto Tot. €','Saldo Tot. €','Note'];
+    var r2=[h2], stI={pagato_tutto:'Pagato tutto',acconto_versato:'Acconto versato',indeciso:'Indeciso',annullato:'Annullato'};
+    var cnt=0;
+    comitivi.forEach(function(p) {
+      p.gruppi.forEach(function(g,gi) {
+        var n=parseInt(g.n_persone)||0,pp=parseFloat(g.prezzo_pp)||0,app=parseFloat(g.acconto_pp)||0;
+        var sp=g.stato==='acconto_versato'?Math.max(0,pp-app):0;
+        var sub=g.stato!=='annullato'&&g.stato!=='indeciso'?n*pp:'';
+        var at=g.stato==='pagato_tutto'?n*pp:(g.stato==='acconto_versato'?n*app:'');
+        var st=g.stato==='acconto_versato'?n*sp:(g.stato==='pagato_tutto'?0:'');
+        r2.push([gi===0?++cnt:'', gi===0?(p.cliente||''):'', gi===0?(p.destinazione||''):'', gi===0?(p.data_partenza||''):'', gi===0?(p.comitiva_nome||''):'',
+          stI[g.stato]||g.stato, n, pp||'', app||(g.stato==='pagato_tutto'?'(tutto)':''), sp||'', sub, at, st, gi===0?(p.note||''):'']);
+      });
+      var t=calcComitivaTotali(p.gruppi);
+      r2.push(['','TOTALE COMITIVA →','','','','', t.n_pagato+t.n_acconto+t.n_indeciso+' pers.',
+        '','','', t.bloccato, t.incassato, t.da_saldare, t.n_indeciso>0?'Pot. ind.: '+t.potenziale.toFixed(2)+' €':'']);
+      r2.push(Array(h2.length).fill(''));
+    });
+    var ws2=XLSX.utils.aoa_to_sheet(r2);
+    ws2['!cols']=[{wch:4},{wch:22},{wch:18},{wch:13},{wch:20},{wch:18},{wch:10},{wch:20},{wch:20},{wch:20},{wch:20},{wch:20},{wch:20},{wch:32}];
+    for (var c2=0;c2<h2.length;c2++){var r2ref=XLSX.utils.encode_cell({r:0,c:c2});if(ws2[r2ref])ws2[r2ref].s=hStyle;}
+    for (var rr2=1;rr2<r2.length;rr2++){[7,8,9,10,11,12].forEach(function(ci){var cr=XLSX.utils.encode_cell({r:rr2,c:ci});if(ws2[cr]&&typeof ws2[cr].v==='number'){ws2[cr].z=currFmt;ws2[cr].t='n';}});}
+    XLSX.utils.book_append_sheet(wb,ws2,'Dettaglio Comitivi');
+  }
+
+  // ---- Foglio 3: Riepilogo ----
+  var totI=0,totD=0,totG=0,totGP=0;
+  preventivi.forEach(function(p){
+    var mpp=parseFloat(p.margine_pp)||10;
+    if(p.is_comitiva&&p.gruppi){var t=calcComitivaTotali(p.gruppi);totI+=t.incassato;totD+=t.da_saldare;totG+=mpp*(t.n_pagato+t.n_acconto);totGP+=mpp*t.n_indeciso;}
+    else{var a=parseFloat(p.acconto)||0,tt=parseFloat(p.prezzo_totale)||0;if(p.stato==='Saldo versato'){totI+=tt;}else if(p.stato!=='Annullato'){totI+=a;totD+=Math.max(0,tt-a);}if(p.stato!=='Annullato')totG+=mpp*((parseInt(p.adulti)||1)+(parseInt(p.bambini)||0));}
+  });
+  var nC=preventivi.filter(function(p){return p.is_comitiva;}).length;
+  var rie=[['RIEPILOGO FINANZIARIO','',today],[]
+    ,['Voce','Valore'],['Totale pratiche',preventivi.length]
+    ,['Pratiche individuali',preventivi.length-nC]
+    ,['Comitivi attivi',nC],[]
+    ,['Totale incassato €',totI],['Da incassare €',totD]
+    ,['Guadagno confermato €',totG],['Guadagno potenziale (indecisi) €',totGP]
+    ,['Totale potenziale €',totI+totD+totGP]
+    ,['Guadagno totale pot. €',totG+totGP]];
+  var ws3=XLSX.utils.aoa_to_sheet(rie);
+  ws3['!cols']=[{wch:30},{wch:20},{wch:14}];
+  if(ws3['A1'])ws3['A1'].s={font:{bold:true,sz:13,color:{rgb:'FEBD41'}},fill:{fgColor:{rgb:'031030'}}};
+  XLSX.utils.book_append_sheet(wb,ws3,'Riepilogo');
+
+  XLSX.writeFile(wb,'skappa_preventivi_'+today+'.xlsx');
+  showToast('Excel esportato ('+(comitivi.length>0?'3':'2')+' fogli)!');
 }
 
-// ---- Export JSON ----
+// =============================================
+//  Export JSON
+// =============================================
 function exportJSON() {
-  if (preventivi.length === 0) { showToast('Nessun dato da esportare.', true); return; }
-  var blob = new Blob([JSON.stringify(preventivi, null, 2)], { type: 'application/json' });
-  var url = URL.createObjectURL(blob);
-  var a = document.createElement('a');
-  a.href = url;
-  a.download = 'preventivi_backup_' + new Date().toISOString().split('T')[0] + '.json';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
+  if (!preventivi.length) { showToast('Nessun dato da esportare.', true); return; }
+  var blob=new Blob([JSON.stringify(preventivi,null,2)],{type:'application/json'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a'); a.href=url;
+  a.download='preventivi_backup_'+new Date().toISOString().split('T')[0]+'.json';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
   showToast('Backup JSON scaricato!');
 }
 
-// ---- Import JSON ----
+// =============================================
+//  Import JSON
+// =============================================
 function importJSON(event) {
-  var file = event.target.files[0];
-  if (!file) return;
-  var reader = new FileReader();
-  reader.onload = function(e) {
+  var file=event.target.files[0]; if(!file) return;
+  var inputEl=event.target; // cattura prima della callback asincrona
+  var reader=new FileReader();
+  reader.onload=function(e){
     try {
-      var parsed = JSON.parse(e.target.result);
-      if (!Array.isArray(parsed)) throw new Error('Il file non contiene un array di preventivi.');
-
-      var action = confirm(
-        'Trovati ' + parsed.length + ' preventivi nel backup.\n\n'
-        + 'Clicca OK per SOSTITUIRE tutti i dati attuali.\n'
-        + 'Clicca Annulla per AGGIUNGERE ai dati esistenti.'
-      );
-
+      var parsed=JSON.parse(e.target.result);
+      if(!Array.isArray(parsed)) throw new Error('Non è un array di preventivi.');
+      // Normalizza i record: aggiunge i campi eventualmente assenti nei backup vecchi
+      parsed=parsed.map(function(p){
+        var r=Object.assign({margine_pp:10,pdf_name:'',pdf_size:0,gruppi:[],
+          is_comitiva:false,comitiva_nome:'',scadenza_saldo_c:''},p);
+        if(!Array.isArray(r.gruppi)) r.gruppi=[];
+        return r;
+      });
+      var action=confirm('Trovati '+parsed.length+' preventivi.\n\nOK = SOSTITUISCI tutto.\nAnnulla = AGGIUNGI ai dati esistenti.');
       if (action) {
-        preventivi = parsed;
+        preventivi=parsed;
+        showToast('Importati '+preventivi.length+' preventivi!');
       } else {
-        // Merge: aggiunge solo quelli con id non esistente
-        var existingIds = preventivi.map(function(x) { return x.id; });
-        var added = 0;
-        parsed.forEach(function(p) {
-          if (!existingIds.includes(p.id)) {
-            preventivi.push(p);
-            added++;
-          }
-        });
-        showToast('Aggiunti ' + added + ' nuovi preventivi (duplicati ignorati).');
-        saveData();
-        renderTable();
-        event.target.value = '';
-        return;
+        var ids=new Set(preventivi.map(function(x){return x.id;}));
+        var add=0;
+        parsed.forEach(function(p){ if(!ids.has(p.id)){preventivi.push(p);add++;} });
+        showToast('Aggiunti '+add+' preventivi.');
       }
-
-      saveData();
-      renderTable();
-      showToast('Importati ' + preventivi.length + ' preventivi!');
-    } catch (err) {
-      showToast('Errore importazione: ' + err.message, true);
-    }
-    event.target.value = '';
+      saveData(); renderTable();
+    } catch(err) { showToast('Errore importazione: '+err.message,true); }
+    inputEl.value='';
   };
-  reader.readAsText(file, 'UTF-8');
+  reader.readAsText(file,'UTF-8');
 }
 
-// ---- Toast ----
+// =============================================
+//  Toast
+// =============================================
 function showToast(msg, isError) {
-  var t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.remove('error');
-  if (isError) t.classList.add('error');
+  var t=document.getElementById('toast');
+  t.textContent=msg; t.classList.remove('error');
+  if(isError) t.classList.add('error');
   t.classList.add('show');
-  setTimeout(function() { t.classList.remove('show'); }, 3500);
+  setTimeout(function(){t.classList.remove('show');},3500);
 }
 
-// ---- Init ----
+// =============================================
+//  Init
+// =============================================
 function init() {
   checkAuth();
   loadData();
+  // Reset filtri: i browser riportano i valori precedenti dei <select> al ricaricamento,
+  // causando una lista vuota se era attivo "Solo Comitivi" o un altro filtro.
+  document.getElementById('filterSearch').value = '';
+  document.getElementById('filterStato').value  = '';
+  document.getElementById('filterSort').value   = 'data_creazione';
   renderTable();
 }
-
 init();
+
+// Gestisce il ripristino da bfcache (tasto Indietro del browser)
+window.addEventListener('pageshow', function(ev) {
+  if (ev.persisted) {
+    document.getElementById('filterSearch').value = '';
+    document.getElementById('filterStato').value  = '';
+    document.getElementById('filterSort').value   = 'data_creazione';
+    loadData();
+    renderTable();
+  }
+});
 </script>
 </body>
 </html>

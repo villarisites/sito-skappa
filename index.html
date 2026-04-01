@@ -69,140 +69,14 @@
   }
   </script>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="dns-prefetch" href="//formspree.io" />
+  <link rel="dns-prefetch" href="//cdn.tailwindcss.com" />
+  <link rel="dns-prefetch" href="//www.googletagmanager.com" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Days+One&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
   <script src="data/destinations.js"></script>
-  <style>
-    /* ---- Search ---- */
-    .search-toggle {
-      background: none; border: none; cursor: pointer;
-      color: var(--navy); padding: 0.3rem;
-      display: flex; align-items: center;
-      transition: opacity 0.2s;
-    }
-    .search-toggle:hover { opacity: 0.65; }
-    .search-panel {
-      position: fixed;
-      top: 2.75rem; left: 0; right: 0;
-      background: var(--navy);
-      border-bottom: 1px solid rgba(254,189,65,0.2);
-      z-index: 90;
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.32s cubic-bezier(.4,0,.2,1), box-shadow 0.3s;
-    }
-    .search-panel.open {
-      max-height: 480px;
-      box-shadow: 0 12px 48px rgba(0,0,0,0.5);
-    }
-    .search-inner { max-width: 48rem; margin: 0 auto; padding: 1rem 1.25rem 0.75rem; }
-    .search-row { display: flex; align-items: center; gap: 0.75rem; border-bottom: 1.5px solid rgba(254,189,65,0.2); padding-bottom: 0.75rem; }
-    .search-input {
-      flex: 1; background: none; border: none; outline: none;
-      color: #fff; font-size: 1rem; font-family: inherit;
-    }
-    .search-input::placeholder { color: rgba(255,255,255,0.3); }
-    .search-close {
-      background: none; border: none; cursor: pointer;
-      color: rgba(255,255,255,0.4); font-size: 1.25rem; line-height: 1;
-      padding: 0.2rem; transition: color 0.2s;
-    }
-    .search-close:hover { color: var(--gold); }
-    .search-results { padding: 0.25rem 0 0.5rem; }
-    .search-result {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0.75rem 0;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-      text-decoration: none; gap: 1rem;
-    }
-    .search-result:last-child { border-bottom: none; }
-    .search-result-name { font-weight: 700; font-size: 0.875rem; color: #fff; }
-    .search-result-meta { font-size: 0.6875rem; color: rgba(255,255,255,0.38); margin-top: 0.1rem; }
-    .search-result-right { display: flex; align-items: center; gap: 0.625rem; flex-shrink: 0; }
-    .search-result-price {
-      font-family: 'Days One', sans-serif;
-      font-size: 0.875rem; color: var(--gold);
-    }
-    .search-badge {
-      font-size: 0.5625rem; font-weight: 800;
-      padding: 0.15rem 0.45rem; border-radius: 2rem;
-      text-transform: uppercase; letter-spacing: 0.07em;
-    }
-    .badge-estive { background: rgba(254,189,65,0.18); color: var(--gold); }
-    .badge-capitali { background: rgba(40,134,153,0.18); color: var(--teal); }
-    .search-no-results { font-size: 0.8125rem; color: rgba(255,255,255,0.28); padding: 0.5rem 0; }
-
-    /* ---- Summer section ---- */
-    .summer-section-wrap {
-      background: linear-gradient(180deg,rgba(254,189,65,0.045) 0%,transparent 100%);
-    }
-    .summer-badge {
-      display: inline-flex; align-items: center; gap: 0.4rem;
-      background: var(--gold); color: var(--navy);
-      font-size: 0.5625rem; font-weight: 900;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      padding: 0.25rem 0.75rem; border-radius: 2rem;
-      margin-bottom: 0.875rem;
-    }
-    .dest-card-summer:hover {
-      transform: scale(1.025);
-      box-shadow: 0 16px 48px rgba(254,189,65,0.2);
-    }
-    .card-season-badge {
-      position: absolute; top: 0.75rem; right: 0.75rem;
-      background: var(--gold); color: var(--navy);
-      font-size: 0.6875rem; font-weight: 900;
-      padding: 0.35rem 0.875rem; border-radius: 2rem;
-      letter-spacing: 0.08em; text-transform: uppercase;
-      z-index: 10;
-    }
-    /* Carousel nav altura h-11 = 44px */
-    .search-panel { top: 44px; }
-    /* Last minute section */
-    .lm-section-wrap {
-      background: linear-gradient(180deg, rgba(220,38,38,0.06) 0%, transparent 100%);
-    }
-    .lm-section-badge {
-      display: inline-flex; align-items: center; gap: 0.4rem;
-      background: #ef4444; color: #fff;
-      font-size: 0.5625rem; font-weight: 900;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      padding: 0.25rem 0.75rem; border-radius: 2rem;
-      margin-bottom: 0.875rem;
-      animation: pulse-badge 2s infinite;
-    }
-    @keyframes pulse-badge {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.65; }
-    }
-    .dest-card-lm {
-      border: 1.5px solid rgba(220,38,38,0.3) !important;
-    }
-    .dest-card-lm:hover {
-      transform: scale(1.025);
-      box-shadow: 0 16px 48px rgba(220,38,38,0.2);
-    }
-    .card-lm-badge {
-      position: absolute; top: 0.75rem; right: 0.75rem;
-      background: #ef4444; color: #fff;
-      font-size: 0.6875rem; font-weight: 900;
-      padding: 0.35rem 0.875rem; border-radius: 2rem;
-      letter-spacing: 0.08em; text-transform: uppercase;
-      z-index: 10;
-    }
-    .card-lm-prezzo-orig {
-      font-size: 0.625rem; color: rgba(255,255,255,0.38);
-      text-decoration: line-through; margin-right: 0.25rem;
-    }
-    .hero-title-img {
-      height: clamp(3rem, 12vw, 6rem);
-      object-fit: contain;
-      display: block;
-      margin: 0 auto 0.75rem;
-    }
-  </style>
 </head>
 <body>
 
@@ -281,10 +155,15 @@
   </div>
 
 
+  <!-- Scroll progress bar -->
+  <div id="skappaScrollProgress" aria-hidden="true"></div>
+
   <!-- ========== HERO ========== -->
   <section class="hero">
     <div class="hero-bg-fallback"></div>
     <div class="hero-bg" style="background-image:url('assets/foto/utility/sfondo hero.png')"></div>
+    <!-- Aurora shader canvas (WebGL) -->
+    <canvas id="heroShader" class="hero-shader-canvas" aria-hidden="true"></canvas>
     <div class="hero-overlay"></div>
     <div class="hero-content">
       <img src="assets/foto/utility/scritta skappa.png" alt="SKAPPA" class="hero-title-img" />
@@ -307,26 +186,36 @@
         Selezioniamo mete ed esperienze autentiche, occupandoci di tutto noi, per offrirti
         viaggi semplici, curati e senza stress. Parti, vivi l'esperienza, al resto pensiamo noi.
       </p>
-      <div class="flex flex-wrap justify-center gap-10 md:gap-16 mb-12">
-        <div class="flex flex-col items-center gap-2 w-20 fade-in">
-          <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"/></svg>
-          <span class="text-xs text-gray-300 text-center leading-tight">Volo A/R</span>
+      <div class="flex flex-wrap justify-center gap-10 md:gap-14 mb-12" data-stagger data-stagger-delay="90">
+        <div class="feature-item">
+          <div class="feature-icon-wrap">
+            <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"/></svg>
+          </div>
+          <span class="feature-label">Volo A/R</span>
         </div>
-        <div class="flex flex-col items-center gap-2 w-24 fade-in">
-          <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Z"/></svg>
-          <span class="text-xs text-gray-300 text-center leading-tight">Alloggio selezionato</span>
+        <div class="feature-item">
+          <div class="feature-icon-wrap">
+            <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Z"/></svg>
+          </div>
+          <span class="feature-label">Alloggio<br>selezionato</span>
         </div>
-        <div class="flex flex-col items-center gap-2 w-24 fade-in">
-          <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z"/></svg>
-          <span class="text-xs text-gray-300 text-center leading-tight">Nessun costo nascosto</span>
+        <div class="feature-item">
+          <div class="feature-icon-wrap">
+            <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z"/></svg>
+          </div>
+          <span class="feature-label">Nessun costo<br>nascosto</span>
         </div>
-        <div class="flex flex-col items-center gap-2 w-20 fade-in">
-          <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z"/></svg>
-          <span class="text-xs text-gray-300 text-center leading-tight">Assistenza h24</span>
+        <div class="feature-item">
+          <div class="feature-icon-wrap">
+            <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z"/></svg>
+          </div>
+          <span class="feature-label">Assistenza<br>h24</span>
         </div>
-        <div class="flex flex-col items-center gap-2 w-20 fade-in">
-          <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"/></svg>
-          <span class="text-xs text-gray-300 text-center leading-tight">Esperienze uniche</span>
+        <div class="feature-item">
+          <div class="feature-icon-wrap">
+            <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"/></svg>
+          </div>
+          <span class="feature-label">Esperienze<br>uniche</span>
         </div>
       </div>
       <p class="tagline fade-in">Pochi viaggi. Curati. Con partner certificati.</p>
@@ -397,11 +286,40 @@
   </section>
 
 
-  <!-- ========== TAGLINE ========== -->
-  <section class="py-10 text-center fade-in">
-    <p class="tagline" style="font-size:1rem;letter-spacing:0.08em;color:rgba(255,255,255,0.75)">
-      Aggiorniamo i nostri viaggi ogni settimana.
-    </p>
+  <!-- ========== STATS + TAGLINE ========== -->
+  <section class="stats-section fade-in">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+
+      <!-- Badge live -->
+      <span class="stats-live-badge">
+        <span class="stats-live-dot"></span>
+        Aggiornato ogni settimana
+      </span>
+
+      <!-- Numeri -->
+      <div class="stats-grid">
+        <div class="stat-item">
+          <span class="stat-number">500<span class="stat-plus">+</span></span>
+          <span class="stat-label">viaggiatori</span>
+        </div>
+        <div class="stat-divider" aria-hidden="true"></div>
+        <div class="stat-item">
+          <span class="stat-number">12</span>
+          <span class="stat-label">mete selezionate</span>
+        </div>
+        <div class="stat-divider" aria-hidden="true"></div>
+        <div class="stat-item">
+          <span class="stat-number">3</span>
+          <span class="stat-label">tipi di viaggio</span>
+        </div>
+      </div>
+
+      <!-- Linea decorativa -->
+      <div class="stats-divider-line" aria-hidden="true"></div>
+      <p class="tagline" style="font-size:0.8125rem;letter-spacing:0.12em;color:rgba(255,255,255,0.45)">
+        Pochi viaggi. Curati. Con partner certificati.
+      </p>
+    </div>
   </section>
 
 
@@ -411,7 +329,7 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
 
         <!-- Sinistra: testo -->
-        <div>
+        <div class="reveal-left">
           <span style="display:inline-flex;align-items:center;gap:0.375rem;background:rgba(40,134,153,0.15);border:1px solid rgba(40,134,153,0.35);color:var(--teal);font-size:0.6875rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:0.35rem 0.875rem;border-radius:999px;margin-bottom:1.25rem">✦ Gratis & senza impegno</span>
           <h2 class="section-title" style="text-align:left;margin-bottom:1rem">VIAGGIO SU MISURA</h2>
           <p style="font-size:0.9375rem;color:rgba(255,255,255,0.65);line-height:1.8;margin-bottom:1.75rem">
@@ -431,7 +349,7 @@
         </div>
 
         <!-- Destra: form -->
-        <div>
+        <div class="reveal-right">
           <form id="preventivoForm" action="https://formspree.io/f/xlgpwjlj" method="POST" class="flex flex-col gap-3">
             <input type="hidden" name="tipo" value="preventivo" />
             <input type="hidden" name="_subject" value="Richiesta preventivo viaggio su misura" />
@@ -476,23 +394,56 @@
         <h2 class="section-title">Dicono di noi</h2>
         <p class="text-gray-400 text-sm">Le esperienze raccontate da chi ha già vissuto un viaggio SKAPPA.</p>
       </div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div class="review-card fade-in">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" data-stagger data-stagger-delay="100">
+
+        <div class="review-card">
+          <div class="review-stars" aria-label="5 stelle su 5">★★★★★</div>
           <p class="review-text">"L'esperienza più bella della mia vita 🙂"</p>
-          <div class="review-author">— Anonimo</div>
+          <div class="review-footer-row">
+            <div class="review-avatar-circle" aria-hidden="true">V</div>
+            <div>
+              <div class="review-author">Viaggiatore SKAPPA</div>
+              <div class="review-verified">✓ Viaggio verificato</div>
+            </div>
+          </div>
         </div>
-        <div class="review-card fade-in">
+
+        <div class="review-card">
+          <div class="review-stars" aria-label="5 stelle su 5">★★★★★</div>
           <p class="review-text">"SKAPPA è come una famiglia. Consigliato!!!"</p>
-          <div class="review-author">— Anonimo</div>
+          <div class="review-footer-row">
+            <div class="review-avatar-circle" aria-hidden="true">V</div>
+            <div>
+              <div class="review-author">Viaggiatore SKAPPA</div>
+              <div class="review-verified">✓ Viaggio verificato</div>
+            </div>
+          </div>
         </div>
-        <div class="review-card fade-in">
+
+        <div class="review-card">
+          <div class="review-stars" aria-label="5 stelle su 5">★★★★★</div>
           <p class="review-text">"Tornerò sicuramente a viaggiare con loro."</p>
-          <div class="review-author">— Anonimo</div>
+          <div class="review-footer-row">
+            <div class="review-avatar-circle" aria-hidden="true">V</div>
+            <div>
+              <div class="review-author">Viaggiatore SKAPPA</div>
+              <div class="review-verified">✓ Viaggio verificato</div>
+            </div>
+          </div>
         </div>
-        <div class="review-card fade-in">
+
+        <div class="review-card">
+          <div class="review-stars" aria-label="5 stelle su 5">★★★★★</div>
           <p class="review-text">"Organizzazione e persone fantastiche. Esperienza top."</p>
-          <div class="review-author">— Anonimo</div>
+          <div class="review-footer-row">
+            <div class="review-avatar-circle" aria-hidden="true">V</div>
+            <div>
+              <div class="review-author">Viaggiatore SKAPPA</div>
+              <div class="review-verified">✓ Viaggio verificato</div>
+            </div>
+          </div>
         </div>
+
       </div>
     </div>
   </section>
@@ -593,6 +544,8 @@
 
 
   <script src="js/main.js"></script>
+  <script src="js/hero-shader.js" defer></script>
+  <script src="js/animations.js" defer></script>
   <script>
     // ---- SVG placeholder helper ----
     var SVG_PH = '<svg class="placeholder-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/></svg>';
@@ -645,40 +598,7 @@
     initCarousel('carouselTrack1', 'prevBtn1', 'nextBtn1', 'dots1');
     initCarousel('carouselTrack2', 'prevBtn2', 'nextBtn2', 'dots2');
 
-    // ---- Search ----
-    (function () {
-      var panel = document.getElementById('searchPanel');
-      var input = document.getElementById('searchInput');
-      var results = document.getElementById('searchResults');
-
-      function openSearch() {
-        panel.classList.add('open');
-        panel.setAttribute('aria-hidden', 'false');
-        setTimeout(function () { input.focus(); }, 60);
-      }
-
-      function closeSearch() {
-        panel.classList.remove('open');
-        panel.setAttribute('aria-hidden', 'true');
-        input.value = '';
-        results.innerHTML = '';
-      }
-
-      window.closeSearch = closeSearch;
-
-      document.getElementById('searchBtn').addEventListener('click', function () {
-        panel.classList.contains('open') ? closeSearch() : openSearch();
-      });
-      var mobBtn = document.getElementById('searchBtnMobile');
-      if (mobBtn) mobBtn.addEventListener('click', function () {
-        panel.classList.contains('open') ? closeSearch() : openSearch();
-      });
-
-      document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape') closeSearch();
-      });
-
-      // ---- Nascondi SVG placeholder quando l'immagine si carica ----
+    // ---- Nascondi SVG placeholder quando l'immagine si carica ----
     document.querySelectorAll('.dest-card-photo').forEach(function (img) {
       function hideIcon() {
         var svg = img.nextElementSibling;
@@ -689,72 +609,36 @@
     });
 
     // ---- Last Minute cards ----
-      var lmDests = (window.DESTINATIONS || []).filter(function (d) { return d.tipologia === 'last-minute'; });
-      var lmContainer = document.getElementById('lastMinuteCards');
-      if (lmDests.length > 0) {
-        lmContainer.innerHTML = lmDests.map(function (d, lmIdx) {
-          var sconto = d.prezzoOriginale
-            ? Math.round((1 - d.prezzo / d.prezzoOriginale) * 100)
-            : null;
-          var lmImgLoad = (lmIdx === 0) ? 'fetchpriority="high"' : 'loading="lazy" decoding="async"';
-          return '<a href="viaggio-lastminute.html?id=' + d.id + '" class="dest-card dest-card-lm" style="flex:0 0 260px;max-width:280px">'
-            + '<div class="dest-card-img-placeholder">'
-            + '<img src="' + (d.imgHero || '') + '" alt="' + d.nome + '" class="dest-card-photo" ' + lmImgLoad + ' onerror="this.style.display=\'none\'" />'
-            + '<svg class="placeholder-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/></svg>'
-            + '</div>'
-            + '<div class="dest-card-overlay"></div>'
-            + '<span class="card-lm-badge">⚡ Last Minute</span>'
-            + '<div class="dest-card-city">' + d.nome + '</div>'
-            + '<div class="dest-card-info">'
-            + '<p class="dest-card-date">' + (d.date || '') + '</p>'
-            + '<p style="font-size:0.5625rem;color:var(--teal);font-weight:700;letter-spacing:0.05em;margin-bottom:0.15rem">✈ volo incluso</p>'
-            + '<p class="dest-card-price">'
-            + (d.prezzoOriginale ? '<span class="card-lm-prezzo-orig">' + d.prezzoOriginale + '€</span>' : '')
-            + d.prezzo + '€'
-            + (sconto ? ' <span style="font-size:0.5625rem;color:#fca5a5;font-weight:700">-' + sconto + '%</span>' : '')
-            + '</p>'
-            + '</div>'
-            + '</a>';
-        }).join('');
-      } else {
-        document.getElementById('lastminute').style.display = 'none';
-      }
-
-      input.addEventListener('input', function () {
-        var q = input.value.toLowerCase().trim();
-        var dests = window.DESTINATIONS || [];
-        if (!q) { results.innerHTML = ''; return; }
-
-        var filtered = dests.filter(function (d) {
-          return d.nome.toLowerCase().includes(q) || (d.date || '').toLowerCase().includes(q);
-        });
-
-        if (filtered.length === 0) {
-          results.innerHTML = '<p class="search-no-results">Nessuna destinazione trovata.</p>';
-          return;
-        }
-
-        results.innerHTML = filtered.map(function (d) {
-          var tpl = d.tipologia === 'fughe-in-europa' ? 'viaggio-citybreak.html'
-                  : d.tipologia === 'last-minute'      ? 'viaggio-lastminute.html'
-                  : 'viaggio.html';
-          var badgeClass = d.tipologia === 'mete-estive' ? 'badge-estive'
-                         : d.tipologia === 'last-minute' ? 'badge-estive'
-                         : 'badge-capitali';
-          var badgeText = d.tipologia === 'mete-estive'     ? '🌊 Estate'
-                        : d.tipologia === 'fughe-in-europa' ? '✈ Europa'
-                        : '⚡ Last Minute';
-          return '<a href="' + tpl + '?id=' + d.id + '" class="search-result" onclick="closeSearch()">'
-            + '<div>'
-            + '<span class="search-result-name">' + d.nome + '</span>'
-            + ' <span class="search-badge ' + badgeClass + '">' + badgeText + '</span>'
-            + '<div class="search-result-meta">' + (d.date || '') + ' &nbsp;·&nbsp; ' + (d.hotel || '') + '</div>'
-            + '</div>'
-            + '<span class="search-result-price">' + d.prezzo + '€</span>'
-            + '</a>';
-        }).join('');
-      });
-    })();
+    var lmDests = (window.DESTINATIONS || []).filter(function (d) { return d.tipologia === 'last-minute'; });
+    var lmContainer = document.getElementById('lastMinuteCards');
+    if (lmDests.length > 0) {
+      lmContainer.innerHTML = lmDests.map(function (d, lmIdx) {
+        var sconto = d.prezzoOriginale
+          ? Math.round((1 - d.prezzo / d.prezzoOriginale) * 100)
+          : null;
+        var lmImgLoad = (lmIdx === 0) ? 'fetchpriority="high"' : 'loading="lazy" decoding="async"';
+        return '<a href="viaggio-lastminute.html?id=' + d.id + '" class="dest-card dest-card-lm" style="flex:0 0 260px;max-width:280px">'
+          + '<div class="dest-card-img-placeholder">'
+          + '<img src="' + (d.imgHero || '') + '" alt="' + d.nome + '" class="dest-card-photo" ' + lmImgLoad + ' onerror="this.style.display=\'none\'" />'
+          + '<svg class="placeholder-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/></svg>'
+          + '</div>'
+          + '<div class="dest-card-overlay"></div>'
+          + '<span class="card-lm-badge">⚡ Last Minute</span>'
+          + '<div class="dest-card-city">' + d.nome + '</div>'
+          + '<div class="dest-card-info">'
+          + '<p class="dest-card-date">' + (d.date || '') + '</p>'
+          + '<p style="font-size:0.5625rem;color:var(--teal);font-weight:700;letter-spacing:0.05em;margin-bottom:0.15rem">✈ volo incluso</p>'
+          + '<p class="dest-card-price">'
+          + (d.prezzoOriginale ? '<span class="card-lm-prezzo-orig">' + d.prezzoOriginale + '€</span>' : '')
+          + d.prezzo + '€'
+          + (sconto ? ' <span style="font-size:0.5625rem;color:#fca5a5;font-weight:700">-' + sconto + '%</span>' : '')
+          + '</p>'
+          + '</div>'
+          + '</a>';
+      }).join('');
+    } else {
+      document.getElementById('lastminute').style.display = 'none';
+    }
 
     // ---- Prezzo minimo dinamico hero ----
     (function(){

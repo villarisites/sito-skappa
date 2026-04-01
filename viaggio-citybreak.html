@@ -23,6 +23,9 @@
   <link rel="canonical" href="" id="canonicalTag" />
   <link rel="icon" href="assets/foto/utility/icona sito.svg" />
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="dns-prefetch" href="//formspree.io" />
+  <link rel="dns-prefetch" href="//cdn.tailwindcss.com" />
+  <link rel="dns-prefetch" href="//www.googletagmanager.com" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Days+One&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
@@ -602,6 +605,7 @@
   </div>
 
   <script src="js/main.js"></script>
+  <script src="js/animations.js" defer></script>
   <script>
     (function () {
       var params = new URLSearchParams(window.location.search);
@@ -687,6 +691,20 @@
         return '<li><span class="check">✓</span><span>' + item + '</span></li>';
       }).join('');
 
+      // ---- Aeroporto selector ----
+      window.currentDest = dest;
+      if (dest.prezziAeroporti && dest.prezziAeroporti.length > 0) {
+        var airHtml = '<div id="aeroportoWrap" style="margin-bottom:1.25rem">'
+          + '<label style="font-size:0.6875rem;font-weight:700;color:rgba(255,255,255,0.45);letter-spacing:0.07em;text-transform:uppercase;display:block;margin-bottom:0.4rem">✈ Aeroporto di partenza</label>'
+          + '<select id="aeroportoSelect" onchange="window.skappaOnAeroporto(this)" style="width:100%;padding:0.625rem 0.875rem;background:rgba(255,255,255,0.06);border:1.5px solid rgba(254,189,65,0.2);border-radius:0.5rem;color:#fff;font-size:0.875rem;font-family:inherit;outline:none;cursor:pointer">'
+          + dest.prezziAeroporti.map(function(ap) {
+              return '<option value="' + ap.prezzo + '" data-nome="' + ap.aeroporto + '">' + ap.aeroporto + ' — ' + ap.prezzo + '€</option>';
+            }).join('')
+          + '</select></div>';
+        var pInclusiEl = document.getElementById('pInclusi');
+        if (pInclusiEl) pInclusiEl.insertAdjacentHTML('beforebegin', airHtml);
+      }
+
       // ---- Perché (sticky col) ----
       document.getElementById('percheTitolo').textContent = (dest.perche && dest.perche.titolo) || '';
       document.getElementById('percheText').textContent = (dest.perche && dest.perche.testo) || '';
@@ -730,11 +748,17 @@
       // ---- Recensioni ----
       document.getElementById('recensioniContainer').innerHTML = (dest.recensioni || []).map(function (r) {
         var tag = r.tag ? ' &nbsp;·&nbsp; ' + r.tag : '';
+        var initial = r.nome ? r.nome.charAt(0).toUpperCase() : 'V';
         return '<div class="review-card fade-in">'
-          + '<div style="color:#febd41;font-size:0.875rem;margin-bottom:0.5rem;letter-spacing:0.05em">★★★★★</div>'
+          + '<div class="review-stars" aria-label="5 stelle su 5">★★★★★</div>'
           + '<p class="review-text">"' + r.testo + '"</p>'
-          + '<div class="review-author">— ' + r.nome + tag + '</div>'
-          + '<div style="display:inline-flex;align-items:center;gap:0.3rem;margin-top:0.6rem;background:rgba(254,189,65,0.08);border:1px solid rgba(254,189,65,0.15);border-radius:999px;padding:0.2rem 0.6rem;font-size:0.6rem;font-weight:700;color:rgba(254,189,65,0.7);letter-spacing:0.06em;text-transform:uppercase">✓ Partecipante confermato</div>'
+          + '<div class="review-footer-row">'
+          + '<div class="review-avatar-circle" aria-hidden="true">' + initial + '</div>'
+          + '<div>'
+          + '<div class="review-author">' + r.nome + tag + '</div>'
+          + '<div class="review-verified">✓ Partecipante confermato</div>'
+          + '</div>'
+          + '</div>'
           + '</div>';
       }).join('');
 
@@ -834,6 +858,29 @@
       body.style.display = isOpen ? 'none' : 'block';
       arrow.classList.toggle('open', !isOpen);
     }
+
+    window.skappaOnAeroporto = function(sel) {
+      var price = sel.value;
+      var nome = sel.options[sel.selectedIndex].getAttribute('data-nome') || 'Napoli';
+      var cityName = nome.replace(/\s*\([^)]*\)\s*/, '').trim();
+      var hP = document.getElementById('heroPrezzo');
+      if (hP) hP.textContent = price + '€';
+      var pP = document.getElementById('pPrezzo');
+      if (pP) pP.innerHTML = '<span class="pacchetto-euro">€</span>' + price;
+      var pPart = document.getElementById('pPartenza');
+      if (pPart) pPart.textContent = 'Partenza da ' + cityName;
+      if (window.currentDest && window.currentDest.durata) {
+        var mG = (window.currentDest.durata || '').match(/(\d+)\s*giorn/);
+        var gg = mG ? parseInt(mG[1]) : 0;
+        if (gg > 0) {
+          var ppg = Math.round(parseInt(price) / gg);
+          var elPPG = document.getElementById('pPrezzoGiorno');
+          if (elPPG) elPPG.textContent = '≈ ' + ppg + '€ al giorno a persona';
+        }
+      }
+      var sp = document.getElementById('stickyPrice');
+      if (sp) sp.textContent = price + '€';
+    };
   </script>
 </body>
 </html>

@@ -552,12 +552,116 @@ body {
   .activity-item:hover .activity-item-img { transform: none; }
 }
 
+/* ============================================
+   SECTION-SPECIFIC STYLES
+   (consolidato da index.html <style> inline)
+   ============================================ */
+
+/* ---- Hero title image ---- */
+.hero-title-img {
+  height: clamp(3rem, 12vw, 6rem);
+  object-fit: contain;
+  display: block;
+  margin: 0 auto 0.75rem;
+}
+
+/* ---- Summer / Escape Tour section ---- */
+.summer-section-wrap {
+  background: linear-gradient(180deg, rgba(254,189,65,0.045) 0%, transparent 100%);
+}
+.summer-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--gold);
+  color: var(--navy);
+  font-size: 0.5625rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.75rem;
+  border-radius: 2rem;
+  margin-bottom: 0.875rem;
+  position: relative;
+  overflow: hidden;
+}
+.dest-card-summer:hover {
+  transform: scale(1.025);
+  box-shadow: 0 16px 48px rgba(254,189,65,0.2);
+}
+.card-season-badge {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  background: var(--gold);
+  color: var(--navy);
+  font-size: 0.6875rem;
+  font-weight: 900;
+  padding: 0.35rem 0.875rem;
+  border-radius: 2rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  z-index: 10;
+}
+
+/* ---- Last Minute section ---- */
+.lm-section-wrap {
+  background: linear-gradient(180deg, rgba(220,38,38,0.06) 0%, transparent 100%);
+}
+.lm-section-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: #ef4444;
+  color: #fff;
+  font-size: 0.5625rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.75rem;
+  border-radius: 2rem;
+  margin-bottom: 0.875rem;
+  animation: pulse-badge 2s infinite;
+}
+@keyframes pulse-badge {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.65; }
+}
+.dest-card-lm {
+  border: 1.5px solid rgba(220,38,38,0.3) !important;
+}
+.dest-card-lm:hover {
+  transform: scale(1.025);
+  box-shadow: 0 16px 48px rgba(220,38,38,0.2);
+}
+.card-lm-prezzo-orig {
+  font-size: 0.625rem;
+  color: rgba(255,255,255,0.38);
+  text-decoration: line-through;
+  margin-right: 0.25rem;
+}
+
 /* ---- Urgency pulse (last-minute badges) ---- */
 @keyframes urgency-pulse {
   0%, 100% { box-shadow: 0 0 0 0 rgba(239,68,68,0.45); }
   55%       { box-shadow: 0 0 0 9px rgba(239,68,68,0); }
 }
-.card-lm-badge,
+/* card-lm-badge: positioning + animation consolidated */
+.card-lm-badge {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  background: #ef4444;
+  color: #fff;
+  font-size: 0.6875rem;
+  font-weight: 900;
+  padding: 0.35rem 0.875rem;
+  border-radius: 2rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  z-index: 10;
+  animation: urgency-pulse 2.2s ease-out infinite;
+}
 .lm-badge-hero {
   animation: urgency-pulse 2.2s ease-out infinite;
 }
@@ -815,3 +919,468 @@ html[data-theme="light"] #percheCol li         { color: rgba(3,16,48,0.7) !impor
 
 /* --- Sezione preventivo su misura --- */
 html[data-theme="light"] #preventivoForm textarea.kit-input { background: rgba(255,255,255,0.85); }
+
+
+/* ============================================
+   VISUAL DEPTH – SHADER – MICRO-ANIMATIONS
+   Aggiunte premium (shader-background,
+   visual-depth, scroll-storytelling, motion-micro)
+   ============================================ */
+
+/* ---- Scroll progress bar ---- */
+#skappaScrollProgress {
+  position: fixed;
+  top: 44px; left: 0;
+  height: 2px;
+  width: 0%;
+  background: linear-gradient(90deg, var(--teal), var(--gold));
+  z-index: 101;
+  pointer-events: none;
+  transition: width 0.08s linear;
+  box-shadow: 0 0 8px rgba(254,189,65,0.5);
+}
+
+/* ---- Hero shader canvas ---- */
+.hero-shader-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;           /* sopra .hero-bg (z-auto), sotto .hero-overlay */
+  pointer-events: none;
+  mix-blend-mode: screen;
+  opacity: 1;
+}
+
+/* ---- Hero position: relative già presente via overflow:hidden ---- */
+.hero { position: relative; }
+
+/* ---- Depth: features section ---- */
+.features-section { position: relative; }
+.features-section::before {
+  content: '';
+  position: absolute;
+  left: 8%; right: 8%; top: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(254,189,65,0.35), transparent);
+  pointer-events: none;
+}
+
+/* ---- Depth: destinations sections ---- */
+.destinations-section { position: relative; }
+.destinations-section::before {
+  content: '';
+  position: absolute;
+  left: 15%; right: 15%; top: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(254,189,65,0.18), transparent);
+  pointer-events: none;
+}
+
+/* ---- Enhanced card container: backdrop blur + multi-shadow ---- */
+.dest-card-container {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow:
+    0 1px 1px rgba(0,0,0,0.08),
+    0 4px 16px rgba(0,0,0,0.25),
+    0 16px 64px rgba(0,0,0,0.5),
+    inset 0 1px 0 rgba(254,189,65,0.08);
+}
+
+/* ---- Enhanced card: multi-layer shadow + shimmer ---- */
+.dest-card {
+  box-shadow:
+    0 2px 4px rgba(0,0,0,0.12),
+    0 6px 20px rgba(0,0,0,0.28),
+    0 16px 40px rgba(0,0,0,0.22);
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* Shimmer sweep on hover */
+.dest-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    110deg,
+    transparent 35%,
+    rgba(254,189,65,0.10) 50%,
+    transparent 65%
+  );
+  background-size: 250% 100%;
+  background-position: -150% 0;
+  transition: background-position 0.55s ease;
+  z-index: 5;
+  pointer-events: none;
+  border-radius: 1rem;
+}
+.dest-card:hover::before {
+  background-position: 250% 0;
+}
+
+.dest-card:hover {
+  box-shadow:
+    0 4px 8px rgba(0,0,0,0.14),
+    0 12px 32px rgba(0,0,0,0.32),
+    0 28px 60px rgba(254,189,65,0.14),
+    0 0 0 1px rgba(254,189,65,0.28);
+}
+
+/* ---- Review cards: glassmorphism ---- */
+.review-card {
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  background: rgba(255,255,255,0.035);
+  box-shadow:
+    0 2px 8px rgba(0,0,0,0.18),
+    inset 0 1px 0 rgba(254,189,65,0.06);
+}
+.review-card:hover {
+  background: rgba(255,255,255,0.06);
+}
+
+/* ---- Glow dorato sulla navbar al scroll ---- */
+.navbar {
+  transition: box-shadow 0.3s, background 0.3s, backdrop-filter 0.3s;
+}
+
+/* ---- Icon bounce keyframe (motion-micro) ---- */
+@keyframes skappa-icon-bounce {
+  0%   { transform: translateY(0) scale(1); }
+  30%  { transform: translateY(-9px) scale(1.12); }
+  55%  { transform: translateY(2px) scale(0.95); }
+  75%  { transform: translateY(-4px) scale(1.04); }
+  100% { transform: translateY(0) scale(1); }
+}
+
+/* ---- Last-minute card glow pulse ---- */
+@keyframes skappa-lm-glow {
+  0%, 100% { box-shadow: 0 6px 20px rgba(0,0,0,0.28), 0 0 0 0 rgba(220,38,38,0); }
+  50%       { box-shadow: 0 8px 28px rgba(0,0,0,0.32), 0 0 18px 2px rgba(220,38,38,0.22); }
+}
+
+/* ---- Profondità aggiuntiva sezione kit ---- */
+.kit-section {
+  position: relative;
+}
+.kit-section::before {
+  content: '';
+  position: absolute;
+  left: 10%; right: 10%; top: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(254,189,65,0.2), transparent);
+  pointer-events: none;
+}
+
+/* ---- Gold inner glow su input focus ---- */
+.kit-input:focus {
+  box-shadow:
+    0 0 0 3px rgba(254,189,65,0.12),
+    0 0 12px rgba(254,189,65,0.08),
+    inset 0 1px 0 rgba(254,189,65,0.06);
+}
+
+/* ---- Btn-gold: glow esteso al hover ---- */
+.btn-gold:hover {
+  box-shadow:
+    0 10px 32px rgba(254,189,65,0.5),
+    0 0 0 4px rgba(254,189,65,0.1),
+    0 0 60px rgba(254,189,65,0.15);
+}
+
+/* ---- Summer badge: shimmer (position/overflow già nella regola base) ---- */
+.summer-badge::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 60%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  animation: summer-badge-shine 3s ease-in-out infinite;
+}
+@keyframes summer-badge-shine {
+  0%, 70% { left: -100%; }
+  80%, 100% { left: 160%; }
+}
+
+/* ---- Section title: gold text-shadow glow ---- */
+.section-title {
+  text-shadow: 0 0 40px rgba(254,189,65,0.18);
+}
+
+/* ---- Prefers-reduced-motion: disabilita tutto ---- */
+@media (prefers-reduced-motion: reduce) {
+  .hero-shader-canvas { display: none; }
+  .dest-card::before  { display: none; }
+  .summer-badge::after { display: none; }
+  @keyframes skappa-icon-bounce  { to { transform: none; } }
+  @keyframes skappa-lm-glow      { to {} }
+  @keyframes summer-badge-shine  { to {} }
+}
+
+/* ============================================
+   DESIGN POLISH + LAYOUT COMPOSER
+   Feature icons, Stats section, Review cards,
+   Footer depth
+   ============================================ */
+
+/* ---- Feature items (icon + label) ---- */
+.feature-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  width: 5.5rem;
+  text-align: center;
+  cursor: default;
+}
+
+.feature-icon-wrap {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  background: rgba(254,189,65,0.07);
+  border: 1px solid rgba(254,189,65,0.22);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+  box-shadow: 0 0 0 0 rgba(254,189,65,0);
+}
+.feature-item:hover .feature-icon-wrap {
+  background: rgba(254,189,65,0.14);
+  border-color: rgba(254,189,65,0.45);
+  box-shadow: 0 0 20px rgba(254,189,65,0.15);
+  transform: translateY(-2px);
+}
+
+.feature-label {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  color: rgba(255,255,255,0.65);
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+}
+.feature-item:hover .feature-label { color: rgba(255,255,255,0.9); }
+
+/* ---- Stats section ---- */
+.stats-section {
+  padding: 3.5rem 0;
+  border-top: 1px solid rgba(254,189,65,0.1);
+  border-bottom: 1px solid rgba(254,189,65,0.1);
+  background: rgba(254,189,65,0.025);
+  position: relative;
+  overflow: hidden;
+}
+.stats-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 50%, rgba(254,189,65,0.04) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.stats-live-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(254,189,65,0.1);
+  border: 1px solid rgba(254,189,65,0.28);
+  color: var(--gold);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.875rem;
+  border-radius: 999px;
+  margin-bottom: 2rem;
+}
+.stats-live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+  animation: stats-dot-pulse 2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+@keyframes stats-dot-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.75); }
+}
+
+.stats-grid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+.stat-number {
+  font-family: 'Days One', sans-serif;
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 900;
+  color: var(--gold);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.stat-plus {
+  font-size: 0.65em;
+  vertical-align: super;
+  opacity: 0.75;
+}
+.stat-label {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  color: rgba(255,255,255,0.45);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.stat-divider {
+  width: 1px;
+  height: 2.5rem;
+  background: linear-gradient(to bottom, transparent, rgba(254,189,65,0.3), transparent);
+  flex-shrink: 0;
+}
+
+.stats-divider-line {
+  width: 3rem;
+  height: 1px;
+  background: rgba(254,189,65,0.3);
+  margin: 0 auto 1rem;
+}
+
+/* ---- Review cards enhanced ---- */
+.review-stars {
+  color: var(--gold);
+  font-size: 0.875rem;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.875rem;
+  line-height: 1;
+}
+
+.review-footer-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(254,189,65,0.08);
+}
+
+.review-avatar-circle {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--teal), rgba(40,134,153,0.6));
+  border: 1.5px solid rgba(40,134,153,0.4);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  letter-spacing: 0.05em;
+}
+
+.review-verified {
+  font-size: 0.625rem;
+  font-weight: 600;
+  color: var(--teal);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-top: 0.1rem;
+}
+
+/* Override: review-author ridimensionato */
+.review-author {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.7);
+  font-weight: 600;
+  margin-bottom: 0;
+}
+
+/* Review card: layout flex colonna */
+.review-card {
+  display: flex;
+  flex-direction: column;
+}
+.review-text {
+  flex: 1;
+  font-size: 0.875rem;
+  line-height: 1.65;
+  margin-bottom: 0;
+}
+
+/* ---- Footer: profondità e social icons ---- */
+.footer {
+  position: relative;
+  overflow: hidden;
+}
+.footer::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent 0%, var(--navy) 20%, rgba(3,16,48,0.6) 50%, var(--navy) 80%, transparent 100%);
+}
+.footer::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 100%;
+  background: radial-gradient(ellipse at 50% 100%, rgba(3,16,48,0.06) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* ---- Light mode overrides per le nuove sezioni ---- */
+html[data-theme="light"] .stats-section {
+  background: rgba(3,16,48,0.03);
+  border-color: rgba(3,16,48,0.08);
+}
+html[data-theme="light"] .stats-live-badge {
+  background: rgba(40,134,153,0.1);
+  border-color: rgba(40,134,153,0.3);
+  color: var(--teal);
+}
+html[data-theme="light"] .stats-live-dot { background: var(--teal); }
+html[data-theme="light"] .stat-number { color: var(--navy); }
+html[data-theme="light"] .stat-label  { color: rgba(3,16,48,0.45); }
+html[data-theme="light"] .stat-divider { background: linear-gradient(to bottom, transparent, rgba(3,16,48,0.2), transparent); }
+html[data-theme="light"] .stats-divider-line { background: rgba(3,16,48,0.15); }
+html[data-theme="light"] .review-stars { color: #c8860a; }
+html[data-theme="light"] .review-footer-row { border-top-color: rgba(3,16,48,0.08); }
+html[data-theme="light"] .review-author  { color: rgba(3,16,48,0.75); }
+html[data-theme="light"] .feature-icon-wrap {
+  background: rgba(3,16,48,0.06);
+  border-color: rgba(3,16,48,0.18);
+}
+html[data-theme="light"] .feature-item:hover .feature-icon-wrap {
+  background: rgba(3,16,48,0.1);
+  border-color: rgba(3,16,48,0.35);
+  box-shadow: 0 0 16px rgba(3,16,48,0.08);
+}
+html[data-theme="light"] .feature-label { color: rgba(3,16,48,0.6); }
+html[data-theme="light"] .feature-item:hover .feature-label { color: var(--navy); }
+
+/* ---- Light theme overrides per i nuovi elementi ---- */
+html[data-theme="light"] #skappaScrollProgress {
+  background: linear-gradient(90deg, var(--teal), var(--navy));
+}
+html[data-theme="light"] .dest-card-container {
+  backdrop-filter: blur(6px);
+}
+html[data-theme="light"] .review-card {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}

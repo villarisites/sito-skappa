@@ -1,6 +1,6 @@
 // =============================================
 //  Skappa – Destinations Data
-//  Generato da admin.html il 16/03/2026
+//  Generato da admin.html il 17/03/2026
 // =============================================
 
 window.DESTINATIONS = [
@@ -488,11 +488,10 @@ window.DESTINATIONS = [
     "tipologia": "fughe-in-europa",
     "date": "Dal 16 al 19 Aprile",
     "tagline": "Energia mediterranea, notti infinite e una città che non ti lascia dormire.",
-    "prezzo": "269",
+    "prezzo": "429",
     "imgHero": "assets/foto/barcellona/hero.jpg",
     "partenzaDa": "Napoli",
     "durata": "4 giorni e 3 notti",
-    "hotel": "NH Barcelona Diagonal Center",
     "inclusiPacchetto": [
       "Volo A/R incluso",
       "Dal 16 al 19 Aprile",
@@ -577,9 +576,30 @@ window.DESTINATIONS = [
         "tag": "Gruppo"
       }
     ],
-    "prezzoOriginale": "429",
-    "postiRimasti": 5,
-    "linkPagamento": "https://book.stripe.com/aFacN4b7K7Tu03e6TG4ZG0p"
+    "hotel": "NH Barcelona Diagonal Center",
+    "linkPagamento": "https://book.stripe.com/aFacN4b7K7Tu03e6TG4ZG0p",
+    "prezziAeroporti": [
+      {
+        "aeroporto": "Napoli (NAP)",
+        "prezzo": "429"
+      },
+      {
+        "aeroporto": "Roma Fiumicino (FCO)",
+        "prezzo": "269"
+      },
+      {
+        "aeroporto": "Roma Ciampino (CIA)",
+        "prezzo": "269"
+      },
+      {
+        "aeroporto": "Milano Malpensa (MXP)",
+        "prezzo": "269"
+      },
+      {
+        "aeroporto": "Bari (BRI)",
+        "prezzo": "269"
+      }
+    ]
   },
   {
     "id": "londra",
@@ -587,7 +607,7 @@ window.DESTINATIONS = [
     "tipologia": "fughe-in-europa",
     "date": "Dal 23 al 26 Aprile",
     "tagline": "Inizia il tuo viaggio in una capitale dinamica, cosmopolita e sempre sorprendente.",
-    "prezzo": "279",
+    "prezzo": "389",
     "imgHero": "assets/foto/londra/hero.jpg",
     "partenzaDa": "Napoli",
     "durata": "4 giorni e 3 notti",
@@ -676,7 +696,28 @@ window.DESTINATIONS = [
         "tag": "Coppia"
       }
     ],
-    "prezzoOriginale": "389",
+    "prezziAeroporti": [
+      {
+        "aeroporto": "Napoli (NAP)",
+        "prezzo": "389"
+      },
+      {
+        "aeroporto": "Roma Fiumicino (FCO)",
+        "prezzo": "279"
+      },
+      {
+        "aeroporto": "Roma Ciampino (CIA)",
+        "prezzo": "279"
+      },
+      {
+        "aeroporto": "Milano Malpensa (MXP)",
+        "prezzo": "279"
+      },
+      {
+        "aeroporto": "Bari (BRI)",
+        "prezzo": "279"
+      }
+    ],
     "linkPagamento": "https://book.stripe.com/6oUaEW7Vy3DedU4em84ZG0i"
   },
   {
@@ -685,11 +726,10 @@ window.DESTINATIONS = [
     "tipologia": "fughe-in-europa",
     "date": "Dal 23 al 26 Aprile",
     "tagline": "Inizia il tuo viaggio nella città più iconica d'Europa, tra romanticismo, arte e atmosfera senza tempo.",
-    "prezzo": "289",
+    "prezzo": "429",
     "imgHero": "assets/foto/parigi/hero.jpg",
     "partenzaDa": "Napoli",
     "durata": "4 giorni e 3 notti",
-    "hotel": "Ibis Paris",
     "inclusiPacchetto": [
       "Volo A/R incluso",
       "Dal 23 al 26 Aprile",
@@ -774,8 +814,31 @@ window.DESTINATIONS = [
         "tag": "Coppia"
       }
     ],
-    "prezzoOriginale": "429",
-    "linkPagamento": "https://book.stripe.com/9B67sKa3Gb5G3fqgug4ZG0k"
+    "hotel": "Ibis Paris",
+    "prezzoOriginale": "529",
+    "linkPagamento": "https://book.stripe.com/9B67sKa3Gb5G3fqgug4ZG0k",
+    "prezziAeroporti": [
+      {
+        "aeroporto": "Napoli (NAP)",
+        "prezzo": "429"
+      },
+      {
+        "aeroporto": "Roma Fiumicino (FCO)",
+        "prezzo": "289"
+      },
+      {
+        "aeroporto": "Roma Ciampino (CIA)",
+        "prezzo": "289"
+      },
+      {
+        "aeroporto": "Milano Malpensa (MXP)",
+        "prezzo": "289"
+      },
+      {
+        "aeroporto": "Bari (BRI)",
+        "prezzo": "289"
+      }
+    ]
   },
   {
     "id": "sofia",
@@ -783,11 +846,10 @@ window.DESTINATIONS = [
     "tipologia": "fughe-in-europa",
     "date": "Dal 23 al 26 Aprile",
     "tagline": "Inizia il tuo viaggio in una capitale autentica, tra storia millenaria e natura sorprendente.",
-    "prezzo": "149",
+    "prezzo": "219",
     "imgHero": "assets/foto/sofia/hero.jpg",
     "partenzaDa": "Napoli",
     "durata": "4 giorni e 3 notti",
-    "hotel": "Aparthotel Bon Bon",
     "inclusiPacchetto": [
       "Volo A/R incluso",
       "Dal 23 al 26 Aprile",
@@ -872,8 +934,30 @@ window.DESTINATIONS = [
         "tag": "Coppia"
       }
     ],
-    "prezzoOriginale": "219",
-    "linkPagamento": "https://book.stripe.com/5kQcN43Fia1C2bmce04ZG0g"
+    "hotel": "Aparthotel Bon Bon",
+    "linkPagamento": "https://book.stripe.com/5kQcN43Fia1C2bmce04ZG0g",
+    "prezziAeroporti": [
+      {
+        "aeroporto": "Napoli (NAP)",
+        "prezzo": "219"
+      },
+      {
+        "aeroporto": "Roma Fiumicino (FCO)",
+        "prezzo": "149"
+      },
+      {
+        "aeroporto": "Roma Ciampino (CIA)",
+        "prezzo": "149"
+      },
+      {
+        "aeroporto": "Milano Malpensa (MXP)",
+        "prezzo": "149"
+      },
+      {
+        "aeroporto": "Bari (BRI)",
+        "prezzo": "149"
+      }
+    ]
   },
   {
     "id": "tirana",
@@ -881,11 +965,10 @@ window.DESTINATIONS = [
     "tipologia": "fughe-in-europa",
     "date": "Dal 23 al 26 Aprile",
     "tagline": "Inizia il tuo viaggio in una capitale sorprendente, autentica e fuori dai soliti circuiti.",
-    "prezzo": "119",
+    "prezzo": "169",
     "imgHero": "assets/foto/tirana/hero.jpg",
     "partenzaDa": "Napoli",
     "durata": "4 giorni e 3 notti",
-    "hotel": "Belux Hotel",
     "inclusiPacchetto": [
       "Volo A/R incluso",
       "Dal 23 al 26 Aprile",
@@ -970,8 +1053,30 @@ window.DESTINATIONS = [
         "tag": "Gruppo"
       }
     ],
-    "prezzoOriginale": "169",
-    "linkPagamento": "https://book.stripe.com/6oUcN44Jmb5GcQ0fqc4ZG0j"
+    "hotel": "Belux Hotel",
+    "linkPagamento": "https://book.stripe.com/6oUcN44Jmb5GcQ0fqc4ZG0j",
+    "prezziAeroporti": [
+      {
+        "aeroporto": "Napoli (NAP)",
+        "prezzo": "169"
+      },
+      {
+        "aeroporto": "Roma Fiumicino (FCO)",
+        "prezzo": "119"
+      },
+      {
+        "aeroporto": "Roma Ciampino (CIA)",
+        "prezzo": "119"
+      },
+      {
+        "aeroporto": "Milano Malpensa (MXP)",
+        "prezzo": "119"
+      },
+      {
+        "aeroporto": "Bari (BRI)",
+        "prezzo": "119"
+      }
+    ]
   },
   {
     "id": "budapest",
@@ -979,11 +1084,10 @@ window.DESTINATIONS = [
     "tipologia": "fughe-in-europa",
     "date": "Dal 16 al 19 Aprile",
     "tagline": "Inizia il tuo viaggio tra terme storiche, luci sul Danubio e atmosfera senza tempo.",
-    "prezzo": "189",
+    "prezzo": "279",
     "imgHero": "assets/foto/budapest/hero.png",
     "partenzaDa": "Napoli",
     "durata": "4 giorni e 3 notti",
-    "hotel": "The Royals Downtown",
     "inclusiPacchetto": [
       "Volo A/R incluso",
       "Dal 16 al 19 Aprile",
@@ -1068,8 +1172,30 @@ window.DESTINATIONS = [
         "tag": "Coppia"
       }
     ],
-    "prezzoOriginale": "279",
-    "linkPagamento": "https://book.stripe.com/dRm3cub7KehS2bmb9W4ZG0f"
+    "hotel": "The Royals Downtown",
+    "linkPagamento": "https://book.stripe.com/dRm3cub7KehS2bmb9W4ZG0f",
+    "prezziAeroporti": [
+      {
+        "aeroporto": "Napoli (NAP)",
+        "prezzo": "279"
+      },
+      {
+        "aeroporto": "Roma Fiumicino (FCO)",
+        "prezzo": "189"
+      },
+      {
+        "aeroporto": "Roma Ciampino (CIA)",
+        "prezzo": "189"
+      },
+      {
+        "aeroporto": "Milano Malpensa (MXP)",
+        "prezzo": "189"
+      },
+      {
+        "aeroporto": "Bari (BRI)",
+        "prezzo": "189"
+      }
+    ]
   },
   {
     "id": "malta",
@@ -1077,7 +1203,7 @@ window.DESTINATIONS = [
     "tipologia": "fughe-in-europa",
     "date": "Dal 16 al 19 Aprile",
     "tagline": "Pool party, rooftop al tramonto e notti infinite nel cuore del Mediterraneo.",
-    "prezzo": "99",
+    "prezzo": "189",
     "imgHero": "assets/foto/malta/hero.jpg",
     "partenzaDa": "Napoli",
     "durata": "4 giorni e 3 notti",
@@ -1169,7 +1295,28 @@ window.DESTINATIONS = [
       }
     ],
     "hotel": "The St. George's Park Hotel",
-    "prezzoOriginale": "189",
+    "prezziAeroporti": [
+      {
+        "aeroporto": "Napoli (NAP)",
+        "prezzo": "189"
+      },
+      {
+        "aeroporto": "Roma Fiumicino (FCO)",
+        "prezzo": "99"
+      },
+      {
+        "aeroporto": "Roma Ciampino (CIA)",
+        "prezzo": "99"
+      },
+      {
+        "aeroporto": "Milano Malpensa (MXP)",
+        "prezzo": "99"
+      },
+      {
+        "aeroporto": "Bari (BRI)",
+        "prezzo": "99"
+      }
+    ],
     "linkPagamento": "https://book.stripe.com/9B68wOb7KehS3fqb9W4ZG0q"
   },
   {
@@ -1178,7 +1325,7 @@ window.DESTINATIONS = [
     "tipologia": "fughe-in-europa",
     "date": "Dal 23 al 26 Aprile",
     "tagline": "Inizia il tuo viaggio tra architetture monumentali, quartieri vivaci e un'atmosfera sorprendente nel cuore dell'Europa dell'Est.",
-    "prezzo": "149",
+    "prezzo": "219",
     "imgHero": "assets/foto/bucarest/hero.png",
     "partenzaDa": "Napoli",
     "durata": "4 giorni e 3 notti",
@@ -1268,8 +1415,29 @@ window.DESTINATIONS = [
       }
     ],
     "hotel": "Hotel Cismigiu",
-    "prezzoOriginale": "219",
-    "linkPagamento": "https://book.stripe.com/fZudR88ZC7Tu4juce04ZG0r"
+    "linkPagamento": "https://book.stripe.com/fZudR88ZC7Tu4juce04ZG0r",
+    "prezziAeroporti": [
+      {
+        "aeroporto": "Napoli (NAP)",
+        "prezzo": "219"
+      },
+      {
+        "aeroporto": "Roma Fiumicino (FCO)",
+        "prezzo": "149"
+      },
+      {
+        "aeroporto": "Roma Ciampino (CIA)",
+        "prezzo": "149"
+      },
+      {
+        "aeroporto": "Milano Malpensa (MXP)",
+        "prezzo": "149"
+      },
+      {
+        "aeroporto": "Bari (BRI)",
+        "prezzo": "149"
+      }
+    ]
   },
   {
     "id": "varsavia",
@@ -1277,7 +1445,7 @@ window.DESTINATIONS = [
     "tipologia": "fughe-in-europa",
     "date": "Dal 23 al 26 Aprile",
     "tagline": "Inizia il tuo viaggio tra storia, cultura e una capitale europea moderna e piena di energia.",
-    "prezzo": "169",
+    "prezzo": "239",
     "imgHero": "assets/foto/varsavia/hero.jpg",
     "partenzaDa": "Napoli",
     "durata": "4 giorni e 3 notti",
@@ -1367,7 +1535,28 @@ window.DESTINATIONS = [
       }
     ],
     "hotel": "Hotel MDM City Centre",
-    "prezzoOriginale": "239",
-    "linkPagamento": "https://book.stripe.com/9B614m0t6b5G2bm3Hu4ZG0s"
+    "linkPagamento": "https://book.stripe.com/9B614m0t6b5G2bm3Hu4ZG0s",
+    "prezziAeroporti": [
+      {
+        "aeroporto": "Napoli (NAP)",
+        "prezzo": "239"
+      },
+      {
+        "aeroporto": "Roma Fiumicino (FCO)",
+        "prezzo": "169"
+      },
+      {
+        "aeroporto": "Roma Ciampino (CIA)",
+        "prezzo": "169"
+      },
+      {
+        "aeroporto": "Milano Malpensa (MXP)",
+        "prezzo": "169"
+      },
+      {
+        "aeroporto": "Bari (BRI)",
+        "prezzo": "169"
+      }
+    ]
   }
 ];

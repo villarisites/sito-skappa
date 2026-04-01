@@ -23,6 +23,9 @@
   <link rel="canonical" href="" id="canonicalTag" />
   <link rel="icon" href="assets/foto/utility/icona sito.svg" />
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="dns-prefetch" href="//formspree.io" />
+  <link rel="dns-prefetch" href="//cdn.tailwindcss.com" />
+  <link rel="dns-prefetch" href="//www.googletagmanager.com" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Days+One&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
@@ -602,6 +605,7 @@
   </div>
 
   <script src="js/main.js"></script>
+  <script src="js/animations.js" defer></script>
   <script>
     (function () {
       var params = new URLSearchParams(window.location.search);
@@ -730,11 +734,17 @@
       // ---- Recensioni ----
       document.getElementById('recensioniContainer').innerHTML = (dest.recensioni || []).map(function (r) {
         var tag = r.tag ? ' &nbsp;·&nbsp; ' + r.tag : '';
+        var initial = r.nome ? r.nome.charAt(0).toUpperCase() : 'V';
         return '<div class="review-card fade-in">'
-          + '<div style="color:#febd41;font-size:0.875rem;margin-bottom:0.5rem;letter-spacing:0.05em">★★★★★</div>'
+          + '<div class="review-stars" aria-label="5 stelle su 5">★★★★★</div>'
           + '<p class="review-text">"' + r.testo + '"</p>'
-          + '<div class="review-author">— ' + r.nome + tag + '</div>'
-          + '<div style="display:inline-flex;align-items:center;gap:0.3rem;margin-top:0.6rem;background:rgba(254,189,65,0.08);border:1px solid rgba(254,189,65,0.15);border-radius:999px;padding:0.2rem 0.6rem;font-size:0.6rem;font-weight:700;color:rgba(254,189,65,0.7);letter-spacing:0.06em;text-transform:uppercase">✓ Partecipante confermato</div>'
+          + '<div class="review-footer-row">'
+          + '<div class="review-avatar-circle" aria-hidden="true">' + initial + '</div>'
+          + '<div>'
+          + '<div class="review-author">' + r.nome + tag + '</div>'
+          + '<div class="review-verified">✓ Partecipante confermato</div>'
+          + '</div>'
+          + '</div>'
           + '</div>';
       }).join('');
 

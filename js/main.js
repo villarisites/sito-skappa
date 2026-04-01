@@ -262,7 +262,10 @@ if (preventivoForm) {
   if (mob) mob.addEventListener('click', function(){ panel.classList.contains('open') ? closeSearch() : openSearch(); });
   document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeSearch(); });
 
+  var searchTimer;
   input.addEventListener('input', function () {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(function () {
     var q = input.value.toLowerCase().trim();
     var dests = window.DESTINATIONS || [];
     if (!q) { results.innerHTML = ''; return; }
@@ -277,6 +280,7 @@ if (preventivoForm) {
         + '<div class="search-result-meta">'+(d.date||'')+' &nbsp;·&nbsp; '+(d.hotel||'')+'</div></div>'
         + '<span class="search-result-price">'+d.prezzo+'€</span></a>';
     }).join('');
+    }, 300);
   });
 })();
 

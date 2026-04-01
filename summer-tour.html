@@ -23,6 +23,9 @@
   <link rel="canonical" href="https://skappa.it/summer-tour.html" />
   <link rel="icon" href="assets/foto/utility/icona sito.svg" />
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="dns-prefetch" href="//formspree.io" />
+  <link rel="dns-prefetch" href="//cdn.tailwindcss.com" />
+  <link rel="dns-prefetch" href="//www.googletagmanager.com" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Days+One&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
@@ -191,26 +194,36 @@
     <div class="max-w-4xl mx-auto text-center">
       <h2 class="section-title mb-2">Cosa include l'Escape Tour</h2>
       <p class="text-gray-400 text-xs mb-10">Ogni pacchetto SKAPPA include gli elementi essenziali per vivere l'estate senza pensieri.</p>
-      <div class="flex flex-wrap justify-center gap-10 md:gap-14">
-        <div class="flex flex-col items-center gap-2 w-24">
-          <svg class="include-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12"/></svg>
-          <span class="text-xs text-gray-300 text-center leading-tight">Alloggio selezionato</span>
+      <div class="flex flex-wrap justify-center gap-10 md:gap-14" data-stagger data-stagger-delay="90">
+        <div class="feature-item">
+          <div class="feature-icon-wrap">
+            <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12"/></svg>
+          </div>
+          <span class="feature-label">Alloggio<br>selezionato</span>
         </div>
-        <div class="flex flex-col items-center gap-2 w-24">
-          <svg class="include-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
-          <span class="text-xs text-gray-300 text-center leading-tight">Supporto SKAPPA</span>
+        <div class="feature-item">
+          <div class="feature-icon-wrap">
+            <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
+          </div>
+          <span class="feature-label">Supporto<br>SKAPPA</span>
         </div>
-        <div class="flex flex-col items-center gap-2 w-24">
-          <svg class="include-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z"/></svg>
-          <span class="text-xs text-gray-300 text-center leading-tight">Nessun costo nascosto</span>
+        <div class="feature-item">
+          <div class="feature-icon-wrap">
+            <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z"/></svg>
+          </div>
+          <span class="feature-label">Nessun costo<br>nascosto</span>
         </div>
-        <div class="flex flex-col items-center gap-2 w-24">
-          <svg class="include-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg>
-          <span class="text-xs text-gray-300 text-center leading-tight">Esperienze locali</span>
+        <div class="feature-item">
+          <div class="feature-icon-wrap">
+            <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg>
+          </div>
+          <span class="feature-label">Esperienze<br>locali</span>
         </div>
-        <div class="flex flex-col items-center gap-2 w-28">
-          <svg class="include-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/></svg>
-          <span class="text-xs text-center leading-tight" style="color:rgba(255,255,255,0.45)">Boat &amp; Pool Party acquistabili in loco</span>
+        <div class="feature-item">
+          <div class="feature-icon-wrap" style="border-color:rgba(255,255,255,0.12);background:rgba(255,255,255,0.04)">
+            <svg class="feature-icon" style="color:rgba(255,255,255,0.35)" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/></svg>
+          </div>
+          <span class="feature-label" style="color:rgba(255,255,255,0.35)">Boat &amp; Pool Party<br>acquistabili in loco</span>
         </div>
       </div>
     </div>
@@ -262,6 +275,7 @@
 
 
   <script src="js/main.js"></script>
+  <script src="js/animations.js" defer></script>
   <script>
     // ---- Search ----
     (function () {

@@ -527,6 +527,14 @@
           </div>
         </div>
 
+        <!-- ── SEZIONE 2b: Prezzi aeroporti ── -->
+        <div class="form-section">
+          <div class="form-section-title">Prezzi per aeroporto ✈ <span style="font-weight:400;text-transform:none;color:rgba(255,255,255,0.3)">(solo se volo incluso)</span></div>
+          <p class="form-hint" style="margin-bottom:1rem">Il primo aeroporto è il default mostrato nel menu a tendina. Lascia vuoto per non mostrare il selettore. Napoli = prezzo "pp", gli altri = prezzo base.</p>
+          <div id="aeroportiBlocks"></div>
+          <button type="button" onclick="addAeroporto()" style="margin-top:0.75rem;width:100%;background:rgba(254,189,65,0.08);color:var(--gold);border:1.5px dashed rgba(254,189,65,0.35);border-radius:0.375rem;padding:0.5rem 1rem;font-size:0.75rem;font-weight:700;cursor:pointer;font-family:inherit;letter-spacing:0.04em">+ Aggiungi aeroporto</button>
+        </div>
+
         <!-- ── SEZIONE 3: Perché [destinazione] ── -->
         <div class="form-section">
           <div class="form-section-title">Sezione "Perché"</div>
@@ -696,6 +704,7 @@
     // ---- Stato ----
     var destinations = [];
     var currentIndex = -1;
+    var aeroportiData = [];
 
     // ---- Build form dynamic blocks ----
     function buildDynamicBlocks() {
@@ -844,6 +853,10 @@
         setValue('f-inc' + j + '-label', inc.label);
       }
 
+      // Aeroporti
+      aeroportiData = JSON.parse(JSON.stringify(d.prezziAeroporti || []));
+      renderAeroportiBlocks();
+
       // Esperienza
       setValue('f-esperienzaTitolo', d.esperienzaTitolo);
       setValue('f-esperienzaTesto', d.esperienzaTesto);
@@ -953,12 +966,54 @@
         var sc = v('f-scadenza');
         if (sc) data.scadenza = sc + ':00'; // append seconds
       }
+      // Prezzi aeroporti
+      var aps = getAeroportiData();
+      if (aps.length > 0) data.prezziAeroporti = aps;
       return data;
     }
 
     function v(id) {
       var el = document.getElementById(id);
       return el ? el.value.trim() : '';
+    }
+
+    // ---- Aeroporti ----
+    function renderAeroportiBlocks() {
+      var html = '';
+      aeroportiData.forEach(function(ap, i) {
+        var label = i === 0 ? 'Aeroporto <span style="color:var(--gold)">(default)</span>' : 'Aeroporto';
+        html += '<div class="sub-block" style="display:flex;align-items:flex-end;gap:0.75rem;margin-bottom:0.5rem">'
+          + '<div style="flex:2"><label class="form-label">' + label + '</label><input class="form-input" id="f-ap' + i + '-nome" type="text" placeholder="es. Napoli (NAP)" value="' + (ap.aeroporto || '').replace(/"/g, '&quot;') + '"></div>'
+          + '<div style="flex:1"><label class="form-label">Prezzo (€)</label><input class="form-input" id="f-ap' + i + '-prezzo" type="text" placeholder="349" value="' + (ap.prezzo || '') + '"></div>'
+          + '<button type="button" onclick="removeAeroporto(' + i + ')" style="flex-shrink:0;background:rgba(239,68,68,0.1);color:#f87171;border:1px solid rgba(239,68,68,0.2);border-radius:0.375rem;padding:0.5rem 0.7rem;font-size:0.8125rem;cursor:pointer;font-family:inherit" title="Rimuovi">✕</button>'
+          + '</div>';
+      });
+      var el = document.getElementById('aeroportiBlocks');
+      if (el) el.innerHTML = html || '<p style="font-size:0.75rem;color:rgba(255,255,255,0.2);text-align:center;padding:0.75rem 0">Nessun aeroporto — clicca "+" per aggiungerne uno.</p>';
+    }
+
+    function addAeroporto() {
+      // Salva i valori correnti prima di aggiungere
+      aeroportiData = getAeroportiData();
+      aeroportiData.push({ aeroporto: '', prezzo: '' });
+      renderAeroportiBlocks();
+    }
+
+    function removeAeroporto(i) {
+      aeroportiData = getAeroportiData();
+      aeroportiData.splice(i, 1);
+      renderAeroportiBlocks();
+    }
+
+    function getAeroportiData() {
+      return aeroportiData.map(function(_, i) {
+        var nEl = document.getElementById('f-ap' + i + '-nome');
+        var pEl = document.getElementById('f-ap' + i + '-prezzo');
+        return {
+          aeroporto: nEl ? nEl.value.trim() : (aeroportiData[i] ? aeroportiData[i].aeroporto : ''),
+          prezzo: pEl ? pEl.value.trim() : (aeroportiData[i] ? aeroportiData[i].prezzo : '')
+        };
+      }).filter(function(ap) { return ap.aeroporto && ap.prezzo; });
     }
 
     // ---- Save ----
