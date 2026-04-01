@@ -101,11 +101,13 @@ function initCarousel(trackId, prevId, nextId, dotsId) {
   realCards.forEach(c => {
     const cl = c.cloneNode(true);
     cl.setAttribute('aria-hidden', 'true');
+    cl.setAttribute('inert', '');
     track.appendChild(cl);
   });
   realCards.slice().reverse().forEach(c => {
     const cl = c.cloneNode(true);
     cl.setAttribute('aria-hidden', 'true');
+    cl.setAttribute('inert', '');
     track.insertBefore(cl, track.firstChild);
   });
 
@@ -252,8 +254,8 @@ if (preventivoForm) {
   var results = document.getElementById('searchResults');
   if (!panel || !input || !results) return;
 
-  function openSearch() { panel.classList.add('open'); panel.setAttribute('aria-hidden','false'); setTimeout(function(){ input.focus(); }, 60); }
-  function closeSearch() { panel.classList.remove('open'); panel.setAttribute('aria-hidden','true'); input.value=''; results.innerHTML=''; }
+  function openSearch() { panel.removeAttribute('inert'); panel.classList.add('open'); panel.setAttribute('aria-hidden','false'); setTimeout(function(){ input.focus(); }, 60); }
+  function closeSearch() { panel.setAttribute('inert',''); panel.classList.remove('open'); panel.setAttribute('aria-hidden','true'); input.value=''; results.innerHTML=''; }
   window.closeSearch = closeSearch;
 
   var btn = document.getElementById('searchBtn');

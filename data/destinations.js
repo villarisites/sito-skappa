@@ -12,6 +12,7 @@ window.DESTINATIONS = [
     "tagline": "La Costa Brava che non dorme mai.",
     "prezzo": "349",
     "imgHero": "assets/foto/lloret-de-mar/hero.webp",
+    "imgCard": "assets/foto/lloret-de-mar/card.webp",
     "partenzaDa": "Napoli",
     "durata": "6 giorni e 5 notti",
     "inclusiPacchetto": [
@@ -109,6 +110,7 @@ window.DESTINATIONS = [
     "tagline": "Il Salento che balla fino all'alba.",
     "prezzo": "259",
     "imgHero": "assets/foto/gallipoli/hero.webp",
+    "imgCard": "assets/foto/gallipoli/card.webp",
     "partenzaDa": "Napoli",
     "durata": "6 giorni e 5 notti",
     "inclusiPacchetto": [
@@ -205,6 +207,7 @@ window.DESTINATIONS = [
     "tagline": "Mare azzurro di giorno, party folli di notte.",
     "prezzo": "349",
     "imgHero": "assets/foto/zante/hero.webp",
+    "imgCard": "assets/foto/zante/card.webp",
     "partenzaDa": "Napoli",
     "durata": "6 giorni e 5 notti",
     "inclusiPacchetto": [
@@ -300,6 +303,7 @@ window.DESTINATIONS = [
     "tagline": "L'isola che ha inventato la festa.",
     "prezzo": "WIP",
     "imgHero": "assets/foto/ibiza/hero.webp",
+    "imgCard": "assets/foto/ibiza/card.webp",
     "partenzaDa": "Napoli",
     "durata": "WIP",
     "inclusiPacchetto": [
@@ -395,6 +399,7 @@ window.DESTINATIONS = [
     "tagline": "Bianco abbagliante di giorno, festa inarrestabile di notte.",
     "prezzo": "WIP",
     "imgHero": "assets/foto/mykonos/hero.webp",
+    "imgCard": "assets/foto/mykonos/card.webp",
     "partenzaDa": "Napoli",
     "durata": "WIP",
     "inclusiPacchetto": [
@@ -490,6 +495,7 @@ window.DESTINATIONS = [
     "tagline": "Energia mediterranea, notti infinite e una città che non ti lascia dormire.",
     "prezzo": "429",
     "imgHero": "assets/foto/barcellona/hero.webp",
+    "imgCard": "assets/foto/barcellona/card.webp",
     "partenzaDa": "Napoli",
     "durata": "4 giorni e 3 notti",
     "inclusiPacchetto": [
@@ -609,6 +615,7 @@ window.DESTINATIONS = [
     "tagline": "Inizia il tuo viaggio in una capitale dinamica, cosmopolita e sempre sorprendente.",
     "prezzo": "389",
     "imgHero": "assets/foto/londra/hero.webp",
+    "imgCard": "assets/foto/londra/card.webp",
     "partenzaDa": "Napoli",
     "durata": "4 giorni e 3 notti",
     "hotel": "Orlando Hotel",
@@ -728,6 +735,7 @@ window.DESTINATIONS = [
     "tagline": "Inizia il tuo viaggio nella città più iconica d'Europa, tra romanticismo, arte e atmosfera senza tempo.",
     "prezzo": "429",
     "imgHero": "assets/foto/parigi/hero.webp",
+    "imgCard": "assets/foto/parigi/card.webp",
     "partenzaDa": "Napoli",
     "durata": "4 giorni e 3 notti",
     "inclusiPacchetto": [
@@ -848,6 +856,7 @@ window.DESTINATIONS = [
     "tagline": "Inizia il tuo viaggio in una capitale autentica, tra storia millenaria e natura sorprendente.",
     "prezzo": "219",
     "imgHero": "assets/foto/sofia/hero.webp",
+    "imgCard": "assets/foto/sofia/card.webp",
     "partenzaDa": "Napoli",
     "durata": "4 giorni e 3 notti",
     "inclusiPacchetto": [
@@ -967,6 +976,7 @@ window.DESTINATIONS = [
     "tagline": "Inizia il tuo viaggio in una capitale sorprendente, autentica e fuori dai soliti circuiti.",
     "prezzo": "169",
     "imgHero": "assets/foto/tirana/hero.webp",
+    "imgCard": "assets/foto/tirana/card.webp",
     "partenzaDa": "Napoli",
     "durata": "4 giorni e 3 notti",
     "inclusiPacchetto": [
@@ -1086,6 +1096,7 @@ window.DESTINATIONS = [
     "tagline": "Inizia il tuo viaggio tra terme storiche, luci sul Danubio e atmosfera senza tempo.",
     "prezzo": "279",
     "imgHero": "assets/foto/budapest/hero.webp",
+    "imgCard": "assets/foto/budapest/card.webp",
     "partenzaDa": "Napoli",
     "durata": "4 giorni e 3 notti",
     "inclusiPacchetto": [
@@ -1205,6 +1216,7 @@ window.DESTINATIONS = [
     "tagline": "Pool party, rooftop al tramonto e notti infinite nel cuore del Mediterraneo.",
     "prezzo": "189",
     "imgHero": "assets/foto/malta/hero.webp",
+    "imgCard": "assets/foto/malta/card.webp",
     "partenzaDa": "Napoli",
     "durata": "4 giorni e 3 notti",
     "inclusiPacchetto": [
@@ -1327,6 +1339,7 @@ window.DESTINATIONS = [
     "tagline": "Inizia il tuo viaggio tra architetture monumentali, quartieri vivaci e un'atmosfera sorprendente nel cuore dell'Europa dell'Est.",
     "prezzo": "219",
     "imgHero": "assets/foto/bucarest/hero.webp",
+    "imgCard": "assets/foto/bucarest/card.webp",
     "partenzaDa": "Napoli",
     "durata": "4 giorni e 3 notti",
     "inclusiPacchetto": [
@@ -1447,6 +1460,7 @@ window.DESTINATIONS = [
     "tagline": "Inizia il tuo viaggio tra storia, cultura e una capitale europea moderna e piena di energia.",
     "prezzo": "239",
     "imgHero": "assets/foto/varsavia/hero.webp",
+    "imgCard": "assets/foto/varsavia/card.webp",
     "partenzaDa": "Napoli",
     "durata": "4 giorni e 3 notti",
     "inclusiPacchetto": [

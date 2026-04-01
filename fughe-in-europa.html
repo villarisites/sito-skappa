@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <script>!function(){var t=localStorage.getItem("skappa_theme");if(t==="light")document.documentElement.setAttribute("data-theme","light")}();</script>
+  <link rel="stylesheet" href="css/tailwind.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
   <!-- Google Analytics 4 -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-QLB6Z4V7M0"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QLB6Z4V7M0');</script>
@@ -22,14 +24,12 @@
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
   <link rel="canonical" href="https://skappa.it/fughe-in-europa.html" />
   <link rel="icon" href="assets/foto/utility/icona sito.svg" />
-  <link rel="stylesheet" href="css/tailwind.min.css" />
   <link rel="dns-prefetch" href="//formspree.io" />
   <link rel="dns-prefetch" href="//www.googletagmanager.com" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Days+One&family=Inter:wght@400;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link href="https://fonts.googleapis.com/css2?family=Days+One&family=Inter:wght@400;600;700&display=swap" rel="stylesheet"></noscript>
-  <link rel="stylesheet" href="css/style.css" />
   <script src="data/destinations.js"></script>
   <style>
     /* Search */
@@ -129,7 +129,7 @@
   </nav>
 
   <!-- SEARCH PANEL -->
-  <div id="searchPanel" class="search-panel" aria-hidden="true">
+  <div id="searchPanel" class="search-panel" aria-hidden="true" inert>
     <div class="search-inner">
       <div class="search-row">
         <svg class="w-4 h-4 flex-shrink-0" style="color:rgba(255,255,255,.35)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg>
@@ -139,6 +139,8 @@
       <div id="searchResults" class="search-results"></div>
     </div>
   </div>
+
+  <main>
 
 
   <!-- HERO -->
@@ -236,6 +238,10 @@
 
 
   <!-- FOOTER -->
+
+  </main>
+
+
     <footer class="footer">
     <div class="max-w-6xl mx-auto">
       <div style="display:flex;justify-content:space-between;align-items:center;gap:2rem;margin-bottom:2rem;flex-wrap:wrap">
@@ -278,8 +284,8 @@
       var panel = document.getElementById('searchPanel');
       var input = document.getElementById('searchInput');
       var results = document.getElementById('searchResults');
-      function openSearch() { panel.classList.add('open'); panel.setAttribute('aria-hidden','false'); setTimeout(function(){input.focus();},60); }
-      function closeSearch() { panel.classList.remove('open'); panel.setAttribute('aria-hidden','true'); input.value=''; results.innerHTML=''; }
+      function openSearch() { panel.removeAttribute('inert'); panel.classList.add('open'); panel.setAttribute('aria-hidden','false'); setTimeout(function(){input.focus();},60); }
+      function closeSearch() { panel.setAttribute('inert',''); panel.classList.remove('open'); panel.setAttribute('aria-hidden','true'); input.value=''; results.innerHTML=''; }
       window.closeSearch = closeSearch;
       document.getElementById('searchBtn').addEventListener('click', function(){ panel.classList.contains('open') ? closeSearch() : openSearch(); });
       var mob = document.getElementById('searchBtnMobile');
@@ -313,7 +319,7 @@
       grid.innerHTML = dests.map(function(d){
         return '<a href="viaggio-citybreak.html?id='+d.id+'" class="dest-card">'
           +'<div class="dest-card-img-placeholder">'
-          +'<img src="'+(d.imgHero||'')+'" alt="'+d.nome+'" class="dest-card-photo" loading="lazy" decoding="async" onerror="this.style.display=\'none\'" />'
+          +'<img src="'+(d.imgCard||d.imgHero||'')+'" alt="'+d.nome+'" class="dest-card-photo" loading="lazy" decoding="async" onerror="this.style.display=\'none\'" />'
           +ph+'</div>'
           +'<div class="dest-card-overlay"></div>'
           +'<span style="position:absolute;top:.75rem;right:.75rem;background:var(--teal);color:#fff;font-size:.6875rem;font-weight:900;padding:.35rem .875rem;border-radius:2rem;letter-spacing:.08em;text-transform:uppercase;z-index:10">✈ Europa</span>'
