@@ -166,7 +166,7 @@
     <div class="hero-content">
       <img src="assets/foto/utility/scritta skappa.webp" alt="SKAPPA" class="hero-title-img" />
       <p class="hero-subtitle">Viaggi già organizzati a partire</p>
-      <div class="hero-price"><span id="heroPriceMin">DA 99€</span></div>
+      <div class="hero-price"><span id="heroPriceMin">DA 169€</span></div>
       <br/>
       <a href="#summer" class="btn-gold">Scegli il tuo viaggio</a>
     </div>
@@ -640,14 +640,15 @@
       document.getElementById('lastminute').style.display = 'none';
     }
 
-    // ---- Prezzo minimo dinamico hero ----
-    (function(){
-      var dests = window.DESTINATIONS || [];
-      if (!dests.length) return;
-      var min = Math.min.apply(null, dests.map(function(d){ return parseInt(d.prezzo,10)||Infinity; }));
-      if (isFinite(min)) { var el = document.getElementById('heroPriceMin'); if(el) el.textContent = 'DA '+min+'€'; }
-    })();
   }); // end DOMContentLoaded
+
+  // ---- Prezzo minimo dinamico hero (sincrono: destinations.js già caricato) ----
+  (function(){
+    var dests = window.DESTINATIONS || [];
+    if (!dests.length) return;
+    var min = Math.min.apply(null, dests.map(function(d){ return parseInt(d.prezzo,10)||Infinity; }));
+    if (isFinite(min)) { var el = document.getElementById('heroPriceMin'); if(el) el.textContent = 'DA '+min+'€'; }
+  })();
   </script>
 </body>
 </html>
