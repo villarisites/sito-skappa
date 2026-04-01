@@ -63,7 +63,7 @@ const navbar = document.getElementById('navbar');
 if (navbar) {
   window.addEventListener('scroll', () => {
     navbar.classList.toggle('scrolled', window.scrollY > 20);
-  });
+  }, { passive: true });
 }
 
 // ---- Mobile menu ----
@@ -191,6 +191,8 @@ if (kitForm) {
         headers: { 'Accept': 'application/json' }
       });
       if (res.ok) {
+        var formH = kitForm.offsetHeight;
+        kitForm.style.minHeight = formH + 'px';
         kitForm.innerHTML = '<p style="color:var(--gold);font-weight:700;text-align:center;padding:1.5rem;font-size:1.1rem">🎒 Benvenuto a bordo!<br/><span style="font-size:.9rem;font-weight:400;opacity:.8">Controlla la tua email — ti scriviamo presto.</span></p>';
         // GA4: traccia conversione lead
         if (typeof gtag === 'function') {
@@ -277,10 +279,10 @@ if (preventivoForm) {
       var bt  = d.tipologia === 'mete-estive' ? '🌊 Estate' : d.tipologia === 'fughe-in-europa' ? '✈ Europa' : '⚡ Last Minute';
       return '<a href="'+tpl+'?id='+d.id+'" class="search-result" onclick="closeSearch()">'
         + '<div><span class="search-result-name">'+d.nome+'</span> <span class="search-badge '+bc+'">'+bt+'</span>'
-        + '<div class="search-result-meta">'+(d.date||'')+' &nbsp;·&nbsp; '+(d.hotel||'')+'</div></div>'
+        + '<div class="search-result-meta">'+(d.date||'')+'</div></div>'
         + '<span class="search-result-price">'+d.prezzo+'€</span></a>';
     }).join('');
-    }, 300);
+    }, 150);
   });
 })();
 

@@ -22,15 +22,14 @@
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
   <link rel="canonical" href="https://skappa.it/fughe-in-europa.html" />
   <link rel="icon" href="assets/foto/utility/icona sito.svg" />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/tailwind.min.css" />
   <link rel="dns-prefetch" href="//formspree.io" />
-  <link rel="dns-prefetch" href="//cdn.tailwindcss.com" />
   <link rel="dns-prefetch" href="//www.googletagmanager.com" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Days+One&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Days+One&family=Inter:wght@300;400;500;600;700;800;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Days+One&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" /></noscript>
   <link rel="stylesheet" href="css/style.css" />
-  <script src="data/destinations.js"></script>
   <style>
     /* Search */
     .search-toggle { background:none;border:none;cursor:pointer;color:var(--navy);padding:.3rem;display:flex;align-items:center;transition:opacity .2s; }
@@ -270,6 +269,7 @@
   </footer>
 
 
+  <script src="data/destinations.js"></script>
   <script src="js/main.js" defer></script>
   <script src="js/animations.js" defer></script>
   <script>

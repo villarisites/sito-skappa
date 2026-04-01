@@ -17,7 +17,7 @@ window.DESTINATIONS = [
     "inclusiPacchetto": [
       "Dal 30 Luglio al 4 Agosto",
       "6 giorni e 5 notti",
-      "Bolero Park Hotel",
+      "Hotel incluso",
       "Barcellona by night",
       "Ingressi e drink inclusi"
     ],
@@ -210,7 +210,7 @@ window.DESTINATIONS = [
     "inclusiPacchetto": [
       "Dal 16 al 21 Luglio",
       "6 giorni e 5 notti",
-      "Jenny Hotel"
+      "Hotel incluso"
     ],
     "perche": {
       "titolo": "PERCHÉ ZANTE",
@@ -616,7 +616,7 @@ window.DESTINATIONS = [
       "Volo A/R incluso",
       "Dal 23 al 26 Aprile",
       "4 giorni e 3 notti",
-      "Orlando Hotel",
+      "Hotel incluso",
       "Minimo 2 persone"
     ],
     "perche": {
@@ -854,7 +854,7 @@ window.DESTINATIONS = [
       "Volo A/R incluso",
       "Dal 23 al 26 Aprile",
       "4 giorni e 3 notti",
-      "Aparthotel Bon Bon",
+      "Hotel incluso",
       "Minimo 2 persone"
     ],
     "perche": {
@@ -973,7 +973,7 @@ window.DESTINATIONS = [
       "Volo A/R incluso",
       "Dal 23 al 26 Aprile",
       "4 giorni e 3 notti",
-      "Belux Hotel",
+      "Hotel incluso",
       "Minimo 2 persone"
     ],
     "perche": {
@@ -1211,7 +1211,7 @@ window.DESTINATIONS = [
       "Volo A/R incluso",
       "Dal 16 al 19 Aprile",
       "4 giorni e 3 notti",
-      "The St. George's Park Hotel",
+      "Hotel incluso",
       "2 Pool Party, 2 Aperitivi Rooftop",
       "2 Serate in discoteca, tessera con 3 drink inclusi",
       "Sconti esclusivi partner locali",
@@ -1333,7 +1333,7 @@ window.DESTINATIONS = [
       "Volo A/R incluso",
       "Dal 23 al 26 Aprile",
       "4 giorni e 3 notti",
-      "Hotel Cismigiu",
+      "Hotel incluso",
       "Bagaglio a mano incluso",
       "Minimo 2 persone"
     ],
@@ -1453,7 +1453,7 @@ window.DESTINATIONS = [
       "Volo A/R incluso",
       "Dal 23 al 26 Aprile",
       "4 giorni e 3 notti",
-      "Hotel MDM City Centre",
+      "Hotel incluso",
       "Bagaglio a mano incluso",
       "Minimo 2 persone"
     ],

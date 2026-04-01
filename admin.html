@@ -5,10 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SKAPPA Admin – CMS Destinazioni</title>
   <link rel="icon" href="assets/logo.png" />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/tailwind.min.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Days+One&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Days+One&family=Inter:wght@300;400;500;600;700;800;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Days+One&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" /></noscript>
   <script src="data/destinations.js"></script>
   <style>
     :root {
@@ -513,10 +514,6 @@
             <div class="form-row">
               <label class="form-label" for="f-durata">Durata</label>
               <input class="form-input" id="f-durata" type="text" placeholder="6 giorni 5 notti">
-            </div>
-            <div class="form-row">
-              <label class="form-label" for="f-hotel">Hotel</label>
-              <input class="form-input" id="f-hotel" type="text" placeholder="The St. George's Park Hotel">
             </div>
           </div>
           <div class="form-row">

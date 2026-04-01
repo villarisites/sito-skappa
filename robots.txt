@@ -1,6 +1,7 @@
 User-agent: *
 Allow: /
+
 Disallow: /admin.html
-Disallow: /test_tee.html
+Disallow: /preventivi-manager.html
 
 Sitemap: https://skappa.it/sitemap.xml

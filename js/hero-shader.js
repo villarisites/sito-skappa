@@ -136,21 +136,25 @@
   }
 
   var t0 = performance.now();
-  var frameCount = 0;
+
+  // Disable shader on mobile to save CPU/battery
+  if (window.innerWidth < 768) {
+    var canvas = document.getElementById('heroShader');
+    if (canvas) canvas.style.display = 'none';
+    return;
+  }
 
   function render() {
-    // Riduci FPS a ~30 per risparmiare batteria (frame skip)
-    frameCount++;
-    if (frameCount % 2 !== 0) { requestAnimationFrame(render); return; }
-
-    if (document.visibilityState !== 'hidden') {
-      gl.clearColor(0, 0, 0, 0);
-      gl.clear(gl.COLOR_BUFFER_BIT);
-      gl.uniform1f(uTime, (performance.now() - t0) / 1000);
-      gl.uniform2f(uRes, W, H);
-      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    if (document.visibilityState === 'hidden') {
+      setTimeout(function () { requestAnimationFrame(render); }, 200);
+      return;
     }
-    requestAnimationFrame(render);
+    gl.clearColor(0, 0, 0, 0);
+    gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.uniform1f(uTime, (performance.now() - t0) / 1000);
+    gl.uniform2f(uRes, W, H);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    setTimeout(function () { requestAnimationFrame(render); }, 33);
   }
 
   window.addEventListener('resize', resize, { passive: true });
