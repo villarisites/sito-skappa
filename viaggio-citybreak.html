@@ -21,6 +21,31 @@
   <meta name="twitter:image" content="" />
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
   <link rel="canonical" href="" id="canonicalTag" />
+  <!-- SEO inline: popola title/meta subito, prima del rendering -->
+  <script>
+    (function(){
+      var id = new URLSearchParams(window.location.search).get('id');
+      if (!id || !window.DESTINATIONS) return;
+      var dest = window.DESTINATIONS.find(function(d){ return d.id === id; });
+      if (!dest) return;
+      var t = dest.nome + ' – City Break con SKAPPA | Da ' + dest.prezzo + '€';
+      var desc = 'Fuga a ' + dest.nome + ' organizzata da SKAPPA. ' + (dest.tagline||'') + ' Volo A/R e alloggio inclusi. Da ' + dest.prezzo + '€ a persona.';
+      var url = 'https://skappa.it/viaggio-citybreak.html?id=' + id;
+      document.title = t;
+      document.querySelector('meta[name="description"]').content = desc;
+      document.querySelector('meta[property="og:title"]').content = t;
+      document.querySelector('meta[property="og:description"]').content = desc;
+      document.querySelector('meta[property="og:url"]').content = url;
+      document.querySelector('meta[name="twitter:title"]').content = t;
+      document.querySelector('meta[name="twitter:description"]').content = desc;
+      if (dest.imgHero) {
+        var img = dest.imgHero.startsWith('http') ? dest.imgHero : 'https://skappa.it/' + dest.imgHero.replace(/^\.?\//,'');
+        document.querySelector('meta[property="og:image"]').content = img;
+        document.querySelector('meta[name="twitter:image"]').content = img;
+      }
+      document.getElementById('canonicalTag').href = url;
+    })();
+  </script>
   <link rel="icon" href="assets/foto/utility/icona sito.svg" />
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="dns-prefetch" href="//formspree.io" />
@@ -604,7 +629,7 @@
     </div>
   </div>
 
-  <script src="js/main.js"></script>
+  <script src="js/main.js" defer></script>
   <script src="js/animations.js" defer></script>
   <script>
     (function () {

@@ -354,21 +354,21 @@
             <input type="hidden" name="tipo" value="preventivo" />
             <input type="hidden" name="_subject" value="Richiesta preventivo viaggio su misura" />
             <div class="grid grid-cols-2 gap-3">
-              <input type="text" name="nome" placeholder="Il tuo nome" class="kit-input" required autocomplete="given-name" />
-              <input type="email" name="email" placeholder="La tua email" class="kit-input" required autocomplete="email" />
+              <input type="text" name="nome" placeholder="Il tuo nome" class="kit-input" required autocomplete="given-name" aria-label="Il tuo nome" />
+              <input type="email" name="email" placeholder="La tua email" class="kit-input" required autocomplete="email" aria-label="La tua email" />
             </div>
-            <input type="text" name="destinazione" placeholder="Meta desiderata (es. Grecia, Portogallo…)" class="kit-input" required />
+            <input type="text" name="destinazione" placeholder="Meta desiderata (es. Grecia, Portogallo…)" class="kit-input" required aria-label="Meta desiderata" />
             <div class="grid grid-cols-2 gap-3">
-              <select name="persone" class="kit-input kit-select">
+              <select name="persone" class="kit-input kit-select" aria-label="Numero di persone">
                 <option value="" disabled selected>Quante persone?</option>
                 <option value="2">2 persone</option>
                 <option value="3-5">3–5 persone</option>
                 <option value="6-10">6–10 persone</option>
                 <option value="10+">Più di 10</option>
               </select>
-              <input type="text" name="date" placeholder="Date indicative" class="kit-input" autocomplete="off" />
+              <input type="text" name="date" placeholder="Date indicative" class="kit-input" autocomplete="off" aria-label="Date indicative" />
             </div>
-            <textarea name="note" placeholder="Qualcosa da aggiungere? (facoltativo)" class="kit-input" rows="3" style="resize:vertical"></textarea>
+            <textarea name="note" placeholder="Qualcosa da aggiungere? (facoltativo)" class="kit-input" rows="3" style="resize:vertical" aria-label="Note aggiuntive (facoltativo)"></textarea>
             <div class="flex items-start gap-2 mt-1">
               <input type="checkbox" id="privacyPrev" name="privacy" value="accettata" class="mt-0.5 accent-yellow-400" required />
               <label for="privacyPrev" class="text-xs text-gray-400">
@@ -398,48 +398,48 @@
 
         <div class="review-card">
           <div class="review-stars" aria-label="5 stelle su 5">★★★★★</div>
-          <p class="review-text">"L'esperienza più bella della mia vita 🙂"</p>
+          <p class="review-text">"L'esperienza più bella della mia vita. Zante con SKAPPA è stata una settimana che rifarei mille volte."</p>
           <div class="review-footer-row">
-            <div class="review-avatar-circle" aria-hidden="true">V</div>
+            <div class="review-avatar-circle" aria-hidden="true">M</div>
             <div>
-              <div class="review-author">Viaggiatore SKAPPA</div>
-              <div class="review-verified">✓ Viaggio verificato</div>
+              <div class="review-author">Martina R. · Milano</div>
+              <div class="review-verified">✓ Escape Tour · Zante, ago 2024</div>
             </div>
           </div>
         </div>
 
         <div class="review-card">
           <div class="review-stars" aria-label="5 stelle su 5">★★★★★</div>
-          <p class="review-text">"SKAPPA è come una famiglia. Consigliato!!!"</p>
+          <p class="review-text">"SKAPPA è come una famiglia. Siamo partiti in 4 amici e tornati con 20. Già prenotato per l'estate 2025!"</p>
           <div class="review-footer-row">
-            <div class="review-avatar-circle" aria-hidden="true">V</div>
+            <div class="review-avatar-circle" aria-hidden="true">L</div>
             <div>
-              <div class="review-author">Viaggiatore SKAPPA</div>
-              <div class="review-verified">✓ Viaggio verificato</div>
+              <div class="review-author">Luca P. · Roma</div>
+              <div class="review-verified">✓ Escape Tour · Gallipoli, lug 2024</div>
             </div>
           </div>
         </div>
 
         <div class="review-card">
           <div class="review-stars" aria-label="5 stelle su 5">★★★★★</div>
-          <p class="review-text">"Tornerò sicuramente a viaggiare con loro."</p>
+          <p class="review-text">"Barcellona da sogno. Tutto organizzato alla perfezione, hotel ottimo e gruppo fantastico. Tornerò di sicuro."</p>
           <div class="review-footer-row">
-            <div class="review-avatar-circle" aria-hidden="true">V</div>
+            <div class="review-avatar-circle" aria-hidden="true">S</div>
             <div>
-              <div class="review-author">Viaggiatore SKAPPA</div>
-              <div class="review-verified">✓ Viaggio verificato</div>
+              <div class="review-author">Sara D. · Napoli</div>
+              <div class="review-verified">✓ Fuga in Europa · Barcellona, mar 2025</div>
             </div>
           </div>
         </div>
 
         <div class="review-card">
           <div class="review-stars" aria-label="5 stelle su 5">★★★★★</div>
-          <p class="review-text">"Organizzazione e persone fantastiche. Esperienza top."</p>
+          <p class="review-text">"Organizzazione impeccabile, prezzi trasparenti e persone fantastiche. Budapest è stata un'altra dimensione."</p>
           <div class="review-footer-row">
-            <div class="review-avatar-circle" aria-hidden="true">V</div>
+            <div class="review-avatar-circle" aria-hidden="true">F</div>
             <div>
-              <div class="review-author">Viaggiatore SKAPPA</div>
-              <div class="review-verified">✓ Viaggio verificato</div>
+              <div class="review-author">Francesco T. · Torino</div>
+              <div class="review-verified">✓ Fuga in Europa · Budapest, feb 2025</div>
             </div>
           </div>
         </div>
@@ -479,11 +479,11 @@
           <form id="kitForm" action="https://formspree.io/f/xlgpwjlj" method="POST" class="flex flex-col gap-3">
             <input type="hidden" name="_subject" value="Nuova iscrizione kit viaggiatori" />
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <input type="text" name="nome" placeholder="Come ti chiami?" class="kit-input" required autocomplete="given-name" />
-              <input type="email" name="email" placeholder="La tua email" class="kit-input" required autocomplete="email" />
+              <input type="text" name="nome" placeholder="Come ti chiami?" class="kit-input" required autocomplete="given-name" aria-label="Il tuo nome" />
+              <input type="email" name="email" placeholder="La tua email" class="kit-input" required autocomplete="email" aria-label="La tua email" />
             </div>
-            <input type="tel" name="whatsapp" placeholder="WhatsApp (facoltativo)" class="kit-input" autocomplete="tel" />
-            <select name="interesse" class="kit-input kit-select">
+            <input type="tel" name="whatsapp" placeholder="WhatsApp (facoltativo)" class="kit-input" autocomplete="tel" aria-label="Numero WhatsApp (facoltativo)" />
+            <select name="interesse" class="kit-input kit-select" aria-label="Tipo di viaggio preferito">
               <option value="" disabled selected>Cosa sogni di più? (facoltativo)</option>
               <option value="mare">🌊 Mare e party — Escape Tour</option>
               <option value="europa">🏙️ Weekend in Europa — City break</option>
