@@ -368,7 +368,7 @@
           <a href="index.html" class="nav-link">Home</a>
           <a href="fughe-in-europa.html" class="nav-link">Fughe in Europa</a>
           <a href="summer-tour.html" class="nav-link">Escape tour</a>
-          <a href="last-minute.html" class="nav-link" style="color:#ef4444;font-weight:700">⚡ Last minute</a>
+          <a href="last-minute.html" class="nav-link" style="color:var(--lm-red);font-weight:700">⚡ Last minute</a>
         </div>
         <div class="hidden md:flex items-center gap-3">
           <button id="themeToggle" class="theme-toggle" aria-label="Cambia tema" title="Cambia tema" onclick="toggleTheme()">
@@ -398,7 +398,7 @@
         <a href="index.html" class="text-sm font-semibold" style="color:var(--gold)">Home</a>
         <a href="fughe-in-europa.html" class="text-sm font-semibold" style="color:var(--gold)">Fughe in Europa</a>
         <a href="summer-tour.html" class="text-sm font-semibold" style="color:var(--gold)">Escape tour</a>
-        <a href="last-minute.html" class="text-sm font-semibold" style="color:#ef4444">⚡ Last minute</a>
+        <a href="last-minute.html" class="text-sm font-semibold" style="color:var(--lm-red)">⚡ Last minute</a>
         <a href="#blocca" class="btn-gold mt-2" style="justify-content:center">Blocca il tuo posto</a>
       </div>
     </div>
@@ -430,7 +430,7 @@
       <div>
         <button onclick="history.back()" class="back-btn">← Torna indietro</button>
       </div>
-      <div class="tipo-badge">✈ Fuga in Europa</div>
+      <div class="tipo-badge"><svg class="ic"><use href="assets/icons.svg#plane"></use></svg> Fuga in Europa</div>
       <div style="display:flex;justify-content:center;margin-bottom:1.25rem">
         <img src="assets/foto/utility/logo skappa.svg" alt="SKAPPA"
           style="height:6rem;object-fit:contain;filter:drop-shadow(0 0 28px rgba(40,134,153,0.65))"
@@ -469,6 +469,17 @@
             <ul class="pacchetto-list" id="pInclusi"></ul>
             <div id="scarcityBadge" style="display:none;align-items:center;gap:0.5rem;margin-bottom:1rem;background:rgba(220,38,38,0.1);border:1px solid rgba(220,38,38,0.25);border-radius:0.5rem;padding:0.6rem 0.875rem"><div style="width:7px;height:7px;border-radius:50%;background:#ef4444;flex-shrink:0;animation:pulse-scarcity 1.5s infinite"></div><span id="scarcityText" style="font-size:0.8125rem;font-weight:700;color:#fca5a5"></span></div>
             <hr style="border:none;border-top:1px solid rgba(255,255,255,0.08);margin:0.5rem 0 1.25rem">
+            <!-- Acconto/Saldo toggle -->
+            <div id="payToggle" style="display:none;margin-bottom:1rem">
+              <div class="pay-tabs">
+                <button id="payTabFull" class="pay-tab pay-tab--active" onclick="skappaSetPayMode('full')">Pagamento completo</button>
+                <button id="payTabAcconto" class="pay-tab" onclick="skappaSetPayMode('acconto')">Solo acconto</button>
+              </div>
+              <div id="payAccontoInfo" class="pay-saldo-info" style="display:none">
+                Paga <strong id="payAccontoAmt" style="color:var(--gold)"></strong> ora per bloccare il posto.
+                Saldo di <strong id="paySaldoAmt" style="color:rgba(255,255,255,0.85)"></strong> da versare entro la partenza.
+              </div>
+            </div>
             <div style="display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap">
               <div>
                 <div id="pPrezzoOriginale" style="font-size:0.8125rem;color:rgba(255,255,255,0.38);text-decoration:line-through;font-family:'Days One',sans-serif;letter-spacing:0.04em;min-height:1.1em"></div>
@@ -704,7 +715,7 @@
       }
       if (dest.hotel) {
         var pHotel = document.getElementById('pHotel');
-        if (pHotel) pHotel.textContent = '🏨 ' + dest.hotel;
+        if (pHotel) pHotel.innerHTML = '<svg class="ic"><use href="assets/icons.svg#hotel"></use></svg> ' + dest.hotel;
       }
       if (dest.durata) {
         var mGiorni = (dest.durata || '').match(/(\d+)\s*giorn/);
@@ -719,11 +730,25 @@
         return '<li><span class="check">✓</span><span>' + item + '</span></li>';
       }).join('');
 
+      // ---- Pay mode toggle (acconto / pagamento completo) ----
+      window._skappaPayDest = dest;
+      window._skappaPayPrice = parseInt(dest.prezzo) || 0;
+      if (dest.acconto) {
+        var payToggleEl = document.getElementById('payToggle');
+        if (payToggleEl) {
+          payToggleEl.style.display = '';
+          var payAccontoAmtEl = document.getElementById('payAccontoAmt');
+          var paySaldoAmtEl   = document.getElementById('paySaldoAmt');
+          if (payAccontoAmtEl) payAccontoAmtEl.textContent = dest.acconto + '\u20ac';
+          if (paySaldoAmtEl)   paySaldoAmtEl.textContent   = (window._skappaPayPrice - dest.acconto) + '\u20ac';
+        }
+      }
+
       // ---- Aeroporto selector ----
       window.currentDest = dest;
       if (dest.prezziAeroporti && dest.prezziAeroporti.length > 0) {
         var airHtml = '<div id="aeroportoWrap" style="margin-bottom:1.25rem">'
-          + '<label style="font-size:0.6875rem;font-weight:700;color:rgba(255,255,255,0.45);letter-spacing:0.07em;text-transform:uppercase;display:block;margin-bottom:0.4rem">✈ Aeroporto di partenza</label>'
+          + '<label style="font-size:0.6875rem;font-weight:700;color:rgba(255,255,255,0.45);letter-spacing:0.07em;text-transform:uppercase;display:block;margin-bottom:0.4rem"><svg class="ic"><use href="assets/icons.svg#plane"></use></svg> Aeroporto di partenza</label>'
           + '<select id="aeroportoSelect" onchange="window.skappaOnAeroporto(this)" style="width:100%;padding:0.625rem 0.875rem;background:rgba(255,255,255,0.06);border:1.5px solid rgba(254,189,65,0.2);border-radius:0.5rem;color:#fff;font-size:0.875rem;font-family:inherit;outline:none;cursor:pointer">'
           + dest.prezziAeroporti.map(function(ap) {
               return '<option value="' + ap.prezzo + '" data-nome="' + ap.aeroporto + '">' + ap.aeroporto + ' — ' + ap.prezzo + '€</option>';
@@ -753,7 +778,7 @@
       // ---- Inclusi con Skappa ----
       document.getElementById('inclusiConSkappa').innerHTML = (dest.inclusiConSkappa || []).map(function (item) {
         return '<div class="incluso-item fade-in">'
-          + '<div class="incluso-icona">' + (item.icona || '★') + '</div>'
+          + '<div class="incluso-icona">' + (function(v){var m={'💸':'wallet','🏨':'hotel','🌍':'globe','✈️':'plane','✈':'plane','🌊':'wave','🎒':'backpack'};return m[v]?'<svg class="ic"><use href="assets/icons.svg#'+m[v]+'"></use></svg>':(v||'★');})(item.icona) + '</div>'
           + '<span class="incluso-label">' + item.label + '</span>'
           + '</div>';
       }).join('');
@@ -894,7 +919,10 @@
       var hP = document.getElementById('heroPrezzo');
       if (hP) hP.textContent = price + '€';
       var pP = document.getElementById('pPrezzo');
-      if (pP) pP.innerHTML = '<span class="pacchetto-euro">€</span>' + price;
+      // Aggiorna il prezzo solo se siamo in modalità pagamento completo
+      var tabAcconto = document.getElementById('payTabAcconto');
+      var inAccontoMode = tabAcconto && tabAcconto.classList.contains('pay-tab--active');
+      if (!inAccontoMode && pP) pP.innerHTML = '<span class="pacchetto-euro">€</span>' + price;
       var pPart = document.getElementById('pPartenza');
       if (pPart) pPart.textContent = 'Partenza da ' + cityName;
       if (window.currentDest && window.currentDest.durata) {
@@ -903,12 +931,60 @@
         if (gg > 0) {
           var ppg = Math.round(parseInt(price) / gg);
           var elPPG = document.getElementById('pPrezzoGiorno');
-          if (elPPG) elPPG.textContent = '≈ ' + ppg + '€ al giorno a persona';
+          if (elPPG && !inAccontoMode) elPPG.textContent = '\u2248 ' + ppg + '\u20ac al giorno a persona';
         }
+      }
+      // Aggiorna _skappaPayPrice e il saldo visualizzato
+      window._skappaPayPrice = parseInt(price) || 0;
+      if (window._skappaPayDest && window._skappaPayDest.acconto) {
+        var paySaldoEl = document.getElementById('paySaldoAmt');
+        if (paySaldoEl) paySaldoEl.textContent = (window._skappaPayPrice - window._skappaPayDest.acconto) + '\u20ac';
       }
       var sp = document.getElementById('stickyPrice');
       if (sp) sp.textContent = price + '€';
     };
+
+    function skappaSetPayMode(mode) {
+      var dest = window._skappaPayDest;
+      if (!dest) return;
+      var tabFull       = document.getElementById('payTabFull');
+      var tabAcconto    = document.getElementById('payTabAcconto');
+      var accontoInfo   = document.getElementById('payAccontoInfo');
+      var pPrezzo       = document.getElementById('pPrezzo');
+      var pPrezzoGiorno = document.getElementById('pPrezzoGiorno');
+      var btn           = document.getElementById('pacchettoBtn');
+      if (mode === 'acconto') {
+        if (tabFull)    tabFull.classList.remove('pay-tab--active');
+        if (tabAcconto) tabAcconto.classList.add('pay-tab--active');
+        if (accontoInfo) accontoInfo.style.display = '';
+        if (pPrezzo)       pPrezzo.innerHTML = '<span class="pacchetto-euro">\u20ac</span>' + dest.acconto;
+        if (pPrezzoGiorno) pPrezzoGiorno.textContent = 'Blocca il posto con il solo acconto';
+        if (btn) {
+          btn.textContent = 'PRENOTA CON ACCONTO \u2192';
+          if (dest.linkAcconto) {
+            btn.href = dest.linkAcconto; btn.target = '_blank'; btn.rel = 'noopener noreferrer';
+          } else {
+            btn.href = 'https://wa.me/3930306294?text=' + encodeURIComponent('Ciao! Vorrei prenotare ' + dest.nome + ' con acconto.');
+            btn.target = '_blank'; btn.rel = 'noopener noreferrer';
+          }
+        }
+      } else {
+        if (tabFull)    tabFull.classList.add('pay-tab--active');
+        if (tabAcconto) tabAcconto.classList.remove('pay-tab--active');
+        if (accontoInfo) accontoInfo.style.display = 'none';
+        var fullPrice = window._skappaPayPrice || parseInt(dest.prezzo) || 0;
+        if (pPrezzo) pPrezzo.innerHTML = '<span class="pacchetto-euro">\u20ac</span>' + fullPrice;
+        if (pPrezzoGiorno) {
+          var mG = (dest.durata || '').match(/(\d+)\s*giorn/);
+          var gg = mG ? parseInt(mG[1]) : 0;
+          pPrezzoGiorno.textContent = gg > 0 ? '\u2248 ' + Math.round(fullPrice / gg) + '\u20ac al giorno a persona' : '';
+        }
+        if (btn) {
+          btn.textContent = 'BLOCCA IL TUO POSTO \u2192';
+          if (dest.linkPagamento) { btn.href = dest.linkPagamento; btn.target = '_blank'; btn.rel = 'noopener noreferrer'; }
+        }
+      }
+    }
   </script>
 </body>
 </html>

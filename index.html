@@ -5,9 +5,26 @@
   <script>!function(){var t=localStorage.getItem("skappa_theme");if(t==="light")document.documentElement.setAttribute("data-theme","light")}();</script>
   <link rel="stylesheet" href="css/tailwind.min.css" />
   <link rel="stylesheet" href="css/style.css" />
-  <!-- Google Analytics 4 -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-QLB6Z4V7M0"></script>
-  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QLB6Z4V7M0');</script>
+  <!-- Google Analytics 4 – carica dopo interazione utente o dopo 4s (riduce TBT) -->
+  <script>
+  (function(){
+    var loaded=false;
+    function loadGA(){
+      if(loaded) return; loaded=true;
+      var s=document.createElement('script');
+      s.async=true; s.src='https://www.googletagmanager.com/gtag/js?id=G-QLB6Z4V7M0';
+      document.head.appendChild(s);
+      window.dataLayer=window.dataLayer||[];
+      function gtag(){dataLayer.push(arguments);} window.gtag=gtag;
+      gtag('js',new Date()); gtag('config','G-QLB6Z4V7M0');
+    }
+    // Carica all'interazione o dopo 4s
+    ['click','scroll','keydown','touchstart','mouseover'].forEach(function(e){
+      document.addEventListener(e, loadGA, {once:true, passive:true});
+    });
+    setTimeout(loadGA, 4000);
+  })();
+  </script>
   <!-- Preload hero bg -->
   <link rel="preload" as="image" href="assets/foto/utility/sfondo hero.webp" fetchpriority="high" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -93,7 +110,7 @@
           <a href="index.html" class="nav-link active">Home</a>
           <a href="fughe-in-europa.html" class="nav-link">Fughe in Europa</a>
           <a href="summer-tour.html" class="nav-link">Escape tour</a>
-          <a href="last-minute.html" class="nav-link" style="color:#ef4444;font-weight:700">⚡ Last minute</a>
+          <a href="last-minute.html" class="nav-link" style="color:var(--lm-red);font-weight:700">⚡ Last minute</a>
         </div>
         <!-- Actions (desktop) -->
         <div class="hidden md:flex items-center gap-3">
@@ -133,7 +150,7 @@
         <a href="index.html" class="text-sm font-semibold" style="color:var(--gold)">Home</a>
         <a href="fughe-in-europa.html" class="text-sm font-semibold" style="color:var(--gold)">Fughe in Europa</a>
         <a href="summer-tour.html" class="text-sm font-semibold" style="color:var(--gold)">Escape tour</a>
-        <a href="last-minute.html" class="text-sm font-semibold" style="color:#ef4444">⚡ Last minute</a>
+        <a href="last-minute.html" class="text-sm font-semibold" style="color:var(--lm-red)">⚡ Last minute</a>
         <a href="#summer" class="btn-gold mt-2" style="justify-content:center">Scopri i viaggi</a>
       </div>
     </div>
@@ -486,9 +503,9 @@
             <input type="tel" name="whatsapp" placeholder="WhatsApp (facoltativo)" class="kit-input" autocomplete="tel" aria-label="Numero WhatsApp (facoltativo)" />
             <select name="interesse" class="kit-input kit-select" aria-label="Tipo di viaggio preferito">
               <option value="" disabled selected>Cosa sogni di più? (facoltativo)</option>
-              <option value="mare">🌊 Mare e party — Escape Tour</option>
-              <option value="europa">🏙️ Weekend in Europa — City break</option>
-              <option value="lastminute">⚡ Offerta last minute</option>
+              <option value="mare">Mare e party — Escape Tour</option>
+              <option value="europa">Weekend in Europa — City break</option>
+              <option value="lastminute">Offerta last minute</option>
               <option value="tutto">Tutto mi interessa!</option>
             </select>
             <div class="flex items-start gap-2 mt-1">
@@ -499,7 +516,7 @@
             </div>
             <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
             <button type="submit" id="kitSubmitBtn" class="btn-gold mt-1" style="justify-content:center;width:100%">
-              Voglio il kit 🎒
+              Voglio il kit <svg class="ic"><use href="assets/icons.svg#backpack"></use></svg>
             </button>
           </form>
         </div>
@@ -561,16 +578,19 @@
       var url = isSummer ? 'viaggio.html?id=' + d.id : 'viaggio-citybreak.html?id=' + d.id;
       var extraClass = isSummer ? ' dest-card-summer' : '';
       var badge = isSummer
-        ? '<span class="card-season-badge">🌊 Estate</span>'
+        ? '<span class="card-season-badge"><svg class="ic"><use href="assets/icons.svg#wave"></use></svg> Estate</span>'
         : '';
       var voloRow = isEuropa
-        ? '<p style="font-size:0.5625rem;color:var(--teal);font-weight:700;letter-spacing:0.05em;margin-bottom:0.15rem">✈ volo incluso</p>'
+        ? '<p style="font-size:0.5625rem;color:var(--teal);font-weight:700;letter-spacing:0.05em;margin-bottom:0.15rem"><svg class="ic"><use href="assets/icons.svg#plane"></use></svg> volo incluso</p>'
         : '';
       /* Prima card: carica subito (above-the-fold); le altre: lazy */
       var imgLoad = (idx === 0) ? 'fetchpriority="high"' : 'loading="lazy" decoding="async"';
+      var imgSrc = d.imgCard || d.imgHero || '';
+      var smSrc = imgSrc.indexOf('card.webp') >= 0 ? imgSrc.replace('card.webp', 'card-sm.webp') : '';
+      var srcset = smSrc ? ' srcset="' + smSrc + ' 320w, ' + imgSrc + ' 840w" sizes="(max-width:640px) 90vw, 320px"' : '';
       return '<a href="' + url + '" class="dest-card' + extraClass + '">'
         + '<div class="dest-card-img-placeholder">'
-        + '<img src="' + (d.imgCard || d.imgHero || '') + '" alt="' + d.nome + '" class="dest-card-photo" ' + imgLoad + ' onerror="this.style.display=\'none\'" />'
+        + '<img src="' + imgSrc + '" alt="' + d.nome + '" class="dest-card-photo" ' + imgLoad + srcset + ' onerror="this.style.display=\'none\'" />'
         + SVG_PH
         + '</div>'
         + '<div class="dest-card-overlay"></div>'
@@ -632,7 +652,7 @@
           + '<div class="dest-card-city">' + d.nome + '</div>'
           + '<div class="dest-card-info">'
           + '<p class="dest-card-date">' + (d.date || '') + '</p>'
-          + '<p style="font-size:0.5625rem;color:var(--teal);font-weight:700;letter-spacing:0.05em;margin-bottom:0.15rem">✈ volo incluso</p>'
+          + '<p style="font-size:0.5625rem;color:var(--teal);font-weight:700;letter-spacing:0.05em;margin-bottom:0.15rem"><svg class="ic"><use href="assets/icons.svg#plane"></use></svg> volo incluso</p>'
           + '<p class="dest-card-price">'
           + (d.prezzoOriginale ? '<span class="card-lm-prezzo-orig">' + d.prezzoOriginale + '€</span>' : '')
           + d.prezzo + '€'

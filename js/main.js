@@ -193,7 +193,7 @@ if (kitForm) {
         headers: { 'Accept': 'application/json' }
       });
       if (res.ok) {
-        kitForm.innerHTML = '<p style="color:var(--gold);font-weight:700;text-align:center;padding:1.5rem;font-size:1.1rem">🎒 Benvenuto a bordo!<br/><span style="font-size:.9rem;font-weight:400;opacity:.8">Controlla la tua email — ti scriviamo presto.</span></p>';
+        kitForm.innerHTML = '<p style="color:var(--gold);font-weight:700;text-align:center;padding:1.5rem;font-size:1.1rem"><svg class="ic"><use href="assets/icons.svg#backpack"></use></svg> Benvenuto a bordo!<br/><span style="font-size:.9rem;font-weight:400;opacity:.8">Controlla la tua email — ti scriviamo presto.</span></p>';
         // GA4: traccia conversione lead
         if (typeof gtag === 'function') {
           gtag('event', 'generate_lead', { event_category: 'form', event_label: 'kit_sopravvivenza' });
@@ -276,7 +276,7 @@ if (preventivoForm) {
     results.innerHTML = filtered.map(function(d) {
       var tpl = d.tipologia === 'fughe-in-europa' ? 'viaggio-citybreak.html' : d.tipologia === 'last-minute' ? 'viaggio-lastminute.html' : 'viaggio.html';
       var bc  = d.tipologia === 'fughe-in-europa' ? 'badge-capitali' : 'badge-estive';
-      var bt  = d.tipologia === 'mete-estive' ? '🌊 Estate' : d.tipologia === 'fughe-in-europa' ? '✈ Europa' : '⚡ Last Minute';
+      var bt  = d.tipologia === 'mete-estive' ? '<svg class="ic"><use href="assets/icons.svg#wave"></use></svg> Estate' : d.tipologia === 'fughe-in-europa' ? '<svg class="ic"><use href="assets/icons.svg#plane"></use></svg> Europa' : '⚡ Last Minute';
       return '<a href="'+tpl+'?id='+d.id+'" class="search-result" onclick="closeSearch()">'
         + '<div><span class="search-result-name">'+d.nome+'</span> <span class="search-badge '+bc+'">'+bt+'</span>'
         + '<div class="search-result-meta">'+(d.date||'')+' &nbsp;·&nbsp; '+(d.hotel||'')+'</div></div>'

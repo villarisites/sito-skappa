@@ -30,7 +30,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Days+One&family=Inter:wght@400;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link href="https://fonts.googleapis.com/css2?family=Days+One&family=Inter:wght@400;600;700&display=swap" rel="stylesheet"></noscript>
-  <script src="data/destinations.js"></script>
   <style>
     /* Search */
     .search-toggle { background:none;border:none;cursor:pointer;color:var(--navy);padding:.3rem;display:flex;align-items:center;transition:opacity .2s; }
@@ -124,7 +123,7 @@
           <a href="index.html" class="nav-link">Home</a>
           <a href="fughe-in-europa.html" class="nav-link">Fughe in Europa</a>
           <a href="summer-tour.html" class="nav-link">Escape tour</a>
-          <a href="last-minute.html" class="nav-link active" style="color:#ef4444;font-weight:700">⚡ Last minute</a>
+          <a href="last-minute.html" class="nav-link active" style="color:var(--lm-red);font-weight:700">⚡ Last minute</a>
         </div>
         <div class="hidden md:flex items-center gap-3">
           <button id="themeToggle" class="theme-toggle" aria-label="Cambia tema" title="Cambia tema" onclick="toggleTheme()">
@@ -155,7 +154,7 @@
         <a href="index.html" class="text-sm font-semibold" style="color:var(--gold)">Home</a>
         <a href="fughe-in-europa.html" class="text-sm font-semibold" style="color:var(--gold)">Fughe in Europa</a>
         <a href="summer-tour.html" class="text-sm font-semibold" style="color:var(--gold)">Escape tour</a>
-        <a href="last-minute.html" class="text-sm font-semibold" style="color:#ef4444">⚡ Last minute</a>
+        <a href="last-minute.html" class="text-sm font-semibold" style="color:var(--lm-red)">⚡ Last minute</a>
         <a href="#offerte" class="btn-gold mt-2" style="justify-content:center;background:#ef4444;color:#fff">Prenota ora</a>
       </div>
     </div>
@@ -182,7 +181,7 @@
     <div class="hero-overlay" style="background:linear-gradient(to bottom,rgba(0,0,0,.6) 0%,rgba(0,0,0,.1) 40%,rgba(20,3,3,.9) 100%)"></div>
     <div class="hero-content">
       <span class="lm-badge-hero">⚡ OFFERTE IN SCADENZA</span>
-      <h1 style="font-family:'Days One',sans-serif;font-size:clamp(2.25rem,7vw,4rem);font-weight:900;text-transform:uppercase;letter-spacing:.12em;color:#fff;text-shadow:0 0 40px rgba(220,38,38,.5),2px 2px 0 rgba(0,0,0,.6);line-height:1.1;margin-bottom:.75rem">
+      <h1 style="font-family:'Days One',sans-serif;font-size:clamp(2.25rem,7vw,4rem);font-weight:900;text-transform:uppercase;letter-spacing:.12em;color:#fff;text-shadow:2px 2px 0 rgba(0,0,0,.6);line-height:1.1;margin-bottom:.75rem">
         Last Minute
       </h1>
       <p class="hero-subtitle">Prezzi scontati. Posti limitati. Countdown attivo.</p>
@@ -217,7 +216,7 @@
           <p class="text-sm font-semibold mb-1" style="color:rgba(255,255,255,.85)">Nessuna offerta attiva in questo momento</p>
           <p class="text-xs mb-4" style="color:rgba(255,255,255,.45);max-width:22rem;margin:0 auto .75rem">Le offerte last minute arrivano senza preavviso e durano pochissimo. Seguici su Instagram e TikTok per saperlo in tempo reale.</p>
           <div style="display:flex;gap:.75rem;flex-wrap:wrap;justify-content:center">
-            <a href="https://www.instagram.com/skappa__/" target="_blank" rel="noopener noreferrer" class="btn-gold" style="font-size:.75rem;padding:.75rem 1.25rem;background:#ef4444;border-color:#ef4444">Seguici su Instagram</a>
+            <a href="https://www.instagram.com/skappa__/" target="_blank" rel="noopener noreferrer" class="btn-gold" style="font-size:.75rem;padding:.75rem 1.25rem;background:#ef4444;border-color:var(--lm-red)">Seguici su Instagram</a>
             <a href="fughe-in-europa.html" class="btn-gold" style="font-size:.75rem;padding:.75rem 1.25rem">Vedi le Fughe in Europa</a>
           </div>
         </div>
@@ -302,6 +301,7 @@
 
   <script src="js/main.js" defer></script>
   <script src="js/animations.js" defer></script>
+  <script src="data/destinations.js"></script>
   <script>
     // ---- Search ----
     (function () {
@@ -324,7 +324,7 @@
         results.innerHTML = filtered.map(function(d){
           var tpl = d.tipologia==='fughe-in-europa' ? 'viaggio-citybreak.html' : d.tipologia==='last-minute' ? 'viaggio-lastminute.html' : 'viaggio.html';
           var bc = d.tipologia==='mete-estive' ? 'badge-estive' : d.tipologia==='last-minute' ? 'badge-estive' : 'badge-capitali';
-          var bt = d.tipologia==='mete-estive' ? '🌊 Estate' : d.tipologia==='fughe-in-europa' ? '✈ Europa' : '⚡ Last Minute';
+          var bt = d.tipologia==='mete-estive' ? '<svg class="ic"><use href="assets/icons.svg#wave"></use></svg> Estate' : d.tipologia==='fughe-in-europa' ? '<svg class="ic"><use href="assets/icons.svg#plane"></use></svg> Europa' : '⚡ Last Minute';
           return '<a href="'+tpl+'?id='+d.id+'" class="search-result" onclick="closeSearch()">'
             +'<div><span class="search-result-name">'+d.nome+'</span> <span class="search-badge '+bc+'">'+bt+'</span>'
             +'<div class="search-result-meta">'+(d.date||'')+' &nbsp;·&nbsp; '+(d.hotel||'')+'</div></div>'
@@ -390,16 +390,19 @@
       grid.innerHTML = dests.map(function(d, i){
         var sconto = d.prezzoOriginale ? Math.round((1 - d.prezzo / d.prezzoOriginale) * 100) : null;
         var cdId = 'lmcd_' + i;
+        var is = d.imgCard||d.imgHero||'';
+        var ss = is.indexOf('card.webp')>=0 ? is.replace('card.webp','card-sm.webp') : '';
+        var sr = ss ? ' srcset="'+ss+' 320w, '+is+' 840w" sizes="(max-width:640px) 90vw, 320px"' : '';
         return '<a href="viaggio-lastminute.html?id='+d.id+'" class="dest-card dest-card-lm">'
           +'<div class="dest-card-img-placeholder">'
-          +'<img src="'+(d.imgCard||d.imgHero||'')+'" alt="'+d.nome+'" class="dest-card-photo" loading="lazy" decoding="async" onerror="this.style.display=\'none\'" />'
+          +'<img src="'+is+'" alt="'+d.nome+'" class="dest-card-photo" loading="lazy" decoding="async"'+sr+' onerror="this.style.display=\'none\'" />'
           +ph+'</div>'
           +'<div class="dest-card-overlay"></div>'
           +'<span class="card-lm-badge">⚡ Last Minute</span>'
           +'<div class="dest-card-city">'+d.nome+'</div>'
           +'<div class="dest-card-info">'
           +'<p class="dest-card-date">'+(d.date||'')+'</p>'
-          +'<p style="font-size:.5625rem;color:var(--teal);font-weight:700;letter-spacing:.05em;margin-bottom:.15rem">✈ volo incluso</p>'
+          +'<p style="font-size:.5625rem;color:var(--teal);font-weight:700;letter-spacing:.05em;margin-bottom:.15rem"><svg class="ic"><use href="assets/icons.svg#plane"></use></svg> volo incluso</p>'
           +'<p class="dest-card-price">'
           +(d.prezzoOriginale ? '<span class="card-lm-prezzo-orig">'+d.prezzoOriginale+'€</span>' : '')
           +d.prezzo+'€'

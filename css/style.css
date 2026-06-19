@@ -8,6 +8,7 @@
   --gold:  #febd41;
   --teal:  #288699;
   --navy2: #020c24;
+  --lm-red: #991b1b; /* rosso scuro: 5.1:1 su gold, 8.4:1 su bianco (WCAG AA) */
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -1107,9 +1108,17 @@ html[data-theme="light"] #preventivoForm textarea.kit-input { background: rgba(2
   80%, 100% { left: 160%; }
 }
 
-/* ---- Section title: gold text-shadow glow ---- */
-.section-title {
-  text-shadow: 0 0 40px rgba(254,189,65,0.18);
+/* ---- Icone SVG inline (sostituiscono le emoji-come-icona) ---- */
+.ic {
+  display: inline-block;
+  width: 1em; height: 1em;
+  vertical-align: -0.14em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
 }
 
 /* ---- Prefers-reduced-motion: disabilita tutto ---- */
@@ -1386,4 +1395,51 @@ html[data-theme="light"] .dest-card-container {
 html[data-theme="light"] .review-card {
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
+}
+
+/* ============================================
+   CHECKOUT ACCONTO / SALDO
+   Toggle tabs nel pacchetto card
+   ============================================ */
+
+.pay-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: 1px solid rgba(254,189,65,0.22);
+  border-radius: 0.625rem;
+  overflow: hidden;
+  margin-bottom: 0.75rem;
+}
+.pay-tab {
+  padding: 0.625rem 0.5rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.45);
+  transition: background 0.18s, color 0.18s;
+  text-align: center;
+  line-height: 1.4;
+  letter-spacing: 0.03em;
+}
+.pay-tab:first-child { border-right: 1px solid rgba(254,189,65,0.22); }
+.pay-tab--active {
+  background: rgba(254,189,65,0.12);
+  color: var(--gold);
+}
+.pay-tab:hover:not(.pay-tab--active) {
+  background: rgba(255,255,255,0.04);
+  color: rgba(255,255,255,0.72);
+}
+.pay-saldo-info {
+  background: rgba(254,189,65,0.06);
+  border: 1px solid rgba(254,189,65,0.14);
+  border-radius: 0.5rem;
+  padding: 0.625rem 0.875rem;
+  font-size: 0.8125rem;
+  color: rgba(255,255,255,0.58);
+  line-height: 1.65;
+  margin-top: 0.625rem;
 }

@@ -78,7 +78,7 @@
       text-transform: uppercase;
       letter-spacing: 0.12em;
       color: #fff;
-      text-shadow: 0 0 40px rgba(254,189,65,0.3), 2px 2px 0 rgba(0,0,0,0.5);
+      text-shadow: 2px 2px 0 rgba(0,0,0,0.5);
       line-height: 1.05;
       margin-bottom: 1.5rem;
     }
@@ -185,7 +185,7 @@
           <a href="index.html" class="nav-link">Home</a>
           <a href="fughe-in-europa.html" class="nav-link">Fughe in Europa</a>
           <a href="summer-tour.html" class="nav-link">Escape tour</a>
-          <a href="last-minute.html" class="nav-link" style="color:#ef4444;font-weight:700">⚡ Last minute</a>
+          <a href="last-minute.html" class="nav-link" style="color:var(--lm-red);font-weight:700">⚡ Last minute</a>
         </div>
         <div class="hidden md:flex items-center gap-3">
           <button id="themeToggle" class="theme-toggle" aria-label="Cambia tema" title="Cambia tema" onclick="toggleTheme()">
@@ -215,7 +215,7 @@
         <a href="index.html" class="text-sm font-semibold" style="color:var(--gold)">Home</a>
         <a href="fughe-in-europa.html" class="text-sm font-semibold" style="color:var(--gold)">Fughe in Europa</a>
         <a href="summer-tour.html" class="text-sm font-semibold" style="color:var(--gold)">Escape tour</a>
-        <a href="last-minute.html" class="text-sm font-semibold" style="color:#ef4444">⚡ Last minute</a>
+        <a href="last-minute.html" class="text-sm font-semibold" style="color:var(--lm-red)">⚡ Last minute</a>
         <a href="index.html#offerte" class="btn-gold mt-2" style="justify-content:center">Scopri i viaggi</a>
       </div>
     </div>
@@ -271,7 +271,7 @@
         </div>
         <div class="fade-in">
           <div class="chi-box-wrap" style="background:rgba(254,189,65,0.06);border:1px solid rgba(254,189,65,0.15);border-radius:1.5rem;padding:2.5rem;text-align:center">
-            <div style="font-size:4rem;margin-bottom:1rem">✈</div>
+            <div style="font-size:4rem;margin-bottom:1rem"><svg class="ic"><use href="assets/icons.svg#plane"></use></svg></div>
             <p style="font-family:'Days One',sans-serif;font-size:1.125rem;color:var(--gold);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.75rem">La promessa SKAPPA</p>
             <p class="chi-box-text" style="font-size:0.875rem;color:rgba(255,255,255,0.62);line-height:1.8">
               Prezzo fisso tutto incluso.<br>
@@ -323,42 +323,42 @@
       </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
         <div class="valore-card fade-in">
-          <div class="valore-icon">🎯</div>
+          <div class="valore-icon"><svg class="ic"><use href="assets/icons.svg#target"></use></svg></div>
           <div>
             <div class="valore-titolo">Trasparenza</div>
             <p class="valore-testo" style="margin-top:0.5rem">Il prezzo che vedi è il prezzo che paghi. Nessun supplemento, nessuna sorpresa. Ogni voce del pacchetto è descritta chiaramente.</p>
           </div>
         </div>
         <div class="valore-card fade-in">
-          <div class="valore-icon">🤝</div>
+          <div class="valore-icon"><svg class="ic"><use href="assets/icons.svg#handshake"></use></svg></div>
           <div>
             <div class="valore-titolo">Fiducia</div>
             <p class="valore-testo" style="margin-top:0.5rem">Selezioniamo solo partner certificati. Ogni hotel, ogni volo, ogni servizio incluso è stato scelto con cura per garantire la qualità promessa.</p>
           </div>
         </div>
         <div class="valore-card fade-in">
-          <div class="valore-icon">⚡</div>
+          <div class="valore-icon"><svg class="ic"><use href="assets/icons.svg#zap"></use></svg></div>
           <div>
             <div class="valore-titolo">Semplicità</div>
             <p class="valore-testo" style="margin-top:0.5rem">Prenotare con SKAPPA richiede pochi minuti. Scegli la meta, blocca il posto, pensa solo a fare i bagagli.</p>
           </div>
         </div>
         <div class="valore-card fade-in">
-          <div class="valore-icon">🌍</div>
+          <div class="valore-icon"><svg class="ic"><use href="assets/icons.svg#globe"></use></svg></div>
           <div>
             <div class="valore-titolo">Esperienze reali</div>
             <p class="valore-testo" style="margin-top:0.5rem">Non vendiamo solo biglietti. Ogni viaggio è pensato per creare ricordi autentici: attività, luoghi, atmosfere che rimangono.</p>
           </div>
         </div>
         <div class="valore-card fade-in">
-          <div class="valore-icon">💬</div>
+          <div class="valore-icon"><svg class="ic"><use href="assets/icons.svg#message"></use></svg></div>
           <div>
             <div class="valore-titolo">Supporto sempre</div>
             <p class="valore-testo" style="margin-top:0.5rem">Prima, durante e dopo il viaggio siamo raggiungibili. Un problema? Ti rispondiamo. Una domanda? Ti aiutiamo subito.</p>
           </div>
         </div>
         <div class="valore-card fade-in">
-          <div class="valore-icon">🎒</div>
+          <div class="valore-icon"><svg class="ic"><use href="assets/icons.svg#backpack"></use></svg></div>
           <div>
             <div class="valore-titolo">Per i giovani</div>
             <p class="valore-testo" style="margin-top:0.5rem">Ogni dettaglio di SKAPPA è pensato per chi ha voglia di partire ma poco tempo per organizzare. Prezzi accessibili, mete fresche, gruppo di pari.</p>
