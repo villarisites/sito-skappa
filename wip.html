@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SKAPPA – Stiamo arrivando</title>
+  <meta name="description" content="SKAPPA sta per partire. Stiamo preparando i prossimi viaggi: torna presto." />
+  <!-- Pagina di manutenzione: non indicizzare -->
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" href="assets/foto/utility/icona sito.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Days+One&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    /* ===== Brand SKAPPA ===== */
+    :root{
+      --navy:#031030;
+      --gold:#febd41;
+      --teal:#288699;
+    }
+    *{margin:0;padding:0;box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      font-family:'Inter',system-ui,sans-serif;
+      color:#fff;
+      background:var(--navy);
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      overflow:hidden;
+      position:relative;
+      padding:2rem 1.25rem;
+    }
+    /* Sfondo hero con overlay scuro per leggibilità */
+    body::before{
+      content:"";
+      position:absolute;inset:0;
+      background:url('assets/foto/utility/sfondo hero.webp') center/cover no-repeat;
+      opacity:.28;
+      z-index:0;
+    }
+    /* Bagliori brand */
+    body::after{
+      content:"";
+      position:absolute;inset:0;z-index:0;
+      background:
+        radial-gradient(60% 50% at 20% 15%, rgba(40,134,153,.30), transparent 70%),
+        radial-gradient(55% 45% at 85% 85%, rgba(254,189,65,.18), transparent 70%);
+      pointer-events:none;
+    }
+    .card{position:relative;z-index:1;max-width:640px;width:100%}
+    .logo{width:clamp(150px,40vw,230px);height:auto;margin:0 auto 2.25rem;display:block;filter:drop-shadow(0 4px 24px rgba(0,0,0,.4))}
+    .badge{
+      display:inline-block;
+      font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;
+      color:var(--navy);background:var(--gold);
+      font-weight:600;
+      padding:.4rem 1rem;border-radius:999px;
+      margin-bottom:1.5rem;
+    }
+    h1{
+      font-family:'Days One',sans-serif;
+      font-weight:400;
+      line-height:1.1;
+      font-size:clamp(2rem,7vw,3.4rem);
+      margin-bottom:1.1rem;
+    }
+    h1 .accent{color:var(--gold)}
+    p.lead{
+      font-size:clamp(1rem,2.6vw,1.2rem);
+      color:rgba(255,255,255,.82);
+      line-height:1.6;
+      max-width:32ch;
+      margin:0 auto 2.25rem;
+    }
+    /* Barra di avanzamento animata */
+    .progress{
+      width:min(320px,80%);
+      height:6px;border-radius:999px;
+      background:rgba(255,255,255,.12);
+      margin:0 auto 2.25rem;
+      overflow:hidden;
+    }
+    .progress span{
+      display:block;height:100%;width:40%;border-radius:999px;
+      background:linear-gradient(90deg,var(--teal),var(--gold));
+      animation:slide 1.8s ease-in-out infinite;
+    }
+    @keyframes slide{
+      0%{transform:translateX(-100%)}
+      100%{transform:translateX(320%)}
+    }
+    .contact{font-size:.95rem;color:rgba(255,255,255,.7)}
+    .contact a{
+      color:var(--gold);text-decoration:none;font-weight:600;
+      border-bottom:1px solid transparent;transition:border-color .2s;
+    }
+    .contact a:hover{border-color:var(--gold)}
+    @media (prefers-reduced-motion:reduce){
+      .progress span{animation:none;width:100%}
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <img class="logo" src="assets/foto/utility/logo skappa.svg" alt="SKAPPA" />
+    <span class="badge">Sito in costruzione</span>
+    <h1>Stiamo preparando<br>la tua <span class="accent">prossima fuga</span></h1>
+    <p class="lead">Pochi viaggi. Curati. Da 99€. Stiamo mettendo a punto gli ultimi dettagli — torna presto.</p>
+    <div class="progress" aria-hidden="true"><span></span></div>
+    <p class="contact">Per informazioni scrivici a <a href="mailto:info@skappa.it">info@skappa.it</a></p>
+  </main>
+</body>
+</html>
