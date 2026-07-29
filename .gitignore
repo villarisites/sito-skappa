@@ -27,3 +27,9 @@ Thumbs.db
 
 # Node (se usato in futuro)
 node_modules/
+
+# Local Netlify folder
+.netlify
+
+# Report di audit sicurezza (non pubblicare in un repo pubblico)
+docs/security/
