@@ -18,6 +18,9 @@ test_tee.html
 assets/preventivi/
 assets/preventivi_backup*.json
 
+# Credenziali Basic Auth (mai nel repo)
+.htpasswd*
+
 # OS
 .DS_Store
 Thumbs.db

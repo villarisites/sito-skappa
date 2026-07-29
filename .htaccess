@@ -11,6 +11,26 @@
 </IfModule>
 # ===== WIP / MANUTENZIONE — FINE =====
 
+# ===== Protezione pannelli amministrativi (Basic Auth) =====
+# 1. Genera il file .htpasswd FUORI dalla webroot pubblica (o comunque non raggiungibile via URL), es.:
+#      htpasswd -c -B /percorso/assoluto/fuori/dalla/webroot/.htpasswd_skappa nome_utente
+#    (-B usa bcrypt; se il tuo host non lo supporta, ometti -B per usare MD5-crypt di Apache)
+# 2. Sostituisci AuthUserFile qui sotto con il percorso assoluto reale sul server
+#    (su hosting condiviso è tipicamente qualcosa come /home/<utente_cpanel>/.htpasswd_skappa).
+# 3. NON committare mai il file .htpasswd nel repository Git.
+<Files "admin.html">
+  AuthType Basic
+  AuthName "Area riservata SKAPPA"
+  AuthUserFile /percorso/assoluto/fuori/dalla/webroot/.htpasswd_skappa
+  Require valid-user
+</Files>
+<Files "preventivi-manager.html">
+  AuthType Basic
+  AuthName "Area riservata SKAPPA"
+  AuthUserFile /percorso/assoluto/fuori/dalla/webroot/.htpasswd_skappa
+  Require valid-user
+</Files>
+
 # ===== Compressione GZIP =====
 <IfModule mod_deflate.c>
   AddOutputFilterByType DEFLATE text/html text/css text/javascript

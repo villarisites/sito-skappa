@@ -8,7 +8,8 @@
   // Rispetta prefers-reduced-motion
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  setTimeout(function () {
+  // Usa requestIdleCallback per non bloccare il thread principale al load
+  var initFn = function () {
     var canvas = document.getElementById('heroShader');
     if (!canvas) return;
 
@@ -49,24 +50,20 @@
       '    f.y);',
       '}',
 
-      // FBM – 5 ottave
+      // FBM – 3 ottave (ridotto da 5 per velocizzare compile + GPU)
       'float fbm(vec2 p) {',
       '  float v = 0.0, a = 0.5;',
-      '  for (int i = 0; i < 5; i++) { v += a * sn(p); p *= 2.1; a *= 0.5; }',
+      '  for (int i = 0; i < 3; i++) { v += a * sn(p); p *= 2.1; a *= 0.5; }',
       '  return v;',
       '}',
 
       'void main() {',
       '  vec2 uv = gl_FragCoord.xy / uRes;',
-      '  float t = uTime * 0.065;',
+      '  float t = uTime * 0.055;',
 
-      // Due livelli di warp per effetto fluido organico
-      '  vec2 q = vec2(fbm(uv * 2.2 + t), fbm(uv * 2.2 + vec2(1.7, 9.2) + t * 0.75));',
-      '  vec2 r = vec2(',
-      '    fbm(uv * 2.0 + 2.2 * q + vec2(1.7, 9.2) + 0.13 * t),',
-      '    fbm(uv * 2.0 + 2.2 * q + vec2(8.3, 2.8) + 0.11 * t)',
-      '  );',
-      '  float f = fbm(uv + 3.2 * r);',
+      // Singolo livello di warp (ridotto da doppio per TBT)
+      '  vec2 q = vec2(fbm(uv * 2.0 + t), fbm(uv * 2.0 + vec2(1.7, 9.2) + t * 0.7));',
+      '  float f = fbm(uv * 1.8 + 2.0 * q + 0.1 * t);',
 
       // Banda aurora: concentrata nella parte medio-alta
       '  float band = smoothstep(0.0, 0.65, uv.y) * smoothstep(1.0, 0.32, uv.y);',
@@ -160,5 +157,15 @@
     window.addEventListener('resize', resize, { passive: true });
     resize();
     render();
-  }, 2000);
+  };
+
+  // Avvia dopo 2.5s via requestIdleCallback (fallback setTimeout)
+  var delay = 2500;
+  if (window.requestIdleCallback) {
+    setTimeout(function () {
+      requestIdleCallback(initFn, { timeout: 1000 });
+    }, delay);
+  } else {
+    setTimeout(initFn, delay);
+  }
 })();

@@ -28,6 +28,17 @@
   force = true
 # ===== WIP / MANUTENZIONE — FINE =====
 
+# ===== Protezione pannelli amministrativi (Edge Function) =====
+# Credenziali (ADMIN_USER / ADMIN_PASS) da impostare in Netlify:
+# Site settings > Environment variables — MAI nel repository.
+[[edge_functions]]
+  path = "/admin.html"
+  function = "protect-admin"
+
+[[edge_functions]]
+  path = "/preventivi-manager.html"
+  function = "protect-admin"
+
 [[headers]]
   for = "/*"
   [headers.values]
