@@ -34,23 +34,6 @@
     ::-webkit-scrollbar-track { background: var(--navy2); }
     ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
 
-    /* ---- Password Gate ---- */
-    #passwordGate {
-      position: fixed; inset: 0;
-      background: var(--navy2);
-      z-index: 9999;
-      display: flex; align-items: center; justify-content: center;
-      flex-direction: column; gap: 1.5rem;
-    }
-    #passwordGate.hidden { display: none; }
-    .gate-brand { font-family:'Days One',sans-serif; font-size:2rem; font-weight:900; letter-spacing:0.18em; color:var(--gold); }
-    .gate-subtitle { font-size:0.75rem; color:rgba(255,255,255,0.35); letter-spacing:0.1em; text-transform:uppercase; margin-top:-1rem; }
-    .gate-box { background:var(--navy); border:1px solid var(--border); border-radius:1rem; padding:2rem 2.5rem; display:flex; flex-direction:column; gap:1rem; min-width:320px; text-align:center; }
-    .gate-title { font-size:0.875rem; color:rgba(255,255,255,0.5); letter-spacing:0.05em; }
-    .gate-input { padding:0.75rem 1rem; background:rgba(255,255,255,0.05); border:1.5px solid rgba(254,189,65,0.2); border-radius:0.375rem; color:#fff; font-size:1rem; font-family:inherit; text-align:center; letter-spacing:0.15em; outline:none; transition:border-color 0.2s; }
-    .gate-input:focus { border-color:var(--gold); }
-    .gate-error { font-size:0.75rem; color:#f87171; min-height:1rem; }
-
     /* ---- Header ---- */
     .pm-header { position:sticky; top:0; z-index:50; background:var(--navy); border-bottom:1px solid var(--border); padding:0 1.5rem; height:3.25rem; display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; }
     .header-brand { font-family:'Days One',sans-serif; font-size:1rem; font-weight:900; letter-spacing:0.12em; color:var(--gold); }
@@ -235,19 +218,6 @@
   </style>
 </head>
 <body>
-
-<!-- ========== PASSWORD GATE ========== -->
-<div id="passwordGate">
-  <div class="gate-brand">SKAPPA</div>
-  <div class="gate-subtitle">Area Riservata</div>
-  <div class="gate-box">
-    <div class="gate-title">Inserisci la password per accedere</div>
-    <input type="password" id="gateInput" class="gate-input" placeholder="••••••••"
-           onkeydown="if(event.key==='Enter') checkPassword()" autocomplete="current-password" />
-    <div class="gate-error" id="gateError"></div>
-    <button class="btn btn-gold" onclick="checkPassword()" style="width:100%;justify-content:center;padding:0.75rem">Entra</button>
-  </div>
-</div>
 
 <!-- ========== HEADER ========== -->
 <header class="pm-header">
@@ -631,7 +601,6 @@
 //  SKAPPA Preventivi Manager
 // =============================================
 
-var ADMIN_PASSWORD = 'skappa2024';
 var LS_KEY = 'skappa_preventivi';
 var preventivi  = [];
 var editingId   = null;
@@ -770,27 +739,6 @@ function uuid() {
   });
 }
 function newGid() { return 'g' + (++_gidCounter) + '_' + Math.random().toString(36).substr(2,5); }
-
-// =============================================
-//  Password Gate
-// =============================================
-function checkPassword() {
-  var val = document.getElementById('gateInput').value;
-  if (val === ADMIN_PASSWORD) {
-    sessionStorage.setItem('pm_auth', '1');
-    document.getElementById('passwordGate').classList.add('hidden');
-    renderTable(); // ri-renderizza dopo login per evitare filtri stantii
-  } else {
-    document.getElementById('gateError').textContent = 'Password errata. Riprova.';
-    document.getElementById('gateInput').focus();
-  }
-}
-function checkAuth() {
-  if (sessionStorage.getItem('pm_auth') !== '1')
-    document.getElementById('passwordGate').classList.remove('hidden');
-  else
-    document.getElementById('passwordGate').classList.add('hidden');
-}
 
 // =============================================
 //  Storage
@@ -1553,7 +1501,6 @@ function showToast(msg, isError) {
 //  Init
 // =============================================
 function init() {
-  checkAuth();
   loadData();
   // Reset filtri: i browser riportano i valori precedenti dei <select> al ricaricamento,
   // causando una lista vuota se era attivo "Solo Comitivi" o un altro filtro.
