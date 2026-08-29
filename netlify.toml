@@ -27,6 +27,24 @@
   status = 302
   force = true
 # ===== WIP / MANUTENZIONE — FINE =====
+# NOTA: "elimina tutti i blocchi [[redirects]]" vale SOLO per quelli qui sopra.
+# I due blocchi subito sotto NON vanno toccati: servono proprio dopo la fine del WIP.
+
+# ===== File interni: mai scaricabili =====
+# Oggi il redirect WIP li copre di rimbalzo (arriva prima nell'ordine), ma quando i blocchi
+# qui sopra spariranno resterebbero serviti in chiaro. Sul sito di Francesco TASKS.md e'
+# rimasto scaricabile per settimane esattamente cosi'.
+[[redirects]]
+  from = "/TASKS.md"
+  to = "/index.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/docs/*"
+  to = "/index.html"
+  status = 404
+  force = true
 
 # ===== Protezione pannelli amministrativi (Edge Function) =====
 # Credenziali (ADMIN_USER / ADMIN_PASS) da impostare in Netlify:
