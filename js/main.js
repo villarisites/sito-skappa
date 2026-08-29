@@ -54,8 +54,10 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 // ---- Configurazione WhatsApp ----
-// Cambia questo numero con quello di SKAPPA (formato internazionale, senza +)
-var SKAPPA_WA_NUMBER = '3930306294';
+// Numero SKAPPA: 393 030 6294. Formato internazionale senza "+", cioe' 39 (Italia)
+// + il numero => 393930306294. Il doppio "39" iniziale e' corretto, non un refuso.
+// Lo stesso valore e' ripetuto in wip.html e nelle 3 pagine viaggio*.html.
+var SKAPPA_WA_NUMBER = '393930306294';
 var SKAPPA_WA_MESSAGE = 'Salve, potrei avere più informazioni?';
 
 // ---- Navbar scroll shadow ----
