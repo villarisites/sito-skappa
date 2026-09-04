@@ -22,7 +22,7 @@ Sostituire il catalogo concluso con 27 mete in 6 categorie, mantenendo i contenu
   serializzate in modo non ambiguo.
 - [x] AC2 — `npm run build:catalog` valida ID, categorie e prezzo numerico; con prezzi mancanti
   fallisce senza modificare `data/destinations.js` e indica tutte le righe da completare.
-- [ ] AC3 — Con un CSV valido, il build produce 27 destinazioni e preserva integralmente attività,
+- [x] AC3 — Con un CSV valido, il build produce 27 destinazioni e preserva integralmente attività,
   FAQ, recensioni, Stripe e altri contenuti ricchi di Budapest, Parigi, Bucarest, Barcellona,
   Sofia e Londra.
 - [ ] AC4 — Le altre 8 mete attuali sono rimosse dal catalogo attivo e conservate in

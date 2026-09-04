@@ -1,9 +1,11 @@
 import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import vm from "node:vm";
 
 import {
   catalogRowsToScript,
+  mergeCatalogRows,
   parseCatalogCsv,
   validateCatalogColumns,
   validateCatalogRows
@@ -23,12 +25,13 @@ const EXPECTED_IDS = new Set([
 function readArguments(argv) {
   const options = {
     input: path.join(ROOT, "data", "catalogo.csv"),
-    output: path.join(ROOT, "data", "destinations.js")
+    output: path.join(ROOT, "data", "destinations.js"),
+    legacy: null
   };
 
   for (let index = 0; index < argv.length; index += 1) {
     const flag = argv[index];
-    if (flag !== "--input" && flag !== "--output") {
+    if (flag !== "--input" && flag !== "--output" && flag !== "--legacy") {
       throw new Error(`argomento sconosciuto: ${flag}`);
     }
     const value = argv[index + 1];
@@ -37,11 +40,29 @@ function readArguments(argv) {
     index += 1;
   }
 
+  options.legacy ??= options.output;
   return options;
 }
 
+async function loadLegacyDestinations(legacyPath) {
+  let source;
+  try {
+    source = await readFile(legacyPath, "utf8");
+  } catch (error) {
+    if (error.code === "ENOENT") return [];
+    throw error;
+  }
+
+  const context = { window: {} };
+  vm.runInNewContext(source, context, { filename: legacyPath });
+  if (!Array.isArray(context.window.DESTINATIONS)) {
+    throw new Error(`catalogo legacy non valido: ${legacyPath}`);
+  }
+  return context.window.DESTINATIONS;
+}
+
 async function main() {
-  const { input, output } = readArguments(process.argv.slice(2));
+  const { input, output, legacy } = readArguments(process.argv.slice(2));
   const parsed = parseCatalogCsv(await readFile(input, "utf8"));
   const errors = [
     ...validateCatalogColumns(parsed.columns),
@@ -58,9 +79,10 @@ async function main() {
     return;
   }
 
+  const destinations = mergeCatalogRows(parsed.rows, await loadLegacyDestinations(legacy));
   await mkdir(path.dirname(output), { recursive: true });
   const temporaryOutput = `${output}.${process.pid}.tmp`;
-  await writeFile(temporaryOutput, catalogRowsToScript(parsed.rows), "utf8");
+  await writeFile(temporaryOutput, catalogRowsToScript(destinations), "utf8");
   await rename(temporaryOutput, output);
   console.log(`Catalogo generato: ${parsed.rows.length} mete`);
 }

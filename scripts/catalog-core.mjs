@@ -121,22 +121,34 @@ export function validateCatalogColumns(columns) {
   return errors;
 }
 
-export function catalogRowsToScript(rows) {
-  const destinations = rows.map((row) => ({
-    id: row.id.trim(),
-    nome: row.nome.trim(),
-    categorie: row.categorie.split("|").map((value) => value.trim()).filter(Boolean),
-    prezzo: Number(row.prezzo.replace(",", ".")),
-    durata: row.durata.trim(),
-    partenzaDa: row.partenzaDa.trim(),
-    date: row.date.trim(),
-    hotel: row.hotel.trim(),
-    tagline: row.tagline.trim()
-  }));
-
+export function catalogRowsToScript(destinations) {
   return `window.DESTINATIONS = ${JSON.stringify(destinations, null, 2)};\n`;
 }
 
-export function mergeCatalogRows() {
-  throw new Error("not implemented");
+export function mergeCatalogRows(rows, legacyDestinations = []) {
+  const legacyById = new Map(legacyDestinations.map((destination) => [destination.id, destination]));
+
+  return rows.map((row) => {
+    const id = row.id.trim();
+    const legacy = legacyById.get(id);
+    const destination = legacy ? structuredClone(legacy) : {
+      imgHero: `assets/foto/${id}/hero.webp`,
+      imgCard: `assets/foto/${id}/card.webp`
+    };
+
+    delete destination.tipologia;
+    Object.assign(destination, {
+      id,
+      nome: row.nome.trim(),
+      categorie: row.categorie.split("|").map((value) => value.trim()).filter(Boolean),
+      prezzo: Number(row.prezzo.replace(",", ".")),
+      durata: row.durata.trim(),
+      partenzaDa: row.partenzaDa.trim(),
+      date: row.date.trim(),
+      hotel: row.hotel.trim(),
+      tagline: row.tagline.trim()
+    });
+
+    return destination;
+  });
 }
