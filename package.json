@@ -11,9 +11,12 @@
     "build:sitemap": "node scripts/build-sitemap.mjs",
     "build:css": "tailwindcss -i css/tailwind-input.css -o css/tailwind.min.css --minify",
     "convert:webp": "node scripts/convert-to-webp.mjs",
-    "test": "node --test test/*.test.mjs"
+    "test": "node --test test/*.test.mjs",
+    "test:browser": "node tools/browser-smoke.mjs",
+    "preview": "node tools/static-server.mjs"
   },
   "devDependencies": {
-    "sharp": "^0.34.5"
+    "sharp": "^0.34.5",
+    "tailwindcss": "3.4.19"
   }
 }
