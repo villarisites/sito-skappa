@@ -35,7 +35,7 @@ Sostituire il catalogo concluso con 27 mete in 6 categorie, mantenendo i contenu
 - [x] AC7 — Esistono le pagine `mercatini-natale.html`, `europa.html`, `mare-sole.html` e
   `intercontinentali.html`; ciascuna mostra esattamente le mete della categoria tramite
   `SkappaCatalog`, inclusi i casi di appartenenza multipla.
-- [ ] AC8 — `viaggi-di-nozze.html` non mostra prezzi e offre una CTA "Prenota una consulenza";
+- [x] AC8 — `viaggi-di-nozze.html` non mostra prezzi e offre una CTA "Prenota una consulenza";
   `crociere.html` mostra lo stato "in arrivo" e invia il form Formspree con `tipo=crociere`.
 - [ ] AC9 — `offerte.html` mostra solo mete con offerta attiva e scadenza futura; sostituisce
   funzionalmente `last-minute.html`.
