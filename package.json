@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "build:catalog": "node scripts/build-catalog.mjs",
+    "build:catalog:preview": "node scripts/build-catalog.mjs --allow-incomplete",
     "build:pages": "node scripts/build-pages.mjs",
     "build:css": "tailwindcss -i css/tailwind-input.css -o css/tailwind.min.css --minify",
     "convert:webp": "node scripts/convert-to-webp.mjs",

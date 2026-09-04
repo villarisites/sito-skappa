@@ -141,7 +141,7 @@ export function mergeCatalogRows(rows, legacyDestinations = []) {
       id,
       nome: row.nome.trim(),
       categorie: row.categorie.split("|").map((value) => value.trim()).filter(Boolean),
-      prezzo: Number(row.prezzo.replace(",", ".")),
+      prezzo: row.prezzo.trim() ? Number(row.prezzo.replace(",", ".")) : null,
       durata: row.durata.trim(),
       partenzaDa: row.partenzaDa.trim(),
       date: row.date.trim(),

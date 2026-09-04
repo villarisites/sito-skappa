@@ -26,11 +26,16 @@ function readArguments(argv) {
   const options = {
     input: path.join(ROOT, "data", "catalogo.csv"),
     output: path.join(ROOT, "data", "destinations.js"),
-    legacy: null
+    legacy: null,
+    allowIncomplete: false
   };
 
   for (let index = 0; index < argv.length; index += 1) {
     const flag = argv[index];
+    if (flag === "--allow-incomplete") {
+      options.allowIncomplete = true;
+      continue;
+    }
     if (flag !== "--input" && flag !== "--output" && flag !== "--legacy") {
       throw new Error(`argomento sconosciuto: ${flag}`);
     }
@@ -62,15 +67,18 @@ async function loadLegacyDestinations(legacyPath) {
 }
 
 async function main() {
-  const { input, output, legacy } = readArguments(process.argv.slice(2));
+  const { input, output, legacy, allowIncomplete } = readArguments(process.argv.slice(2));
   const parsed = parseCatalogCsv(await readFile(input, "utf8"));
-  const errors = [
+  let errors = [
     ...validateCatalogColumns(parsed.columns),
     ...validateCatalogRows(parsed.rows, {
       allowedCategories: ALLOWED_CATEGORIES,
       expectedIds: EXPECTED_IDS
     })
   ];
+  if (allowIncomplete) {
+    errors = errors.filter((error) => !/^riga \d+: prezzo mancante$/.test(error));
+  }
 
   if (errors.length > 0) {
     console.error(`Catalogo non generato (${errors.length} errori):`);
@@ -84,7 +92,7 @@ async function main() {
   const temporaryOutput = `${output}.${process.pid}.tmp`;
   await writeFile(temporaryOutput, catalogRowsToScript(destinations), "utf8");
   await rename(temporaryOutput, output);
-  console.log(`Catalogo generato: ${parsed.rows.length} mete`);
+  console.log(`Catalogo${allowIncomplete ? " preview" : ""} generato: ${parsed.rows.length} mete`);
 }
 
 main().catch((error) => {

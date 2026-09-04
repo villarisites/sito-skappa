@@ -25,7 +25,7 @@ Sostituire il catalogo concluso con 27 mete in 6 categorie, mantenendo i contenu
 - [x] AC3 — Con un CSV valido, il build produce 27 destinazioni e preserva integralmente attività,
   FAQ, recensioni, Stripe e altri contenuti ricchi di Budapest, Parigi, Bucarest, Barcellona,
   Sofia e Londra.
-- [ ] AC4 — Le altre 8 mete attuali sono rimosse dal catalogo attivo e conservate in
+- [x] AC4 — Le altre 8 mete attuali sono rimosse dal catalogo attivo e conservate in
   `data/archivio.js`, che nessuna pagina pubblica carica.
 - [ ] AC5 — Ogni meta nuova ha `hero.webp` (1920px, q82), `card.webp` (840px, q82) e
   `card-sm.webp` (320px, q72) in `assets/foto/<slug>/`; le 6 mete riusate mantengono gli asset
