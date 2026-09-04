@@ -46,7 +46,7 @@ Sostituire il catalogo concluso con 27 mete in 6 categorie, mantenendo i contenu
   `soloConsulenza`, e continua a esportare un `destinations.js` valido per lo schema nuovo.
 - [x] AC12 — I redirect permanenti coprono le tre vecchie pagine categoria e gli 8 ID archiviati;
   le regole WIP restano prime e attive fino alla Fase 4.
-- [ ] AC13 — `sitemap.xml` non contiene mete archiviate o `praga-lastminute`; contiene le nuove
+- [x] AC13 — `sitemap.xml` non contiene mete archiviate o `praga-lastminute`; contiene le nuove
   pagine indicizzabili e i 27 URL canonici `viaggio.html?id=<slug>`.
 - [ ] AC14 — Build e regressioni: `build:catalog`, `build:pages` e `build:css` passano; le 6 mete
   riusate conservano testi, CTA, SEO e contenuti ricchi; nessuna pagina nuova genera errori JS.
