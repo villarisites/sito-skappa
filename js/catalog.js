@@ -71,23 +71,17 @@
 
   function buildDefaultCard(destinazione, opzioni) {
     var voce = categoriaPrincipale(destinazione) || {};
-    var isSummer = voce.slug === 'mete-estive';
-    var isEuropa = voce.slug === 'fughe-in-europa';
     var contesto = opzioni.contesto || 'carousel';
     var indice = Number(opzioni.indice || 0);
     var immagine = immagineResponsive(destinazione);
-    var extraClass = isSummer ? ' dest-card-summer' : '';
-    var badge = isSummer
-      ? '<span class="card-season-badge"><svg class="ic"><use href="assets/icons.svg#wave"></use></svg> Estate</span>'
+    var extraClass = voce.slug ? ' dest-card-' + voce.slug : '';
+    var badge = voce.badgeTesto
+      ? '<span class="card-season-badge">' + (voce.badgeHtml || voce.badgeTesto) + '</span>'
       : '';
-
-    if (contesto === 'grid' && isEuropa) {
-      badge = '<span style="position:absolute;top:.75rem;right:.75rem;background:var(--teal);color:#fff;font-size:.6875rem;font-weight:900;padding:.35rem .875rem;border-radius:2rem;letter-spacing:.08em;text-transform:uppercase;z-index:10"><svg class="ic"><use href="assets/icons.svg#plane"></use></svg> Europa</span>';
-    }
-
-    var voloRow = isEuropa
-      ? '<p style="font-size:' + (contesto === 'grid' ? '.5625rem' : '0.5625rem') + ';color:var(--teal);font-weight:700;letter-spacing:' + (contesto === 'grid' ? '.05em' : '0.05em') + ';margin-bottom:' + (contesto === 'grid' ? '.15rem' : '0.15rem') + '"><svg class="ic"><use href="assets/icons.svg#plane"></use></svg> volo incluso</p>'
-      : '';
+    var numericPrice = Number(destinazione.prezzo);
+    var priceLabel = Number.isFinite(numericPrice) && numericPrice > 0
+      ? destinazione.prezzo + '€'
+      : 'Su richiesta';
     var imageLoad = contesto === 'grid'
       ? 'loading="lazy" decoding="async"'
       : (indice === 0 ? 'fetchpriority="high"' : 'loading="lazy" decoding="async"');
@@ -101,9 +95,8 @@
       + badge
       + '<div class="dest-card-city">' + destinazione.nome + '</div>'
       + '<div class="dest-card-info">'
-      + '<p class="dest-card-date">' + (destinazione.date || '') + '</p>'
-      + voloRow
-      + '<p class="dest-card-price">' + destinazione.prezzo + '€</p>'
+      + '<p class="dest-card-date">' + (destinazione.date || 'Date in definizione') + '</p>'
+      + '<p class="dest-card-price">' + priceLabel + '</p>'
       + '</div>'
       + '</a>';
   }
@@ -157,10 +150,14 @@
   // Riga di risultato della ricerca: markup identico a quello che era in js/main.js
   function buildRisultatoRicerca(destinazione) {
     var voce = categoriaPrincipale(destinazione) || {};
+    var numericPrice = Number(destinazione.prezzo);
+    var priceLabel = Number.isFinite(numericPrice) && numericPrice > 0
+      ? destinazione.prezzo + '€'
+      : 'Su richiesta';
     return '<a href="' + urlDettaglio(destinazione) + '" class="search-result" onclick="closeSearch()">'
       + '<div><span class="search-result-name">' + destinazione.nome + '</span> <span class="search-badge ' + voce.badgeClass + '">' + voce.badgeHtml + '</span>'
       + '<div class="search-result-meta">' + (destinazione.date || '') + ' &nbsp;·&nbsp; ' + (destinazione.hotel || '') + '</div></div>'
-      + '<span class="search-result-price">' + destinazione.prezzo + '€</span></a>';
+      + '<span class="search-result-price">' + priceLabel + '</span></a>';
   }
 
   global.SkappaCatalog = {

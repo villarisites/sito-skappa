@@ -32,7 +32,7 @@ Sostituire il catalogo concluso con 27 mete in 6 categorie, mantenendo i contenu
   esistenti e tutte le immagini risultano leggibili dal browser.
 - [x] AC6 — `data/categorie.js` descrive le 6 categorie finali e costituisce la fonte unica per
   nome, ordine, pagina, badge, tema e presenza nel menu.
-- [ ] AC7 — Esistono le pagine `mercatini-natale.html`, `europa.html`, `mare-sole.html` e
+- [x] AC7 — Esistono le pagine `mercatini-natale.html`, `europa.html`, `mare-sole.html` e
   `intercontinentali.html`; ciascuna mostra esattamente le mete della categoria tramite
   `SkappaCatalog`, inclusi i casi di appartenenza multipla.
 - [ ] AC8 — `viaggi-di-nozze.html` non mostra prezzi e offre una CTA "Prenota una consulenza";
