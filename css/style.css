@@ -1910,3 +1910,23 @@ body.pagina-viaggio.sticky-cta-visible #waBtn { bottom: 6rem !important; }
   0%, 100% { opacity: 1; transform: scale(1); }
   50% { opacity: 0.5; transform: scale(0.8); }
 }
+/* Navbar catalogo generata da data/categorie.js */
+.nav-destinations { position:relative; }
+.nav-destinations summary { list-style:none;cursor:pointer;display:flex;align-items:center;gap:.35rem; }
+.nav-destinations summary::-webkit-details-marker { display:none; }
+.nav-destinations__trigger span { font-size:.75rem;transition:transform .2s; }
+.nav-destinations[open] .nav-destinations__trigger span { transform:rotate(180deg); }
+.nav-destinations__panel { position:absolute;top:calc(100% + .85rem);left:50%;width:33rem;padding:1.15rem;transform:translateX(-50%);background:#07152e;border:1px solid rgba(254,189,65,.2);box-shadow:0 20px 60px rgba(0,0,0,.35);z-index:120; }
+.nav-destinations__panel::before { content:"";position:absolute;left:0;right:0;top:-1rem;height:1rem; }
+.nav-destinations__eyebrow { display:block;margin-bottom:.8rem;color:rgba(255,255,255,.38);font-size:.56rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase; }
+.nav-destinations__grid { display:grid;grid-template-columns:1fr 1fr;gap:.35rem; }
+.nav-destination-link { display:flex;align-items:center;gap:.7rem;padding:.65rem .7rem;color:#fff;font-size:.72rem;font-weight:700;text-decoration:none;border:1px solid transparent;transition:background .18s,border-color .18s,color .18s; }
+.nav-destination-link span { color:rgba(254,189,65,.52);font-family:'Days One',sans-serif;font-size:.55rem; }
+.nav-destination-link:hover,.nav-destination-link.active { color:var(--gold);background:rgba(254,189,65,.07);border-color:rgba(254,189,65,.14); }
+.mobile-nav-label { color:rgba(3,16,48,.48);font-size:.58rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase; }
+.mobile-destinations { display:grid;grid-template-columns:1fr 1fr;gap:.45rem;border-left:1px solid rgba(3,16,48,.14);padding-left:.8rem; }
+.mobile-category-link { color:var(--navy);font-size:.72rem;font-weight:700;text-decoration:none; }
+.mobile-category-link.active { color:var(--teal); }
+html[data-theme="light"] .nav-destinations__panel { background:#fff;border-color:rgba(3,16,48,.12); }
+html[data-theme="light"] .nav-destinations__eyebrow { color:rgba(3,16,48,.45); }
+html[data-theme="light"] .nav-destination-link { color:var(--navy); }

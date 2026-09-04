@@ -39,63 +39,54 @@
 
   <!--#partial nav active="" cta-href="index.html#offerte" cta-label="Scopri i viaggi"-->
   <nav class="navbar" id="navbar">
-      <div class="max-w-6xl mx-auto px-4 sm:px-6">
-        <div class="flex items-center justify-between h-11">
-          <!-- Logo -->
-          <a href="index.html" class="flex items-center">
-            <img src="assets/foto/utility/logo skappa.svg" alt="SKAPPA" width="32" height="32" style="height:2rem;object-fit:contain"
-              onerror="this.outerHTML='<span style=&quot;color:var(--gold);font-family:Days One,sans-serif;font-size:1rem;font-weight:900&quot;>SKAPPA</span>'" />
-          </a>
-          <!-- Nav links (desktop) -->
-          <div class="hidden md:flex items-center gap-8">
-            <a href="index.html" class="nav-link" data-nav="home">Home</a>
-            <a href="fughe-in-europa.html" class="nav-link" data-nav="europa">Fughe in Europa</a>
-            <a href="summer-tour.html" class="nav-link" data-nav="estate">Escape tour</a>
-            <a href="last-minute.html" class="nav-link" data-nav="last-minute" style="color:var(--lm-red);font-weight:700">⚡ Last minute</a>
-          </div>
-          <!-- Actions (desktop) -->
-          <div class="hidden md:flex items-center gap-3">
-            <button id="themeToggle" class="theme-toggle" aria-label="Cambia tema" title="Cambia tema" onclick="toggleTheme()">
-              <svg class="icon-moon w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
-              <svg class="icon-sun w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
-            </button>
-            <button id="searchBtn" class="search-toggle" aria-label="Cerca destinazione" title="Cerca">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
-              </svg>
-            </button>
-            <a href="index.html#offerte" class="btn-navy">Scopri i viaggi</a>
-          </div>
-          <!-- Mobile right -->
-          <div class="flex items-center gap-2 md:hidden">
-            <button id="searchBtnMobile" class="search-toggle" aria-label="Cerca">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
-              </svg>
-            </button>
-            <button id="themeToggleMobile" class="theme-toggle" aria-label="Cambia tema" onclick="toggleTheme()">
-              <svg class="icon-moon w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
-              <svg class="icon-sun w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
-            </button>
-            <button id="menuBtn" class="p-2" aria-label="Menu">
-              <svg class="w-5 h-5" style="color:var(--navy)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h16"/>
-              </svg>
-            </button>
-          </div>
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="flex items-center justify-between h-11">
+        <a href="index.html" class="flex items-center" aria-label="SKAPPA — Home">
+          <img src="assets/foto/utility/logo skappa.svg" alt="SKAPPA" width="32" height="32" style="height:2rem;object-fit:contain"
+            onerror="this.outerHTML='<span style=&quot;color:var(--gold);font-family:Days One,sans-serif;font-size:1rem;font-weight:900&quot;>SKAPPA</span>'" />
+        </a>
+        <div class="hidden md:flex items-center gap-5">
+          <a href="index.html" class="nav-link" data-nav="home">Home</a>
+          <details class="nav-destinations">
+            <summary class="nav-link nav-destinations__trigger">Destinazioni <span aria-hidden="true">⌄</span></summary>
+            <div class="nav-destinations__panel" aria-label="Categorie destinazioni">
+              <span class="nav-destinations__eyebrow">Scegli la tua rotta</span>
+              <div class="nav-destinations__grid"><a href="mercatini-natale.html" class="nav-destination-link"><span>01</span>Mercatini di Natale</a><a href="europa.html" class="nav-destination-link"><span>02</span>Europa</a><a href="mare-sole.html" class="nav-destination-link"><span>03</span>Mare &amp; Sole</a><a href="intercontinentali.html" class="nav-destination-link"><span>04</span>Intercontinentali</a><a href="viaggi-di-nozze.html" class="nav-destination-link"><span>05</span>Viaggi di nozze</a><a href="crociere.html" class="nav-destination-link"><span>06</span>Crociere</a></div>
+            </div>
+          </details>
+          <a href="offerte.html" class="nav-link" data-nav="offerte">Offerte</a>
+          <a href="chi-siamo.html" class="nav-link" data-nav="chi-siamo">Chi siamo</a>
+          <a href="index.html#kit" class="nav-link" data-nav="contatti">Contatti</a>
+        </div>
+        <div class="hidden md:flex items-center gap-3">
+          <button id="themeToggle" class="theme-toggle" aria-label="Cambia tema" title="Cambia tema" onclick="toggleTheme()">
+            <svg class="icon-moon w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+            <svg class="icon-sun w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          </button>
+          <button id="searchBtn" class="search-toggle" aria-label="Cerca destinazione" title="Cerca">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg>
+          </button>
+          <a href="index.html#offerte" class="btn-navy">Scopri i viaggi</a>
+        </div>
+        <div class="flex items-center gap-2 md:hidden">
+          <button id="searchBtnMobile" class="search-toggle" aria-label="Cerca"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg></button>
+          <button id="themeToggleMobile" class="theme-toggle" aria-label="Cambia tema" onclick="toggleTheme()"><svg class="icon-moon w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg><svg class="icon-sun w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg></button>
+          <button id="menuBtn" class="p-2" aria-label="Menu"><svg class="w-5 h-5" style="color:var(--navy)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h16"/></svg></button>
         </div>
       </div>
-      <!-- Mobile menu -->
-      <div id="mobileMenu">
-        <div class="max-w-6xl mx-auto px-4 py-5 flex flex-col gap-4">
-          <a href="index.html" class="text-sm font-semibold" style="color:var(--gold)">Home</a>
-          <a href="fughe-in-europa.html" class="text-sm font-semibold" style="color:var(--gold)">Fughe in Europa</a>
-          <a href="summer-tour.html" class="text-sm font-semibold" style="color:var(--gold)">Escape tour</a>
-          <a href="last-minute.html" class="text-sm font-semibold" style="color:var(--lm-red)">⚡ Last minute</a>
-          <a href="index.html#offerte" class="btn-gold mt-2" style="justify-content:center">Scopri i viaggi</a>
-        </div>
+    </div>
+    <div id="mobileMenu">
+      <div class="max-w-6xl mx-auto px-4 py-5 flex flex-col gap-4">
+        <a href="index.html" class="text-sm font-semibold">Home</a>
+        <span class="mobile-nav-label">Destinazioni</span>
+        <div class="mobile-destinations"><a href="mercatini-natale.html" class="mobile-category-link">Mercatini di Natale</a><a href="europa.html" class="mobile-category-link">Europa</a><a href="mare-sole.html" class="mobile-category-link">Mare &amp; Sole</a><a href="intercontinentali.html" class="mobile-category-link">Intercontinentali</a><a href="viaggi-di-nozze.html" class="mobile-category-link">Viaggi di nozze</a><a href="crociere.html" class="mobile-category-link">Crociere</a></div>
+        <a href="offerte.html" class="text-sm font-semibold">Offerte</a>
+        <a href="chi-siamo.html" class="text-sm font-semibold">Chi siamo</a>
+        <a href="index.html#kit" class="text-sm font-semibold">Contatti</a>
+        <a href="index.html#offerte" class="btn-gold mt-2" style="justify-content:center">Scopri i viaggi</a>
       </div>
-    </nav>
+    </div>
+  </nav>
   <!--#endpartial-->
 
   <!-- SEARCH PANEL -->

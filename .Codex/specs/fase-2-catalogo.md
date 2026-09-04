@@ -39,7 +39,7 @@ Sostituire il catalogo concluso con 27 mete in 6 categorie, mantenendo i contenu
   `crociere.html` mostra lo stato "in arrivo" e invia il form Formspree con `tipo=crociere`.
 - [x] AC9 — `offerte.html` mostra solo mete con offerta attiva e scadenza futura; sostituisce
   funzionalmente `last-minute.html`.
-- [ ] AC10 — La navbar desktop e mobile espone Home, Destinazioni (le 6 categorie), Offerte,
+- [x] AC10 — La navbar desktop e mobile espone Home, Destinazioni (le 6 categorie), Offerte,
   Chi siamo e Contatti; l'elenco categorie viene generato da `data/categorie.js` durante la build
   statica dei partial e non e' duplicato nelle pagine.
 - [ ] AC11 — `admin.html` usa checkbox per `categorie[]`, gestisce `offerta` e

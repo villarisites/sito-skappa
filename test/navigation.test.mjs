@@ -15,7 +15,7 @@ test("navigation_buildsSixCategoriesFromTheSingleSourceForDesktopAndMobile", asy
   const builder = await readFile(path.join(ROOT, "scripts", "build-pages.mjs"), "utf8");
   assert.match(partial, /\{\{desktopCategories\}\}/);
   assert.match(partial, /\{\{mobileCategories\}\}/);
-  assert.match(builder, /data[\\/]',?\s*'categorie\.js/);
+  assert.match(builder, /path\.join\(root,\s*['"]data['"],\s*['"]categorie\.js/);
   assert.match(builder, /SKAPPA_CATEGORIE/);
 
   const page = await readFile(path.join(ROOT, "europa.html"), "utf8");

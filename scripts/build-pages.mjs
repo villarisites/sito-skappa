@@ -1,6 +1,7 @@
 import { readdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import vm from 'node:vm';
 
 // La root del progetto e' la cartella superiore rispetto a scripts/
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -9,6 +10,14 @@ const partials = Object.fromEntries(await Promise.all(partialNames.map(async (na
   const content = await readFile(path.join(root, 'partials', `${name}.html`), 'utf8');
   return [name, content.trim()];
 })));
+const categoryContext = { window: {} };
+vm.runInNewContext(
+  await readFile(path.join(root, 'data', 'categorie.js'), 'utf8'),
+  categoryContext
+);
+const menuCategories = categoryContext.window.SKAPPA_CATEGORIE
+  .filter((category) => category.inMenu)
+  .sort((left, right) => left.ordine - right.ordine);
 
 function parseAttributes(source) {
   const attributes = {};
@@ -27,10 +36,25 @@ function escapeAttribute(value) {
 function defaultActive(file) {
   return {
     'index.html': 'home',
-    'fughe-in-europa.html': 'europa',
-    'summer-tour.html': 'estate',
-    'last-minute.html': 'last-minute'
+    'mercatini-natale.html': 'catalogo',
+    'europa.html': 'catalogo',
+    'mare-sole.html': 'catalogo',
+    'intercontinentali.html': 'catalogo',
+    'viaggi-di-nozze.html': 'catalogo',
+    'crociere.html': 'catalogo',
+    'offerte.html': 'offerte',
+    'chi-siamo.html': 'chi-siamo'
   }[file] || '';
+}
+
+function categoryLinks(mobile, file) {
+  return menuCategories.map((category, index) => {
+    const current = file === category.pagina;
+    if (mobile) {
+      return `<a href="${escapeAttribute(category.pagina)}" class="mobile-category-link${current ? ' active' : ''}"${current ? ' aria-current="page"' : ''}>${escapeHtml(category.nome)}</a>`;
+    }
+    return `<a href="${escapeAttribute(category.pagina)}" class="nav-destination-link${current ? ' active' : ''}"${current ? ' aria-current="page"' : ''}><span>${String(index + 1).padStart(2, '0')}</span>${escapeHtml(category.nome)}</a>`;
+  }).join('');
 }
 
 function cta(attributes, mobile) {
@@ -49,8 +73,10 @@ function renderNav(template, attributes, file) {
     : defaultActive(file);
   let rendered = template
     .replace('{{desktopCta}}', cta(attributes, false))
-    .replace('{{mobileCta}}', cta(attributes, true));
-  for (const key of ['home', 'europa', 'estate', 'last-minute']) {
+    .replace('{{mobileCta}}', cta(attributes, true))
+    .replace('{{desktopCategories}}', categoryLinks(false, file))
+    .replace('{{mobileCategories}}', categoryLinks(true, file));
+  for (const key of ['home', 'catalogo', 'offerte', 'chi-siamo', 'contatti']) {
     rendered = rendered
       .replace(`{{active:${key}}}`, active === key ? ' active' : '')
       .replace(`{{current:${key}}}`, active === key ? ' aria-current="page"' : '');
