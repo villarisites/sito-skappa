@@ -451,11 +451,14 @@
             <fieldset class="form-row">
               <legend class="form-label">Categorie</legend>
               <div style="display:flex;flex-wrap:wrap;gap:.6rem 1rem;padding:.7rem .8rem;border:1px solid var(--border);border-radius:.5rem">
-                <label><input type="checkbox" name="f-categorie" value="mete-estive" onchange="onCategorieChange()"> 🌊 Mete estive</label>
-                <label><input type="checkbox" name="f-categorie" value="fughe-in-europa" onchange="onCategorieChange()"> ✈ Fughe in Europa</label>
-                <label><input type="checkbox" name="f-categorie" value="last-minute" onchange="onCategorieChange()"> ⚡ Last minute</label>
+                <label><input type="checkbox" name="f-categorie" value="mercatini-natale" onchange="onCategorieChange()"> ✦ Mercatini di Natale</label>
+                <label><input type="checkbox" name="f-categorie" value="europa" onchange="onCategorieChange()"> ✈ Europa</label>
+                <label><input type="checkbox" name="f-categorie" value="mare-sole" onchange="onCategorieChange()"> ☀ Mare &amp; Sole</label>
+                <label><input type="checkbox" name="f-categorie" value="intercontinentali" onchange="onCategorieChange()"> ◇ Intercontinentali</label>
+                <label><input type="checkbox" name="f-categorie" value="viaggi-di-nozze" onchange="onCategorieChange()"> ♡ Viaggi di nozze</label>
+                <label><input type="checkbox" name="f-categorie" value="crociere" onchange="onCategorieChange()"> ≈ Crociere</label>
               </div>
-              <p class="form-hint">La prima categoria selezionata determina il template legacy.</p>
+              <p class="form-hint">La prima categoria selezionata determina tema e breadcrumb del dettaglio.</p>
             </fieldset>
           </div>
           <div class="form-row" style="margin-bottom:1rem">
@@ -476,26 +479,28 @@
               <input class="form-input" id="f-imgHero" type="text" placeholder="assets/foto/malta/hero.webp">
             </div>
           </div>
-          <!-- Prezzo originale + Link pagamento (tutte le tipologie) -->
+          <!-- Impostazioni commerciali -->
           <div class="form-grid-2" style="margin-bottom:1rem">
-            <div class="form-row">
-              <label class="form-label" for="f-prezzoOriginale">Prezzo originale (€) <span>(barrato)</span></label>
-              <input class="form-input" id="f-prezzoOriginale" type="text" placeholder="es. 429">
-              <p class="form-hint">Visibile barrato accanto al prezzo scontato. Lascia vuoto se non applicabile.</p>
-            </div>
             <div class="form-row">
               <label class="form-label" for="f-linkPagamento">Link pagamento <span>(URL Stripe / esterno)</span></label>
               <input class="form-input" id="f-linkPagamento" type="url" placeholder="https://buy.stripe.com/...">
-              <p class="form-hint">Se presente, tutti i bottoni "Blocca il posto" puntano a questo link.</p>
+              <p class="form-hint">Lascia vuoto per mostrare la richiesta preventivo.</p>
+            </div>
+            <div class="form-row">
+              <label class="form-label" style="display:flex;align-items:center;gap:.55rem;margin-top:1.7rem"><input type="checkbox" id="f-soloConsulenza"> Solo consulenza</label>
+              <p class="form-hint">Nasconde checkout e prezzo nella CTA, anche se esiste un link Stripe.</p>
             </div>
           </div>
-          <!-- Campi aggiuntivi solo per last-minute -->
-          <div id="lm-extra-fields" style="display:none">
-            <div class="form-grid-2" style="margin-bottom:1rem;padding:1rem;background:rgba(220,38,38,0.06);border:1px solid rgba(220,38,38,0.2);border-radius:0.5rem">
+          <div style="margin-bottom:1rem;padding:1rem;background:rgba(220,38,38,0.06);border:1px solid rgba(220,38,38,0.2);border-radius:0.5rem">
+            <label class="form-label" style="display:flex;align-items:center;gap:.55rem;margin-bottom:.9rem"><input type="checkbox" id="f-offerta-attiva"> Offerta attiva</label>
+            <div class="form-grid-2">
               <div class="form-row">
-                <label class="form-label" for="f-scadenza">Scadenza offerta</label>
-                <input class="form-input" id="f-scadenza" type="datetime-local">
-                <p class="form-hint">Il countdown parte da qui. Formato: data e ora.</p>
+                <label class="form-label" for="f-offerta-prezzo-originale">Prezzo originale (€)</label>
+                <input class="form-input" id="f-offerta-prezzo-originale" type="text" inputmode="decimal" placeholder="es. 429">
+              </div>
+              <div class="form-row">
+                <label class="form-label" for="f-offerta-scadenza">Scadenza offerta</label>
+                <input class="form-input" id="f-offerta-scadenza" type="datetime-local">
               </div>
             </div>
           </div>
@@ -827,12 +832,16 @@
       setValue('f-durata', d.durata);
       setValue('f-hotel', d.hotel);
 
-      // Categorie + last-minute fields
-      setSelectedCategories(d.categorie && d.categorie.length ? d.categorie : [d.tipologia || 'mete-estive']);
+      // Categorie + impostazioni commerciali
+      setSelectedCategories(d.categorie && d.categorie.length ? d.categorie : legacyCategories(d.tipologia));
       onCategorieChange();
-      setValue('f-prezzoOriginale', d.prezzoOriginale);
       setValue('f-linkPagamento', d.linkPagamento);
-      setValue('f-scadenza', d.scadenza ? d.scadenza.replace(' ', 'T').substring(0, 16) : '');
+      document.getElementById('f-soloConsulenza').checked = d.soloConsulenza === true;
+      var offerta = d.offerta || {};
+      document.getElementById('f-offerta-attiva').checked = offerta.attiva === true;
+      setValue('f-offerta-prezzo-originale', offerta.prezzoOriginale || d.prezzoOriginale);
+      var scadenzaOfferta = offerta.scadenza || d.scadenza || '';
+      setValue('f-offerta-scadenza', scadenzaOfferta ? scadenzaOfferta.replace(' ', 'T').substring(0, 16) : '');
 
       // Inclusi pacchetto (textarea, one per line)
       setValue('f-inclusiPacchetto', (d.inclusiPacchetto || []).join('\n'));
@@ -887,10 +896,18 @@
 
     function normalizeDestinationCategories(d) {
       if (!Array.isArray(d.categorie) || !d.categorie.length) {
-        d.categorie = d.tipologia ? [d.tipologia] : ['mete-estive'];
+        d.categorie = legacyCategories(d.tipologia);
       }
-      d.tipologia = d.categorie[0];
+      delete d.tipologia;
       return d;
+    }
+
+    function legacyCategories(tipologia) {
+      return ({
+        'mete-estive': ['mare-sole'],
+        'fughe-in-europa': ['europa'],
+        'last-minute': ['europa']
+      })[tipologia] || ['europa'];
     }
 
     function selectedCategories() {
@@ -906,19 +923,17 @@
     }
 
     function primaryCategory() {
-      return selectedCategories()[0] || 'mete-estive';
+      return selectedCategories()[0] || 'europa';
     }
 
     // ---- Categories change handler ----
     function onCategorieChange() {
       var categories = selectedCategories();
       if (!categories.length) {
-        var fallback = document.querySelector('input[name="f-categorie"][value="mete-estive"]');
+        var fallback = document.querySelector('input[name="f-categorie"][value="europa"]');
         if (fallback) fallback.checked = true;
-        categories = ['mete-estive'];
+        categories = ['europa'];
       }
-      document.getElementById('lm-extra-fields').style.display =
-        categories.indexOf('last-minute') !== -1 ? 'block' : 'none';
       updateUrlBadge();
     }
 
@@ -939,12 +954,10 @@
     // ---- Collect form data ----
     function getFormData() {
       var categories = selectedCategories();
-      if (!categories.length) categories = ['mete-estive'];
-      var tip = categories[0];
+      if (!categories.length) categories = ['europa'];
       var data = {
         id: v('f-id'),
         nome: v('f-nome'),
-        tipologia: tip,
         categorie: categories,
         date: v('f-date'),
         tagline: v('f-tagline'),
@@ -989,16 +1002,20 @@
       // Hotel (opzionale)
       var ho = v('f-hotel');
       if (ho) data.hotel = ho;
-      // Prezzo originale (tutte le tipologie)
-      var po = v('f-prezzoOriginale');
-      if (po) data.prezzoOriginale = po;
       // Link pagamento (tutte le tipologie)
       var lp = v('f-linkPagamento');
       if (lp) data.linkPagamento = lp;
-      // Campi last-minute
-      if (tip === 'last-minute') {
-        var sc = v('f-scadenza');
-        if (sc) data.scadenza = sc + ':00'; // append seconds
+      if (document.getElementById('f-soloConsulenza').checked) data.soloConsulenza = true;
+      // Offerta e scadenza sono indipendenti dalle categorie
+      var offertaAttiva = document.getElementById('f-offerta-attiva').checked;
+      var prezzoOriginaleOfferta = v('f-offerta-prezzo-originale');
+      var scadenzaOfferta = v('f-offerta-scadenza');
+      if (offertaAttiva || prezzoOriginaleOfferta || scadenzaOfferta) {
+        data.offerta = {
+          attiva: offertaAttiva,
+          prezzoOriginale: prezzoOriginaleOfferta ? Number(prezzoOriginaleOfferta.replace(',', '.')) : null,
+          scadenza: scadenzaOfferta ? scadenzaOfferta + ':00' : ''
+        };
       }
       // Prezzi aeroporti
       var aps = getAeroportiData();
@@ -1067,9 +1084,8 @@
       var blank = {
         id: 'nuova-' + Date.now(),
         nome: 'NUOVA DESTINAZIONE',
-        tipologia: 'mete-estive',
-        categorie: ['mete-estive'],
-        date: '', tagline: '', prezzo: '', prezzoOriginale: '', linkPagamento: '', imgHero: '',
+        categorie: ['europa'],
+        date: '', tagline: '', prezzo: '', linkPagamento: '', imgHero: '', soloConsulenza: false,
         partenzaDa: '', durata: '', hotel: '',
         inclusiPacchetto: [],
         perche: { titolo: '', testo: '', img: '' },
@@ -1202,9 +1218,14 @@
 
       if (!nome) { alert('Inserisci prima il nome della destinazione.'); return; }
 
-      var tipLabel = tipologia === 'mete-estive'     ? 'meta estiva (estate, mare, party, giovani 18-28 anni)'
-                   : tipologia === 'fughe-in-europa' ? 'fuga in europa / city break culturale'
-                   : 'offerta last minute (urgenza, prezzo speciale, posti limitati)';
+      var tipLabel = ({
+        'mercatini-natale': 'viaggio ai mercatini di Natale europei',
+        'europa': 'city break o viaggio culturale in Europa',
+        'mare-sole': 'vacanza mare e sole',
+        'intercontinentali': 'viaggio intercontinentale',
+        'viaggi-di-nozze': 'viaggio di nozze su misura',
+        'crociere': 'crociera'
+      })[tipologia] || 'viaggio organizzato';
 
       var prompt = 'Sei un copywriter per SKAPPA, agenzia di viaggi organizzati per giovani italiani (18-28 anni). Stile: energico, diretto, informale, coinvolgente.\n\n'
         + 'Genera i contenuti completi per questa destinazione:\n'

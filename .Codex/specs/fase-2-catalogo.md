@@ -42,7 +42,7 @@ Sostituire il catalogo concluso con 27 mete in 6 categorie, mantenendo i contenu
 - [x] AC10 — La navbar desktop e mobile espone Home, Destinazioni (le 6 categorie), Offerte,
   Chi siamo e Contatti; l'elenco categorie viene generato da `data/categorie.js` durante la build
   statica dei partial e non e' duplicato nelle pagine.
-- [ ] AC11 — `admin.html` usa checkbox per `categorie[]`, gestisce `offerta` e
+- [x] AC11 — `admin.html` usa checkbox per `categorie[]`, gestisce `offerta` e
   `soloConsulenza`, e continua a esportare un `destinations.js` valido per lo schema nuovo.
 - [ ] AC12 — I redirect permanenti coprono le tre vecchie pagine categoria e gli 8 ID archiviati;
   le regole WIP restano prime e attive fino alla Fase 4.
