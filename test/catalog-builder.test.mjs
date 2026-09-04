@@ -5,6 +5,7 @@ import path from "node:path";
 import { spawnSync } from "node:child_process";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
+import vm from "node:vm";
 
 import { parseCatalogCsv, validateCatalogRows } from "../scripts/catalog-core.mjs";
 
@@ -66,5 +67,28 @@ test("buildCatalog_invalidCsv_reportsAllErrorsAndLeavesOutputUntouched", async (
   assert.match(run.stderr, /prezzo non numerico: WIP/);
   assert.match(run.stderr, /sono richieste 27 mete/);
   assert.equal(await readFile(output, "utf8"), original);
+  await rm(temp, { recursive: true, force: true });
+});
+
+test("buildCatalog_allowIncomplete_createsPreviewWithNullPrices", async () => {
+  // Arrange
+  const temp = await mkdtemp(path.join(tmpdir(), "skappa-catalog-preview-"));
+  const output = path.join(temp, "destinations.js");
+
+  // Act
+  const run = spawnSync(process.execPath, [
+    path.join(ROOT, "scripts", "build-catalog.mjs"),
+    "--input", path.join(ROOT, "data", "catalogo.csv"),
+    "--output", output,
+    "--legacy", path.join(ROOT, "data", "destinations.js"),
+    "--allow-incomplete"
+  ], { cwd: ROOT, encoding: "utf8" });
+
+  // Assert
+  assert.equal(run.status, 0, run.stderr);
+  const context = { window: {} };
+  vm.runInNewContext(await readFile(output, "utf8"), context);
+  assert.equal(context.window.DESTINATIONS.length, 27);
+  assert.equal(context.window.DESTINATIONS.find(({ id }) => id === "praga").prezzo, null);
   await rm(temp, { recursive: true, force: true });
 });
