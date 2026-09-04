@@ -1,0 +1,28 @@
+id;nome;categorie;prezzo;durata;partenzaDa;date;hotel;tagline
+praga;PRAGA;mercatini-natale|europa;;;;;;
+monaco-di-baviera;MONACO DI BAVIERA;mercatini-natale|europa;;;;;;
+vienna;VIENNA;mercatini-natale|europa;;;;;;
+budapest;BUDAPEST;mercatini-natale|europa;279;4 giorni e 3 notti;Napoli;Dal 16 al 19 Aprile;The Royals Downtown;Inizia il tuo viaggio tra terme storiche, luci sul Danubio e atmosfera senza tempo.
+parigi;PARIGI;europa;429;4 giorni e 3 notti;Napoli;Dal 23 al 26 Aprile;Ibis Paris;Inizia il tuo viaggio nella città più iconica d'Europa, tra romanticismo, arte e atmosfera senza tempo.
+bucarest;BUCAREST;europa;219;4 giorni e 3 notti;Napoli;Dal 23 al 26 Aprile;Hotel Cismigiu;Inizia il tuo viaggio tra architetture monumentali, quartieri vivaci e un'atmosfera sorprendente nel cuore dell'Europa dell'Est.
+barcellona;BARCELLONA;europa;429;4 giorni e 3 notti;Napoli;Dal 16 al 19 Aprile;NH Barcelona Diagonal Center;Energia mediterranea, notti infinite e una città che non ti lascia dormire.
+sofia;SOFIA;europa;219;4 giorni e 3 notti;Napoli;Dal 23 al 26 Aprile;Aparthotel Bon Bon;Inizia il tuo viaggio in una capitale autentica, tra storia millenaria e natura sorprendente.
+londra;LONDRA;europa;389;4 giorni e 3 notti;Napoli;Dal 23 al 26 Aprile;Orlando Hotel;Inizia il tuo viaggio in una capitale dinamica, cosmopolita e sempre sorprendente.
+madrid;MADRID;europa;;;;;;
+siviglia;SIVIGLIA;europa;;;;;;
+cracovia;CRACOVIA;europa;;;;;;
+lisbona;LISBONA;europa;;;;;;
+valencia;VALENCIA;europa;;;;;;
+amsterdam;AMSTERDAM;europa;;;;;;
+berlino;BERLINO;europa;;;;;;
+tenerife;TENERIFE;mare-sole;;;;;;
+sharm-el-sheikh;SHARM EL-SHEIKH;mare-sole;;;;;;
+marrakech;MARRAKECH;mare-sole;;;;;;
+hurghada;HURGHADA;mare-sole;;;;;;
+dubai;DUBAI;intercontinentali;;;;;;
+new-york;NEW YORK;intercontinentali;;;;;;
+los-angeles;LOS ANGELES;intercontinentali;;;;;;
+maldive;MALDIVE;intercontinentali;;;;;;
+messico;MESSICO;intercontinentali;;;;;;
+thailandia;THAILANDIA;intercontinentali;;;;;;
+giappone;GIAPPONE;intercontinentali;;;;;;

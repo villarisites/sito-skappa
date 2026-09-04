@@ -17,7 +17,7 @@ Sostituire il catalogo concluso con 27 mete in 6 categorie, mantenendo i contenu
 
 ## Acceptance Criteria
 
-- [ ] AC1 — `data/catalogo.csv` contiene esattamente 27 ID unici e le colonne
+- [x] AC1 — `data/catalogo.csv` contiene esattamente 27 ID unici e le colonne
   `id;nome;categorie;prezzo;durata;partenzaDa;date;hotel;tagline`; le categorie multiple sono
   serializzate in modo non ambiguo.
 - [ ] AC2 — `npm run build:catalog` valida ID, categorie e prezzo numerico; con prezzi mancanti
