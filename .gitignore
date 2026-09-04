@@ -33,3 +33,7 @@ node_modules/
 
 # Report di audit sicurezza (non pubblicare in un repo pubblico)
 docs/security/
+
+# Handoff e note di lavoro AI (mai committare ne pubblicare)
+.ai-handoff/
+NEXT_SESSION.md

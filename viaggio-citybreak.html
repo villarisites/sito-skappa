@@ -56,6 +56,8 @@
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Days+One&family=Inter:wght@400;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link href="https://fonts.googleapis.com/css2?family=Days+One&family=Inter:wght@400;600;700&display=swap" rel="stylesheet"></noscript>
   <script src="data/destinations.js"></script>
+  <script src="data/categorie.js"></script>
+  <script src="js/catalog.js"></script>
   <style>
     .viaggio-hero {
       position: relative;
@@ -357,66 +359,82 @@
 <body>
 
   <!-- ========== NAVBAR ========== -->
+  <!--#partial nav active="" cta-href="#blocca" cta-label="Blocca il tuo posto" cta-id="navbarCta"-->
   <nav class="navbar" id="navbar">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6">
-      <div class="flex items-center justify-between h-11">
-        <a href="index.html" class="flex items-center gap-2">
-          <img src="assets/foto/utility/logo skappa.svg" alt="SKAPPA" style="height:2rem;object-fit:contain"
+      <div class="max-w-6xl mx-auto px-4 sm:px-6">
+        <div class="flex items-center justify-between h-11">
+          <!-- Logo -->
+          <a href="index.html" class="flex items-center">
+            <img src="assets/foto/utility/logo skappa.svg" alt="SKAPPA" width="32" height="32" style="height:2rem;object-fit:contain"
               onerror="this.outerHTML='<span style=&quot;color:var(--gold);font-family:Days One,sans-serif;font-size:1rem;font-weight:900&quot;>SKAPPA</span>'" />
-        </a>
-        <div class="hidden md:flex items-center gap-8">
-          <a href="index.html" class="nav-link">Home</a>
-          <a href="fughe-in-europa.html" class="nav-link">Fughe in Europa</a>
-          <a href="summer-tour.html" class="nav-link">Escape tour</a>
-          <a href="last-minute.html" class="nav-link" style="color:var(--lm-red);font-weight:700">⚡ Last minute</a>
-        </div>
-        <div class="hidden md:flex items-center gap-3">
-          <button id="themeToggle" class="theme-toggle" aria-label="Cambia tema" title="Cambia tema" onclick="toggleTheme()">
-            <svg class="icon-moon w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
-            <svg class="icon-sun w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
-          </button>
-          <button id="searchBtn" class="search-toggle" aria-label="Cerca destinazione" title="Cerca">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg>
-          </button>
-          <a href="#blocca" class="btn-navy" id="navbarCta">Blocca il tuo posto</a>
-        </div>
-        <div class="flex items-center gap-2 md:hidden">
-          <button id="themeToggleMobile" class="theme-toggle" aria-label="Cambia tema" onclick="toggleTheme()">
-            <svg class="icon-moon w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
-            <svg class="icon-sun w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
-          </button>
-          <button id="menuBtn" class="p-2" aria-label="Menu">
-            <svg class="w-5 h-5" style="color:var(--navy)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h16"/>
-            </svg>
-          </button>
+          </a>
+          <!-- Nav links (desktop) -->
+          <div class="hidden md:flex items-center gap-8">
+            <a href="index.html" class="nav-link" data-nav="home">Home</a>
+            <a href="fughe-in-europa.html" class="nav-link" data-nav="europa">Fughe in Europa</a>
+            <a href="summer-tour.html" class="nav-link" data-nav="estate">Escape tour</a>
+            <a href="last-minute.html" class="nav-link" data-nav="last-minute" style="color:var(--lm-red);font-weight:700">⚡ Last minute</a>
+          </div>
+          <!-- Actions (desktop) -->
+          <div class="hidden md:flex items-center gap-3">
+            <button id="themeToggle" class="theme-toggle" aria-label="Cambia tema" title="Cambia tema" onclick="toggleTheme()">
+              <svg class="icon-moon w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+              <svg class="icon-sun w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+            </button>
+            <button id="searchBtn" class="search-toggle" aria-label="Cerca destinazione" title="Cerca">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
+              </svg>
+            </button>
+            <a href="#blocca" class="btn-navy" id="navbarCta">Blocca il tuo posto</a>
+          </div>
+          <!-- Mobile right -->
+          <div class="flex items-center gap-2 md:hidden">
+            <button id="searchBtnMobile" class="search-toggle" aria-label="Cerca">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
+              </svg>
+            </button>
+            <button id="themeToggleMobile" class="theme-toggle" aria-label="Cambia tema" onclick="toggleTheme()">
+              <svg class="icon-moon w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+              <svg class="icon-sun w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+            </button>
+            <button id="menuBtn" class="p-2" aria-label="Menu">
+              <svg class="w-5 h-5" style="color:var(--navy)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h16"/>
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
-    </div>
-    <div id="mobileMenu">
-      <div class="max-w-6xl mx-auto px-4 py-5 flex flex-col gap-4">
-        <a href="index.html" class="text-sm font-semibold" style="color:var(--gold)">Home</a>
-        <a href="fughe-in-europa.html" class="text-sm font-semibold" style="color:var(--gold)">Fughe in Europa</a>
-        <a href="summer-tour.html" class="text-sm font-semibold" style="color:var(--gold)">Escape tour</a>
-        <a href="last-minute.html" class="text-sm font-semibold" style="color:var(--lm-red)">⚡ Last minute</a>
-        <a href="#blocca" class="btn-gold mt-2" style="justify-content:center">Blocca il tuo posto</a>
+      <!-- Mobile menu -->
+      <div id="mobileMenu">
+        <div class="max-w-6xl mx-auto px-4 py-5 flex flex-col gap-4">
+          <a href="index.html" class="text-sm font-semibold" style="color:var(--gold)">Home</a>
+          <a href="fughe-in-europa.html" class="text-sm font-semibold" style="color:var(--gold)">Fughe in Europa</a>
+          <a href="summer-tour.html" class="text-sm font-semibold" style="color:var(--gold)">Escape tour</a>
+          <a href="last-minute.html" class="text-sm font-semibold" style="color:var(--lm-red)">⚡ Last minute</a>
+          <a href="#blocca" class="btn-gold mt-2" style="justify-content:center">Blocca il tuo posto</a>
+        </div>
       </div>
-    </div>
-  </nav>
+    </nav>
+  <!--#endpartial-->
 
   <!-- SEARCH PANEL -->
+  <!--#partial overlays-->
   <div id="searchPanel" class="search-panel" aria-hidden="true" inert>
-    <div class="search-inner">
-      <div class="search-row">
-        <svg class="w-4 h-4 flex-shrink-0" style="color:rgba(255,255,255,0.35)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
-        </svg>
-        <input type="text" id="searchInput" class="search-input" placeholder="Cerca una destinazione..." autocomplete="off" />
-        <button class="search-close" onclick="closeSearch()" aria-label="Chiudi ricerca">✕</button>
+      <div class="search-inner">
+        <div class="search-row">
+          <svg class="w-4 h-4 flex-shrink-0" style="color:rgba(255,255,255,0.35)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
+          </svg>
+          <input type="text" id="searchInput" class="search-input" placeholder="Cerca una destinazione..." autocomplete="off" />
+          <button class="search-close" onclick="closeSearch()" aria-label="Chiudi ricerca">✕</button>
+        </div>
+        <div id="searchResults" class="search-results"></div>
       </div>
-      <div id="searchResults" class="search-results"></div>
     </div>
-  </div>
+  <!--#endpartial-->
 
   <main>
 
@@ -596,40 +614,40 @@
   </main>
 
     <!-- ========== FOOTER ========== -->
+    <!--#partial footer-->
     <footer class="footer">
-    <div class="max-w-6xl mx-auto">
-      <div style="display:flex;justify-content:space-between;align-items:center;gap:2rem;margin-bottom:2rem;flex-wrap:wrap">
-        <a href="index.html" style="display:flex;line-height:0">
-          <img src="assets/foto/utility/icona sito.svg" alt="SKAPPA" style="height:5rem;width:5rem;object-fit:contain"
-            onerror="this.style.display='none'" />
-        </a>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem 2.5rem">
-          <a href="chi-siamo.html" class="footer-link">Chi siamo</a>
-          <a href="cancellazione.html" class="footer-link">Cancellazione e rimborso</a>
-          <a href="termini.html" class="footer-link">Termini e condizioni</a>
-          <a href="cookie.html" class="footer-link">Cookie Policy</a>
-          <a href="privacy.html" class="footer-link">Privacy Policy</a>
-          <a href="faq.html" class="footer-link">FAQ</a>
+        <div class="max-w-6xl mx-auto">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:2rem;margin-bottom:2rem;flex-wrap:wrap">
+            <a href="index.html" style="display:flex;line-height:0">
+              <img src="assets/foto/utility/icona sito.svg" alt="SKAPPA" style="height:5rem;width:5rem;object-fit:contain"
+                onerror="this.style.display='none'" />
+            </a>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem 2.5rem">
+              <a href="chi-siamo.html" class="footer-link">Chi siamo</a>
+              <a href="cancellazione.html" class="footer-link">Cancellazione e rimborso</a>
+              <a href="termini.html" class="footer-link">Termini e condizioni</a>
+              <a href="cookie.html" class="footer-link">Cookie Policy</a>
+              <a href="privacy.html" class="footer-link">Privacy Policy</a>
+              <a href="faq.html" class="footer-link">FAQ</a>
+            </div>
+            <img src="assets/foto/utility/i viaggi del futuro.webp" alt="Viaggi del Futuro" width="480" height="320" style="height:5rem;object-fit:contain"
+              onerror="this.style.display='none'" />
+          </div>
+          <div class="flex flex-col md:flex-row items-center justify-between gap-3 text-xs" style="opacity:0.5;border-top:1px solid rgba(3,16,48,0.1);padding-top:1.25rem">
+            <span>© 2026 SKAPPA – Tutti i diritti riservati &nbsp;·&nbsp; Pagamenti sicuri con Stripe</span>
+            <div style="display:flex;align-items:center;gap:1rem">
+              <a href="https://www.instagram.com/skappa__/" target="_blank" rel="noopener noreferrer" aria-label="SKAPPA su Instagram" style="color:var(--navy);display:flex;align-items:center;opacity:0.7;transition:opacity .2s" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:1.125rem;height:1.125rem"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+              </a>
+              <a href="https://www.tiktok.com/@skappa.official" target="_blank" rel="noopener noreferrer" aria-label="SKAPPA su TikTok" style="color:var(--navy);display:flex;align-items:center;opacity:0.7;transition:opacity .2s" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:1.125rem;height:1.125rem"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.22 8.22 0 004.83 1.56V6.78a4.85 4.85 0 01-1.06-.09z"/></svg>
+              </a>
+              <a href="https://it.trustpilot.com" target="_blank" rel="noopener noreferrer" class="footer-link text-xs">★ Trustpilot</a>
+            </div>
+          </div>
         </div>
-        <img src="assets/foto/utility/i viaggi del futuro.webp" alt="Viaggi del Futuro" style="height:5rem;object-fit:contain"
-          onerror="this.style.display='none'" />
-      </div>
-      <div class="flex flex-col md:flex-row items-center justify-between gap-3 text-xs" style="opacity:0.5;border-top:1px solid rgba(3,16,48,0.1);padding-top:1.25rem">
-        <span>© 2026 SKAPPA – Tutti i diritti riservati &nbsp;·&nbsp; Pagamenti sicuri con Stripe</span>
-        <div style="display:flex;align-items:center;gap:1rem">
-          <a href="https://www.instagram.com/skappa__/" target="_blank" rel="noopener noreferrer" aria-label="SKAPPA su Instagram" style="color:var(--navy);display:flex;align-items:center;opacity:0.7;transition:opacity .2s" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:1.125rem;height:1.125rem"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-          </a>
-          <a href="https://www.tiktok.com/@skappa.official" target="_blank" rel="noopener noreferrer" aria-label="SKAPPA su TikTok" style="color:var(--navy);display:flex;align-items:center;opacity:0.7;transition:opacity .2s" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:1.125rem;height:1.125rem"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.22 8.22 0 004.83 1.56V6.78a4.85 4.85 0 01-1.06-.09z"/></svg>
-          </a>
-          <a href="https://it.trustpilot.com" target="_blank" rel="noopener noreferrer" class="footer-link text-xs">
-            ★ Trustpilot
-          </a>
-        </div>
-      </div>
-    </div>
-  </footer>
+      </footer>
+    <!--#endpartial-->
 
 
   <!-- ========== STICKY MOBILE CTA ========== -->

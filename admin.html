@@ -427,7 +427,7 @@
           <div class="ai-banner-icon">✨</div>
           <div class="ai-banner-text">
             <div class="ai-banner-title">Genera contenuti con AI</div>
-            <div class="ai-banner-desc">Inserisci nome, date, prezzo e tipologia, poi clicca "Genera". L'AI compilerà tutti i testi.</div>
+            <div class="ai-banner-desc">Inserisci nome, date, prezzo e categorie, poi clicca "Genera". L'AI compilerà tutti i testi.</div>
           </div>
           <div class="ai-key-wrap">
             <input type="password" id="ai-api-key" class="ai-key-input" placeholder="sk-ant-api03-..." autocomplete="off" />
@@ -446,15 +446,15 @@
               <input class="form-input" id="f-id" type="text" placeholder="es. malta" oninput="updateUrlBadge()" required>
               <p class="form-hint">Solo lettere minuscole e trattini. Viene usato nell'URL: <code id="urlBadgeHint">viaggio.html?id=…</code></p>
             </div>
-            <div class="form-row">
-              <label class="form-label" for="f-tipologia">Tipologia</label>
-              <select class="form-select" id="f-tipologia" onchange="onTipologiaChange()">
-                <option value="mete-estive">🌊 Mete estive</option>
-                <option value="fughe-in-europa">✈ Fughe in Europa</option>
-                <option value="last-minute">⚡ Last minute</option>
-              </select>
-              <p class="form-hint">Determina il template della pagina.</p>
-            </div>
+            <fieldset class="form-row">
+              <legend class="form-label">Categorie</legend>
+              <div style="display:flex;flex-wrap:wrap;gap:.6rem 1rem;padding:.7rem .8rem;border:1px solid var(--border);border-radius:.5rem">
+                <label><input type="checkbox" name="f-categorie" value="mete-estive" onchange="onCategorieChange()"> 🌊 Mete estive</label>
+                <label><input type="checkbox" name="f-categorie" value="fughe-in-europa" onchange="onCategorieChange()"> ✈ Fughe in Europa</label>
+                <label><input type="checkbox" name="f-categorie" value="last-minute" onchange="onCategorieChange()"> ⚡ Last minute</label>
+              </div>
+              <p class="form-hint">La prima categoria selezionata determina il template legacy.</p>
+            </fieldset>
           </div>
           <div class="form-row" style="margin-bottom:1rem">
             <label class="form-label" for="f-nome">Nome destinazione <span>(visibile)</span></label>
@@ -773,6 +773,7 @@
       if (fromFile && fromFile.length) {
         // Usa sempre il file come fonte primaria
         destinations = JSON.parse(JSON.stringify(fromFile));
+        destinations.forEach(normalizeDestinationCategories);
         saveToStorage();
       } else {
         // Fallback: localStorage o DEFAULT_DATA se il file non è disponibile
@@ -824,10 +825,9 @@
       setValue('f-durata', d.durata);
       setValue('f-hotel', d.hotel);
 
-      // Tipologia + last-minute fields
-      var tipEl = document.getElementById('f-tipologia');
-      if (tipEl) tipEl.value = d.tipologia || 'mete-estive';
-      onTipologiaChange();
+      // Categorie + last-minute fields
+      setSelectedCategories(d.categorie && d.categorie.length ? d.categorie : [d.tipologia || 'mete-estive']);
+      onCategorieChange();
       setValue('f-prezzoOriginale', d.prezzoOriginale);
       setValue('f-linkPagamento', d.linkPagamento);
       setValue('f-scadenza', d.scadenza ? d.scadenza.replace(' ', 'T').substring(0, 16) : '');
@@ -883,19 +883,47 @@
       if (el) el.value = val || '';
     }
 
-    // ---- Tipologia change handler ----
-    function onTipologiaChange() {
-      var tip = document.getElementById('f-tipologia').value;
+    function normalizeDestinationCategories(d) {
+      if (!Array.isArray(d.categorie) || !d.categorie.length) {
+        d.categorie = d.tipologia ? [d.tipologia] : ['mete-estive'];
+      }
+      d.tipologia = d.categorie[0];
+      return d;
+    }
+
+    function selectedCategories() {
+      return Array.prototype.slice.call(document.querySelectorAll('input[name="f-categorie"]:checked'))
+        .map(function (input) { return input.value; });
+    }
+
+    function setSelectedCategories(categories) {
+      var selected = Array.isArray(categories) ? categories : [];
+      document.querySelectorAll('input[name="f-categorie"]').forEach(function (input) {
+        input.checked = selected.indexOf(input.value) !== -1;
+      });
+    }
+
+    function primaryCategory() {
+      return selectedCategories()[0] || 'mete-estive';
+    }
+
+    // ---- Categories change handler ----
+    function onCategorieChange() {
+      var categories = selectedCategories();
+      if (!categories.length) {
+        var fallback = document.querySelector('input[name="f-categorie"][value="mete-estive"]');
+        if (fallback) fallback.checked = true;
+        categories = ['mete-estive'];
+      }
       document.getElementById('lm-extra-fields').style.display =
-        tip === 'last-minute' ? 'block' : 'none';
+        categories.indexOf('last-minute') !== -1 ? 'block' : 'none';
       updateUrlBadge();
     }
 
     // ---- Update URL badge ----
     function updateUrlBadge(idOverride) {
       var id = idOverride || document.getElementById('f-id').value.trim();
-      var tipEl = document.getElementById('f-tipologia');
-      var tip = tipEl ? tipEl.value : 'mete-estive';
+      var tip = primaryCategory();
       var tpl = tip === 'fughe-in-europa' ? 'viaggio-citybreak.html'
               : tip === 'last-minute'     ? 'viaggio-lastminute.html'
               : 'viaggio.html';
@@ -908,11 +936,14 @@
 
     // ---- Collect form data ----
     function getFormData() {
-      var tip = v('f-tipologia') || 'mete-estive';
+      var categories = selectedCategories();
+      if (!categories.length) categories = ['mete-estive'];
+      var tip = categories[0];
       var data = {
         id: v('f-id'),
         nome: v('f-nome'),
         tipologia: tip,
+        categorie: categories,
         date: v('f-date'),
         tagline: v('f-tagline'),
         prezzo: v('f-prezzo'),
@@ -1035,6 +1066,7 @@
         id: 'nuova-' + Date.now(),
         nome: 'NUOVA DESTINAZIONE',
         tipologia: 'mete-estive',
+        categorie: ['mete-estive'],
         date: '', tagline: '', prezzo: '', prezzoOriginale: '', linkPagamento: '', imgHero: '',
         partenzaDa: '', durata: '', hotel: '',
         inclusiPacchetto: [],
@@ -1107,7 +1139,7 @@
         + '//  Skappa – Destinations Data\n'
         + '//  Generato da admin.html il ' + new Date().toLocaleDateString('it-IT') + '\n'
         + '// =============================================\n\n'
-        + 'window.DESTINATIONS = ' + JSON.stringify(destinations, null, 2) + ';\n';
+        + 'window.DESTINATIONS = ' + JSON.stringify(destinations.map(normalizeDestinationCategories), null, 2) + ';\n';
       var blob = new Blob([content], { type: 'application/javascript' });
       var url = URL.createObjectURL(blob);
       var a = document.createElement('a');
@@ -1159,7 +1191,7 @@
       if (!apiKey) { alert('Inserisci la tua API key Anthropic (sk-ant-...).'); return; }
 
       var nome     = v('f-nome');
-      var tipologia = v('f-tipologia') || 'mete-estive';
+      var tipologia = primaryCategory();
       var date     = v('f-date');
       var prezzo   = v('f-prezzo');
       var partenza = v('f-partenzaDa') || 'Napoli';

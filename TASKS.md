@@ -1,5 +1,81 @@
 # TASKS — skappa.it
 
+## 2026-09-04 (sera) — Fase 0 IMPLEMENTATA e verificata
+
+Fondamenta pronte. Il sito e' equivalente a prima, con tre eccezioni dichiarate (tutte migliorie).
+
+- [x] `partials/nav.html` + `overlays.html` + `footer.html`; `scripts/build-pages.mjs` + `npm run build:pages`
+- [x] Tutte e 13 le pagine con navbar passano dai partial (marcatori `<!--#partial ...-->`), build idempotente
+- [x] `js/catalog.js` (`window.SkappaCatalog`) + `data/categorie.js`, inclusi in tutte e 13 le pagine
+- [x] `buildCard` unica nel repo: card di home, europa, summer e last-minute provate **byte-identiche** (32 confronti, 0 differenze)
+- [x] Ricerca centralizzata in `main.js` -> `SkappaCatalog`; JSON-LD e filtri passano dal catalogo
+- [x] `categorie[]` scritto nei 14 oggetti di `data/destinations.js` (`tipologia` mantenuta), `admin.html` allineato
+- [x] Verificato in browser reale: 5 pagine, zero errori JS di pagina
+
+**Differenze visibili volute** (normalizzazione verso `index.html`, era gia' nel piano):
+`width`/`height` su logo e immagine footer (fix CLS che avevano solo la home), `title="Cerca"`,
+`aria-current="page"`, e il bottone di ricerca mobile aggiunto a `chi-siamo` e ai 3 `viaggio*`.
+
+**Bug preesistente corretto:** su `fughe-in-europa`, `summer-tour` e `last-minute` c'era un secondo
+IIFE di ricerca inline oltre a quello di `main.js`: i due handler si annullavano e **il bottone
+cerca non apriva nulla**. Rimosso il duplicato.
+
+**Percorso:** Codex (`task-mtn7j8pu-wx2iak`) ha fatto partial + catalog + admin + 5 pagine legali,
+poi si e' fermato su ACL NTFS che negano la scrittura a `CodexSandboxUsers` su 10 file. Il resto
+l'ho completato io su richiesta. Sblocco pronto in `scratchpad/sblocca-acl-codex.ps1` (serve un
+PowerShell come amministratore) se si vuole tornare a usare Codex su questo repo.
+
+Dettaglio completo in `.ai-handoff/CLAUDE_REVIEW.md`. **Non ancora committato.**
+
+| Fase | Contenuto | Stato |
+|---|---|---|
+| 0 | Fondamenta | **FATTA** |
+| 1 | Unificare i 3 template `viaggio*.html` in uno | prossima |
+| 2 | Tassonomia nuova (6 categorie, 27 mete), foto, pagine categoria | da fare |
+| 3 | Hero "Il Volo SKAPPA" | da fare |
+| 4 | Pulizia peso + uscita dal WIP | da fare |
+
+# TASKS — skappa.it
+
+## 2026-09-04 — Approvato il rifacimento in 4 fasi (Fase 0 pianificata, non implementata)
+
+**Nessuna modifica al sito.** Toccati solo `.gitignore` e questo file; tutto il resto e' materiale
+di lavoro non pubblicato.
+
+Il catalogo va ricostruito da zero: 27 mete nuove in 6 categorie, piu' un hero "Il Volo SKAPPA"
+(aereo con oblo' che scorrono le mete, e all'apertura di una meta la porta si apre sulla destinazione).
+Il punto di ripresa autorevole e' **`NEXT_SESSION.md`** in root — leggerlo prima di agire.
+Piano completo in `~/.claude/plans/dobbiamo-modificare-il-sito-noble-micali.md`.
+
+| Fase | Contenuto | Stato |
+|---|---|---|
+| 0 | Fondamenta: partial nav/footer + `scripts/build-pages.mjs`, `js/catalog.js`, `data/categorie.js`, `categorie[]` al posto di `tipologia` | pianificata |
+| 1 | Unificare i 3 template `viaggio*.html` in uno | da fare |
+| 2 | Tassonomia nuova, foto, pagine categoria | da fare |
+| 3 | Hero "Il Volo SKAPPA" (CSS/JS puro, niente 3D) | da fare |
+| 4 | Pulizia peso + uscita dal WIP | da fare |
+
+- [x] `.gitignore` — aggiunti `.ai-handoff/` e `NEXT_SESSION.md` (mai committare ne' pubblicare)
+- [x] Handoff Fase 0 scritto: `.ai-handoff/REQUEST.md`, `.ai-handoff/CLAUDE_PLAN.md`
+- [x] **Riparato il plugin Codex.** `claude plugin list` dava
+      `codex@openai-codex ✘ failed to load — Marketplace openai-codex not found`: la dichiarazione in
+      `~/.claude/settings.json` aveva una sorgente ibrida github+`path` locale non piu' valida.
+      Rimosso e ricreato il marketplace, reinstallato il plugin. **Si registra al riavvio della sessione.**
+- [ ] **Implementare la Fase 0** (via `codex:codex-rescue`, handoff gia' pronto)
+- [ ] **Serve a Francesco:** compilare i prezzi in `data/catalogo.csv` (nasce in Fase 2).
+      E' l'unico blocco esterno, tutto il resto procede senza.
+
+### Due verifiche fatte, da non ripetere
+
+- **`assets/preventivi/` non e' esposto.** `git ls-files | grep preventiv` -> solo
+  `preventivi-manager.html`; `git log --all -- 'assets/preventivi*'` -> vuoto. E' gitignored, non e'
+  mai entrato nella storia, Netlify non lo pubblica. **Nessun history purge da fare.**
+- **Peso reale deployato: 138 MB** (`git ls-files | xargs du -bc`). I `.zip`/`.mp4` sono gia'
+  gitignored: il grasso pubblicato sono i `hero.png|jpg` sorgente ancora tracciati
+  (budapest 37 MB, mykonos 15 MB, `utility/sfondo hero.png` 5,1 MB) e la cartella `img/` legacy.
+  Servite davvero e da ricomprimere: `parigi/activity-2.webp` 5,1 MB, `sofia/activity-2.webp` 3,4 MB.
+
+
 ## 2026-08-29 — Il link WhatsApp non aveva il prefisso paese
 
 **Non ancora deployato.** Riguarda tutto il sito, non solo la pagina di attesa.

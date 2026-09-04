@@ -270,20 +270,12 @@ if (preventivoForm) {
   input.addEventListener('input', function () {
     clearTimeout(searchTimer);
     searchTimer = setTimeout(function () {
-    var q = input.value.toLowerCase().trim();
-    var dests = window.DESTINATIONS || [];
-    if (!q) { results.innerHTML = ''; return; }
-    var filtered = dests.filter(function(d){ return d.nome.toLowerCase().includes(q) || (d.date||'').toLowerCase().includes(q); });
-    if (!filtered.length) { results.innerHTML = '<p class="search-no-results">Nessuna destinazione trovata.</p>'; return; }
-    results.innerHTML = filtered.map(function(d) {
-      var tpl = d.tipologia === 'fughe-in-europa' ? 'viaggio-citybreak.html' : d.tipologia === 'last-minute' ? 'viaggio-lastminute.html' : 'viaggio.html';
-      var bc  = d.tipologia === 'fughe-in-europa' ? 'badge-capitali' : 'badge-estive';
-      var bt  = d.tipologia === 'mete-estive' ? '<svg class="ic"><use href="assets/icons.svg#wave"></use></svg> Estate' : d.tipologia === 'fughe-in-europa' ? '<svg class="ic"><use href="assets/icons.svg#plane"></use></svg> Europa' : '⚡ Last Minute';
-      return '<a href="'+tpl+'?id='+d.id+'" class="search-result" onclick="closeSearch()">'
-        + '<div><span class="search-result-name">'+d.nome+'</span> <span class="search-badge '+bc+'">'+bt+'</span>'
-        + '<div class="search-result-meta">'+(d.date||'')+' &nbsp;·&nbsp; '+(d.hotel||'')+'</div></div>'
-        + '<span class="search-result-price">'+d.prezzo+'€</span></a>';
-    }).join('');
+      var q = input.value.trim();
+      if (!q) { results.innerHTML = ''; return; }
+      var catalogo = window.SkappaCatalog;
+      var filtered = catalogo ? catalogo.cerca(q) : [];
+      if (!filtered.length) { results.innerHTML = '<p class="search-no-results">Nessuna destinazione trovata.</p>'; return; }
+      results.innerHTML = filtered.map(catalogo.buildRisultatoRicerca).join('');
     }, 300);
   });
 })();
