@@ -11,6 +11,8 @@
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Days+One&family=Inter:wght@400;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link href="https://fonts.googleapis.com/css2?family=Days+One&family=Inter:wght@400;600;700&display=swap" rel="stylesheet"></noscript>
   <script src="data/destinations.js"></script>
+  <script src="data/categorie.js"></script>
+  <script src="js/catalog.js"></script>
   <style>
     :root {
       --navy:  #031030;
@@ -923,10 +925,10 @@
     // ---- Update URL badge ----
     function updateUrlBadge(idOverride) {
       var id = idOverride || document.getElementById('f-id').value.trim();
-      var tip = primaryCategory();
-      var tpl = tip === 'fughe-in-europa' ? 'viaggio-citybreak.html'
-              : tip === 'last-minute'     ? 'viaggio-lastminute.html'
-              : 'viaggio.html';
+      // Dalla Fase 1 il template di dettaglio e' uno solo per tutte le categorie:
+      // la fonte e' data/categorie.js, non piu' una ternaria qui.
+      var voce = window.SkappaCatalog && window.SkappaCatalog.categoria(primaryCategory());
+      var tpl = (voce && voce.template) || 'viaggio.html';
       var url = tpl + '?id=' + (id || '…');
       var link = document.getElementById('destUrlLink');
       if (link) { link.textContent = url; link.href = url; }

@@ -1443,3 +1443,470 @@ html[data-theme="light"] .review-card {
   line-height: 1.65;
   margin-top: 0.625rem;
 }
+
+/* ============================================
+   PAGINA DI DETTAGLIO (viaggio.html)
+   Consolidato dai <style> inline di viaggio.html, viaggio-citybreak.html
+   e viaggio-lastminute.html (Fase 1).
+
+   Tutto e' sotto lo scope .pagina-viaggio: senza, tre selettori
+   collidono con regole gia' presenti in questo file e rompono altre pagine
+   (.summer-badge qui e' un componente diverso, .hero-bg porta lo sfondo
+   della home, .activity-* hanno gia' transizione e hover).
+
+   Il colore d'accento arriva dalle variabili --cat-*, che il render di
+   viaggio.html imposta leggendo data/categorie.js.
+   ============================================ */
+
+.pagina-viaggio {
+  /* fallback: valori della categoria "mete-estive" */
+  --cat-badge-bg: rgba(254,189,65,0.12);
+  --cat-badge-bordo: rgba(254,189,65,0.4);
+  --cat-badge-testo: #febd41;
+  --cat-badge-anim: none;
+  --cat-check: var(--gold);
+  --cat-titolo: var(--gold);
+  --cat-punto: var(--gold);
+}
+
+.pagina-viaggio .viaggio-hero {
+  position: relative;
+  min-height: 72vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 44px;
+  overflow: hidden;
+}
+.pagina-viaggio .back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: rgba(255,255,255,0.9);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: rgba(0,0,0,0.35);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-family: inherit;
+  padding: 0.4rem 0.75rem;
+  margin-bottom: 2rem;
+  transition: color 0.2s, background 0.2s;
+}
+.pagina-viaggio .back-btn:hover { color: var(--gold); background: rgba(0,0,0,0.5); }
+.pagina-viaggio .hero-tagline-dest {
+  font-size: clamp(0.9375rem, 2.5vw, 1.125rem);
+  color: rgba(255,255,255,0.82);
+  font-weight: 400;
+  max-width: 520px;
+  margin: 0 auto 1.75rem;
+  line-height: 1.6;
+}
+.pagina-viaggio .trust-bar {
+  font-size: 0.9375rem;
+  color: rgba(255,255,255,0.85);
+  letter-spacing: 0.06em;
+  margin-top: 1.25rem;
+}
+.pagina-viaggio .hero-bg { filter: brightness(0.7); }
+
+/* Badge di categoria — era .summer-badge / .tipo-badge / .lm-badge.
+   Rinominato: .summer-badge esiste gia' in questo file ed e' un'altra cosa. */
+.pagina-viaggio .viaggio-badge-cat {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  background: var(--cat-badge-bg);
+  border: 1px solid var(--cat-badge-bordo);
+  color: var(--cat-badge-testo);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.875rem;
+  border-radius: 999px;
+  margin-bottom: 1.25rem;
+  animation: var(--cat-badge-anim);
+}
+
+/* Pacchetto card */
+.pagina-viaggio .pacchetto-card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(254,189,65,0.2);
+  border-radius: 1.25rem;
+  padding: 1.25rem 1.5rem 1.5rem;
+  max-width: 480px;
+  margin: 0 auto;
+}
+.pagina-viaggio .pacchetto-price {
+  font-family: 'Days One', sans-serif;
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 900;
+  color: var(--gold);
+  letter-spacing: 0.04em;
+  line-height: 1;
+  margin: 0.5rem 0 0.2rem;
+}
+.pagina-viaggio .pacchetto-euro { font-size: 0.55em; vertical-align: top; margin-top: 0.5em; }
+.pagina-viaggio .pacchetto-list {
+  list-style: none;
+  text-align: left;
+  margin: 1.25rem 0 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+.pagina-viaggio .pacchetto-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: rgba(255,255,255,0.75);
+  line-height: 1.5;
+}
+.pagina-viaggio .check { color: var(--cat-check); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+.pagina-viaggio .prenota-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start; }
+.pagina-viaggio .prenota-grid > div + div { border-left: 2px solid rgba(254,189,65,0.25); padding-left: 2rem; }
+@media (max-width: 768px) {
+  .pagina-viaggio .prenota-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+  .pagina-viaggio .prenota-grid > div + div { border-left: none; padding-left: 0; border-top: 2px solid rgba(254,189,65,0.25); padding-top: 1.5rem; }
+}
+
+/* Sticky sidebar: attivita' + perche' */
+.pagina-viaggio .sticky-perche-outer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: start;
+}
+.pagina-viaggio .sticky-perche-outer.senza-attivita { grid-template-columns: 1fr; }
+.pagina-viaggio .sticky-perche-outer.senza-attivita .activities-col { display: none; }
+.pagina-viaggio .activities-col { display: flex; flex-direction: column; }
+.pagina-viaggio .activity-item {
+  display: flex;
+  flex-direction: column;
+  background: var(--navy2);
+}
+.pagina-viaggio .activity-item:nth-child(even) { background: var(--navy); }
+.pagina-viaggio .activity-img-wrap {
+  width: calc(100% - 2.5rem);
+  height: 240px;
+  overflow: hidden;
+  border-radius: 1rem;
+  margin: 1.25rem 1.25rem 0;
+  flex-shrink: 0;
+}
+.pagina-viaggio .activity-item-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+.pagina-viaggio .activity-item-content {
+  padding: 2.5rem 2.5rem;
+  flex: 1;
+}
+.pagina-viaggio .activity-title {
+  font-family: 'Days One', sans-serif;
+  font-size: clamp(1.25rem, 3vw, 1.875rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--cat-titolo);
+  margin-bottom: 1rem;
+}
+.pagina-viaggio .activity-desc {
+  font-size: 0.9375rem;
+  color: rgba(255,255,255,0.65);
+  line-height: 1.8;
+}
+.pagina-viaggio .activity-item-placeholder {
+  width: calc(100% - 2.5rem);
+  height: 240px;
+  border-radius: 1rem;
+  margin: 1.25rem 1.25rem 0;
+  background: linear-gradient(135deg, #0a1f3d 0%, #1a3a5c 100%);
+  flex-shrink: 0;
+}
+.pagina-viaggio .perche-sticky-col {
+  position: sticky;
+  top: 44px;
+  min-height: calc(100vh - 44px);
+  background: var(--navy);
+  display: flex;
+  flex-direction: column;
+  order: -1;
+}
+.pagina-viaggio .perche-sticky-inner {
+  padding: 3rem 2.5rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+@media (max-width: 767px) {
+  .pagina-viaggio .sticky-perche-outer { grid-template-columns: 1fr; }
+  .pagina-viaggio .perche-sticky-col { position: static; min-height: auto; order: -1; }
+  .pagina-viaggio .activities-col { order: 1; }
+  .pagina-viaggio .activity-img-wrap { height: 140px; width: calc(100% - 2rem); margin: 0.75rem 1rem 0; }
+  .pagina-viaggio .activity-item-placeholder { height: 140px; width: calc(100% - 2rem); margin: 0.75rem 1rem 0; }
+  .pagina-viaggio .activity-item-content { padding: 1.5rem; }
+  .pagina-viaggio .perche-sticky-inner { padding: 2rem 1.5rem; }
+}
+@media (max-width: 640px) {
+  .pagina-viaggio .incluso-icona { width: 2.5rem; height: 2.5rem; font-size: 1.25rem; }
+}
+.pagina-viaggio .perche-bullets {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+.pagina-viaggio .perche-bullets li {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.875rem;
+  color: rgba(255,255,255,0.7);
+}
+.pagina-viaggio .bullet-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--cat-punto);
+  flex-shrink: 0;
+}
+
+/* Inclusi con SKAPPA */
+.pagina-viaggio .incluso-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem 1.5rem;
+}
+@media (min-width: 640px) {
+  .pagina-viaggio .incluso-grid { grid-template-columns: repeat(4, 1fr); }
+}
+.pagina-viaggio .incluso-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.875rem;
+  text-align: center;
+}
+.pagina-viaggio .incluso-icona {
+  font-size: 2rem;
+  width: 4rem; height: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(254,189,65,0.1);
+  border-radius: 50%;
+  border: 1px solid rgba(254,189,65,0.15);
+}
+.pagina-viaggio .incluso-label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.8);
+  line-height: 1.4;
+}
+
+/* FAQ (definizione propria: faq.html ha le sue, diverse) */
+.pagina-viaggio .faq-item { border-bottom: 1px solid rgba(254,189,65,0.12); }
+.pagina-viaggio .faq-btn {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: rgba(255,255,255,0.88);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  font-family: inherit;
+  text-align: left;
+  gap: 1rem;
+  transition: color 0.2s;
+}
+.pagina-viaggio .faq-btn:hover { color: var(--gold); }
+.pagina-viaggio .faq-body {
+  padding: 0 0 1.25rem;
+  color: rgba(255,255,255,0.6);
+  font-size: 0.875rem;
+  line-height: 1.75;
+  display: none;
+}
+.pagina-viaggio .faq-arrow {
+  flex-shrink: 0;
+  color: var(--gold);
+  font-size: 1.375rem;
+  font-weight: 300;
+  line-height: 1;
+  transition: transform 0.25s;
+  user-select: none;
+}
+.pagina-viaggio .faq-arrow.open { transform: rotate(45deg); }
+
+/* Sticky mobile CTA */
+.pagina-viaggio #stickyCta {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  z-index: 9990;
+  background: var(--navy2);
+  border-top: 1px solid rgba(254,189,65,0.2);
+  padding: 0.75rem 1rem;
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.4);
+  transform: translateY(110%);
+  transition: transform 0.3s ease;
+}
+.pagina-viaggio #stickyCta.visible { transform: translateY(0); }
+@media (min-width: 768px) {
+  .pagina-viaggio #stickyCta { display: none !important; }
+}
+body.pagina-viaggio.sticky-cta-visible #waBtn { bottom: 6rem !important; }
+
+/* Il vecchio template Last Minute usava il rosso sulle CTA principali e una
+   tipografia leggermente piu' compatta nelle attivita'. La classe arriva dalla
+   categoria, quindi non colora navbar o componenti delle altre pagine. */
+.pagina-viaggio.cat-last-minute #heroCta,
+.pagina-viaggio.cat-last-minute #pacchettoBtn,
+.pagina-viaggio.cat-last-minute #percheBloccaBtn,
+.pagina-viaggio.cat-last-minute #stickyCtaBtn {
+  background: #ef4444;
+  border-color: var(--lm-red);
+  color: #fff;
+}
+.pagina-viaggio.cat-last-minute .activity-title {
+  font-size: clamp(1.125rem, 3vw, 1.625rem);
+  letter-spacing: 0.1em;
+}
+.pagina-viaggio.cat-last-minute .activity-desc { line-height: 1.75; }
+.pagina-viaggio.cat-last-minute .perche-sticky-col {
+  display: flex;
+  align-items: center;
+}
+.pagina-viaggio.cat-last-minute .perche-sticky-inner { width: 100%; }
+
+/* ---- Sezioni a tempo: compaiono solo se la meta ha un'offerta con scadenza ---- */
+.pagina-viaggio .countdown-section {
+  background: var(--navy2);
+  border-top: 2px solid rgba(220,38,38,0.3);
+  border-bottom: 2px solid rgba(220,38,38,0.3);
+  padding: 3.5rem 1rem;
+  text-align: center;
+}
+.pagina-viaggio .countdown-label {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #fca5a5;
+  margin-bottom: 1.5rem;
+}
+.pagina-viaggio .countdown-grid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+.pagina-viaggio .countdown-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  min-width: 4rem;
+}
+.pagina-viaggio .countdown-num {
+  font-family: 'Days One', sans-serif;
+  font-size: clamp(2.25rem, 7vw, 3.5rem);
+  font-weight: 900;
+  color: var(--gold);
+  letter-spacing: 0.04em;
+  line-height: 1;
+  min-width: 2ch;
+  text-align: center;
+  background: rgba(254,189,65,0.06);
+  border: 1px solid rgba(254,189,65,0.15);
+  border-radius: 0.75rem;
+  padding: 0.5rem 0.75rem;
+}
+.pagina-viaggio .countdown-unit-label {
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+}
+.pagina-viaggio .countdown-sep {
+  font-family: 'Days One', sans-serif;
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  color: rgba(254,189,65,0.4);
+  align-self: flex-start;
+  margin-top: 0.375rem;
+  line-height: 1;
+}
+.pagina-viaggio .countdown-expired {
+  font-family: 'Days One', sans-serif;
+  font-size: 1.5rem;
+  color: #fca5a5;
+  letter-spacing: 0.1em;
+}
+.pagina-viaggio .urgenza-banner {
+  background: rgba(220,38,38,0.08);
+  border: 1px solid rgba(220,38,38,0.2);
+  border-radius: 0.75rem;
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+.pagina-viaggio .urgenza-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #ef4444;
+  flex-shrink: 0;
+  animation: pulse-dot 1.5s infinite;
+}
+.pagina-viaggio .urgenza-text {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #fca5a5;
+  line-height: 1.5;
+}
+.pagina-viaggio .prezzo-originale {
+  font-size: 1.125rem;
+  color: rgba(255,255,255,0.35);
+  text-decoration: line-through;
+  margin-right: 0.5rem;
+}
+.pagina-viaggio .prezzo-sconto-badge {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(220,38,38,0.2);
+  border: 1px solid rgba(220,38,38,0.35);
+  color: #fca5a5;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.375rem;
+  margin-left: 0.5rem;
+  vertical-align: middle;
+}
+
+/* pulse-badge non e ridefinito: esiste gia identico piu su in questo file */
+@keyframes pulse-scarcity {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}

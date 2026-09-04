@@ -23,15 +23,29 @@
   <meta name="twitter:image" content="" />
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
   <link rel="canonical" href="" id="canonicalTag" />
+  <!-- I dati vanno caricati PRIMA del blocco SEO qui sotto: finche' stavano dopo,
+       quel blocco usciva subito perche' window.DESTINATIONS non esisteva ancora. -->
+  <script src="data/destinations.js"></script>
+  <script src="data/categorie.js"></script>
+  <script src="js/catalog.js"></script>
   <!-- SEO inline: popola title/meta subito, prima del rendering -->
   <script>
     (function(){
       var id = new URLSearchParams(window.location.search).get('id');
-      if (!id || !window.DESTINATIONS) return;
-      var dest = window.DESTINATIONS.find(function(d){ return d.id === id; });
-      if (!dest) return;
-      var t = dest.nome + ' – Escape Tour con SKAPPA | Da ' + dest.prezzo + '€';
-      var desc = 'Escape Tour a ' + dest.nome + ' con SKAPPA. ' + (dest.tagline||'') + ' Alloggio, eventi e supporto inclusi. Da ' + dest.prezzo + '€ a persona.';
+      if (!id || !window.SkappaCatalog) return;
+      var dest = window.SkappaCatalog.tutte().find(function(d){ return d.id === id; });
+      if (!dest) {
+        // Un id inesistente non deve finire in indice
+        var noindex = document.querySelector('meta[name="robots"]');
+        if (noindex) noindex.content = 'noindex, follow';
+        return;
+      }
+      var cat = window.SkappaCatalog.categoriaPrincipale(dest) || {};
+      var seo = cat.seo || {};
+      var t = seo.titolo ? seo.titolo(dest) : dest.nome + ' – SKAPPA';
+      // descrizione COMPLETA: e' quella che il sito produce oggi (il render in fondo alla
+      // pagina la sovrascriveva comunque), quindi e' quella indicizzata. Non accorciarla.
+      var desc = seo.descrizioneCompleta ? seo.descrizioneCompleta(dest) : (dest.tagline || '');
       var url = 'https://skappa.it/viaggio.html?id=' + id;
       document.title = t;
       document.querySelector('meta[name="description"]').content = desc;
@@ -55,308 +69,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Days+One&family=Inter:wght@400;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link href="https://fonts.googleapis.com/css2?family=Days+One&family=Inter:wght@400;600;700&display=swap" rel="stylesheet"></noscript>
-  <script src="data/destinations.js"></script>
-  <script src="data/categorie.js"></script>
-  <script src="js/catalog.js"></script>
-  <style>
-    .viaggio-hero {
-      position: relative;
-      min-height: 72vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding-top: 44px;
-      overflow: hidden;
-    }
-    .back-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      color: rgba(255,255,255,0.9);
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      background: rgba(0,0,0,0.35);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 0.5rem;
-      cursor: pointer;
-      font-family: inherit;
-      padding: 0.4rem 0.75rem;
-      margin-bottom: 2rem;
-      transition: color 0.2s, background 0.2s;
-    }
-    .back-btn:hover { color: var(--gold); background: rgba(0,0,0,0.5); }
-    .hero-tagline-dest {
-      font-size: clamp(0.9375rem, 2.5vw, 1.125rem);
-      color: rgba(255,255,255,0.82);
-      font-weight: 400;
-      max-width: 520px;
-      margin: 0 auto 1.75rem;
-      line-height: 1.6;
-    }
-    .trust-bar {
-      font-size: 0.9375rem;
-      color: rgba(255,255,255,0.85);
-      letter-spacing: 0.06em;
-      margin-top: 1.25rem;
-    }
-    /* Badge tipologia */
-    .summer-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.375rem;
-      background: rgba(254,189,65,0.12);
-      border: 1px solid rgba(254,189,65,0.4);
-      color: #febd41;
-      font-size: 0.6875rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 0.35rem 0.875rem;
-      border-radius: 999px;
-      margin-bottom: 1.25rem;
-    }
-    /* Pacchetto card */
-    .pacchetto-card {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(254,189,65,0.2);
-      border-radius: 1.25rem;
-      padding: 1.25rem 1.5rem 1.5rem;
-      max-width: 480px;
-      margin: 0 auto;
-    }
-    .pacchetto-price {
-      font-family: 'Days One', sans-serif;
-      font-size: clamp(2rem, 5vw, 3rem);
-      font-weight: 900;
-      color: var(--gold);
-      letter-spacing: 0.04em;
-      line-height: 1;
-      margin: 0.5rem 0 0.2rem;
-    }
-    .pacchetto-euro { font-size: 0.55em; vertical-align: top; margin-top: 0.5em; }
-    .pacchetto-list {
-      list-style: none;
-      text-align: left;
-      margin: 1.25rem 0 1.75rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.45rem;
-    }
-    .pacchetto-list li {
-      display: flex;
-      align-items: flex-start;
-      gap: 0.5rem;
-      font-size: 0.875rem;
-      color: rgba(255,255,255,0.75);
-      line-height: 1.5;
-    }
-    .check { color: var(--gold); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
-    .prenota-grid { display:grid; grid-template-columns:1fr 1fr; gap:2rem; align-items:start; }
-    .prenota-grid > div + div { border-left:2px solid rgba(254,189,65,0.25); padding-left:2rem; }
-    @media(max-width:768px){
-      .prenota-grid { grid-template-columns:1fr; gap:1.5rem; }
-      .prenota-grid > div + div { border-left:none; padding-left:0; border-top:2px solid rgba(254,189,65,0.25); padding-top:1.5rem; }
-    }
-    /* Sticky sidebar layout */
-    .sticky-perche-outer {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      align-items: start;
-    }
-    .activities-col { display: flex; flex-direction: column; }
-    .activity-item {
-      display: flex;
-      flex-direction: column;
-      background: var(--navy2);
-    }
-    .activity-item:nth-child(even) { background: var(--navy); }
-    .activity-img-wrap {
-      width: calc(100% - 2.5rem);
-      height: 240px;
-      overflow: hidden;
-      border-radius: 1rem;
-      margin: 1.25rem 1.25rem 0;
-      flex-shrink: 0;
-    }
-    .activity-item-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
-      display: block;
-    }
-    .activity-item-content {
-      padding: 2.5rem 2.5rem;
-      flex: 1;
-    }
-    .activity-title {
-      font-family: 'Days One', sans-serif;
-      font-size: clamp(1.25rem, 3vw, 1.875rem);
-      font-weight: 900;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: var(--gold);
-      margin-bottom: 1rem;
-    }
-    .activity-desc {
-      font-size: 0.9375rem;
-      color: rgba(255,255,255,0.65);
-      line-height: 1.8;
-    }
-    .activity-item-placeholder {
-      width: calc(100% - 2.5rem);
-      height: 240px;
-      border-radius: 1rem;
-      margin: 1.25rem 1.25rem 0;
-      background: linear-gradient(135deg, #0a1f3d 0%, #1a3a5c 100%);
-      flex-shrink: 0;
-    }
-    .perche-sticky-col {
-      position: sticky;
-      top: 44px;
-      min-height: calc(100vh - 44px);
-      background: var(--navy);
-      display: flex;
-      flex-direction: column;
-      order: -1;
-    }
-    .perche-sticky-inner {
-      padding: 3rem 2.5rem;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-    @media (max-width: 767px) {
-      .sticky-perche-outer { grid-template-columns: 1fr; }
-      .perche-sticky-col { position: static; min-height: auto; order: -1; }
-      .activities-col { order: 1; }
-      .activity-img-wrap { height: 140px; width: calc(100% - 2rem); margin: 0.75rem 1rem 0; }
-      .activity-item-placeholder { height: 140px; width: calc(100% - 2rem); margin: 0.75rem 1rem 0; }
-      .activity-item-content { padding: 1.5rem; }
-      .perche-sticky-inner { padding: 2rem 1.5rem; }
-    }
-    .hero-bg {
-      filter: brightness(0.7);
-    }
-    /* Mobile icon size reduction */
-    @media (max-width: 640px) {
-      .incluso-icona { width: 2.5rem; height: 2.5rem; font-size: 1.25rem; }
-    }
-    .perche-bullets {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      margin-top: 1.5rem;
-    }
-    .perche-bullets li {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      font-size: 0.875rem;
-      color: rgba(255,255,255,0.7);
-    }
-    .bullet-dot {
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: var(--gold);
-      flex-shrink: 0;
-    }
-    /* Inclusi con Skappa */
-    .incluso-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 2rem 1.5rem;
-    }
-    @media (min-width: 640px) { .incluso-grid { grid-template-columns: repeat(4, 1fr); } }
-    .incluso-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.875rem;
-      text-align: center;
-    }
-    .incluso-icona {
-      font-size: 2rem;
-      width: 4rem; height: 4rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(254,189,65,0.1);
-      border-radius: 50%;
-      border: 1px solid rgba(254,189,65,0.15);
-    }
-    .incluso-label {
-      font-size: 0.8125rem;
-      font-weight: 600;
-      color: rgba(255,255,255,0.8);
-      line-height: 1.4;
-    }
-    /* FAQ */
-    .faq-item { border-bottom: 1px solid rgba(254,189,65,0.12); }
-    .faq-btn {
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1.25rem 0;
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: rgba(255,255,255,0.88);
-      font-size: 0.9375rem;
-      font-weight: 600;
-      font-family: inherit;
-      text-align: left;
-      gap: 1rem;
-      transition: color 0.2s;
-    }
-    .faq-btn:hover { color: var(--gold); }
-    .faq-body {
-      padding: 0 0 1.25rem;
-      color: rgba(255,255,255,0.6);
-      font-size: 0.875rem;
-      line-height: 1.75;
-      display: none;
-    }
-    .faq-arrow {
-      flex-shrink: 0;
-      color: var(--gold);
-      font-size: 1.375rem;
-      font-weight: 300;
-      line-height: 1;
-      transition: transform 0.25s;
-      user-select: none;
-    }
-    .faq-arrow.open { transform: rotate(45deg); }
-    /* Sticky mobile CTA */
-    #stickyCta {
-      position: fixed;
-      bottom: 0; left: 0; right: 0;
-      z-index: 9990;
-      background: var(--navy2);
-      border-top: 1px solid rgba(254,189,65,0.2);
-      padding: 0.75rem 1rem;
-      box-shadow: 0 -4px 20px rgba(0,0,0,0.4);
-      transform: translateY(110%);
-      transition: transform 0.3s ease;
-    }
-    #stickyCta.visible { transform: translateY(0); }
-    @media (min-width: 768px) { #stickyCta { display: none !important; } }
-    body.sticky-cta-visible #waBtn { bottom: 6rem !important; }
-    /* Scarcity */
-    @keyframes pulse-scarcity {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(0.8); }
-    }
-  </style>
 </head>
-<body>
+<body class="pagina-viaggio">
 
   <!-- ========== NAVBAR ========== -->
   <!--#partial nav active="" cta-href="#blocca" cta-label="Blocca il tuo posto" cta-id="navbarCta"-->
@@ -448,9 +162,9 @@
       <div>
         <button onclick="history.back()" class="back-btn">← Torna indietro</button>
       </div>
-      <div class="summer-badge">☀ Escape Tour</div>
+      <div class="viaggio-badge-cat" id="badgeCategoria"></div>
       <div style="display:flex;justify-content:center;margin-bottom:1.25rem">
-        <img src="assets/foto/utility/logo skappa.svg" alt="SKAPPA"
+        <img src="assets/foto/utility/logo skappa.svg" alt="SKAPPA" id="heroLogo"
           style="height:6rem;object-fit:contain;filter:drop-shadow(0 0 28px rgba(254,189,65,0.65))"
           onerror="this.style.display='none'" />
       </div>
@@ -459,7 +173,7 @@
       <p class="hero-tagline-dest" id="heroTagline"></p>
       <div id="heroInfoRapide" style="display:flex;flex-wrap:wrap;justify-content:center;gap:0.5rem;margin-bottom:1.5rem"></div>
       <div class="hero-price" style="margin-bottom:1.75rem">
-        <span id="heroPrezzoOriginale" style="text-decoration:line-through;font-size:0.6em;opacity:0.55;margin-right:0.5rem;vertical-align:middle"></span><span id="heroPrezzo"></span>
+        <span id="heroPrezzoOriginale" style="text-decoration:line-through;font-size:0.6em;opacity:0.55;margin-right:0.5rem;vertical-align:middle"></span><span id="heroPrezzo"></span><span id="heroSconto" class="prezzo-sconto-badge" style="display:none"></span>
       </div>
       <a id="heroCta" href="#blocca" class="btn-gold" style="font-size:0.9375rem;padding:1.1rem 2.5rem;letter-spacing:0.1em">
         BLOCCA IL TUO POSTO
@@ -468,6 +182,36 @@
       <p style="font-size:0.8125rem;color:rgba(255,255,255,0.5);margin-top:0.75rem;letter-spacing:0.04em">★★★★★ &nbsp;Oltre 500 giovani viaggiatori soddisfatti</p>
     </div>
   </section>
+
+
+  <!-- ========== COUNTDOWN (solo se la meta ha un'offerta con scadenza) ========== -->
+  <div class="countdown-section" id="countdownSection" style="display:none">
+    <p class="countdown-label">⏱ Offerta valida ancora per</p>
+    <div class="countdown-grid" id="countdownGrid">
+      <div class="countdown-unit">
+        <div class="countdown-num" id="cdDays">--</div>
+        <div class="countdown-unit-label">Giorni</div>
+      </div>
+      <div class="countdown-sep">:</div>
+      <div class="countdown-unit">
+        <div class="countdown-num" id="cdHours">--</div>
+        <div class="countdown-unit-label">Ore</div>
+      </div>
+      <div class="countdown-sep">:</div>
+      <div class="countdown-unit">
+        <div class="countdown-num" id="cdMins">--</div>
+        <div class="countdown-unit-label">Minuti</div>
+      </div>
+      <div class="countdown-sep">:</div>
+      <div class="countdown-unit">
+        <div class="countdown-num" id="cdSecs">--</div>
+        <div class="countdown-unit-label">Secondi</div>
+      </div>
+    </div>
+    <p style="margin-top:1.25rem;font-size:0.75rem;color:rgba(255,255,255,0.3);letter-spacing:0.05em">
+      Dopo la scadenza il prezzo potrebbe aumentare o l'offerta non sarà più disponibile
+    </p>
+  </div>
 
 
   <!-- ========== PRENOTA + COSA SUCCEDE DOPO ========== -->
@@ -480,6 +224,11 @@
           <h2 class="section-title" style="margin-bottom:1.5rem">PRENOTA IL TUO POSTO</h2>
           <div class="pacchetto-card" style="text-align:left;max-width:none">
             <h3 id="pNome" style="font-family:'Days One',sans-serif;font-size:1.25rem;color:#fff;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.875rem"></h3>
+            <!-- Banner urgenza: solo se l'offerta ha una scadenza -->
+            <div class="urgenza-banner" id="urgenzaBanner" style="display:none;margin-bottom:1rem">
+              <div class="urgenza-dot"></div>
+              <div class="urgenza-text" id="urgenzaMsg">Offerta in scadenza — prenota subito per garantirti il prezzo speciale</div>
+            </div>
             <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:0.625rem;padding:0.875rem 1rem;margin-bottom:1.25rem;display:flex;flex-direction:column;gap:0.4rem">
               <p id="pPartenza" style="font-size:0.8125rem;color:rgba(255,255,255,0.6)"></p>
               <p id="pHotel" style="font-size:0.8125rem;color:rgba(255,255,255,0.45)"></p>
@@ -546,7 +295,7 @@
 
   <!-- ========== ATTIVITÀ + PERCHÉ (sticky sidebar) ========== -->
   <section style="background:var(--navy2)">
-    <div class="sticky-perche-outer">
+    <div class="sticky-perche-outer" id="attivitaWrap">
       <div class="activities-col" id="attivitaSection"></div>
       <div class="perche-sticky-col">
         <div class="perche-sticky-inner fade-in">
@@ -589,7 +338,7 @@
 
 
   <!-- ========== FAQ ========== -->
-  <section style="background:var(--navy2);padding:5rem 1rem">
+  <section id="faqSection" style="background:var(--navy2);padding:5rem 1rem">
     <div class="max-w-3xl mx-auto">
       <div class="text-center mb-10 fade-in">
         <h2 class="section-title">DOMANDE FREQUENTI</h2>
@@ -601,7 +350,7 @@
 
 
   <!-- ========== RECENSIONI ========== -->
-  <section style="background:var(--navy);padding:5rem 1rem">
+  <section id="recensioniSection" style="background:var(--navy);padding:5rem 1rem">
     <div class="max-w-5xl mx-auto">
       <div class="text-center mb-10 fade-in">
         <h2 class="section-title">RECENSIONI DI VIAGGIO</h2>
@@ -657,7 +406,7 @@
   <div id="stickyCta">
     <div style="display:flex;align-items:center;justify-content:space-between;gap:0.75rem;max-width:480px;margin:0 auto">
       <div>
-        <div style="font-size:0.625rem;color:rgba(255,255,255,0.45);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.1rem">Da</div>
+        <div id="stickyEyebrow" style="font-size:0.625rem;color:rgba(255,255,255,0.45);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.1rem">Da</div>
         <div style="font-family:'Days One',sans-serif;font-size:1.25rem;color:var(--gold);letter-spacing:0.04em;line-height:1" id="stickyPrice"></div>
       </div>
       <a href="#blocca" class="btn-gold" id="stickyCtaBtn" style="flex:1;max-width:220px;justify-content:center;padding:0.75rem 1rem;font-size:0.8125rem;letter-spacing:0.08em">BLOCCA IL POSTO</a>
@@ -670,7 +419,8 @@
     (function () {
       var params = new URLSearchParams(window.location.search);
       var id = params.get('id') || '';
-      var dest = (window.DESTINATIONS || []).find(function (d) { return d.id === id; });
+      var catalogo = window.SkappaCatalog;
+      var dest = catalogo.tutte().find(function (d) { return d.id === id; });
 
       if (!dest) {
         document.getElementById('heroNome').textContent = 'DESTINAZIONE NON TROVATA';
@@ -678,23 +428,46 @@
         document.getElementById('heroTagline').textContent = 'Nessuna destinazione trovata per questo ID.';
         document.getElementById('heroPrezzo').textContent = '';
         document.getElementById('heroCta').style.display = 'none';
+        // Una pagina "non trovata" non deve entrare in indice
+        var robots = document.querySelector('meta[name="robots"]');
+        if (robots) robots.setAttribute('content', 'noindex, follow');
         return;
       }
 
-      // ---- Meta SEO ----
-      var metaTitle = dest.nome + ' – Escape Tour con SKAPPA | Da ' + dest.prezzo + '€';
-      var metaDesc = 'Escape Tour a ' + dest.nome + ' con SKAPPA. ' + dest.tagline + ' Alloggio, eventi e supporto inclusi. Da ' + dest.prezzo + '€ a persona, partenza da ' + dest.partenzaDa + '.';
-      document.title = metaTitle;
-      document.querySelector('meta[name="description"]').setAttribute('content', metaDesc);
-      document.querySelector('meta[property="og:title"]').setAttribute('content', metaTitle);
-      document.querySelector('meta[property="og:description"]').setAttribute('content', metaDesc);
-      if (dest.imgHero) {
-        document.querySelector('meta[property="og:image"]').setAttribute('content', dest.imgHero);
-      }
+      var categoria = catalogo.categoriaPrincipale(dest) || {};
+      var seo = categoria.seo || {};
+      var accento = categoria.accento || {};
       var pageUrl = 'https://skappa.it/viaggio.html?id=' + id;
-      document.querySelector('meta[property="og:url"]').setAttribute('content', pageUrl);
-      document.querySelector('meta[name="twitter:title"]').setAttribute('content', metaTitle);
-      document.querySelector('meta[name="twitter:description"]').setAttribute('content', metaDesc);
+      var scadenza = (dest.offerta && dest.offerta.scadenza) || dest.scadenza;
+      var scadenzaMs = scadenza ? new Date(scadenza).getTime() : NaN;
+      var offertaAttiva = Number.isFinite(scadenzaMs)
+        && scadenzaMs > Date.now()
+        && !(dest.offerta && dest.offerta.attiva === false);
+
+      // ---- Tema di categoria ----
+      // Il colore d'accento e' tutto qui: le regole in style.css leggono queste variabili.
+      var radice = document.body;
+      radice.classList.add('cat-' + (categoria.slug || 'generica'));
+      var mappaVar = {
+        '--cat-badge-bg': accento.badgeBg,
+        '--cat-badge-bordo': accento.badgeBordo,
+        '--cat-badge-testo': accento.badgeTesto,
+        '--cat-badge-anim': accento.badgeAnim,
+        '--cat-check': accento.check,
+        '--cat-titolo': accento.titolo,
+        '--cat-punto': accento.punto
+      };
+      Object.keys(mappaVar).forEach(function (nome) {
+        if (mappaVar[nome]) radice.style.setProperty(nome, mappaVar[nome]);
+      });
+      var badgeEl = document.getElementById('badgeCategoria');
+      if (badgeEl) badgeEl.innerHTML = categoria.badgeDettaglio || categoria.badgeTesto || '';
+      var logoEl = document.getElementById('heroLogo');
+      if (logoEl && accento.logoGlow) logoEl.style.filter = 'drop-shadow(0 0 28px ' + accento.logoGlow + ')';
+
+      // ---- Meta SEO ----
+      // title/description/og li ha gia' impostati il blocco inline nell'<head>, che gira
+      // prima del render. Qui restano solo canonical e le immagini assolute.
       if (dest.imgHero) {
         var absImg = 'https://skappa.it/' + dest.imgHero;
         document.querySelector('meta[name="twitter:image"]').setAttribute('content', absImg);
@@ -719,10 +492,59 @@
       if (dest.prezzoOriginale) {
         document.getElementById('heroPrezzoOriginale').textContent = dest.prezzoOriginale + '€';
       }
-      if (dest.linkPagamento) {
+      if (dest.soloConsulenza !== true && dest.linkPagamento) {
         ['heroCta', 'pacchettoBtn', 'percheBloccaBtn', 'navbarCta'].forEach(function(id) {
           var el = document.getElementById(id);
           if (el) { el.href = dest.linkPagamento; el.target = '_blank'; el.rel = 'noopener noreferrer'; }
+        });
+        if (categoria.slug === 'last-minute') {
+          var testiLastMinute = {
+            heroCta: '⚡ BLOCCA IL PREZZO ORA',
+            pacchettoBtn: '⚡ BLOCCA IL PREZZO ORA',
+            percheBloccaBtn: '⚡ BLOCCA IL PREZZO ORA',
+            stickyCtaBtn: '⚡ BLOCCA ORA'
+          };
+          Object.keys(testiLastMinute).forEach(function (idCta) {
+            var ctaLm = document.getElementById(idCta);
+            if (ctaLm) ctaLm.textContent = testiLastMinute[idCta];
+          });
+          var stickyEyebrow = document.getElementById('stickyEyebrow');
+          if (stickyEyebrow) stickyEyebrow.textContent = '⚡ Offerta';
+        }
+      } else {
+        // Senza checkout non lasciare CTA morte su "#": portano al preventivo oppure,
+        // per le mete solo-consulenza, aprono direttamente la conversazione WhatsApp.
+        var soloConsulenza = dest.soloConsulenza === true;
+        var destinazioneCta = soloConsulenza
+          ? 'https://wa.me/393930306294?text=' + encodeURIComponent('Ciao! Vorrei prenotare una consulenza per ' + dest.nome + '.')
+          : 'index.html#preventivoForm';
+        var testiCta = soloConsulenza
+          ? {
+              navbarCta: 'Prenota una consulenza',
+              heroCta: 'PRENOTA UNA CONSULENZA',
+              pacchettoBtn: 'PRENOTA UNA CONSULENZA →',
+              percheBloccaBtn: 'PRENOTA UNA CONSULENZA',
+              stickyCtaBtn: 'PRENOTA UNA CONSULENZA'
+            }
+          : {
+              navbarCta: 'Richiedi preventivo',
+              heroCta: 'RICHIEDI PREVENTIVO',
+              pacchettoBtn: 'RICHIEDI PREVENTIVO →',
+              percheBloccaBtn: 'RICHIEDI PREVENTIVO',
+              stickyCtaBtn: 'RICHIEDI PREVENTIVO'
+            };
+        Object.keys(testiCta).forEach(function (idCta) {
+          var cta = document.getElementById(idCta);
+          if (!cta) return;
+          cta.textContent = testiCta[idCta];
+          cta.href = destinazioneCta;
+          if (soloConsulenza) {
+            cta.target = '_blank';
+            cta.rel = 'noopener noreferrer';
+          } else {
+            cta.removeAttribute('target');
+            cta.removeAttribute('rel');
+          }
         });
       }
 
@@ -751,10 +573,68 @@
         return '<li><span class="check">✓</span><span>' + item + '</span></li>';
       }).join('');
 
+      // ---- Selettore aeroporto: solo se la meta ha piu' partenze ----
+      window.currentDest = dest;
+      if (dest.prezziAeroporti && dest.prezziAeroporti.length > 0) {
+        var airHtml = '<div id="aeroportoWrap" style="margin-bottom:1.25rem">'
+          + '<label style="font-size:0.6875rem;font-weight:700;color:rgba(255,255,255,0.45);letter-spacing:0.07em;text-transform:uppercase;display:block;margin-bottom:0.4rem"><svg class="ic"><use href="assets/icons.svg#plane"></use></svg> Aeroporto di partenza</label>'
+          + '<select id="aeroportoSelect" onchange="window.skappaOnAeroporto(this)" style="width:100%;padding:0.625rem 0.875rem;background:rgba(255,255,255,0.06);border:1.5px solid rgba(254,189,65,0.2);border-radius:0.5rem;color:#fff;font-size:0.875rem;font-family:inherit;outline:none;cursor:pointer">'
+          + dest.prezziAeroporti.map(function(ap) {
+              return '<option value="' + ap.prezzo + '" data-nome="' + ap.aeroporto + '">' + ap.aeroporto + ' — ' + ap.prezzo + '€</option>';
+            }).join('')
+          + '</select></div>';
+        var pInclusiEl = document.getElementById('pInclusi');
+        if (pInclusiEl) pInclusiEl.insertAdjacentHTML('beforebegin', airHtml);
+      }
+
+      // ---- Offerta a tempo: countdown, badge sconto, banner urgenza ----
+      // Condizionata ai DATI, non alla categoria: in futuro qualsiasi meta puo' avere
+      // una scadenza senza dover essere "last minute".
+      if (offertaAttiva) {
+        var sezioneCd = document.getElementById('countdownSection');
+        if (sezioneCd) sezioneCd.style.display = '';
+        var banner = document.getElementById('urgenzaBanner');
+        if (banner) banner.style.display = '';
+        if (dest.prezzoOriginale) {
+          var perc = Math.round((1 - dest.prezzo / dest.prezzoOriginale) * 100);
+          var elSconto = document.getElementById('heroSconto');
+          if (elSconto && perc > 0) { elSconto.textContent = '-' + perc + '%'; elSconto.style.display = ''; }
+        }
+        startCountdown(scadenza);
+      }
+
+      function startCountdown(scadenzaISO) {
+        var end = new Date(scadenzaISO).getTime();
+        function update() {
+          var diff = end - new Date().getTime();
+          if (diff <= 0) {
+            document.getElementById('countdownGrid').innerHTML = '<div class="countdown-expired">OFFERTA SCADUTA</div>';
+            document.getElementById('urgenzaMsg').textContent = 'Questa offerta è scaduta.';
+            clearInterval(timer);
+            return;
+          }
+          var giorni = Math.floor(diff / 86400000);
+          var ore    = Math.floor((diff % 86400000) / 3600000);
+          var minuti = Math.floor((diff % 3600000) / 60000);
+          var sec    = Math.floor((diff % 60000) / 1000);
+          document.getElementById('cdDays').textContent  = String(giorni).padStart(2, '0');
+          document.getElementById('cdHours').textContent = String(ore).padStart(2, '0');
+          document.getElementById('cdMins').textContent  = String(minuti).padStart(2, '0');
+          document.getElementById('cdSecs').textContent  = String(sec).padStart(2, '0');
+          if (giorni === 0 && ore < 6) {
+            document.getElementById('urgenzaMsg').textContent = 'Meno di 6 ore! Pochissimi posti rimasti a questo prezzo.';
+          } else if (giorni === 0) {
+            document.getElementById('urgenzaMsg').textContent = 'Offerta in scadenza oggi — assicurati il posto subito!';
+          }
+        }
+        update();
+        var timer = setInterval(update, 1000);
+      }
+
       // ---- Pay mode toggle (acconto / pagamento completo) ----
       window._skappaPayDest = dest;
       window._skappaPayPrice = parseInt(dest.prezzo) || 0;
-      if (dest.acconto) {
+      if (dest.acconto && dest.linkPagamento && dest.soloConsulenza !== true) {
         var payToggleEl = document.getElementById('payToggle');
         if (payToggleEl) {
           payToggleEl.style.display = '';
@@ -770,6 +650,9 @@
       document.getElementById('percheText').textContent = (dest.perche && dest.perche.testo) || '';
 
       // ---- Attività (stacked items) ----
+      var attivita = dest.attivita || [];
+      var attivitaWrap = document.getElementById('attivitaWrap');
+      if (attivitaWrap && attivita.length === 0) attivitaWrap.classList.add('senza-attivita');
       document.getElementById('attivitaSection').innerHTML = (dest.attivita || []).map(function (att) {
         var imgHtml = att.img
           ? '<div class="activity-img-wrap"><img src="' + att.img + '" alt="' + att.titolo + '" class="activity-item-img" loading="lazy" decoding="async" onerror="this.parentElement.className=\'activity-item-placeholder\';this.remove()"></div>'
@@ -795,6 +678,8 @@
       document.getElementById('esperienzaTesto').textContent = dest.esperienzaTesto || '';
 
       // ---- FAQ ----
+      var faqSection = document.getElementById('faqSection');
+      if (faqSection && (!dest.faq || dest.faq.length === 0)) faqSection.style.display = 'none';
       document.getElementById('faqContainer').innerHTML = (dest.faq || []).map(function (item) {
         return '<div class="faq-item fade-in">'
           + '<button class="faq-btn" onclick="skappaToggleFaq(this)">'
@@ -806,6 +691,8 @@
       }).join('');
 
       // ---- Recensioni ----
+      var recensioniSection = document.getElementById('recensioniSection');
+      if (recensioniSection && (!dest.recensioni || dest.recensioni.length === 0)) recensioniSection.style.display = 'none';
       document.getElementById('recensioniContainer').innerHTML = (dest.recensioni || []).map(function (r) {
         var tag = r.tag ? ' &nbsp;·&nbsp; ' + r.tag : '';
         var initial = r.nome ? r.nome.charAt(0).toUpperCase() : 'V';
@@ -834,7 +721,7 @@
       if (stickyCta) {
         var spEl = document.getElementById('stickyPrice');
         if (spEl) spEl.textContent = dest.prezzo + '€';
-        if (dest.linkPagamento) {
+        if (dest.linkPagamento && dest.soloConsulenza !== true) {
           var sBtn = document.getElementById('stickyCtaBtn');
           if (sBtn) { sBtn.href = dest.linkPagamento; sBtn.target = '_blank'; sBtn.rel = 'noopener'; }
         }
@@ -864,30 +751,32 @@
       // ---- JSON-LD Structured Data ----
       var baseUrl = 'https://skappa.it';
       var tripImg = dest.imgHero ? baseUrl + '/' + dest.imgHero : null;
+      var offer = {
+        "@type": "Offer",
+        "price": String(dest.prezzo),
+        "priceCurrency": "EUR",
+        "url": dest.linkPagamento || pageUrl,
+        "availability": "https://schema.org/InStock"
+      };
+      if (offertaAttiva) offer.priceValidUntil = new Date(scadenzaMs).toISOString().split('T')[0];
       var graph = [
         {
           "@type": "BreadcrumbList",
           "itemListElement": [
             {"@type":"ListItem","position":1,"name":"Home","item":baseUrl+"/"},
-            {"@type":"ListItem","position":2,"name":"Escape Tour","item":baseUrl+"/summer-tour.html"},
+            {"@type":"ListItem","position":2,"name":seo.breadcrumb || categoria.nome,"item":baseUrl+(seo.breadcrumbUrl || ('/' + (categoria.pagina || 'index.html')))},
             {"@type":"ListItem","position":3,"name":dest.nome,"item":pageUrl}
           ]
         },
         {
           "@type": "TouristTrip",
-          "name": dest.nome + " – Escape Tour SKAPPA",
+          "name": seo.nomeSchema ? seo.nomeSchema(dest) : dest.nome + " – SKAPPA",
           "description": dest.tagline,
           "url": pageUrl,
           "image": tripImg || undefined,
           "touristType": "Giovani viaggiatori",
           "provider": {"@type":"TravelAgency","name":"SKAPPA","url":baseUrl},
-          "offers": {
-            "@type": "Offer",
-            "price": String(dest.prezzo),
-            "priceCurrency": "EUR",
-            "url": dest.linkPagamento || pageUrl,
-            "availability": "https://schema.org/InStock"
-          },
+          "offers": offer,
           "aggregateRating": (dest.recensioni && dest.recensioni.length >= 2) ? {
             "@type": "AggregateRating",
             "ratingValue": "4.8",
@@ -918,6 +807,38 @@
       body.style.display = isOpen ? 'none' : 'block';
       arrow.classList.toggle('open', !isOpen);
     }
+
+    window.skappaOnAeroporto = function(sel) {
+      var price = sel.value;
+      var nome = sel.options[sel.selectedIndex].getAttribute('data-nome') || 'Napoli';
+      var cityName = nome.replace(/\s*\([^)]*\)\s*/, '').trim();
+      var hP = document.getElementById('heroPrezzo');
+      if (hP) hP.textContent = price + '€';
+      var pP = document.getElementById('pPrezzo');
+      // Aggiorna il prezzo solo se siamo in modalità pagamento completo
+      var tabAcconto = document.getElementById('payTabAcconto');
+      var inAccontoMode = tabAcconto && tabAcconto.classList.contains('pay-tab--active');
+      if (!inAccontoMode && pP) pP.innerHTML = '<span class="pacchetto-euro">€</span>' + price;
+      var pPart = document.getElementById('pPartenza');
+      if (pPart) pPart.textContent = 'Partenza da ' + cityName;
+      if (window.currentDest && window.currentDest.durata) {
+        var mG = (window.currentDest.durata || '').match(/(\d+)\s*giorn/);
+        var gg = mG ? parseInt(mG[1]) : 0;
+        if (gg > 0) {
+          var ppg = Math.round(parseInt(price) / gg);
+          var elPPG = document.getElementById('pPrezzoGiorno');
+          if (elPPG && !inAccontoMode) elPPG.textContent = '\u2248 ' + ppg + '\u20ac al giorno a persona';
+        }
+      }
+      // Aggiorna _skappaPayPrice e il saldo visualizzato
+      window._skappaPayPrice = parseInt(price) || 0;
+      if (window._skappaPayDest && window._skappaPayDest.acconto) {
+        var paySaldoEl = document.getElementById('paySaldoAmt');
+        if (paySaldoEl) paySaldoEl.textContent = (window._skappaPayPrice - window._skappaPayDest.acconto) + '\u20ac';
+      }
+      var sp = document.getElementById('stickyPrice');
+      if (sp) sp.textContent = price + '€';
+    };
 
     function skappaSetPayMode(mode) {
       var dest = window._skappaPayDest;

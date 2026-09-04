@@ -30,6 +30,23 @@
 # NOTA: "elimina tutti i blocchi [[redirects]]" vale SOLO per quelli qui sopra.
 # I due blocchi subito sotto NON vanno toccati: servono proprio dopo la fine del WIP.
 
+# ===== Vecchie pagine di dettaglio -> template unico (Fase 1) =====
+# viaggio-citybreak.html e viaggio-lastminute.html non esistono piu': tutto il dettaglio
+# passa da viaggio.html. Netlify conserva la query string, quindi ?id=... sopravvive.
+# Finche' il WIP qui sopra e' attivo questi blocchi restano dormienti: il 302 su /wip.html
+# viene prima nell'ordine e vince. Tornano vivi quando il WIP viene rimosso.
+[[redirects]]
+  from = "/viaggio-citybreak.html"
+  to = "/viaggio.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/viaggio-lastminute.html"
+  to = "/viaggio.html"
+  status = 301
+  force = true
+
 # ===== File interni: mai scaricabili =====
 # Oggi il redirect WIP li copre di rimbalzo (arriva prima nell'ordine), ma quando i blocchi
 # qui sopra spariranno resterebbero serviti in chiaro. Sul sito di Francesco TASKS.md e'

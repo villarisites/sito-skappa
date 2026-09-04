@@ -1,5 +1,33 @@
 # TASKS — skappa.it
 
+## 2026-09-04 (notte) — Fase 1 IMPLEMENTATA e verificata
+
+I tre template di dettaglio sono stati unificati in `viaggio.html`; i due file legacy sono stati
+eliminati e hanno redirect 301 permanenti. Il render sceglie tema, SEO e comportamento dai dati.
+
+- [x] `viaggio-citybreak.html` e `viaggio-lastminute.html` eliminati
+- [x] CSS dei dettagli spostato in `css/style.css`, interamente sotto `.pagina-viaggio`
+- [x] Tema per categoria: oro, teal e rosso, incluso il bagliore corretto del logo
+- [x] SEO per categoria centralizzata in `data/categorie.js`; un solo blocco SEO in `<head>`
+- [x] Selettore aeroporto, countdown futuro, sconto e `priceValidUntil` guidati dai dati
+- [x] CTA: checkout, preventivo o consulenza secondo `linkPagamento` / `soloConsulenza`
+- [x] Attivita', FAQ e recensioni vuote non lasciano sezioni vuote
+- [x] `admin.html`, `sitemap.xml` e template di categoria allineati a `viaggio.html`
+- [x] Redirect 301 aggiunti dopo il blocco WIP; la query string e' preservata dai redirect 301
+
+**Verifica browser Playwright:** 14 destinazioni e 4 listing confrontati con il baseline,
+0 differenze e 0 errori JS. Passano anche fixture per preventivo, consulenza, Last Minute,
+scadenza passata/futura e sezioni vuote. `npm run build:pages` eseguito due volte: tutto invariato.
+`verify-cards.cjs`: 28 card, 0 differenze. Dettaglio in `.ai-handoff/CLAUDE_REVIEW_fase1.md`.
+
+| Fase | Contenuto | Stato |
+|---|---|---|
+| 0 | Fondamenta | **FATTA** |
+| 1 | Template di dettaglio unico | **FATTA** |
+| 2 | Tassonomia nuova (6 categorie, 27 mete), foto, pagine categoria | prossima |
+| 3 | Hero "Il Volo SKAPPA" | da fare |
+| 4 | Pulizia peso + uscita dal WIP | da fare |
+
 ## 2026-09-04 (sera) — Fase 0 IMPLEMENTATA e verificata
 
 Fondamenta pronte. Il sito e' equivalente a prima, con tre eccezioni dichiarate (tutte migliorie).

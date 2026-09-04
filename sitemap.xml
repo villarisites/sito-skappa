@@ -42,54 +42,54 @@
 
   <!-- ===== FUGHE IN EUROPA ===== -->
   <url>
-    <loc>https://skappa.it/viaggio-citybreak.html?id=barcellona</loc>
+    <loc>https://skappa.it/viaggio.html?id=barcellona</loc>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://skappa.it/viaggio-citybreak.html?id=londra</loc>
+    <loc>https://skappa.it/viaggio.html?id=londra</loc>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://skappa.it/viaggio-citybreak.html?id=parigi</loc>
+    <loc>https://skappa.it/viaggio.html?id=parigi</loc>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://skappa.it/viaggio-citybreak.html?id=sofia</loc>
+    <loc>https://skappa.it/viaggio.html?id=sofia</loc>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://skappa.it/viaggio-citybreak.html?id=tirana</loc>
+    <loc>https://skappa.it/viaggio.html?id=tirana</loc>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://skappa.it/viaggio-citybreak.html?id=budapest</loc>
+    <loc>https://skappa.it/viaggio.html?id=budapest</loc>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://skappa.it/viaggio-citybreak.html?id=malta</loc>
+    <loc>https://skappa.it/viaggio.html?id=malta</loc>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://skappa.it/viaggio-citybreak.html?id=bucarest</loc>
+    <loc>https://skappa.it/viaggio.html?id=bucarest</loc>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://skappa.it/viaggio-citybreak.html?id=varsavia</loc>
+    <loc>https://skappa.it/viaggio.html?id=varsavia</loc>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
 
   <!-- ===== LAST MINUTE ===== -->
   <url>
-    <loc>https://skappa.it/viaggio-lastminute.html?id=praga-lastminute</loc>
+    <loc>https://skappa.it/viaggio.html?id=praga-lastminute</loc>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
