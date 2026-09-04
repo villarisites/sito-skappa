@@ -4,9 +4,11 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "build:catalog": "node scripts/build-catalog.mjs",
     "build:pages": "node scripts/build-pages.mjs",
     "build:css": "tailwindcss -i css/tailwind-input.css -o css/tailwind.min.css --minify",
-    "convert:webp": "node scripts/convert-to-webp.mjs"
+    "convert:webp": "node scripts/convert-to-webp.mjs",
+    "test": "node --test test/*.test.mjs"
   },
   "devDependencies": {
     "sharp": "^0.34.5"
