@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import path from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
@@ -13,6 +14,14 @@ const NEW_IDS = [
 const REUSED_IDS = ["budapest", "parigi", "bucarest", "barcellona", "sofia", "londra"];
 
 test("catalogImages_allDestinations_haveReadableWebpVariantsAtExpectedWidths", async () => {
+  const sources = JSON.parse(await readFile(path.join(ROOT, "data", "photo-sources.json"), "utf8"));
+  assert.deepEqual(sources.map(({ slug }) => slug), NEW_IDS);
+  for (const source of sources) {
+    assert.equal(source.provider, "Pexels");
+    assert.match(source.pageUrl, /^https:\/\/www\.pexels\.com\/photo\/\d+\/$/);
+    assert.ok(source.photographer);
+  }
+
   for (const id of [...NEW_IDS, ...REUSED_IDS]) {
     for (const [file, expectedWidth] of [
       ["hero.webp", 1920], ["card.webp", 840], ["card-sm.webp", 320]

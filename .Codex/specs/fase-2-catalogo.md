@@ -27,7 +27,7 @@ Sostituire il catalogo concluso con 27 mete in 6 categorie, mantenendo i contenu
   Sofia e Londra.
 - [x] AC4 — Le altre 8 mete attuali sono rimosse dal catalogo attivo e conservate in
   `data/archivio.js`, che nessuna pagina pubblica carica.
-- [ ] AC5 — Ogni meta nuova ha `hero.webp` (1920px, q82), `card.webp` (840px, q82) e
+- [x] AC5 — Ogni meta nuova ha `hero.webp` (1920px, q82), `card.webp` (840px, q82) e
   `card-sm.webp` (320px, q72) in `assets/foto/<slug>/`; le 6 mete riusate mantengono gli asset
   esistenti e tutte le immagini risultano leggibili dal browser.
 - [x] AC6 — `data/categorie.js` descrive le 6 categorie finali e costituisce la fonte unica per

@@ -1,0 +1,170 @@
+[
+  {
+    "slug": "praga",
+    "provider": "Pexels",
+    "photoId": "18613232",
+    "photographer": "ROBERTO BELELLI",
+    "alt": "Prague cityscape with bridges",
+    "pageUrl": "https://www.pexels.com/photo/18613232/"
+  },
+  {
+    "slug": "monaco-di-baviera",
+    "provider": "Pexels",
+    "photoId": "31593016",
+    "photographer": "Mohamed B.",
+    "alt": "Munich skyline with Olympic Tower and park",
+    "pageUrl": "https://www.pexels.com/photo/31593016/"
+  },
+  {
+    "slug": "vienna",
+    "provider": "Pexels",
+    "photoId": "31822727",
+    "photographer": "Alexey K.",
+    "alt": "Vienna cityscape with Karlskirche",
+    "pageUrl": "https://www.pexels.com/photo/31822727/"
+  },
+  {
+    "slug": "madrid",
+    "provider": "Pexels",
+    "photoId": "35398298",
+    "photographer": "Travel Photographer",
+    "alt": "Panoramic view of Madrid cityscape",
+    "pageUrl": "https://www.pexels.com/photo/35398298/"
+  },
+  {
+    "slug": "siviglia",
+    "provider": "Pexels",
+    "photoId": "22194241",
+    "photographer": "Javier Balseiro",
+    "alt": "Plaza de España in Seville",
+    "pageUrl": "https://www.pexels.com/photo/22194241/"
+  },
+  {
+    "slug": "cracovia",
+    "provider": "Pexels",
+    "photoId": "30683066",
+    "photographer": "Mikita Kavaleuski",
+    "alt": "Kraków skyline and waterfront",
+    "pageUrl": "https://www.pexels.com/photo/30683066/"
+  },
+  {
+    "slug": "lisbona",
+    "provider": "Pexels",
+    "photoId": "26288655",
+    "photographer": "Guilherme Marques",
+    "alt": "Lisbon historic Alfama cityscape",
+    "pageUrl": "https://www.pexels.com/photo/26288655/"
+  },
+  {
+    "slug": "valencia",
+    "provider": "Pexels",
+    "photoId": "11223102",
+    "photographer": "Salvatore De Lellis",
+    "alt": "Valencia City of Arts and Sciences",
+    "pageUrl": "https://www.pexels.com/photo/11223102/"
+  },
+  {
+    "slug": "amsterdam",
+    "provider": "Pexels",
+    "photoId": "18999308",
+    "photographer": "Matheus Bertelli",
+    "alt": "Amsterdam canal and historic buildings",
+    "pageUrl": "https://www.pexels.com/photo/18999308/"
+  },
+  {
+    "slug": "berlino",
+    "provider": "Pexels",
+    "photoId": "33482395",
+    "photographer": "Meike",
+    "alt": "Berlin skyline and Fernsehturm reflection",
+    "pageUrl": "https://www.pexels.com/photo/33482395/"
+  },
+  {
+    "slug": "tenerife",
+    "provider": "Pexels",
+    "photoId": "32518027",
+    "photographer": "Gohar Dalyan",
+    "alt": "Tenerife beachfront and coastline",
+    "pageUrl": "https://www.pexels.com/photo/32518027/"
+  },
+  {
+    "slug": "sharm-el-sheikh",
+    "provider": "Pexels",
+    "photoId": "34939785",
+    "photographer": "Agung Pandit Wiguna",
+    "alt": "Sharm El Sheikh coastline at sunset",
+    "pageUrl": "https://www.pexels.com/photo/34939785/"
+  },
+  {
+    "slug": "marrakech",
+    "provider": "Pexels",
+    "photoId": "20066999",
+    "photographer": "Paolo Botio",
+    "alt": "Marrakech medina at night",
+    "pageUrl": "https://www.pexels.com/photo/20066999/"
+  },
+  {
+    "slug": "hurghada",
+    "provider": "Pexels",
+    "photoId": "36064008",
+    "photographer": "Nada Mohamed",
+    "alt": "Red Sea view from Hurghada",
+    "pageUrl": "https://www.pexels.com/photo/36064008/"
+  },
+  {
+    "slug": "dubai",
+    "provider": "Pexels",
+    "photoId": "34787060",
+    "photographer": "Nithin Daison",
+    "alt": "Dubai skyline and Burj Khalifa at sunset",
+    "pageUrl": "https://www.pexels.com/photo/34787060/"
+  },
+  {
+    "slug": "new-york",
+    "provider": "Pexels",
+    "photoId": "12589406",
+    "photographer": "Trev W. Adams",
+    "alt": "New York City skyline and river",
+    "pageUrl": "https://www.pexels.com/photo/12589406/"
+  },
+  {
+    "slug": "los-angeles",
+    "provider": "Pexels",
+    "photoId": "28738232",
+    "photographer": "Simon Steiner",
+    "alt": "Los Angeles skyline at sunset",
+    "pageUrl": "https://www.pexels.com/photo/28738232/"
+  },
+  {
+    "slug": "maldive",
+    "provider": "Pexels",
+    "photoId": "31875072",
+    "photographer": "Alfred Franz",
+    "alt": "Maldives beach with palm tree",
+    "pageUrl": "https://www.pexels.com/photo/31875072/"
+  },
+  {
+    "slug": "messico",
+    "provider": "Pexels",
+    "photoId": "39124038",
+    "photographer": "Josias Salinas",
+    "alt": "Panoramic view of Guanajuato, Mexico",
+    "pageUrl": "https://www.pexels.com/photo/39124038/"
+  },
+  {
+    "slug": "thailandia",
+    "provider": "Pexels",
+    "photoId": "4128298",
+    "photographer": "Nextvoyage",
+    "alt": "Thailand landscape and limestone mountains",
+    "pageUrl": "https://www.pexels.com/photo/4128298/"
+  },
+  {
+    "slug": "giappone",
+    "provider": "Pexels",
+    "photoId": "3408353",
+    "photographer": "Tomáš Malík",
+    "alt": "Chureito Pagoda and Mount Fuji",
+    "pageUrl": "https://www.pexels.com/photo/3408353/"
+  }
+]
