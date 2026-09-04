@@ -47,6 +47,82 @@
   status = 301
   force = true
 
+# ===== Vecchio catalogo -> tassonomia Fase 2 =====
+[[redirects]]
+  from = "/summer-tour.html"
+  to = "/mare-sole.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/fughe-in-europa.html"
+  to = "/europa.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/last-minute.html"
+  to = "/offerte.html"
+  status = 301
+  force = true
+
+# Netlify richiede la query esatta per intercettare i vecchi URL viaggio.html?id=...
+[[redirects]]
+  from = "/viaggio.html"
+  to = "/mare-sole.html"
+  status = 301
+  force = true
+  query = { id = "gallipoli" }
+
+[[redirects]]
+  from = "/viaggio.html"
+  to = "/mare-sole.html"
+  status = 301
+  force = true
+  query = { id = "ibiza" }
+
+[[redirects]]
+  from = "/viaggio.html"
+  to = "/mare-sole.html"
+  status = 301
+  force = true
+  query = { id = "lloret-de-mar" }
+
+[[redirects]]
+  from = "/viaggio.html"
+  to = "/mare-sole.html"
+  status = 301
+  force = true
+  query = { id = "malta" }
+
+[[redirects]]
+  from = "/viaggio.html"
+  to = "/mare-sole.html"
+  status = 301
+  force = true
+  query = { id = "mykonos" }
+
+[[redirects]]
+  from = "/viaggio.html"
+  to = "/mare-sole.html"
+  status = 301
+  force = true
+  query = { id = "zante" }
+
+[[redirects]]
+  from = "/viaggio.html"
+  to = "/europa.html"
+  status = 301
+  force = true
+  query = { id = "tirana" }
+
+[[redirects]]
+  from = "/viaggio.html"
+  to = "/europa.html"
+  status = 301
+  force = true
+  query = { id = "varsavia" }
+
 # ===== File interni: mai scaricabili =====
 # Oggi il redirect WIP li copre di rimbalzo (arriva prima nell'ordine), ma quando i blocchi
 # qui sopra spariranno resterebbero serviti in chiaro. Sul sito di Francesco TASKS.md e'

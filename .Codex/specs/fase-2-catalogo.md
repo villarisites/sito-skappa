@@ -44,7 +44,7 @@ Sostituire il catalogo concluso con 27 mete in 6 categorie, mantenendo i contenu
   statica dei partial e non e' duplicato nelle pagine.
 - [x] AC11 — `admin.html` usa checkbox per `categorie[]`, gestisce `offerta` e
   `soloConsulenza`, e continua a esportare un `destinations.js` valido per lo schema nuovo.
-- [ ] AC12 — I redirect permanenti coprono le tre vecchie pagine categoria e gli 8 ID archiviati;
+- [x] AC12 — I redirect permanenti coprono le tre vecchie pagine categoria e gli 8 ID archiviati;
   le regole WIP restano prime e attive fino alla Fase 4.
 - [ ] AC13 — `sitemap.xml` non contiene mete archiviate o `praga-lastminute`; contiene le nuove
   pagine indicizzabili e i 27 URL canonici `viaggio.html?id=<slug>`.
