@@ -169,7 +169,7 @@
       <a id="heroCta" href="#blocca" class="btn-gold" style="font-size:0.9375rem;padding:1.1rem 2.5rem;letter-spacing:0.1em">
         BLOCCA IL TUO POSTO
       </a>
-      <p class="trust-bar">Pagamento sicuro con Stripe &nbsp;·&nbsp; Nessun costo nascosto &nbsp;·&nbsp; Conferma immediata</p>
+      <p class="trust-bar" id="heroTrustBar">Pagamento sicuro con Stripe &nbsp;·&nbsp; Nessun costo nascosto &nbsp;·&nbsp; Conferma immediata</p>
       <p style="font-size:0.8125rem;color:rgba(255,255,255,0.5);margin-top:0.75rem;letter-spacing:0.04em">★★★★★ &nbsp;Oltre 500 giovani viaggiatori soddisfatti</p>
     </div>
   </section>
@@ -212,7 +212,7 @@
 
         <!-- SX: Pacchetto card -->
         <div class="fade-in">
-          <h2 class="section-title" style="margin-bottom:1.5rem">PRENOTA IL TUO POSTO</h2>
+          <h2 class="section-title" id="bookingTitle" style="margin-bottom:1.5rem">PRENOTA IL TUO POSTO</h2>
           <div class="pacchetto-card" style="text-align:left;max-width:none">
             <h3 id="pNome" style="font-family:'Days One',sans-serif;font-size:1.25rem;color:#fff;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.875rem"></h3>
             <!-- Banner urgenza: solo se l'offerta ha una scadenza -->
@@ -406,6 +406,7 @@
 
   <script src="js/main.js" defer></script>
   <script src="js/animations.js" defer></script>
+  <script src="js/travel-detail.js"></script>
   <script>
     (function () {
       var params = new URLSearchParams(window.location.search);
@@ -428,11 +429,13 @@
       var categoria = catalogo.categoriaPrincipale(dest) || {};
       var seo = categoria.seo || {};
       var accento = categoria.accento || {};
+      var hasPrice = window.SkappaTravel.hasPrice(dest);
       var pageUrl = 'https://skappa.it/viaggio.html?id=' + id;
       var scadenza = (dest.offerta && dest.offerta.scadenza) || dest.scadenza;
       var scadenzaMs = scadenza ? new Date(scadenza).getTime() : NaN;
       var offertaAttiva = Number.isFinite(scadenzaMs)
         && scadenzaMs > Date.now()
+        && hasPrice
         && !(dest.offerta && dest.offerta.attiva === false);
 
       // ---- Tema di categoria ----
@@ -479,9 +482,15 @@
           return '<span style="display:inline-flex;align-items:center;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:999px;padding:0.3rem 0.75rem;font-size:0.75rem;color:rgba(255,255,255,0.8);font-weight:600;letter-spacing:0.04em">' + item + '</span>';
         }).join('');
       }
-      document.getElementById('heroPrezzo').textContent = dest.prezzo + '€';
-      if (dest.prezzoOriginale) {
+      document.getElementById('heroPrezzo').textContent = SkappaTravel.priceLabel(dest);
+      if (hasPrice && dest.prezzoOriginale) {
         document.getElementById('heroPrezzoOriginale').textContent = dest.prezzoOriginale + '€';
+      }
+      if (!hasPrice) {
+        var heroTrustBar = document.getElementById('heroTrustBar');
+        var bookingTitle = document.getElementById('bookingTitle');
+        if (heroTrustBar) heroTrustBar.textContent = 'Preventivo personalizzato · Nessun impegno · Assistenza SKAPPA';
+        if (bookingTitle) bookingTitle.textContent = 'RICHIEDI IL TUO PREVENTIVO';
       }
       if (dest.soloConsulenza !== true && dest.linkPagamento) {
         ['heroCta', 'pacchettoBtn', 'percheBloccaBtn', 'navbarCta'].forEach(function(id) {
@@ -542,16 +551,15 @@
       // ---- Pacchetti ----
       document.getElementById('pNome').textContent = dest.nome;
       document.getElementById('pPartenza').textContent = 'Partenza da ' + dest.partenzaDa;
-      document.getElementById('pPrezzo').innerHTML =
-        '<span class="pacchetto-euro">€</span>' + dest.prezzo;
-      if (dest.prezzoOriginale) {
+      document.getElementById('pPrezzo').innerHTML = SkappaTravel.priceMarkup(dest);
+      if (hasPrice && dest.prezzoOriginale) {
         document.getElementById('pPrezzoOriginale').textContent = '€' + dest.prezzoOriginale + ' a persona';
       }
       if (dest.hotel) {
         var pHotel = document.getElementById('pHotel');
         if (pHotel) pHotel.innerHTML = '<svg class="ic"><use href="assets/icons.svg#hotel"></use></svg> ' + dest.hotel;
       }
-      if (dest.durata) {
+      if (hasPrice && dest.durata) {
         var mGiorni = (dest.durata || '').match(/(\d+)\s*giorn/);
         var gg = mGiorni ? parseInt(mGiorni[1]) : 0;
         if (gg > 0) {
@@ -566,7 +574,7 @@
 
       // ---- Selettore aeroporto: solo se la meta ha piu' partenze ----
       window.currentDest = dest;
-      if (dest.prezziAeroporti && dest.prezziAeroporti.length > 0) {
+      if (hasPrice && dest.prezziAeroporti && dest.prezziAeroporti.length > 0) {
         var airHtml = '<div id="aeroportoWrap" style="margin-bottom:1.25rem">'
           + '<label style="font-size:0.6875rem;font-weight:700;color:rgba(255,255,255,0.45);letter-spacing:0.07em;text-transform:uppercase;display:block;margin-bottom:0.4rem"><svg class="ic"><use href="assets/icons.svg#plane"></use></svg> Aeroporto di partenza</label>'
           + '<select id="aeroportoSelect" onchange="window.skappaOnAeroporto(this)" style="width:100%;padding:0.625rem 0.875rem;background:rgba(255,255,255,0.06);border:1.5px solid rgba(254,189,65,0.2);border-radius:0.5rem;color:#fff;font-size:0.875rem;font-family:inherit;outline:none;cursor:pointer">'
@@ -624,7 +632,7 @@
 
       // ---- Pay mode toggle (acconto / pagamento completo) ----
       window._skappaPayDest = dest;
-      window._skappaPayPrice = parseInt(dest.prezzo) || 0;
+      window._skappaPayPrice = hasPrice ? Number(dest.prezzo) : null;
       if (dest.acconto && dest.linkPagamento && dest.soloConsulenza !== true) {
         var payToggleEl = document.getElementById('payToggle');
         if (payToggleEl) {
@@ -701,7 +709,7 @@
       }).join('');
 
       // ---- Scarcity badge ----
-      if (dest.postiRimasti) {
+      if (hasPrice && dest.postiRimasti) {
         var sb = document.getElementById('scarcityBadge');
         var st = document.getElementById('scarcityText');
         if (sb && st) { st.textContent = 'Solo ' + dest.postiRimasti + ' posti rimasti a questo prezzo'; sb.style.display = 'flex'; }
@@ -711,7 +719,7 @@
       var stickyCta = document.getElementById('stickyCta');
       if (stickyCta) {
         var spEl = document.getElementById('stickyPrice');
-        if (spEl) spEl.textContent = dest.prezzo + '€';
+        if (spEl) spEl.textContent = SkappaTravel.priceLabel(dest);
         if (dest.linkPagamento && dest.soloConsulenza !== true) {
           var sBtn = document.getElementById('stickyCtaBtn');
           if (sBtn) { sBtn.href = dest.linkPagamento; sBtn.target = '_blank'; sBtn.rel = 'noopener'; }
@@ -742,13 +750,7 @@
       // ---- JSON-LD Structured Data ----
       var baseUrl = 'https://skappa.it';
       var tripImg = dest.imgHero ? baseUrl + '/' + dest.imgHero : null;
-      var offer = {
-        "@type": "Offer",
-        "price": String(dest.prezzo),
-        "priceCurrency": "EUR",
-        "url": dest.linkPagamento || pageUrl,
-        "availability": "https://schema.org/InStock"
-      };
+      var offer = SkappaTravel.createOffer(dest, pageUrl);
       if (offertaAttiva) offer.priceValidUntil = new Date(scadenzaMs).toISOString().split('T')[0];
       var graph = [
         {
