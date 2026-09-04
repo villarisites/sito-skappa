@@ -37,7 +37,7 @@ Sostituire il catalogo concluso con 27 mete in 6 categorie, mantenendo i contenu
   `SkappaCatalog`, inclusi i casi di appartenenza multipla.
 - [x] AC8 — `viaggi-di-nozze.html` non mostra prezzi e offre una CTA "Prenota una consulenza";
   `crociere.html` mostra lo stato "in arrivo" e invia il form Formspree con `tipo=crociere`.
-- [ ] AC9 — `offerte.html` mostra solo mete con offerta attiva e scadenza futura; sostituisce
+- [x] AC9 — `offerte.html` mostra solo mete con offerta attiva e scadenza futura; sostituisce
   funzionalmente `last-minute.html`.
 - [ ] AC10 — La navbar desktop e mobile espone Home, Destinazioni (le 6 categorie), Offerte,
   Chi siamo e Contatti; l'elenco categorie viene generato da `data/categorie.js` durante la build

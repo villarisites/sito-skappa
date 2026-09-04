@@ -43,11 +43,9 @@
     var adesso = new Date();
     return tutte().filter(function (destinazione) {
       var offerta = destinazione.offerta;
-      var haCategoria = destinazione.categorie.indexOf('last-minute') !== -1;
-      if (!haCategoria && !offerta) return false;
-      if (offerta && offerta.attiva === false) return false;
-      var scadenza = (offerta && offerta.scadenza) || destinazione.scadenza;
-      return !scadenza || new Date(scadenza) > adesso;
+      if (!offerta || offerta.attiva !== true || !offerta.scadenza) return false;
+      var scadenza = new Date(offerta.scadenza);
+      return !Number.isNaN(scadenza.getTime()) && scadenza > adesso;
     });
   }
 
@@ -104,8 +102,11 @@
   function buildLastMinuteCard(destinazione, opzioni) {
     var contesto = opzioni.contesto || 'listing';
     var indice = Number(opzioni.indice || 0);
-    var sconto = destinazione.prezzoOriginale
-      ? Math.round((1 - destinazione.prezzo / destinazione.prezzoOriginale) * 100)
+    var offerta = destinazione.offerta || {};
+    var prezzoOriginale = offerta.prezzoOriginale || destinazione.prezzoOriginale;
+    var scadenza = offerta.scadenza || destinazione.scadenza;
+    var sconto = prezzoOriginale
+      ? Math.round((1 - destinazione.prezzo / prezzoOriginale) * 100)
       : null;
     var immagine = contesto === 'home'
       ? { src: destinazione.imgHero || '', srcset: '' }
@@ -114,7 +115,7 @@
       ? (indice === 0 ? 'fetchpriority="high"' : 'loading="lazy" decoding="async"')
       : 'loading="lazy" decoding="async"';
     var style = contesto === 'home' ? ' style="flex:0 0 260px;max-width:280px"' : '';
-    var countdown = contesto === 'listing' && destinazione.scadenza
+    var countdown = contesto === 'listing' && scadenza
       ? '<span class="card-mini-countdown" id="lmcd_' + indice + '">⏱ calcolo...</span>'
       : '';
     var compact = contesto === 'listing';
@@ -131,7 +132,7 @@
       + '<p class="dest-card-date">' + (destinazione.date || '') + '</p>'
       + '<p style="font-size:' + (compact ? '.5625rem' : '0.5625rem') + ';color:var(--teal);font-weight:700;letter-spacing:' + (compact ? '.05em' : '0.05em') + ';margin-bottom:' + (compact ? '.15rem' : '0.15rem') + '"><svg class="ic"><use href="assets/icons.svg#plane"></use></svg> volo incluso</p>'
       + '<p class="dest-card-price">'
-      + (destinazione.prezzoOriginale ? '<span class="card-lm-prezzo-orig">' + destinazione.prezzoOriginale + '€</span>' : '')
+      + (prezzoOriginale ? '<span class="card-lm-prezzo-orig">' + prezzoOriginale + '€</span>' : '')
       + destinazione.prezzo + '€'
       + (sconto ? ' <span style="font-size:' + (compact ? '.5625rem' : '0.5625rem') + ';color:#fca5a5;font-weight:700">-' + sconto + '%</span>' : '')
       + '</p>'

@@ -8,6 +8,10 @@
 .catalog-page[data-category="mercatini-natale"] { --catalog-accent:#f5c45e;--catalog-accent-rgb:245,196,94; }
 .catalog-page[data-category="mare-sole"] { --catalog-accent:#ffb84f;--catalog-accent-rgb:255,184,79; }
 .catalog-page[data-category="intercontinentali"] { --catalog-accent:#b8a8ff;--catalog-accent-rgb:184,168,255; }
+.catalog-page.offers-page { --catalog-accent:#ff6b6b;--catalog-accent-rgb:255,107,107; }
+.offers-page .catalog-hero__veil { background:linear-gradient(90deg,rgba(20,4,13,.98),rgba(20,4,13,.7) 50%,rgba(20,4,13,.2)),linear-gradient(0deg,#020b1d,transparent 55%); }
+.offers-page .catalog-ticket__route span:nth-child(2) { animation:offersPulse 1.7s ease-in-out infinite; }
+@keyframes offersPulse { 50% { opacity:.28; } }
 
 .catalog-hero {
   position:relative;min-height:clamp(38rem,82vh,54rem);overflow:hidden;
