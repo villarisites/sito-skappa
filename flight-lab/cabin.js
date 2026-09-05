@@ -35,7 +35,7 @@
   var elCornici = document.getElementById('cornici');
   var elVetri = document.getElementById('vetri');
   var mondoPieno = document.getElementById('mondoPieno');
-  var etichettaNome = document.getElementById('etichettaNome');
+  var elTarghette = document.getElementById('targhette');
 
   // ?resta=1 blocca la navigazione finale: serve a guardare la transizione da fermi
   var RESTA = new URLSearchParams(location.search).has('resta');
@@ -195,10 +195,14 @@
     }).join('');
 
     elCornici.innerHTML = geometrie.map(function () { return '<div class="cornice"></div>'; }).join('');
+    elTarghette.innerHTML = geometrie.map(function (g) {
+      return '<div class="targhetta">' + g.meta.nome + '</div>';
+    }).join('');
     elVetri.innerHTML = geometrie.map(function () { return '<div class="vetro"></div>'; }).join('');
 
     geometrie.forEach(function (g, i) {
       stile(elCornici.children[i], g);
+      stile(elTarghette.children[i], g);
       stile(elVetri.children[i], g);
       var presa = document.getElementById('presa-' + g.meta.id);
       if (presa) stile(presa, g);
@@ -218,7 +222,9 @@
     scena.style.setProperty('--fuoco-x', g.x + 'px');
     scena.style.setProperty('--fuoco-y', g.y + 'px');
     scena.style.setProperty('--h-attivo', g.h + 'px');
-    etichettaNome.textContent = g.meta.nome;
+    Array.prototype.forEach.call(elTarghette.children, function (t, i) {
+      t.classList.toggle('is-attiva', i === ATTIVA);
+    });
   }
 
   // ---- Parallasse: quasi inconscia, guidata dal puntatore ----
@@ -271,13 +277,14 @@
     // 2. Gli altri finestrini si allontanano lateralmente: la cabina si apre
     geometrie.forEach(function (altra, i) {
       if (i === indice) return;
-      tl.to(elMondi.children[i], {
-        opacity: 0.25, duration: 0.7, ease: 'power1.in'
+      tl.to(elMondi.children[i].querySelector('img'), {
+        filter: 'saturate(0.25) brightness(0.30) contrast(0.95)',
+        duration: 0.75, ease: 'power1.in'
       }, 0);
     });
 
     // 3. Etichetta e riflessi si tolgono di mezzo presto
-    tl.to(['#etichetta', elVetri], { opacity: 0, duration: 0.3 }, 0);
+    tl.to([elTarghette, elVetri], { opacity: 0, duration: 0.32 }, 0);
 
     // 4. Quando la cornice ha ormai superato il bordo dello schermo, Flip prende
     //    LA STESSA immagine — quella dentro il finestrino, non una copia — e la
