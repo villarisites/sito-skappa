@@ -13,9 +13,9 @@
 <body>
 
   <!-- La scena. Tutto quello che sta dentro .camera vive nello stesso spazio 3D. -->
+  <main class="cabina-scroll" id="cabinaScroll" aria-label="Scegli la tua destinazione">
   <div class="scena" id="scena">
     <div class="camera" id="camera">
-      <div class="cielo"></div>
       <div class="mondi" id="mondi"></div>
       <div class="parete" id="parete"></div>
       <div class="cornici" id="cornici"></div>
@@ -26,14 +26,30 @@
     </div>
 
     <!-- I link veri. Restano navigabili senza JavaScript. -->
-    <a class="presa" id="presa-praga" href="../viaggio.html?id=praga" data-meta="praga" aria-label="PRAGA"></a>
-    <a class="presa" id="presa-budapest" href="../viaggio.html?id=budapest" data-meta="budapest" aria-label="BUDAPEST"></a>
-    <a class="presa" id="presa-vienna" href="../viaggio.html?id=vienna" data-meta="vienna" aria-label="VIENNA"></a>
+    <a class="presa" id="presa-praga" href="../viaggio.html?id=praga" data-meta="praga" aria-label="Scopri Praga"><img src="../assets/foto/praga/hero.webp" alt="" /><span class="presa-label">Praga</span></a>
+    <a class="presa" id="presa-budapest" href="../viaggio.html?id=budapest" data-meta="budapest" aria-label="Scopri Budapest"><img src="../assets/foto/budapest/hero.webp" alt="" /><span class="presa-label">Budapest</span></a>
+    <a class="presa" id="presa-vienna" href="../viaggio.html?id=vienna" data-meta="vienna" aria-label="Scopri Vienna"><img src="../assets/foto/vienna/hero.webp" alt="" /><span class="presa-label">Vienna</span></a>
 
   </div>
+  </main>
+
+  <nav class="cabina-comandi" aria-label="Navigazione nella cabina" hidden>
+    <button type="button" id="cabinaPrev" aria-label="Destinazione precedente">←</button>
+    <p>Scorri. Scegli. <span>Parti.</span></p>
+    <button type="button" id="cabinaNext" aria-label="Destinazione successiva">→</button>
+  </nav>
+
+  <!-- L'orizzonte sta fuori dalla scena: e' lontanissimo, non si muove in modo
+       percettibile, e dentro al contenitore che scorre allargava l'area di
+       scorrimento di piu' di mille pixel. -->
+  <div class="cielo" aria-hidden="true"></div>
+
+  <!-- Ombre dei fianchi e vignettatura: fisse allo schermo, non scorrono -->
+  <div class="vignetta" aria-hidden="true"></div>
 
   <!-- Dove Flip porta il mondo a fine corsa -->
   <div class="mondo-pieno" id="mondoPieno"></div>
+  <button type="button" id="cabinaRitorno" class="cabina-ritorno" hidden>← Torna nella cabina</button>
 
   <script src="../js/vendor/gsap.min.js"></script>
   <script src="../js/vendor/Flip.min.js"></script>

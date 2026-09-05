@@ -13,8 +13,8 @@
      z =   +8   .cornice       labbro della cornice, sporge dalla parete
      z =    0   .parete        parete della cabina, coi fori
      z =  -30   .vetro         riflessi sul doppio vetro
-     z = -300   .mondo         la foto della meta: sta FUORI dalla fusoliera
-     z = -1400  .cielo         orizzonte
+     z = -150   .mondo         la foto della meta: sta FUORI dalla fusoliera
+     .cielo e' fuori dalla scena: fisso, non scorre
 
    `perspective-origin` è ancorato al centro del finestrino attivo: avanzare
    significa quindi entrare esattamente dentro quel foro.
@@ -41,28 +41,52 @@ html, body {
 }
 
 /* ---- La scena ---- */
+.cabina-scroll {
+  position: relative;
+  z-index: 1;
+  height: 100dvh;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+  /* La prospettiva sta QUI, non sulla scena. `perspective-origin` e' relativo
+     al box del contenitore, che non scorre: l'origine resta quindi inchiodata
+     al centro del viewport mentre la cabina gli passa davanti. Siccome lo
+     scroll-snap centra il finestrino attivo, l'origine coincide sempre con
+     lui — avanzare vuol dire entrare esattamente in quel foro.
+     Se la prospettiva stesse sulla scena (larga quanto tutta la cabina)
+     il punto di fuga scorrerebbe insieme alla parete. */
+  perspective: 1100px;
+  perspective-origin: 50% var(--fuoco-y, 44%);
+}
+.cabina-scroll::-webkit-scrollbar { display: none; }
+.cabina-scroll.in-transizione { scroll-snap-type: none; overflow-x: hidden; }
 .scena {
   position: relative;
-  height: 100vh;
-  width: 100%;
-  overflow: hidden;
-  perspective: 1100px;
-  perspective-origin: var(--fuoco-x, 50%) var(--fuoco-y, 50%);
-  background: #05070c;
+  height: 100dvh;
+  width: 100%;          /* la larghezza vera la calcola cabin.js: e' tutta la cabina */
+  transform-style: preserve-3d;
 }
 
 .camera {
+  display: none;
   position: absolute;
   inset: 0;
   transform-style: preserve-3d;
   transform: translateZ(var(--dolly));
 }
+.scena.is-ready .camera { display: block; }
 
-/* ---- Cielo, dietro tutto ---- */
+/* ---- Cielo, dietro tutto ----
+   Fisso, fuori dal contenitore che scorre: a quella distanza il movimento
+   sarebbe comunque impercettibile, e dentro alla scena il suo `inset` negativo
+   allargava l'area di scorrimento. Si vede solo attraverso i fori, quando il
+   panorama non li copre: e' una rete di sicurezza, non un piano di lavoro. */
 .cielo {
-  position: absolute;
-  inset: -60%;
-  transform: translateZ(-1400px);
+  position: fixed;
+  inset: 0;
+  z-index: 0;
   background:
     radial-gradient(120% 80% at 50% 78%, #7fb2d9 0%, #4d80ad 34%, #24486e 64%, #101f34 100%);
 }
@@ -80,6 +104,8 @@ html, body {
 .mondi {
   position: absolute;
   inset: 0;
+  transform-style: preserve-3d;
+  transform: translateX(var(--par, 0px));
   /* transform e origin li calcola cabin.js: il fattore dipende da prospettiva
      e profondita, e a occhio veniva sbagliato. */
 }
@@ -104,17 +130,19 @@ html, body {
   pointer-events: none;
 }
 .mondo img {
-  width: 100%;
-  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
   object-fit: cover;
   display: block;
+  /* larghezza e altezza in px le mette cabin.js: Flip misura male le percentuali */
 }
 
 /* ---- La parete della cabina ---- */
 .parete {
   position: absolute;
   inset: 0;
-  transform: translateZ(0);
+  transform: translateZ(0) translateX(var(--par, 0px));
   pointer-events: none;
 }
 .parete svg { display: block; width: 100%; height: 100%; }
@@ -162,7 +190,7 @@ html, body {
 .vetri {
   position: absolute;
   inset: 0;
-  transform: translateZ(-30px);
+  transform: translateZ(-30px) translateX(var(--par, 0px));
   pointer-events: none;
 }
 .vetro {
@@ -206,25 +234,24 @@ html, body {
   transform: translateZ(200px);
   pointer-events: none;
 }
-.primo-piano::before {
-  /* Solo un accenno di spalliera in basso a sinistra: prima era una lastra scura
-     che copriva un finestrino intero. */
-  content: '';
-  position: absolute;
-  left: -4%;
-  bottom: -14%;
-  width: 30%;
-  height: 34%;
-  border-radius: 42% 46% 0 0 / 60% 64% 0 0;
-  background: linear-gradient(168deg, #262a33 0%, #15181e 62%, #0f1116 100%);
-  box-shadow: 0 -14px 44px rgba(0,0,0,0.45);
-}
-.primo-piano::after {
-  content: '';
-  position: absolute;
+
+/* ---- Vignettatura e curvatura della fusoliera ----
+   Fuori dalla scena, perche' devono restare attaccate ai bordi dello SCHERMO:
+   se scorressero con la cabina, il buio si sposterebbe insieme alla parete e
+   la fusoliera sembrerebbe piatta. */
+.vignetta {
+  position: fixed;
   inset: 0;
-  background: radial-gradient(96% 88% at var(--fuoco-x, 50%) 46%,
-    rgba(0,0,0,0) 55%, rgba(0,0,0,0.20) 84%, rgba(0,0,0,0.44) 100%);
+  z-index: 5;
+  pointer-events: none;
+  background:
+    /* i lati della fusoliera si allontanano e vanno in ombra */
+    linear-gradient(90deg,
+      rgba(8,10,15,0.62) 0%, rgba(8,10,15,0.28) 11%,
+      rgba(8,10,15,0) 32%, rgba(8,10,15,0) 68%,
+      rgba(8,10,15,0.28) 89%, rgba(8,10,15,0.62) 100%),
+    radial-gradient(96% 88% at 50% 46%,
+      rgba(0,0,0,0) 55%, rgba(0,0,0,0.20) 84%, rgba(0,0,0,0.44) 100%);
 }
 
 /* ---- Targhette: sopra ogni finestrino, come i numeri di fila veri ----
@@ -267,16 +294,26 @@ html, body {
 /* ---- I link: invisibili, ma sono loro a governare ---- */
 .presa {
   position: absolute;
-  top: var(--y);
-  left: var(--x);
-  translate: -50% -50%;
+  top: calc(var(--y) - var(--h) / 2);
+  left: calc(var(--x) - var(--w) / 2);
   width: var(--w);
   height: var(--h);
   border-radius: var(--r);
   z-index: 4;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
+  scroll-snap-align: center;
 }
+/* Immagine ed etichetta dentro il link servono SOLO al fallback senza JS.
+   A scena attiva l'immagine va tolta del tutto: senza vincoli di dimensione si
+   stampava a grandezza naturale sopra la cabina (ed era lei a gonfiare lo
+   scrollWidth). L'etichetta resta per chi legge con lo schermo. */
+.is-ready .presa img { display: none; }
+.is-ready .presa-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.scena:not(.is-ready) { display: flex; align-items: center; gap: 2rem; width: max-content; padding: 2rem; }
+.scena:not(.is-ready) .presa { position: relative; inset: auto; translate: none; width: min(70vw, 320px); height: auto; color: #eee7dc; text-decoration: none; }
+.scena:not(.is-ready) .presa img { display: block; width: 100%; aspect-ratio: .7; object-fit: cover; border-radius: 42% / 30%; }
+.scena:not(.is-ready) .presa-label { display: block; text-align: center; padding: 1rem; }
 .presa:focus-visible {
   outline: 3px solid #febd41;
   outline-offset: 6px;
@@ -296,6 +333,21 @@ html, body {
   object-fit: cover;
   display: block;
 }
+.cabina-comandi {
+  position: fixed; bottom: 1.5rem; left: 50%; translate: -50% 0;
+  display: flex; align-items: center; gap: 1.1rem; z-index: 6;
+  color: #f3eee4; white-space: nowrap; font-size: .75rem; letter-spacing: .06em;
+  text-shadow: 0 1px 8px #000;
+}
+.cabina-comandi span { font-weight: 700; }
+.cabina-comandi button, .cabina-ritorno {
+  border: 1px solid #ffffff45; background: #15191ddb; color: #f3eee4;
+  min-width: 44px; min-height: 44px; border-radius: 50%; font: inherit; cursor: pointer;
+}
+.cabina-comandi button:disabled { opacity: .3; cursor: default; }
+.cabina-comandi button:focus-visible, .cabina-ritorno:focus-visible { outline: 3px solid #febd41; outline-offset: 4px; }
+.cabina-ritorno { position: fixed; top: 1.2rem; left: 1.2rem; z-index: 21; border-radius: 2rem; padding: .6rem 1rem; }
+[hidden] { display: none !important; }
 
 /* ---- Chi ha chiesto meno movimento ---- */
 @media (prefers-reduced-motion: reduce) {
@@ -306,59 +358,36 @@ html, body {
    Stanno sul loro piano a +150, non sulla parete: sono davanti a te, quindi
    durante l'avvicinamento sfilano via molto piu' in fretta della fiancata.
 
-   Sono sfocate, quindi conta la SILHOUETTE, non il dettaglio: e' per questo che
-   la prima versione sembrava una poltrona da salotto. Un sedile d'aereo e'
-   squadrato, con il poggiatesta staccato e uno stacco netto fra un posto e l'altro. */
+   Non sono piu' disegnate in CSS: sono un asset vero (seat-side.webp, generato
+   e scontornato) ripetuto lungo la fila. Il CSS tiene luce, sfocatura e
+   posizione, l'asset tiene il materiale — che in CSS non veniva.
+   L'asset resta ripetibile: e' cosi' che lo scorrimento fra le 27 mete continua
+   a funzionare senza generare un sedile per meta.
+
+   DI PROFILO, non di spalle. La camera guarda la fiancata, perpendicolare
+   all'asse della fusoliera; i sedili sono rivolti verso la prua, quindi rispetto
+   a noi si vedono di lato. Uno schienale visto frontalmente sarebbe corretto
+   solo guardando lungo il corridoio. */
 .sedili {
   position: absolute;
   inset: 0;
   transform: translateZ(150px);
   pointer-events: none;
   filter: blur(3px);
+  /* Il taglio serve a non far crescere l'area di scorrimento con i sedili che
+     escono dai bordi della cabina. Appiattisce il sottoalbero, ma i sedili sono
+     gia' tutti sullo stesso piano — la profondita' e' su .sedili, non su loro. */
+  overflow: hidden;
 }
 .sedile {
   position: absolute;
   left: var(--x);
-  bottom: -20%;
+  bottom: var(--sb, -56%);
   translate: -50% 0;
   width: var(--sw);
-  height: 50%;
-}
-/* schienale: spigoli quasi vivi, non una cupola */
-.sedile::before {
-  content: '';
-  position: absolute;
-  inset: 16% 4% 0;
-  border-radius: 10px 10px 0 0;
-  background:
-    /* cucitura verticale al centro */
-    linear-gradient(90deg, transparent calc(50% - 1px), rgba(0,0,0,0.35) 50%, transparent calc(50% + 1px)),
-    /* tavolino chiuso: una fuga orizzontale */
-    linear-gradient(180deg, transparent 46%, rgba(0,0,0,0.34) 46.6%, rgba(255,255,255,0.06) 47.6%, transparent 48.4%),
-    /* tasca del sedile, piu' chiara perche' e' un altro tessuto */
-    linear-gradient(180deg, transparent 62%, rgba(255,255,255,0.045) 62.6%, rgba(255,255,255,0.045) 88%, transparent 88.6%),
-    linear-gradient(180deg, #262a33 0%, #191d24 26%, #101319 66%, #0a0c10 100%);
-  box-shadow:
-    inset 0 2px 0 rgba(255,255,255,0.11),
-    inset 2px 0 0 rgba(255,255,255,0.05),
-    inset -2px 0 0 rgba(0,0,0,0.35),
-    0 -18px 40px rgba(0,0,0,0.4);
-}
-/* poggiatesta: blocco distinto, con le alette laterali */
-.sedile::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: 0;
-  translate: -50% 0;
-  width: 46%;
-  height: 22%;
-  border-radius: 9px 9px 3px 3px;
-  background:
-    linear-gradient(90deg, rgba(255,255,255,0.06) 0 9%, transparent 9% 91%, rgba(0,0,0,0.3) 91% 100%),
-    linear-gradient(180deg, #2d323d 0%, #1d222a 62%, #14171d 100%);
-  box-shadow:
-    inset 0 2px 0 rgba(255,255,255,0.16),
-    inset 0 -6px 12px rgba(0,0,0,0.4),
-    0 8px 20px rgba(0,0,0,0.5);
+  aspect-ratio: 598 / 929;
+  background: url('../assets/flight/seat-side.webp') center bottom / 100% auto no-repeat;
+  /* la cabina e' illuminata dall'alto e dai finestrini: il tessuto in ombra
+     va scurito e raffreddato, altrimenti il sedile sembra ritagliato e incollato */
+  filter: brightness(var(--sl, 0.5)) saturate(0.85);
 }

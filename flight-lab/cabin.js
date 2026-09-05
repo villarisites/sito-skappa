@@ -3,6 +3,23 @@
    La geometria dei finestrini sta in un posto solo: da qui nascono sia i fori
    nella parete SVG sia la posizione di cornici, vetri, mondi e link. Se le due
    cose vivessero separate, divergerebbero al primo ritocco.
+
+   MODELLO
+   La prospettiva sta sul contenitore che scorre (.cabina-scroll), non sulla
+   scena. L'origine della prospettiva e' quindi ferma al centro del viewport
+   mentre la cabina gli passa davanti, e siccome lo scroll-snap centra il
+   finestrino attivo, l'origine coincide sempre con lui: avanzare vuol dire
+   entrare esattamente in quel foro, su qualunque schermo.
+
+   NIENTE NUMERI A OCCHIO
+   Passo dei finestrini, corsa della camera e dimensione dei mondi sono tutti
+   calcolati dalla geometria. I due che contano:
+
+   - la camera deve avanzare finche' il foro attivo copre il viewport, se no
+     al momento del cambio di contenitore la cornice e' ancora a schermo e si
+     vede un rettangolo comparire sopra la parete;
+   - il mondo dietro al foro deve essere abbastanza grande da coprire ancora
+     il viewport a fine corsa, se no a fine transizione se ne vedono i bordi.
    ============================================================ */
 (function () {
   'use strict';
@@ -17,64 +34,184 @@
   var RAPPORTO = 0.70;
   var RAGGIO = 0.42;          // raggio angoli in frazione della larghezza
 
-  // Tutti i finestrini hanno la stessa misura: stanno sullo stesso piano, quindi
-  // rimpicciolirne alcuni sarebbe falso. I vicini si leggono come vicini perche'
-  // sono tagliati dal bordo e perche' ricevono meno luce, non perche' sono piccoli.
-  var METE = [
-    { id: 'praga',    nome: 'PRAGA',    x: 0.10, luce: 0.62 },
-    { id: 'budapest', nome: 'BUDAPEST', x: 0.50, luce: 1.00 },
-    { id: 'vienna',   nome: 'VIENNA',   x: 0.90, luce: 0.62 }
-  ];
-  var ALTEZZA_FINESTRINO = 0.40;   // frazione dell'altezza della scena
+  // Sempre sullo stesso aereo: il passo fra un finestrino e l'altro e' ~53 cm
+  // contro i 23 di larghezza. E' questo rapporto — non una frazione della
+  // larghezza dello schermo — a tenere insieme la cabina quando cambia il
+  // viewport. Prima i finestrini stavano a 10%, 50% e 90% della larghezza:
+  // su un telefono da 390px finivano uno sopra l'altro.
+  var PASSO_SU_LARGHEZZA = 53 / 23;
+  var ALTEZZA_MASSIMA = 0.46;      // il finestrino non supera questa frazione dell'altezza
+  var FASCIA_Y = 0.44;             // i finestrini stanno piu' in alto della meta': sotto c'e' il pannello
 
-  // Prospettiva e profondita' del piano del mondo. Il fattore di compensazione NON
-  // va scelto a occhio: un piano a -d appare rimpicciolito di P/(P+d) attorno
-  // all'origine della prospettiva, quindi per vederlo com'era va ingrandito
-  // esattamente di (P+d)/P e con la STESSA origine, quota compresa. Sbagliando
-  // quel numero i mondi laterali si spostano e scoprono il bordo del foro.
+  // Quanti finestrini si vedono insieme. Il brief chiede 2-3 su desktop e uno
+  // principale su mobile, col precedente e il successivo che si intravedono.
+  var VISIBILI_LARGO = 2.15;
+  // Sotto 1,57 il finestrino accanto esce del tutto dal viewport: il conto e'
+  // passo < (vw + w)/2 con w = passo/2,3. A 1,5 restava fuori di una decina di
+  // pixel e su mobile si vedeva un finestrino solo, contro quel che chiede il brief.
+  var VISIBILI_STRETTO = 1.68;
+  var SOGLIA_STRETTO = 620;
+
+  var METE = [
+    { id: 'praga',    nome: 'PRAGA' },
+    { id: 'budapest', nome: 'BUDAPEST' },
+    { id: 'vienna',   nome: 'VIENNA' }
+  ];
+
+  // Devono corrispondere a `perspective` e al piano dei mondi dichiarati nel CSS.
   var PROSPETTIVA = 1100;
-  var PROF_MONDO = 620;
+  // La profondita' del piano dei mondi non e' libera. Un piano a -prof scivola
+  // rispetto alla parete di (1 - P/(P+prof)) per ogni pixel di distanza dal
+  // centro: a 620 lo scivolamento su un passo valeva 240px contro un foro di
+  // 290, e il panorama del finestrino accanto entrava dentro a quello attivo —
+  // si vedevano due citta' nello stesso finestrino. A 150 lo scivolamento su un
+  // passo scende sotto un quarto del foro, e i mondi restano ognuno dietro al
+  // suo pur mantenendo una parallasse ben visibile.
+  var PROF_MONDO = 150;
+  // Un piano a -d appare rimpicciolito di P/(P+d) attorno all'origine della
+  // prospettiva: per rivederlo a grandezza naturale va ingrandito di (P+d)/P.
   var COMPENSA = (PROSPETTIVA + PROF_MONDO) / PROSPETTIVA;
-  var ATTIVA = 1;
+  // Quanto un piano a -PROF_MONDO si rimpicciolisce: serve a stimare di quanto
+  // un mondo laterale scivola rispetto al suo foro (parallasse vera, non errore).
+  var RIDUZIONE = PROSPETTIVA / (PROSPETTIVA + PROF_MONDO);
+
+  // Il foro deve superare il viewport con margine, non sfiorarlo: con l'8% i
+  // fianchi della cornice uscivano solo nell'ultimo 4% della timeline e il
+  // passaggio sembrava uno scatto invece che una corsa.
+  var MARGINE_FORO = 1.25;
+  var MARGINE_MONDO = 1.15;  // e il mondo deve superare il foro
+
+  // I sedili si misurano in centimetri veri, come i finestrini: e' il finestrino
+  // a dare la scala (23 cm = la sua larghezza), tutto il resto discende da li'.
+  // Il passo delle FILE non e' quello dei finestrini — 76 cm contro 53 — quindi
+  // i sedili non si allineano agli obló, e non devono farlo.
+  var CM_FINESTRINO = 23;
+  // Quanto pezzo di parete rappresenta una piastrella della texture. La foto da
+  // cui e' ricavata era a 9,76 px/cm (misurato dal passo dei pannelli), la scena
+  // sta a ~12,6: mappandola uno a uno la grana andrebbe ingrandita e diventerebbe
+  // molle. A 40 cm la piastrella si disegna quasi a risoluzione nativa e resta
+  // nitida — la grana viene piu' fine del vero, ma di una plastica goffrata
+  // nessuno misura i granelli.
+  var LATO_TEXTURE_CM = 40;
+  var PASSO_FILE_CM = 76;
+  var SEDILE_ALTEZZA_CM = 115;      // da terra alla cima del poggiatesta
+  var RAPPORTO_SEDILE = 598 / 929;  // dell'asset ritagliato, visto di profilo
+  // Il numero da fissare non e' la distanza della fila ma QUANTA PARTE del
+  // sedile sta in quadro: misurato sull'asset, di profilo il sedile e' stretto
+  // (20-29% della sua larghezza) fino a meta' altezza e diventa largo solo dal
+  // 50% in giu', dove ci sono bracciolo e seduta. Tenendone in quadro meno di
+  // tre quarti si vedono dei ganci appesi invece di una fila di sedili.
+  // La distanza discende da qui, e cosi' si adatta da sola: su un telefono, che
+  // e' molto piu' alto che largo, la fila deve stare piu' vicina per occupare la
+  // stessa fetta d'inquadratura. Prima era il contrario — distanza fissa — e su
+  // mobile i sedili galleggiavano staccati dal bordo basso.
+  var FRAZIONE_IN_QUADRO = 0.73;
+  var QUANTO_SI_VEDE = 0.40;         // frazione di schermo occupata dalla fila
+  var QUANTO_SI_VEDE_STRETTO = 0.32;
 
   var scena = document.getElementById('scena');
+  var scroller = document.getElementById('cabinaScroll');
   var camera = document.getElementById('camera');
   var elMondi = document.getElementById('mondi');
   var elParete = document.getElementById('parete');
   var elCornici = document.getElementById('cornici');
   var elVetri = document.getElementById('vetri');
-  var mondoPieno = document.getElementById('mondoPieno');
   var elTarghette = document.getElementById('targhette');
   var elSedili = document.getElementById('sedili');
+  var elPrimoPiano = document.querySelector('.primo-piano');
+  var vignetta = document.querySelector('.vignetta');
+  var mondoPieno = document.getElementById('mondoPieno');
+  var comandi = document.querySelector('.cabina-comandi');
+  var btnPrev = document.getElementById('cabinaPrev');
+  var btnNext = document.getElementById('cabinaNext');
+  var btnRitorno = document.getElementById('cabinaRitorno');
 
   // ?resta=1 blocca la navigazione finale: serve a guardare la transizione da fermi
   var RESTA = new URLSearchParams(location.search).has('resta');
-  var geometrie = [];
-  var inTransizione = false;
 
+  var geometrie = [];
+  var dim = null;
+  var DOLLY = 0;             // corsa della camera, calcolata
+  var ATTIVA = 0;
+  var inTransizione = false;
+  var tornati = null;        // stato per la transizione inversa
+  var ultimoFlip = null;     // esposta per poter guardare la transizione ferma
+
+  // ------------------------------------------------------------------
+  // GEOMETRIA
+  // ------------------------------------------------------------------
   function misura() {
-    var W = scena.clientWidth;
-    var H = scena.clientHeight;
-    // La fascia dei finestrini non sta a meta' altezza: in cabina e' piu' in alto,
-    // perche' sotto c'e' il pannello laterale e il bracciolo.
-    var cy = H * 0.44;
-    geometrie = METE.map(function (meta) {
-      var h = ALTEZZA_FINESTRINO * H;
-      var w = h * RAPPORTO;
+    var vw = scroller.clientWidth;
+    var H = scroller.clientHeight;
+
+    var visibili = vw < SOGLIA_STRETTO ? VISIBILI_STRETTO : VISIBILI_LARGO;
+    var passo = vw / visibili;
+    var w = passo / PASSO_SU_LARGHEZZA;
+    var h = w / RAPPORTO;
+
+    // Su schermi bassi e larghi il finestrino diventerebbe piu' alto della
+    // cabina: in quel caso comanda l'altezza e il passo si ricalcola da li'.
+    if (h > H * ALTEZZA_MASSIMA) {
+      h = H * ALTEZZA_MASSIMA;
+      w = h * RAPPORTO;
+      passo = w * PASSO_SU_LARGHEZZA;
+    }
+
+    var cy = H * FASCIA_Y;
+
+    // La camera avanza finche' il foro attivo copre il viewport. Il foro sta a
+    // z=0, quindi cresce di P/(P-d): rovesciando, d = P * (1 - 1/ingrandimento).
+    var ingrandimento = Math.max(vw / w, H / h) * MARGINE_FORO;
+    DOLLY = PROSPETTIVA * (1 - 1 / ingrandimento);
+
+    // A fine corsa il mondo (z=-PROF_MONDO) e' cresciuto di (P+prof)/(P+prof-d):
+    // per coprire ancora il viewport deve partire almeno da questa misura.
+    var quotaFinale = (PROSPETTIVA + PROF_MONDO - DOLLY) / (PROSPETTIVA + PROF_MONDO);
+    // I mondi dei finestrini laterali scivolano rispetto al loro foro: e'
+    // parallasse vera (guardando di sbieco vedi un altro pezzo di fuori), ma il
+    // mondo deve restare grande abbastanza da non scoprire il bordo del foro.
+    var scostamento = passo * (1 - RIDUZIONE);
+
+    // Tre vincoli, tutti geometrici:
+    //  1. il mondo deve coprire il suo foro anche quando lo si guarda di sbieco,
+    //     cioe' tenendo conto dello scivolamento;
+    //  2. a fine corsa della camera deve coprire ancora il viewport;
+    //  3. non deve invadere il foro del vicino: due mondi adiacenti hanno i
+    //     centri a passo*RIDUZIONE l'uno dall'altro, e quello e' il tetto.
+    var minPerIlForo = w + 2 * scostamento;
+    var minPerLaCorsa = vw * quotaFinale * MARGINE_MONDO;
+    var massimoSenzaInvadere = passo * RIDUZIONE;
+    var mondoW = Math.min(massimoSenzaInvadere, Math.max(minPerIlForo * 1.1, minPerLaCorsa));
+    var mondoH = Math.max(H * quotaFinale * MARGINE_MONDO, h * 1.15);
+
+    // La scena e' larga tutta la cabina: mezzo viewport di margine per parte,
+    // cosi' il primo e l'ultimo finestrino possono arrivare al centro.
+    var sceneW = vw + (METE.length - 1) * passo;
+
+    geometrie = METE.map(function (meta, i) {
       return {
         meta: meta,
-        x: meta.x * W,
+        x: vw / 2 + i * passo,
         y: cy,
         w: w,
         h: h,
-        r: w * RAGGIO
+        r: w * RAGGIO,
+        mondoW: mondoW,
+        mondoH: mondoH
       };
     });
-    return { W: W, H: H, cy: cy };
+
+    scena.style.width = sceneW + 'px';
+    scroller.style.setProperty('--fuoco-y', cy + 'px');
+
+    return { W: sceneW, H: H, vw: vw, passo: passo, cy: cy };
   }
 
   // ---- La parete: SVG, non gradienti. I fori sono veri fori. ----
   function disegnaParete(dim) {
+    var W = dim.W, H = dim.H;
+    var latoTex = LATO_TEXTURE_CM * (geometrie[0].w / CM_FINESTRINO);
+
     var fori = geometrie.map(function (g) {
       return '<rect x="' + (g.x - g.w / 2) + '" y="' + (g.y - g.h / 2) + '" width="' + g.w +
              '" height="' + g.h + '" rx="' + g.r + '" ry="' + g.r + '" fill="black"/>';
@@ -85,46 +222,52 @@
     // "sono dentro un aereo" — la versione precedente aveva luce uniforme.
     var aloni = geometrie.map(function (g) {
       return '<ellipse cx="' + g.x + '" cy="' + g.y + '" rx="' + (g.w * 1.9) + '" ry="' + (g.h * 1.25) +
-             '" fill="url(#alone)" opacity="' + (0.55 * g.meta.luce) + '"/>';
+             '" fill="url(#alone)" opacity="0.55"/>';
     }).join('');
 
     // L'architettura della cabina. Senza questa, i finestrini galleggiano in un
     // fondale grigio: sono la cappelliera sopra e il pannello laterale sotto a far
     // capire che si e' seduti dentro una fusoliera.
-    var W = dim.W, H = dim.H;
     var yBin = H * 0.20;          // bordo inferiore della cappelliera
     var yPannello = H * 0.66;     // dove la parete piega verso il pavimento
+    // La pancia della cappelliera e' un'onda continua lungo tutta la cabina: una
+    // gobba per campata, non una sola curva stirata da un capo all'altro.
+    var gobba = dim.passo;
+
+    function onda(y, sporgenza) {
+      var d = 'M0,' + y;
+      for (var x = 0; x < W; x += gobba) {
+        d += ' Q' + (x + gobba / 2) + ',' + (y + sporgenza) + ' ' + Math.min(x + gobba, W) + ',' + y;
+      }
+      return d;
+    }
 
     var architettura =
       // cappelliera: pancia arrotondata che sporge verso di noi
-      '<path d="M0,-20 L' + W + ',-20 L' + W + ',' + (yBin - 26) +
-        ' Q' + (W / 2) + ',' + (yBin + 16) + ' 0,' + (yBin - 26) + ' Z" fill="url(#cappelliera)"/>' +
-      // ombra portata della cappelliera sulla parete
-      '<path d="M0,' + (yBin - 26) + ' Q' + (W / 2) + ',' + (yBin + 16) + ' ' + W + ',' + (yBin - 26) +
-        ' L' + W + ',' + (yBin + 58) + ' Q' + (W / 2) + ',' + (yBin + 96) + ' 0,' + (yBin + 58) +
-        ' Z" fill="url(#ombraBin)"/>' +
+      '<path d="M0,-20 L' + W + ',-20 L' + W + ',' + (yBin - 26) + ' ' +
+        onda(yBin - 26, 42).replace('M0,', 'L0,') + ' Z" fill="url(#cappelliera)"/>' +
       // sportelli della cappelliera: uno per campata, con la fuga e la maniglia
       geometrie.map(function (g) {
-        var xs = g.x + g.w * 1.55;
+        var xs = g.x + dim.passo / 2;
         return '<rect x="' + xs + '" y="-20" width="2" height="' + (yBin + 6) + '" fill="rgba(0,0,0,0.20)"/>' +
                '<rect x="' + (xs + 2) + '" y="-20" width="1" height="' + (yBin + 6) + '" fill="rgba(255,255,255,0.22)"/>' +
-               '<rect x="' + (g.x - 26) + '" y="' + (yBin - 62) + '" width="52" height="7" rx="3.5" fill="rgba(0,0,0,0.16)"/>';
+               '<rect x="' + (g.x - g.w * 0.1) + '" y="' + (yBin - 62) + '" width="' + (g.w * 0.2) +
+               '" height="7" rx="3.5" fill="rgba(0,0,0,0.16)"/>';
       }).join('') +
       // striscia di luce di cortesia sotto la cappelliera: e' lei a illuminare la parete
-      '<path d="M0,' + (yBin - 30) + ' Q' + (W / 2) + ',' + (yBin + 12) + ' ' + W + ',' + (yBin - 30) +
-        ' L' + W + ',' + (yBin - 24) + ' Q' + (W / 2) + ',' + (yBin + 18) + ' 0,' + (yBin - 24) +
-        ' Z" fill="#fff6e2" opacity="0.85"/>' +
+      '<path d="' + onda(yBin - 30, 42) + ' L' + W + ',' + (yBin - 24) + ' ' +
+        onda(yBin - 24, 42).replace('M0,', 'L0,') + ' Z" fill="#fff6e2" opacity="0.85"/>' +
       // il suo alone sulla parete
-      '<path d="M0,' + (yBin - 26) + ' Q' + (W / 2) + ',' + (yBin + 16) + ' ' + W + ',' + (yBin - 26) +
-        ' L' + W + ',' + (yBin + 96) + ' Q' + (W / 2) + ',' + (yBin + 140) + ' 0,' + (yBin + 96) +
-        ' Z" fill="url(#lucePanca)"/>' +
+      '<path d="' + onda(yBin - 26, 42) + ' L' + W + ',' + (yBin + 96) + ' ' +
+        onda(yBin + 96, 44).replace('M0,', 'L0,') + ' Z" fill="url(#lucePanca)"/>' +
       // pannello servizi: bocchette e luce di lettura, una coppia per posto
       geometrie.map(function (g) {
         var yP = yBin + 26;
+        var u = g.w * 0.17;
         return '<g opacity="0.5">' +
-          '<rect x="' + (g.x - 44) + '" y="' + yP + '" width="88" height="22" rx="7" fill="rgba(0,0,0,0.09)"/>' +
-          '<circle cx="' + (g.x - 26) + '" cy="' + (yP + 11) + '" r="5" fill="rgba(0,0,0,0.24)"/>' +
-          '<circle cx="' + (g.x + 26) + '" cy="' + (yP + 11) + '" r="5" fill="rgba(0,0,0,0.24)"/>' +
+          '<rect x="' + (g.x - u * 2) + '" y="' + yP + '" width="' + (u * 4) + '" height="22" rx="7" fill="rgba(0,0,0,0.09)"/>' +
+          '<circle cx="' + (g.x - u) + '" cy="' + (yP + 11) + '" r="5" fill="rgba(0,0,0,0.24)"/>' +
+          '<circle cx="' + (g.x + u) + '" cy="' + (yP + 11) + '" r="5" fill="rgba(0,0,0,0.24)"/>' +
           '<circle cx="' + g.x + '" cy="' + (yP + 11) + '" r="3.4" fill="rgba(255,247,228,0.75)"/>' +
         '</g>';
       }).join('') +
@@ -132,21 +275,21 @@
       '<path d="M0,' + yPannello + ' L' + W + ',' + yPannello + ' L' + W + ',' + H + ' L0,' + H +
         ' Z" fill="url(#pannelloBasso)"/>' +
       '<rect x="0" y="' + yPannello + '" width="' + W + '" height="2" fill="rgba(255,255,255,0.14)"/>' +
-      '<rect x="0" y="' + (yPannello + 2) + '" width="' + W + '" height="3" fill="rgba(0,0,0,0.28)"/>' +
-      '';
+      '<rect x="0" y="' + (yPannello + 2) + '" width="' + W + '" height="3" fill="rgba(0,0,0,0.28)"/>';
 
     // fughe verticali fra i pannelli di parete, una per campata
     var fughe = '';
     geometrie.forEach(function (g) {
-      var x = Math.round(g.x + (g.w * 1.55));
+      var x = Math.round(g.x + dim.passo / 2);
       fughe += '<rect x="' + x + '" y="' + (yBin + 26) + '" width="1.5" height="' + (yPannello - yBin - 26) +
                '" fill="rgba(0,0,0,0.16)"/>' +
                '<rect x="' + (x + 1.5) + '" y="' + (yBin + 26) + '" width="1" height="' + (yPannello - yBin - 26) +
                '" fill="rgba(255,255,255,0.10)"/>';
     });
 
+    // preserveAspectRatio non serve piu': il viewBox e' in pixel di scena, uno a uno
     elParete.innerHTML =
-      '<svg viewBox="0 0 ' + dim.W + ' ' + dim.H + '" preserveAspectRatio="none" aria-hidden="true">' +
+      '<svg viewBox="0 0 ' + W + ' ' + H + '" width="' + W + '" height="' + H + '" aria-hidden="true">' +
         '<defs>' +
           // La cabina e' illuminata a luce calda dall'alto, e fredda dai finestrini:
           // e' il contrasto fra le due a farla leggere come un interno.
@@ -162,19 +305,24 @@
             '<stop offset="0.6" stop-color="#cfc5b4"/>' +
             '<stop offset="1"   stop-color="#e3d9c6"/>' +
           '</linearGradient>' +
-          '<linearGradient id="ombraBin" x1="0" y1="0" x2="0" y2="1">' +
-            '<stop offset="0" stop-color="#000000" stop-opacity="0.40"/>' +
-            '<stop offset="1" stop-color="#000000" stop-opacity="0"/>' +
-          '</linearGradient>' +
           '<linearGradient id="pannelloBasso" x1="0" y1="0" x2="0" y2="1">' +
             '<stop offset="0"   stop-color="#8a8074"/>' +
             '<stop offset="0.5" stop-color="#5f594f"/>' +
             '<stop offset="1"   stop-color="#2b2925"/>' +
           '</linearGradient>' +
-          '<filter id="grana">' +
-            '<feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3"/>' +
-            '<feColorMatrix type="saturate" values="0"/>' +
-          '</filter>' +
+          // La grana della plastica e' un asset, non piu' rumore procedurale.
+          // E' una mappa NEUTRA (grigio medio = nessun effetto): porta solo la
+          // variazione di materiale, mentre colore e luce restano ai gradienti
+          // qui sopra. Per questo si applica in soft-light e non in normale.
+          '<pattern id="materiale" patternUnits="userSpaceOnUse" width="' + latoTex +
+            '" height="' + latoTex + '">' +
+            // L'immagine si disegna mezzo pixel oltre il bordo della piastrella,
+            // e il pattern ritaglia l'eccedenza. Serve perche' altrimenti il
+            // bordo viene sfumato verso il trasparente e le giunzioni si leggono
+            // come una griglia sulla parete.
+            '<image href="../assets/flight/cabin-wall.webp" x="-0.5" y="-0.5" width="' +
+              (latoTex + 1) + '" height="' + (latoTex + 1) + '" preserveAspectRatio="none"/>' +
+          '</pattern>' +
           '<linearGradient id="lucePanca" x1="0" y1="0" x2="0" y2="1">' +
             '<stop offset="0" stop-color="#fff3dc" stop-opacity="0.55"/>' +
             '<stop offset="1" stop-color="#fff3dc" stop-opacity="0"/>' +
@@ -183,33 +331,20 @@
             '<stop offset="0" stop-color="#dfeaf3" stop-opacity="0.75"/>' +
             '<stop offset="1" stop-color="#dfeaf3" stop-opacity="0"/>' +
           '</radialGradient>' +
-          '<filter id="incasso" x="-50%" y="-50%" width="200%" height="200%">' +
-            '<feGaussianBlur stdDeviation="7" result="b"/>' +
-            '<feOffset dy="4"/>' +
-          '</filter>' +
           '<mask id="fori">' +
-            '<rect width="' + dim.W + '" height="' + dim.H + '" fill="white"/>' + fori +
+            '<rect width="' + W + '" height="' + H + '" fill="white"/>' + fori +
           '</mask>' +
         '</defs>' +
         '<g mask="url(#fori)">' +
-          '<rect width="' + dim.W + '" height="' + dim.H + '" fill="url(#muro)"/>' +
+          '<rect width="' + W + '" height="' + H + '" fill="url(#muro)"/>' +
           aloni +
           fughe +
           architettura +
-          // La fusoliera e' un cilindro: ai lati la parete si allontana e va in ombra.
-          // Senza questo resta un fondale piatto da parete a parete.
-          '<rect width="' + dim.W + '" height="' + dim.H + '" fill="url(#lati)"/>' +
-          // grana della plastica: toglie l'aspetto di gradiente liscio
-          '<rect width="' + dim.W + '" height="' + dim.H + '" filter="url(#grana)" opacity="0.055"/>' +
+          // la grana passa sopra tutto: cappelliera, parete e pannello basso sono
+          // lo stesso materiale
+          '<rect width="' + W + '" height="' + H + '" fill="url(#materiale)" ' +
+            'style="mix-blend-mode:soft-light" opacity="0.85"/>' +
         '</g>' +
-        '<defs><linearGradient id="lati" x1="0" y1="0" x2="1" y2="0">' +
-          '<stop offset="0" stop-color="#0c0e13" stop-opacity="0.62"/>' +
-          '<stop offset="0.10" stop-color="#0c0e13" stop-opacity="0.30"/>' +
-          '<stop offset="0.30" stop-color="#0c0e13" stop-opacity="0.03"/>' +
-          '<stop offset="0.70" stop-color="#0c0e13" stop-opacity="0.03"/>' +
-          '<stop offset="0.90" stop-color="#0c0e13" stop-opacity="0.30"/>' +
-          '<stop offset="1" stop-color="#0c0e13" stop-opacity="0.62"/>' +
-        '</linearGradient></defs>' +
       '</svg>';
   }
 
@@ -223,26 +358,59 @@
   }
 
   function costruisci() {
-    var dim = misura();
+    dim = misura();
     disegnaParete(dim);
 
     elMondi.innerHTML = geometrie.map(function (g) {
       // Il mondo e' piu' grande del foro: sta dietro, e attraverso il buco se ne
       // vede solo un ritaglio. E' quello che fa sembrare che esista davvero fuori.
-      return '<div class="mondo" data-meta="' + g.meta.id + '" style="--mondo-x:' + g.x + 'px;--mondo-y:' + g.y + 'px;--mondo-w:' +
-             (g.w * 2.75) + 'px;--mondo-h:' + (g.h * 2.15) + 'px">' +
-             '<img src="../assets/foto/' + g.meta.id + '/hero.webp" alt="" />' +
+      // La scala compensa il rimpicciolimento del piano, con origine sul centro
+      // del mondo stesso: cosi' ogni finestrino ha il suo, e lo scivolamento fra
+      // foro e panorama dei finestrini laterali resta quello vero della prospettiva.
+      return '<div class="mondo" data-meta="' + g.meta.id + '" style="' +
+             '--mondo-x:' + g.x + 'px;--mondo-y:' + g.y + 'px;' +
+             '--mondo-w:' + g.mondoW + 'px;--mondo-h:' + g.mondoH + 'px;' +
+             'transform:translateZ(' + (-PROF_MONDO) + 'px) scale(' + COMPENSA + ');' +
+             'transform-origin:50% 50%">' +
+             '<img src="../assets/foto/' + g.meta.id + '/hero.webp" alt="" ' +
+             'width="' + Math.round(g.mondoW) + '" height="' + Math.round(g.mondoH) + '" ' +
+             'style="width:' + g.mondoW + 'px;height:' + g.mondoH + 'px" />' +
              '</div>';
     }).join('');
 
     elCornici.innerHTML = geometrie.map(function () { return '<div class="cornice"></div>'; }).join('');
-    elSedili.innerHTML = geometrie.map(function (g) {
-      return '<div class="sedile" style="--x:' + g.x + 'px;--sw:' + (g.w * 1.92) + 'px"></div>';
-    }).join('');
     elTarghette.innerHTML = geometrie.map(function (g) {
       return '<div class="targhetta">' + g.meta.nome + '</div>';
     }).join('');
     elVetri.innerHTML = geometrie.map(function () { return '<div class="vetro"></div>'; }).join('');
+
+    // I sedili non seguono i finestrini uno a uno: il passo delle file e' un'altra
+    // misura, e in un aereo vero infatti non coincidono mai.
+    var unita = geometrie[0].w / CM_FINESTRINO;   // pixel di scena per centimetro
+    var quantoSiVede = dim.H * (dim.vw < SOGLIA_STRETTO ? QUANTO_SI_VEDE_STRETTO : QUANTO_SI_VEDE);
+    var altSedile = quantoSiVede / FRAZIONE_IN_QUADRO;
+    var largSedile = altSedile * RAPPORTO_SEDILE;
+    // A che distanza e' finita la fila, e quindi con che passo: se il sedile e'
+    // rimpicciolito di tanto, anche le file si stringono della stessa quantita'.
+    var lontananza = altSedile / (SEDILE_ALTEZZA_CM * unita);
+    var passoSedile = PASSO_FILE_CM * unita * lontananza;
+    // `bottom` in percentuale si misurerebbe sull'altezza del CONTENITORE, non
+    // del sedile: su desktop tornava per caso, su mobile spingeva tutta la fila
+    // fuori dallo schermo e il primo piano spariva. Qui e' in pixel, sul sedile.
+    var sottoIlBordo = -(altSedile - quantoSiVede);
+    var sedili = '';
+    // Le posizioni vanno tenute dentro la scena: un sedile piazzato oltre il
+    // bordo allarga l'area di scorrimento e la cabina finisce con un vuoto in coda.
+    // La fase e' scelta perche' davanti al finestrino centrato ci sia il VUOTO fra
+    // due file, non un poggiatesta: visto di profilo il sedile e' stretto in alto
+    // e largo in basso, quindi cosi' i due schienali incorniciano il finestrino
+    // da destra e da sinistra e la parte larga resta sotto al suo bordo.
+    var fase = (dim.vw / 2 + passoSedile / 2) % passoSedile;
+    for (var xs = fase - passoSedile; xs < dim.W + passoSedile; xs += passoSedile) {
+      sedili += '<div class="sedile" style="--x:' + xs + 'px;--sw:' + largSedile +
+                'px;--sb:' + sottoIlBordo + 'px"></div>';
+    }
+    elSedili.innerHTML = sedili;
 
     geometrie.forEach(function (g, i) {
       stile(elCornici.children[i], g);
@@ -250,108 +418,250 @@
       stile(elVetri.children[i], g);
       var presa = document.getElementById('presa-' + g.meta.id);
       if (presa) stile(presa, g);
-      // i vicini sono piu' quieti: meno luce, non "meno selezionati"
-      // Meno luce, non meno opacita': un vetro in ombra e' piu' freddo e meno
-      // contrastato, non grigio. Con l'opacita' i vicini sembravano sporchi.
-      var l = g.meta.luce;
-      elMondi.children[i].querySelector('img').style.filter =
-        'brightness(' + (0.28 + 0.72 * l) + ') contrast(' + (0.90 + 0.10 * l) + ')';
-      elMondi.children[i].style.setProperty('--freddo', (1.2 * (1 - l)).toFixed(3));
     });
 
-    aggiornaFuoco();
+    scena.classList.add('is-ready');
+    if (comandi) comandi.hidden = false;
+
+    aggiornaLuci();
   }
 
-  function aggiornaFuoco() {
-    var g = geometrie[ATTIVA];
-    scena.style.setProperty('--fuoco-x', g.x + 'px');
-    scena.style.setProperty('--fuoco-y', g.y + 'px');
-    scena.style.setProperty('--h-attivo', g.h + 'px');
-    elMondi.style.transformOrigin = g.x + 'px ' + g.y + 'px';
-    elMondi.style.transform = 'translateZ(' + (-PROF_MONDO) + 'px) scale(' + COMPENSA + ')';
-    Array.prototype.forEach.call(elTarghette.children, function (t, i) {
-      t.classList.toggle('is-attiva', i === ATTIVA);
+  // ------------------------------------------------------------------
+  // DESTINAZIONE ATTIVA
+  // La piu' vicina al centro. Niente "card selezionata": cambia solo la luce.
+  // ------------------------------------------------------------------
+  function calcolaAttiva() {
+    if (!dim) return 0;
+    var i = Math.round(scroller.scrollLeft / dim.passo);
+    return Math.max(0, Math.min(METE.length - 1, i));
+  }
+
+  function aggiornaLuci() {
+    geometrie.forEach(function (g, i) {
+      // Quanto e' lontana dal centro, in passi. I vicini non sono "meno
+      // selezionati": ricevono meno luce, ed e' l'unica cosa che cambia.
+      var distanza = Math.min(1, Math.abs(i - ATTIVA));
+      var luce = 1 - 0.38 * distanza;
+      var img = elMondi.children[i] && elMondi.children[i].querySelector('img');
+      if (img) {
+        img.style.filter = 'brightness(' + (0.28 + 0.72 * luce) + ') contrast(' + (0.90 + 0.10 * luce) + ')';
+      }
+      // Un vetro in ombra e' piu' freddo e meno contrastato, non grigio: con
+      // l'opacita' i vicini sembravano sporchi.
+      if (elMondi.children[i]) {
+        elMondi.children[i].style.setProperty('--freddo', (1.2 * (1 - luce)).toFixed(3));
+      }
+      if (elTarghette.children[i]) {
+        elTarghette.children[i].classList.toggle('is-attiva', i === ATTIVA);
+      }
+    });
+    if (btnPrev) btnPrev.disabled = ATTIVA <= 0;
+    if (btnNext) btnNext.disabled = ATTIVA >= METE.length - 1;
+  }
+
+  var attesaScroll = 0;
+  scroller.addEventListener('scroll', function () {
+    if (inTransizione || attesaScroll) return;
+    attesaScroll = requestAnimationFrame(function () {
+      attesaScroll = 0;
+      var i = calcolaAttiva();
+      if (i !== ATTIVA) { ATTIVA = i; aggiornaLuci(); }
+    });
+  }, { passive: true });
+
+  // Aspetta che lo scroll si sia fermato davvero. Un setTimeout a occhio non
+  // basta: se la corsa non e' finita il finestrino non e' ancora centrato.
+  function quandoFermo(poi) {
+    var fermoDa = 0;
+    var ultimo = -1;
+    (function guarda() {
+      var ora = Math.round(scroller.scrollLeft);
+      fermoDa = ora === ultimo ? fermoDa + 1 : 0;
+      ultimo = ora;
+      if (fermoDa >= 3) { poi(); return; }
+      requestAnimationFrame(guarda);
+    })();
+  }
+
+  function vaiA(i, comportamento) {
+    if (!dim) return;
+    i = Math.max(0, Math.min(METE.length - 1, i));
+    scroller.scrollTo({
+      left: i * dim.passo,
+      behavior: comportamento || (menoMovimento ? 'auto' : 'smooth')
     });
   }
+
+  if (btnPrev) btnPrev.addEventListener('click', function () { vaiA(ATTIVA - 1); });
+  if (btnNext) btnNext.addEventListener('click', function () { vaiA(ATTIVA + 1); });
+
+  // Tastiera: le frecce muovono la cabina di una campata per volta.
+  window.addEventListener('keydown', function (e) {
+    if (inTransizione) return;
+    if (e.target && /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)) return;
+    if (e.key === 'ArrowRight') { e.preventDefault(); vaiA(ATTIVA + 1); }
+    else if (e.key === 'ArrowLeft') { e.preventDefault(); vaiA(ATTIVA - 1); }
+  });
 
   // ---- Parallasse: quasi inconscia, guidata dal puntatore ----
   if (!menoMovimento && window.matchMedia('(pointer: fine)').matches) {
-    var mondiX = gsap.quickTo(elMondi, 'x', { duration: 0.9, ease: 'power2.out' });
-    var pareteX = gsap.quickTo(elParete, 'x', { duration: 0.5, ease: 'power2.out' });
-    var vetriX = gsap.quickTo(elVetri, 'x', { duration: 1.2, ease: 'power2.out' });
+    // Passa da una variabile CSS: cosi' GSAP non riscrive il transform dei piani
+    // e non si porta via il loro translateZ.
+    var parMondi = gsap.quickTo(elMondi, '--par', { duration: 0.9, ease: 'power2.out' });
+    var parParete = gsap.quickTo(elParete, '--par', { duration: 0.5, ease: 'power2.out' });
+    var parVetri = gsap.quickTo(elVetri, '--par', { duration: 1.2, ease: 'power2.out' });
     window.addEventListener('pointermove', function (e) {
       if (inTransizione) return;
       var d = (e.clientX / window.innerWidth - 0.5) * 2;
-      pareteX(d * -3);      // la parete e' vicina: si muove poco ma per prima
-      mondiX(d * 7);        // il mondo e' lontano: si sposta in senso opposto
-      vetriX(d * -5);       // il riflesso ha vita sua
+      parParete(d * -3 + 'px');   // la parete e' vicina: si muove poco ma per prima
+      parMondi(d * 7 + 'px');     // il mondo e' lontano: si sposta in senso opposto
+      parVetri(d * -5 + 'px');    // il riflesso ha vita sua
     }, { passive: true });
   }
 
-  // ---- LA TRANSIZIONE: la camera avanza dentro il foro ----
+  // ------------------------------------------------------------------
+  // LA TRANSIZIONE: la camera avanza dentro il foro
+  // ------------------------------------------------------------------
   function attraversa(indice, href) {
     if (inTransizione) return;
+    // La camera avanza verso l'origine della prospettiva, che e' il centro del
+    // viewport. Entrare in un finestrino che non e' centrato vuol dire volare
+    // dentro un foro e atterrare sulla foto di un altro: la continuita' che il
+    // brief chiede si romperebbe proprio nel punto che conta.
+    if (indice !== calcolaAttiva()) {
+      ATTIVA = indice;
+      aggiornaLuci();
+      vaiA(indice);
+      quandoFermo(function () { attraversa(indice, href); });
+      return;
+    }
     inTransizione = true;
-    var g = geometrie[indice];
-
-    scena.style.setProperty('--fuoco-x', g.x + 'px');
-    scena.style.setProperty('--fuoco-y', g.y + 'px');
+    scroller.classList.add('in-transizione');
 
     var mondo = elMondi.children[indice];
     var img = mondo.querySelector('img');
 
+    function arrivo() {
+      if (RESTA) {
+        if (btnRitorno) btnRitorno.hidden = false;
+        return;
+      }
+      window.location.href = href;
+    }
+
     if (menoMovimento) {
       // Niente movimento di camera: la stessa immagine va a schermo intero e basta.
+      tornati = { img: img, mondo: mondo, larghezza: img.style.width, altezza: img.style.height };
       mondoPieno.style.visibility = 'visible';
       mondoPieno.appendChild(img);
-      gsap.set(img, { position: 'absolute', inset: 0, width: '100%', height: '100%' });
-      gsap.to(mondoPieno, { opacity: 1, duration: 0.2, onComplete: function () {
-        if (!RESTA) window.location.href = href;
-      } });
+      gsap.set(img, { position: 'absolute', left: 0, top: 0, width: '100%', height: '100%' });
+      gsap.fromTo(mondoPieno, { opacity: 0 }, { opacity: 1, duration: 0.25, onComplete: arrivo });
       return;
     }
 
+    // 1. La camera avanza. Un solo valore: la prospettiva distribuisce il resto.
+    //    La corsa e' calcolata (vedi misura()): si ferma quando il foro attivo
+    //    ha superato il viewport, non a un numero scelto a occhio.
     var tl = gsap.timeline({
       defaults: { ease: 'power2.inOut' },
-      onComplete: function () { if (!RESTA) window.location.href = href; }
+      onComplete: function () { portaAPienoSchermo(img, mondo, arrivo); }
     });
 
-    // 1. La camera avanza. Un solo valore: la prospettiva distribuisce il resto.
-    //    La parete (z=0) e il primo piano (z=+200) esplodono e escono dal viewport,
-    //    il mondo (z=-300) cresce molto meno. Nessuno scale per piano.
-    tl.to(camera, { '--dolly': '980px', duration: 1.0, ease: 'power2.in' }, 0);
+    tl.to(camera, { '--dolly': DOLLY + 'px', duration: 1.05, ease: 'power1.in' }, 0);
 
-    // 2. Gli altri finestrini si allontanano lateralmente: la cabina si apre
+    // 2. Gli altri finestrini si fanno da parte: meno luce, piu' freddi
     geometrie.forEach(function (altra, i) {
       if (i === indice) return;
-      tl.to(elMondi.children[i].querySelector('img'), {
-        filter: 'brightness(0.34) contrast(0.98)', duration: 0.75, ease: 'power1.in'
-      }, 0);
+      var altraImg = elMondi.children[i].querySelector('img');
+      tl.to(altraImg, { filter: 'brightness(0.34) contrast(0.98)', duration: 0.75, ease: 'power1.in' }, 0);
       tl.to(elMondi.children[i], { '--freddo': 0.62, duration: 0.75, ease: 'power1.in' }, 0);
     });
 
-    // 3. Etichetta e riflessi si tolgono di mezzo presto
+    // 3. Quello che non deve venire dentro con noi si toglie presto
     tl.to([elTarghette, elVetri], { opacity: 0, duration: 0.32 }, 0);
-    tl.to(elSedili, { opacity: 0, duration: 0.26, ease: 'power1.in' }, 0);
-
-    // 4. Quando la cornice ha ormai superato il bordo dello schermo, Flip prende
-    //    LA STESSA immagine — quella dentro il finestrino, non una copia — e la
-    //    porta a schermo intero. E' la continuita' che chiedeva il brief: se qui
-    //    comparisse un secondo elemento, l'illusione si romperebbe.
-    tl.add(function () {
-      var stato = Flip.getState(img);
-      mondoPieno.style.visibility = 'visible';
-      mondoPieno.appendChild(img);
-      Flip.from(stato, {
-        duration: 0.5,
-        ease: 'power2.inOut',
-        absolute: true,
-        scale: true
-      });
-    }, 0.80);
+    tl.to(elSedili, {
+      opacity: 0, duration: 0.42, ease: 'power1.in',
+      onComplete: function () { elSedili.style.display = 'none'; }
+    }, 0);
+    if (comandi) tl.to(comandi, { opacity: 0, duration: 0.25 }, 0);
+    // la vignettatura e' fissa allo schermo: non puo' allargarsi con la cabina,
+    // quindi si scioglie mentre la cornice esce
+    if (vignetta) tl.to(vignetta, { opacity: 0, duration: 0.55 }, 0.3);
+    if (elPrimoPiano) {
+      tl.to(elPrimoPiano, {
+        opacity: 0, duration: 0.35,
+        onComplete: function () { elPrimoPiano.style.display = 'none'; }
+      }, 0);
+    }
 
     return tl;
   }
+
+  // A questo punto il foro ha superato il viewport e il mondo lo copre: la
+  // parete non e' piu' a schermo, quindi cambiare contenitore all'immagine non
+  // si vede. Prima il cambio avveniva a meta' corsa, con la cornice ancora in
+  // vista: compariva un rettangolo sopra la parete.
+  // Flip riusa LO STESSO nodo — se comparisse un secondo elemento l'illusione
+  // si romperebbe — e restituisce una timeline: la navigazione parte da li',
+  // non dalla timeline precedente, che finiva prima.
+  function portaAPienoSchermo(img, mondo, arrivo) {
+    tornati = { img: img, mondo: mondo, larghezza: img.style.width, altezza: img.style.height };
+    var stato = Flip.getState(img);
+    mondoPieno.style.visibility = 'visible';
+    mondoPieno.appendChild(img);
+    gsap.set(img, { position: 'absolute', left: 0, top: 0, width: '100%', height: '100%', clearProps: 'transform' });
+    ultimoFlip = Flip.from(stato, {
+      duration: 0.45,
+      ease: 'power2.inOut',
+      absolute: true,
+      scale: true,
+      onComplete: arrivo
+    });
+    return ultimoFlip;
+  }
+
+  // ---- Transizione inversa: il mondo si contrae, la cabina si ricompone ----
+  function torna() {
+    if (!tornati) return;
+    if (btnRitorno) btnRitorno.hidden = true;
+    var img = tornati.img;
+    var mondo = tornati.mondo;
+
+    var stato = Flip.getState(img);
+    mondo.appendChild(img);
+    gsap.set(img, {
+      position: 'absolute', left: 0, top: 0,
+      width: tornati.larghezza, height: tornati.altezza,
+      clearProps: 'transform'
+    });
+    var rientro = Flip.from(stato, { duration: 0.45, ease: 'power2.inOut', absolute: true, scale: true });
+
+    var tl = gsap.timeline({
+      onComplete: function () {
+        inTransizione = false;
+        scroller.classList.remove('in-transizione');
+        mondoPieno.style.visibility = 'hidden';
+        tornati = null;
+        aggiornaLuci();
+      }
+    });
+    tl.add(rientro, 0);
+    tl.to(camera, { '--dolly': '0px', duration: 0.95, ease: 'power2.out' }, 0.2);
+    tl.to([elTarghette, elVetri], { opacity: 1, duration: 0.4 }, 0.6);
+    elSedili.style.display = '';
+    if (elPrimoPiano) elPrimoPiano.style.display = '';
+    tl.to(elSedili, { opacity: 1, duration: 0.4 }, 0.6);
+    if (elPrimoPiano) tl.to(elPrimoPiano, { opacity: 1, duration: 0.4 }, 0.6);
+    if (vignetta) tl.to(vignetta, { opacity: 1, duration: 0.5 }, 0.5);
+    if (comandi) tl.to(comandi, { opacity: 1, duration: 0.4 }, 0.7);
+    geometrie.forEach(function (g, i) {
+      if (!elMondi.children[i]) return;
+      tl.to(elMondi.children[i], { '--freddo': 0, duration: 0.5 }, 0.5);
+    });
+    tl.add(function () { mondoPieno.style.visibility = 'hidden'; }, 0.5);
+  }
+
+  if (btnRitorno) btnRitorno.addEventListener('click', torna);
 
   // ---- I link restano link: il click viene solo arricchito ----
   Array.prototype.forEach.call(document.querySelectorAll('.presa'), function (presa) {
@@ -360,16 +670,32 @@
       var i = METE.findIndex(function (m) { return m.id === presa.dataset.meta; });
       if (i < 0) return;
       e.preventDefault();
-      ATTIVA = i;
-      aggiornaFuoco();
+      // Si entra solo dal finestrino che si sta guardando: se il click arriva su
+      // un vicino ci pensa attraversa(), che prima porta la cabina davanti a lui.
       attraversa(i, presa.getAttribute('href'));
     });
   });
 
+  var attesaResize = 0;
   window.addEventListener('resize', function () {
-    if (!inTransizione) costruisci();
+    if (inTransizione) return;
+    clearTimeout(attesaResize);
+    attesaResize = setTimeout(function () {
+      if (inTransizione) return;
+      costruisci();
+      vaiA(ATTIVA, 'auto');
+    }, 150);
   });
 
   costruisci();
-  window.__cabina = { geometrie: function () { return geometrie; }, attraversa: attraversa };
+  vaiA(ATTIVA, 'auto');
+
+  window.__cabina = {
+    geometrie: function () { return geometrie; },
+    dolly: function () { return DOLLY; },
+    attraversa: attraversa,
+    flip: function () { return ultimoFlip; },
+    torna: torna,
+    vaiA: vaiA
+  };
 })();

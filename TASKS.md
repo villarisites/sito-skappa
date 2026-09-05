@@ -1,5 +1,83 @@
 # TASKS — skappa.it
 
+## 2026-09-05 (pomeriggio) — Flusso "Su richiesta" corretto, cabina rimessa in piedi
+
+Due lavori distinti. Il primo tocca il sito vero, il secondo solo il laboratorio.
+
+### Sito — le mete senza prezzo non sono piu' acquistabili
+
+- [x] **Checkout e acconto seguono il prezzo, non il vecchio link.** Budapest, Parigi,
+      Bucarest, Barcellona, Sofia e Londra dicevano "Su richiesta" ma tenevano
+      `linkPagamento` e `acconto`: le CTA aprivano ancora Stripe e Budapest calcolava un
+      saldo di **-79 EUR**. Ora una regola sola (`canCheckout` / `canPayDeposit` in
+      `js/travel-detail.js`) governa CTA, sticky bar, selettore acconto e cambio aeroporto.
+- [x] **Le pagine leggere non parlano piu' come un pacchetto gia' pronto.** "Cosa succede
+      dopo" racconta il preventivo invece delle istruzioni di pagamento, le sezioni senza
+      contenuto spariscono, "Partenza da" senza citta' diventa "Partenza da concordare".
+- [x] **Salvataggio admin non distruttivo.** Salvando Praga si perdeva `imgCard` e si
+      creavano attivita', FAQ e recensioni vuote. I campi non esposti dall'editor ora si
+      conservano.
+- [x] **Regressioni aggiunte** su prezzo assente + vecchio checkout + acconto, e sullo
+      smoke di browser (CTA che perdono la meta, acconto senza prezzo, imgCard).
+
+### flight-lab — la cabina
+
+Il prototipo era rimasto **a meta'**: markup e CSS nuovi (scroll orizzontale, comandi,
+fallback senza JS) senza il JavaScript che li regge. La scena non si accendeva proprio.
+
+- [x] **La prospettiva passa al contenitore che scorre.** Prima stava sulla scena, larga
+      quanto tutta la cabina: il punto di fuga scorreva insieme alla parete. Ora l'origine
+      resta al centro del viewport e coincide sempre col finestrino che lo scroll-snap
+      centra — su qualunque schermo.
+- [x] **Mobile.** A 390px i finestrini si sovrapponevano e sotto "Budapest" spuntava
+      Vienna. Il passo ora viene dal rapporto vero dell'aereo (53cm fra i finestrini,
+      23 di larghezza), non da frazioni della larghezza dello schermo.
+- [x] **Due citta' nello stesso finestrino.** Il piano dei mondi a -620px scivolava di
+      240px per campata contro un foro di 290: il panorama del vicino entrava in quello
+      attivo. Portato a -150, con le tre misure (copertura del foro, copertura a fine
+      corsa, non invasione del vicino) calcolate invece che scelte a occhio.
+- [x] **Portale.** La navigazione partiva a Flip al 30%: ora `arrivo` e' l'onComplete
+      della Flip stessa (verificato: progresso 1 all'arrivo, e **un solo** nodo immagine).
+      La corsa della camera ha piu' margine e accelerazione lineare — l'accelerazione la
+      dava gia' la prospettiva — quindi la cornice esce con calma invece che in uno scatto.
+- [x] **Si entra solo dal finestrino centrato.** Cliccando un vicino la cabina ci si porta
+      davanti e aspetta che lo scroll si fermi davvero. Prima si volava dentro un foro e
+      si atterrava sulla foto di un altro.
+- [x] **Sedili veri, e di profilo** (`assets/flight/seat-side.webp`, generato e
+      scontornato) al posto dei gradienti CSS. La camera guarda la fiancata, perpendicolare
+      all'asse della fusoliera: i sedili sono rivolti verso la prua, quindi si vedono **di
+      lato**. Uno schienale frontale sarebbe corretto solo guardando lungo il corridoio.
+      Il passo delle file e' quello vero (76 cm) e **non** coincide con quello dei
+      finestrini (53): non si allineano, come in un aereo. La fase e' scelta perche'
+      davanti al finestrino centrato ci sia il vuoto fra due file. Il primo piano viene
+      tolto dal rendering a fine corsa: a z=+150 arrivava a ridosso della camera, dove la
+      scala tende all'infinito.
+- [x] **Cielo fuori dalla scena** — il suo `inset` negativo allargava l'area di
+      scorrimento di 1665px.
+
+- [x] **Texture della parete.** Non e' la foto incollata: dalla foto si ricava una MAPPA
+      DI MATERIALE neutra (grigio medio = nessun effetto) applicata in soft-light, cosi'
+      colore e luce restano ai gradienti dell'SVG e l'asset porta solo la grana.
+      Lo script `npm run build:cabin-texture -- <foto.png>` trova le fughe misurando le
+      colonne piu' scure, ritaglia la zona che non ne contiene (le fughe le disegna gia'
+      l'SVG, al passo dei finestrini: averle anche nella piastrella voleva dire due serie
+      con spaziature diverse), toglie la luce sottraendo la versione sfocata e specchia il
+      risultato in 2x2 perche' i bordi combacino. 512x512, 84 KB.
+      Due trappole trovate guardando: il pattern SVG sfuma i bordi della piastrella verso
+      il trasparente e disegna una **griglia** sulla parete — si risolve disegnando
+      l'immagine mezzo pixel oltre il bordo; e la prima piastrella conteneva le fughe per
+      un mio errore nella scelta del ritaglio.
+
+Resta: le 27 mete, la transizione inversa provata a fondo, l'integrazione nella home.
+Il laboratorio non tocca `index.html`.
+
+### Verifiche fatte
+
+- 38 test unitari verdi (`npm test`), 36 pagine senza errori (`npm run test:browser`)
+- Cabina guardata a 1440x900 e a 390x844 reali; transizione catturata per progresso
+  della timeline; console pulita; fallback senza JS con link da 320x509 (non piu' 0x0)
+
+
 ## 2026-09-05 (notte) — Fasi 3 e 4 fatte. Resta solo l'uscita dal WIP.
 
 Il rifacimento e' completo dal punto di vista tecnico. **Il sito e' ancora in WIP**:
