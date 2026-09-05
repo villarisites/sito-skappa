@@ -36,6 +36,7 @@
   var elVetri = document.getElementById('vetri');
   var mondoPieno = document.getElementById('mondoPieno');
   var elTarghette = document.getElementById('targhette');
+  var elSedili = document.getElementById('sedili');
 
   // ?resta=1 blocca la navigazione finale: serve a guardare la transizione da fermi
   var RESTA = new URLSearchParams(location.search).has('resta');
@@ -84,7 +85,6 @@
     var W = dim.W, H = dim.H;
     var yBin = H * 0.20;          // bordo inferiore della cappelliera
     var yPannello = H * 0.66;     // dove la parete piega verso il pavimento
-    var ySedili = H * 0.82;       // spalliere davanti
 
     var architettura =
       // cappelliera: pancia arrotondata che sporge verso di noi
@@ -101,11 +101,7 @@
         ' Z" fill="url(#pannelloBasso)"/>' +
       '<rect x="0" y="' + yPannello + '" width="' + W + '" height="2" fill="rgba(255,255,255,0.14)"/>' +
       '<rect x="0" y="' + (yPannello + 2) + '" width="' + W + '" height="3" fill="rgba(0,0,0,0.28)"/>' +
-      // spalliere dei sedili davanti, in ombra
-      '<path d="M0,' + ySedili + ' Q' + (W * 0.18) + ',' + (ySedili - 46) + ' ' + (W * 0.36) + ',' + ySedili +
-        ' L' + (W * 0.36) + ',' + H + ' L0,' + H + ' Z" fill="#171a20" opacity="0.92"/>' +
-      '<path d="M' + (W * 0.64) + ',' + ySedili + ' Q' + (W * 0.82) + ',' + (ySedili - 46) + ' ' + W + ',' + ySedili +
-        ' L' + W + ',' + H + ' L' + (W * 0.64) + ',' + H + ' Z" fill="#171a20" opacity="0.92"/>';
+      '';
 
     // fughe verticali fra i pannelli di parete, una per campata
     var fughe = '';
@@ -195,6 +191,9 @@
     }).join('');
 
     elCornici.innerHTML = geometrie.map(function () { return '<div class="cornice"></div>'; }).join('');
+    elSedili.innerHTML = geometrie.map(function (g) {
+      return '<div class="sedile" style="--x:' + g.x + 'px;--sw:' + (g.w * 2.15) + 'px"></div>';
+    }).join('');
     elTarghette.innerHTML = geometrie.map(function (g) {
       return '<div class="targhetta">' + g.meta.nome + '</div>';
     }).join('');
@@ -286,6 +285,7 @@
 
     // 3. Etichetta e riflessi si tolgono di mezzo presto
     tl.to([elTarghette, elVetri], { opacity: 0, duration: 0.32 }, 0);
+    tl.to(elSedili, { opacity: 0, duration: 0.26, ease: 'power1.in' }, 0);
 
     // 4. Quando la cornice ha ormai superato il bordo dello schermo, Flip prende
     //    LA STESSA immagine — quella dentro il finestrino, non una copia — e la
