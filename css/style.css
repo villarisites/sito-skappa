@@ -1930,3 +1930,31 @@ body.pagina-viaggio.sticky-cta-visible #waBtn { bottom: 6rem !important; }
 html[data-theme="light"] .nav-destinations__panel { background:#fff;border-color:rgba(3,16,48,.12); }
 html[data-theme="light"] .nav-destinations__eyebrow { color:rgba(3,16,48,.45); }
 html[data-theme="light"] .nav-destination-link { color:var(--navy); }
+
+/* ============================================
+   HOME — sezioni categoria generate da js/home-catalog.js
+   ============================================ */
+.home-cat-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border: 1px solid;
+  border-radius: 999px;
+  padding: 0.3rem 0.8rem;
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 0.9rem;
+}
+.home-cat-tutte {
+  margin-top: 1.25rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+.home-cat-tutte a {
+  color: rgba(255,255,255,0.55);
+  transition: color 0.2s;
+}
+.home-cat-tutte a:hover { color: var(--gold); }

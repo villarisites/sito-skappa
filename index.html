@@ -237,63 +237,25 @@
 
 
   <!-- ========== SUMMER TOUR (PRIMO – PUNTO DI FORZA) ========== -->
-  <section class="destinations-section summer-section-wrap" id="summer">
-    <div class="max-w-6xl mx-auto">
-      <div class="dest-card-container fade-in" style="border-color:rgba(254,189,65,0.28);background:rgba(254,189,65,0.025)">
-        <div class="mb-6">
-          <span class="summer-badge">★ IL NOSTRO PUNTO DI FORZA</span>
-          <h2 class="section-title" style="margin-bottom:0.75rem">Escape Tour 2026</h2>
-          <p class="text-gray-300 text-sm max-w-2xl leading-relaxed">
-            Mare, sole e party. Le nostre mete estive sono pensate per chi vuole vivere l'estate al massimo.<br/>
-            Tutto organizzato, zero stress — tu pensi solo a divertirti.
-          </p>
-        </div>
-        <div class="carousel-wrap">
-          <button class="carousel-btn carousel-btn-prev" id="prevBtn2" aria-label="Precedente">&#8249;</button>
-          <div class="carousel-track" id="carouselTrack2"></div>
-          <button class="carousel-btn carousel-btn-next" id="nextBtn2" aria-label="Successiva">&#8250;</button>
-        </div>
-        <div class="carousel-dots" id="dots2"></div>
-      </div>
-    </div>
-  </section>
+  <!-- ========== DESTINAZIONI PER CATEGORIA ========== -->
+  <!-- Generato da js/home-catalog.js leggendo data/categorie.js: una sezione per
+       ogni categoria che ha almeno una meta. -->
+  <div id="homeCategorie"></div>
 
 
-  <!-- ========== FUGHE IN EUROPA ========== -->
-  <section class="destinations-section" id="fughe" style="padding-top:1.5rem">
-    <div class="max-w-6xl mx-auto">
-      <div class="dest-card-container fade-in">
-        <div class="mb-6">
-          <p class="text-gray-300 text-sm mb-1">Ogni meta SKAPPA nasce da un'idea: farti vivere il mondo con occhi nuovi.</p>
-          <p class="text-gray-500 text-xs mb-5">Dalle città più iconiche ai luoghi ancora segreti, ti aspettano esperienze autentiche, nate per chi vuole sentire di nuovo la meraviglia.</p>
-          <h2 class="section-title" style="margin-bottom:0">Fughe in Europa</h2>
-        </div>
-        <div class="carousel-wrap">
-          <button class="carousel-btn carousel-btn-prev" id="prevBtn1" aria-label="Precedente">&#8249;</button>
-          <div class="carousel-track" id="carouselTrack1"></div>
-          <button class="carousel-btn carousel-btn-next" id="nextBtn1" aria-label="Successiva">&#8250;</button>
-        </div>
-        <div class="carousel-dots" id="dots1"></div>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- ========== LAST MINUTE ========== -->
-  <section class="destinations-section lm-section-wrap" id="lastminute" style="padding-top:1.5rem">
+  <!-- ========== OFFERTE IN SCADENZA ========== -->
+  <section class="destinations-section lm-section-wrap" id="offerteHome" style="padding-top:1.5rem">
     <div class="max-w-6xl mx-auto">
       <div class="dest-card-container fade-in" style="border-color:rgba(220,38,38,0.3);background:rgba(220,38,38,0.025)">
         <div class="mb-6">
           <span class="lm-section-badge">⚡ OFFERTE IN SCADENZA</span>
-          <h2 class="section-title" style="margin-bottom:0.75rem">Last Minute</h2>
+          <h2 class="section-title" style="margin-bottom:0.75rem">Offerte</h2>
           <p class="text-gray-300 text-sm max-w-2xl leading-relaxed">
             Posti limitati, prezzi speciali e countdown attivo.<br/>
-            Prenota subito prima che l'offerta svanisca.
+            Prenota subito prima che l&#39;offerta svanisca.
           </p>
         </div>
-        <div id="lastMinuteCards" class="flex flex-wrap gap-4">
-          <!-- Populated by JS below -->
-        </div>
+        <div id="offerteHomeCards" class="flex flex-wrap gap-4"></div>
       </div>
     </div>
   </section>
@@ -566,58 +528,17 @@
   <script src="js/main.js" defer></script>
   <script src="js/hero-shader.js" defer></script>
   <script src="js/animations.js" defer></script>
+  <script src="js/home-catalog.js" defer></script>
   <script>
   document.addEventListener('DOMContentLoaded', function () {
-    function fillCarousel(trackId, dotsId, dests) {
-      var track = document.getElementById(trackId);
-      var dotsEl = document.getElementById(dotsId);
-      if (!track || !dests.length) return;
-      track.innerHTML = dests.map(function (d, i) {
-        return SkappaCatalog.buildCard(d, { contesto: 'carousel', indice: i });
-      }).join('');
-      dotsEl.innerHTML = dests.map(function (_, i) {
-        return '<button class="carousel-dot' + (i === 0 ? ' active' : '') + '" aria-label="Slide ' + (i + 1) + '"></button>';
-      }).join('');
-    }
-
-    // ---- Popola carousels ----
-    fillCarousel('carouselTrack2', 'dots2', SkappaCatalog.perCategoria('mete-estive'));
-    fillCarousel('carouselTrack1', 'dots1', SkappaCatalog.perCategoria('fughe-in-europa'));
-
-    // ---- Inizializza carousel (dopo aver popolato i track) ----
-    initCarousel('carouselTrack1', 'prevBtn1', 'nextBtn1', 'dots1');
-    initCarousel('carouselTrack2', 'prevBtn2', 'nextBtn2', 'dots2');
-
-    // ---- Nascondi SVG placeholder quando l'immagine si carica ----
-    document.querySelectorAll('.dest-card-photo').forEach(function (img) {
-      function hideIcon() {
-        var svg = img.nextElementSibling;
-        if (svg && svg.tagName === 'svg') svg.style.display = 'none';
-      }
-      if (img.complete && img.naturalWidth > 0) { hideIcon(); }
-      else { img.addEventListener('load', hideIcon); }
-    });
-
-    // ---- Last Minute cards ----
-    var lmDests = SkappaCatalog.perCategoria('last-minute');
-    var lmContainer = document.getElementById('lastMinuteCards');
-    if (lmDests.length > 0) {
-      lmContainer.innerHTML = lmDests.map(function (d, lmIdx) {
-        return SkappaCatalog.buildCard(d, { variante: 'lastminute', contesto: 'home', indice: lmIdx });
-      }).join('');
-    } else {
-      document.getElementById('lastminute').style.display = 'none';
-    }
-
-    // ---- Prezzo minimo dinamico hero ----
-    (function(){
-      var dests = window.DESTINATIONS || [];
-      if (!dests.length) return;
-      var min = Math.min.apply(null, dests.map(function(d){ return parseInt(d.prezzo,10)||Infinity; }));
-      if (isFinite(min)) { var el = document.getElementById('heroPriceMin'); if(el) el.textContent = 'DA '+min+'€'; }
-    })();
-
-  }); // end DOMContentLoaded
+    // Prezzo minimo nell'hero: solo fra le mete che un prezzo ce l'hanno davvero.
+    var conPrezzo = (window.DESTINATIONS || [])
+      .map(function (d) { return parseInt(d.prezzo, 10); })
+      .filter(function (n) { return isFinite(n) && n > 0; });
+    var el = document.getElementById('heroPriceMin');
+    if (!el) return;
+    el.textContent = conPrezzo.length ? 'DA ' + Math.min.apply(null, conPrezzo) + '€' : 'SU RICHIESTA';
+  });
   </script>
 </body>
 </html>
