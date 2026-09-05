@@ -44,7 +44,10 @@ html, body {
 .cabina-scroll {
   position: relative;
   z-index: 1;
-  height: 100dvh;
+  /* L'altezza e' una variabile perche' la cabina, nella home, sara' una FASCIA
+     dentro la sezione hero e non una schermata intera. Tutta la geometria
+     discende da qui: passo, finestrini e corsa della camera si ricalcolano. */
+  height: var(--cabina-alta, 100dvh);
   overflow-x: auto;
   overflow-y: hidden;
   scroll-snap-type: x mandatory;
@@ -64,7 +67,7 @@ html, body {
 .cabina-scroll.in-transizione { scroll-snap-type: none; overflow-x: hidden; }
 .scena {
   position: relative;
-  height: 100dvh;
+  height: var(--cabina-alta, 100dvh);
   width: 100%;          /* la larghezza vera la calcola cabin.js: e' tutta la cabina */
   transform-style: preserve-3d;
 }
@@ -85,7 +88,14 @@ html, body {
    panorama non li copre: e' una rete di sicurezza, non un piano di lavoro. */
 .cielo {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  /* Alta quanto la cabina, non quanto lo schermo: con la cabina ridotta a fascia
+     il cielo spuntava sotto di lei, perche' era fisso a tutto schermo. A schermo
+     intero non si vedeva, ed e' il tipo di cosa che salta fuori solo provando
+     la misura vera in cui andra' a stare. */
+  height: var(--cabina-alta, 100dvh);
   z-index: 0;
   background:
     radial-gradient(120% 80% at 50% 78%, #7fb2d9 0%, #4d80ad 34%, #24486e 64%, #101f34 100%);
@@ -248,7 +258,10 @@ html, body {
    la fusoliera sembrerebbe piatta. */
 .vignetta {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--cabina-alta, 100dvh);   /* come il cielo: vale sulla fascia */
   z-index: 5;
   pointer-events: none;
   background:

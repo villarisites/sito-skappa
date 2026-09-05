@@ -150,8 +150,17 @@
   var btnNext = document.getElementById('cabinaNext');
   var btnRitorno = document.getElementById('cabinaRitorno');
 
+  var PARAMETRI = new URLSearchParams(location.search);
   // ?resta=1 blocca la navigazione finale: serve a guardare la transizione da fermi
-  var RESTA = new URLSearchParams(location.search).has('resta');
+  var RESTA = PARAMETRI.has('resta');
+  // Due interruttori per provare come stara' nella home, senza toccare il codice:
+  //   ?sedili=0    la fila in primo piano sparisce
+  //   ?alta=60     la cabina diventa una fascia alta 60vh invece di tutto lo schermo
+  var SENZA_SEDILI = PARAMETRI.get('sedili') === '0';
+  var ALTA = PARAMETRI.get('alta');
+  if (ALTA && isFinite(Number(ALTA))) {
+    document.documentElement.style.setProperty('--cabina-alta', Number(ALTA) + 'vh');
+  }
 
   var geometrie = [];
   var ciechi = [];           // finestrini senza meta: riempiono le estremita'
@@ -460,7 +469,7 @@
       sedili += '<div class="sedile" style="--x:' + xs + 'px;--sw:' + largSedile +
                 'px;--sb:' + sottoIlBordo + 'px"></div>';
     }
-    elSedili.innerHTML = sedili;
+    elSedili.innerHTML = SENZA_SEDILI ? '' : sedili;
 
     tutti.forEach(function (g, i) {
       stile(elVetri.children[i], g);
