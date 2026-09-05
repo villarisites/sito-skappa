@@ -97,6 +97,23 @@
 }
 .mete-consigliate__aiuto strong { color: var(--gold, #febd41); font-weight: 700; }
 
+/* ---- Durante il portale la cabina si prende lo schermo ----
+   Se restasse nella sua fascia, la corsa della camera avverrebbe dentro la
+   banda: la cornice uscirebbe dalla fascia e non dal viewport, e
+   l'ingrandimento si vedrebbe accadere dentro una finestrella.
+
+   Niente `position: fixed`: misurato, si risolveva contro un antenato invece
+   che contro il viewport e la cabina finiva a meta' pagina. Basta una
+   trasformazione calcolata dal riquadro vero - una translate lavora comunque
+   nel sistema dello schermo.
+
+   z-index sopra la navbar, che sta a 100: durante il portale la pagina deve
+   sparire, non restare a galla sopra la foto. */
+.cabina.in-volo {
+  z-index: 9999;
+  will-change: transform;
+}
+
 .cabina {
   width: 100%;
   position: relative;

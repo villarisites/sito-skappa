@@ -148,6 +148,11 @@
   var elSedili = document.getElementById('sedili');
   var elPrimoPiano = document.querySelector('.primo-piano');
   var elCabina = document.getElementById('cabina');
+  // La navbar e' fissa e sta sopra tutto per mestiere. Durante il portale pero'
+  // deve sparire: la pagina si sta sostituendo con la meta, e una barra gialla
+  // che resta a galla sopra la foto rompe l'illusione. Alzare lo z-index non
+  // basterebbe da solo - e' comunque piu' onesto toglierla di mezzo.
+  var elCromo = document.querySelector('nav.navbar, .navbar, nav');
   var vignetta = document.querySelector('.vignetta');
   var mondoPieno = document.getElementById('mondoPieno');
   var comandi = document.querySelector('.cabina-comandi');
@@ -650,6 +655,7 @@
     });
 
     var dopoApertura = apertura ? apertura.durata : 0;
+    if (apertura) tl.to(elCabina, apertura.verso, 0);
     tl.to(camera, { '--dolly': DOLLY + 'px', duration: 1.05, ease: 'power1.in' }, dopoApertura);
 
     // 2. Gli altri finestrini si fanno da parte: meno luce, piu' freddi
@@ -667,6 +673,7 @@
       onComplete: function () { elSedili.style.display = 'none'; }
     }, dopoApertura);
     if (comandi) tl.to(comandi, { opacity: 0, duration: 0.25 }, 0);
+    if (elCromo) tl.to(elCromo, { opacity: 0, duration: 0.3, ease: 'power1.in' }, 0);
     // la vignettatura e' fissa allo schermo: non puo' allargarsi con la cabina,
     // quindi si scioglie mentre la cornice esce
     if (vignetta) tl.to(vignetta, { opacity: 0, duration: 0.55 }, dopoApertura + 0.3);
@@ -694,22 +701,22 @@
     var cx = r.left + (g.x - scroller.scrollLeft);   // centro del finestrino, sullo schermo
     var cy = r.top + g.y;
 
-    elCabina.style.top = r.top + 'px';
-    elCabina.style.left = r.left + 'px';
-    elCabina.style.width = r.width + 'px';
-    elCabina.style.height = r.height + 'px';
     elCabina.classList.add('in-volo');
-
-    var durata = 0.5;
     gsap.set(elCabina, { transformOrigin: (cx - r.left) + 'px ' + (cy - r.top) + 'px' });
-    gsap.to(elCabina, {
-      scale: k,
-      x: window.innerWidth / 2 - cx,
-      y: window.innerHeight / 2 - cy,
-      duration: durata,
-      ease: 'power2.inOut'
-    });
-    return { durata: durata };
+
+    // Solo i valori: l'animazione la aggiunge la timeline principale. Fatta
+    // come tween a se' stante non sarebbe sincronizzata con la corsa della
+    // camera - e' lo stesso errore che il Flip aveva prima.
+    return {
+      durata: 0.5,
+      verso: {
+        scale: k,
+        x: window.innerWidth / 2 - cx,
+        y: window.innerHeight / 2 - cy,
+        duration: 0.5,
+        ease: 'power2.inOut'
+      }
+    };
   }
 
   // A questo punto il foro ha superato il viewport e il mondo lo copre: la
@@ -756,8 +763,7 @@
         scale: 1, x: 0, y: 0, duration: 0.55, ease: 'power2.inOut',
         onComplete: function () {
           elCabina.classList.remove('in-volo');
-          elCabina.style.cssText = elCabina.style.cssText
-            .replace(/(top|left|width|height|transform|transform-origin)\s*:[^;]*;?/g, '');
+          gsap.set(elCabina, { clearProps: 'transform,transformOrigin' });
         }
       });
     }
@@ -780,6 +786,7 @@
     if (elPrimoPiano) tl.to(elPrimoPiano, { opacity: 1, duration: 0.4 }, 0.6);
     if (vignetta) tl.to(vignetta, { opacity: 1, duration: 0.5 }, 0.5);
     if (comandi) tl.to(comandi, { opacity: 1, duration: 0.4 }, 0.7);
+    if (elCromo) tl.to(elCromo, { opacity: 1, duration: 0.4 }, 0.7);
     geometrie.forEach(function (g, i) {
       if (!elMondi.children[i]) return;
       tl.to(elMondi.children[i], { '--freddo': 0, duration: 0.5 }, 0.5);
