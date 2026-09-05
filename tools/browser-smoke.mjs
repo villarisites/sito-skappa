@@ -169,13 +169,18 @@ function checksFor(testCase) {
   }
 
   if (testCase.kind === "home") {
-    const oblo = document.querySelectorAll(".volo-oblo").length;
-    if (oblo !== testCase.expectedPortholes) problems.push(`oblo: ${oblo}/${testCase.expectedPortholes}`);
+    // La cabina ha preso il posto della striscia di oblo': non tutte le mete
+    // entrano, quindi si verifica che ce ne sia almeno una e che la scena si sia
+    // costruita davvero, non un numero fisso.
+    const finestrini = document.querySelectorAll(".presa").length;
+    if (finestrini === 0) problems.push("nessun finestrino nella cabina");
+    if (!document.querySelector("#scena.is-ready")) problems.push("la scena della cabina non si e' costruita");
+    if (document.querySelectorAll(".vano").length < finestrini) problems.push("vani mancanti");
     const sezioni = document.querySelectorAll("#homeCategorie section").length;
     if (sezioni !== testCase.expectedSections) problems.push(`sezioni categoria: ${sezioni}/${testCase.expectedSections}`);
     const card = document.querySelectorAll("#homeCategorie .dest-card").length;
     if (card === 0) problems.push("nessuna card nelle sezioni categoria");
-    if (!document.querySelector(".volo-oblo.is-attivo")) problems.push("nessun oblo attivo");
+    if (!document.querySelector(".targhetta.is-attiva")) problems.push("nessuna meta attiva nella cabina");
     // Il claim dell'hero si controlla contro il CATALOGO, non contro un elenco di
     // stringhe ammesse: la regola vera e' che non deve promettere un prezzo che
     // nessuna meta ha. Con una whitelist, cambiare il testo faceva fallire il test

@@ -5,7 +5,7 @@
   <script>!function(){var t=localStorage.getItem("skappa_theme");if(t==="light")document.documentElement.setAttribute("data-theme","light")}();</script>
   <link rel="stylesheet" href="css/tailwind.min.css" />
   <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="css/volo.css" />
+  <link rel="stylesheet" href="css/cabina.css" />
   <!-- Google Analytics 4 – carica dopo interazione utente o dopo 4s (riduce TBT) -->
   <script>
   (function(){
@@ -173,6 +173,12 @@
 
   <!-- ========== HERO ========== -->
   <section class="hero volo">
+    <!-- La testata: sfondo stellato, aurora e testo. Ha un contenitore suo
+         perche' js/hero-shader.js dimensiona il canvas sul PROPRIO genitore -
+         con la cabina dentro la sezione, il canvas diventava alto quanto tutto
+         e disegnava spazzatura sopra il marchio. E comunque aurora e ombra
+         devono stare dietro al testo, non dietro alla cabina, che e' opaca. -->
+    <div class="hero-testata">
     <div class="hero-bg-fallback"></div>
     <div class="hero-bg" style="background-image:url('assets/foto/utility/sfondo hero.webp')"></div>
     <!-- Aurora shader canvas (WebGL) -->
@@ -187,56 +193,57 @@
       <br/>
       <a href="#homeCategorie" class="btn-gold">Scegli il tuo viaggio</a>
     </div>
+    </div><!-- /.hero-testata -->
 
-    <!-- ========== IL VOLO SKAPPA ========== -->
-    <!-- La fiancata dell'aereo: ogni oblo' e' un link vero alla meta, generato da
-         scripts/build-volo.mjs. Senza JS la striscia scorre lo stesso, in CSS. -->
-    <div class="volo-aereo">
-      <div class="volo-portello" aria-hidden="true"></div>
-      <div class="volo-strip-wrap">
-        <button class="volo-freccia volo-freccia--prev" id="voloPrev" type="button" aria-label="Meta precedente">&#8249;</button>
-        <div class="volo-strip" id="voloStrip" tabindex="0" role="list" aria-label="Destinazioni SKAPPA">
-          <!--#volo inizio-->
-            <a class="volo-oblo" role="listitem" href="viaggio.html?id=praga" data-nome="PRAGA" data-prezzo="Su richiesta" data-hero="assets/foto/praga/hero.webp" aria-label="PRAGA — Su richiesta"><img src="assets/foto/praga/card-sm.webp" alt="PRAGA" width="320" height="400" /></a>
-            <a class="volo-oblo" role="listitem" href="viaggio.html?id=monaco-di-baviera" data-nome="MONACO DI BAVIERA" data-prezzo="Su richiesta" data-hero="assets/foto/monaco-di-baviera/hero.webp" aria-label="MONACO DI BAVIERA — Su richiesta"><img src="assets/foto/monaco-di-baviera/card-sm.webp" alt="MONACO DI BAVIERA" width="320" height="400" /></a>
-            <a class="volo-oblo" role="listitem" href="viaggio.html?id=vienna" data-nome="VIENNA" data-prezzo="Su richiesta" data-hero="assets/foto/vienna/hero.webp" aria-label="VIENNA — Su richiesta"><img src="assets/foto/vienna/card-sm.webp" alt="VIENNA" width="320" height="400" /></a>
-            <a class="volo-oblo" role="listitem" href="viaggio.html?id=budapest" data-nome="BUDAPEST" data-prezzo="Su richiesta" data-hero="assets/foto/budapest/hero.webp" aria-label="BUDAPEST — Su richiesta"><img src="assets/foto/budapest/card-sm.webp" alt="BUDAPEST" width="320" height="400" /></a>
-            <a class="volo-oblo" role="listitem" href="viaggio.html?id=parigi" data-nome="PARIGI" data-prezzo="Su richiesta" data-hero="assets/foto/parigi/hero.webp" aria-label="PARIGI — Su richiesta"><img src="assets/foto/parigi/card-sm.webp" alt="PARIGI" width="320" height="400" /></a>
-            <a class="volo-oblo" role="listitem" href="viaggio.html?id=bucarest" data-nome="BUCAREST" data-prezzo="Su richiesta" data-hero="assets/foto/bucarest/hero.webp" aria-label="BUCAREST — Su richiesta"><img src="assets/foto/bucarest/card-sm.webp" alt="BUCAREST" width="320" height="400" loading="lazy" decoding="async" /></a>
-            <a class="volo-oblo" role="listitem" href="viaggio.html?id=barcellona" data-nome="BARCELLONA" data-prezzo="Su richiesta" data-hero="assets/foto/barcellona/hero.webp" aria-label="BARCELLONA — Su richiesta"><img src="assets/foto/barcellona/card-sm.webp" alt="BARCELLONA" width="320" height="400" loading="lazy" decoding="async" /></a>
-            <a class="volo-oblo" role="listitem" href="viaggio.html?id=sofia" data-nome="SOFIA" data-prezzo="Su richiesta" data-hero="assets/foto/sofia/hero.webp" aria-label="SOFIA — Su richiesta"><img src="assets/foto/sofia/card-sm.webp" alt="SOFIA" width="320" height="400" loading="lazy" decoding="async" /></a>
-            <a class="volo-oblo" role="listitem" href="viaggio.html?id=londra" data-nome="LONDRA" data-prezzo="Su richiesta" data-hero="assets/foto/londra/hero.webp" aria-label="LONDRA — Su richiesta"><img src="assets/foto/londra/card-sm.webp" alt="LONDRA" width="320" height="400" loading="lazy" decoding="async" /></a>
-            <a class="volo-oblo" role="listitem" href="viaggio.html?id=madrid" data-nome="MADRID" data-prezzo="Su richiesta" data-hero="assets/foto/madrid/hero.webp" aria-label="MADRID — Su richiesta"><img src="assets/foto/madrid/card-sm.webp" alt="MADRID" width="320" height="400" loading="lazy" decoding="async" /></a>
-            <a class="volo-oblo" role="listitem" href="viaggio.html?id=siviglia" data-nome="SIVIGLIA" data-prezzo="Su richiesta" data-hero="assets/foto/siviglia/hero.webp" aria-label="SIVIGLIA — Su richiesta"><img src="assets/foto/siviglia/card-sm.webp" alt="SIVIGLIA" width="320" height="400" loading="lazy" decoding="async" /></a>
-            <a class="volo-oblo" role="listitem" href="viaggio.html?id=cracovia" data-nome="CRACOVIA" data-prezzo="Su richiesta" data-hero="assets/foto/cracovia/hero.webp" aria-label="CRACOVIA — Su richiesta"><img src="assets/foto/cracovia/card-sm.webp" alt="CRACOVIA" width="320" height="400" loading="lazy" decoding="async" /></a>
-            <a class="volo-oblo" role="listitem" href="viaggio.html?id=lisbona" data-nome="LISBONA" data-prezzo="Su richiesta" data-hero="assets/foto/lisbona/hero.webp" aria-label="LISBONA — Su richiesta"><img src="assets/foto/lisbona/card-sm.webp" alt="LISBONA" width="320" height="400" loading="lazy" decoding="async" /></a>
-            <a class="volo-oblo" role="listitem" href="viaggio.html?id=valencia" data-nome="VALENCIA" data-prezzo="Su richiesta" data-hero="assets/foto/valencia/hero.webp" aria-label="VALENCIA — Su richiesta"><img src="assets/foto/valencia/card-sm.webp" alt="VALENCIA" width="320" height="400" loading="lazy" decoding="async" /></a>
-            <a class="volo-oblo" role="listitem" href="viaggio.html?id=amsterdam" data-nome="AMSTERDAM" data-prezzo="Su richiesta" data-hero="assets/foto/amsterdam/hero.webp" aria-label="AMSTERDAM — Su richiesta"><img src="assets/foto/amsterdam/card-sm.webp" alt="AMSTERDAM" width="320" height="400" loading="lazy" decoding="async" /></a>
-            <a class="volo-oblo" role="listitem" href="viaggio.html?id=berlino" data-nome="BERLINO" data-prezzo="Su richiesta" data-hero="assets/foto/berlino/hero.webp" aria-label="BERLINO — Su richiesta"><img src="assets/foto/berlino/card-sm.webp" alt="BERLINO" width="320" height="400" loading="lazy" decoding="async" /></a>
-            <a class="volo-oblo" role="listitem" href="viaggio.html?id=tenerife" data-nome="TENERIFE" data-prezzo="Su richiesta" data-hero="assets/foto/tenerife/hero.webp" aria-label="TENERIFE — Su richiesta"><img src="assets/foto/tenerife/card-sm.webp" alt="TENERIFE" width="320" height="400" loading="lazy" decoding="async" /></a>
-            <a class="volo-oblo" role="listitem" href="viaggio.html?id=sharm-el-sheikh" data-nome="SHARM EL-SHEIKH" data-prezzo="Su richiesta" data-hero="assets/foto/sharm-el-sheikh/hero.webp" aria-label="SHARM EL-SHEIKH — Su richiesta"><img src="assets/foto/sharm-el-sheikh/card-sm.webp" alt="SHARM EL-SHEIKH" width="320" height="400" loading="lazy" decoding="async" /></a>
-            <a class="volo-oblo" role="listitem" href="viaggio.html?id=marrakech" data-nome="MARRAKECH" data-prezzo="Su richiesta" data-hero="assets/foto/marrakech/hero.webp" aria-label="MARRAKECH — Su richiesta"><img src="assets/foto/marrakech/card-sm.webp" alt="MARRAKECH" width="320" height="400" loading="lazy" decoding="async" /></a>
-            <a class="volo-oblo" role="listitem" href="viaggio.html?id=hurghada" data-nome="HURGHADA" data-prezzo="Su richiesta" data-hero="assets/foto/hurghada/hero.webp" aria-label="HURGHADA — Su richiesta"><img src="assets/foto/hurghada/card-sm.webp" alt="HURGHADA" width="320" height="400" loading="lazy" decoding="async" /></a>
-            <a class="volo-oblo" role="listitem" href="viaggio.html?id=dubai" data-nome="DUBAI" data-prezzo="Su richiesta" data-hero="assets/foto/dubai/hero.webp" aria-label="DUBAI — Su richiesta"><img src="assets/foto/dubai/card-sm.webp" alt="DUBAI" width="320" height="400" loading="lazy" decoding="async" /></a>
-            <a class="volo-oblo" role="listitem" href="viaggio.html?id=new-york" data-nome="NEW YORK" data-prezzo="Su richiesta" data-hero="assets/foto/new-york/hero.webp" aria-label="NEW YORK — Su richiesta"><img src="assets/foto/new-york/card-sm.webp" alt="NEW YORK" width="320" height="400" loading="lazy" decoding="async" /></a>
-            <a class="volo-oblo" role="listitem" href="viaggio.html?id=los-angeles" data-nome="LOS ANGELES" data-prezzo="Su richiesta" data-hero="assets/foto/los-angeles/hero.webp" aria-label="LOS ANGELES — Su richiesta"><img src="assets/foto/los-angeles/card-sm.webp" alt="LOS ANGELES" width="320" height="400" loading="lazy" decoding="async" /></a>
-            <a class="volo-oblo" role="listitem" href="viaggio.html?id=maldive" data-nome="MALDIVE" data-prezzo="Su richiesta" data-hero="assets/foto/maldive/hero.webp" aria-label="MALDIVE — Su richiesta"><img src="assets/foto/maldive/card-sm.webp" alt="MALDIVE" width="320" height="400" loading="lazy" decoding="async" /></a>
-            <a class="volo-oblo" role="listitem" href="viaggio.html?id=messico" data-nome="MESSICO" data-prezzo="Su richiesta" data-hero="assets/foto/messico/hero.webp" aria-label="MESSICO — Su richiesta"><img src="assets/foto/messico/card-sm.webp" alt="MESSICO" width="320" height="400" loading="lazy" decoding="async" /></a>
-            <a class="volo-oblo" role="listitem" href="viaggio.html?id=thailandia" data-nome="THAILANDIA" data-prezzo="Su richiesta" data-hero="assets/foto/thailandia/hero.webp" aria-label="THAILANDIA — Su richiesta"><img src="assets/foto/thailandia/card-sm.webp" alt="THAILANDIA" width="320" height="400" loading="lazy" decoding="async" /></a>
-            <a class="volo-oblo" role="listitem" href="viaggio.html?id=giappone" data-nome="GIAPPONE" data-prezzo="Su richiesta" data-hero="assets/foto/giappone/hero.webp" aria-label="GIAPPONE — Su richiesta"><img src="assets/foto/giappone/card-sm.webp" alt="GIAPPONE" width="320" height="400" loading="lazy" decoding="async" /></a>
-          <!--#volo fine-->
+    <!-- ========== LA CABINA ==========
+         Prende il posto della vecchia fiancata esterna: qui si e' dentro
+         l'aereo, e ogni finestrino e' una meta. I link sono generati da
+         scripts/build-volo.mjs, statici, funzionanti senza JavaScript e
+         indicizzabili - come lo erano gli oblo'.
+         Il prototipo autorevole resta flight-lab/cabin.html: css/cabina.css e
+         js/cabina.js sono la stessa cosa portata qui. -->
+    <div class="cabina" id="cabina" style="--cabina-alta:44vh">
+
+      <div class="cielo" aria-hidden="true"></div>
+
+      <div class="cabina-scroll" id="cabinaScroll" aria-label="Scegli la tua destinazione">
+        <div class="scena" id="scena">
+          <div class="camera" id="camera">
+            <div class="mondi" id="mondi"></div>
+            <div class="parete" id="parete"></div>
+            <div class="cappelliera" id="cappelliera" aria-hidden="true"></div>
+            <div class="vani" id="vani"></div>
+            <div class="vetri" id="vetri"></div>
+            <div class="tendine" id="tendine"></div>
+            <div class="targhette" id="targhette"></div>
+            <div class="sedili" id="sedili"></div>
+            <div class="primo-piano"></div>
+          </div>
+<!--#cabina inizio-->
+          <a class="presa" id="presa-praga" href="viaggio.html?id=praga" data-meta="praga" aria-label="Scopri PRAGA"><img src="assets/foto/praga/hero.webp" alt="" /><span class="presa-label">PRAGA</span></a>
+          <a class="presa" id="presa-monaco-di-baviera" href="viaggio.html?id=monaco-di-baviera" data-meta="monaco-di-baviera" aria-label="Scopri MONACO DI BAVIERA"><img src="assets/foto/monaco-di-baviera/hero.webp" alt="" /><span class="presa-label">MONACO DI BAVIERA</span></a>
+          <a class="presa" id="presa-vienna" href="viaggio.html?id=vienna" data-meta="vienna" aria-label="Scopri VIENNA"><img src="assets/foto/vienna/hero.webp" alt="" /><span class="presa-label">VIENNA</span></a>
+          <a class="presa" id="presa-budapest" href="viaggio.html?id=budapest" data-meta="budapest" aria-label="Scopri BUDAPEST"><img src="assets/foto/budapest/hero.webp" alt="" /><span class="presa-label">BUDAPEST</span></a>
+          <a class="presa" id="presa-parigi" href="viaggio.html?id=parigi" data-meta="parigi" aria-label="Scopri PARIGI"><img src="assets/foto/parigi/hero.webp" alt="" /><span class="presa-label">PARIGI</span></a>
+          <a class="presa" id="presa-bucarest" href="viaggio.html?id=bucarest" data-meta="bucarest" aria-label="Scopri BUCAREST"><img src="assets/foto/bucarest/hero.webp" alt="" /><span class="presa-label">BUCAREST</span></a>
+          <a class="presa" id="presa-barcellona" href="viaggio.html?id=barcellona" data-meta="barcellona" aria-label="Scopri BARCELLONA"><img src="assets/foto/barcellona/hero.webp" alt="" /><span class="presa-label">BARCELLONA</span></a>
+          <a class="presa" id="presa-sofia" href="viaggio.html?id=sofia" data-meta="sofia" aria-label="Scopri SOFIA"><img src="assets/foto/sofia/hero.webp" alt="" /><span class="presa-label">SOFIA</span></a>
+<!--#cabina fine-->
         </div>
-        <button class="volo-freccia volo-freccia--next" id="voloNext" type="button" aria-label="Meta successiva">&#8250;</button>
       </div>
-      <div class="volo-cartellino" aria-live="polite">
-        <div class="volo-cartellino__nome" id="voloNome"></div>
-        <div class="volo-cartellino__prezzo" id="voloPrezzo"></div>
-      </div>
-    </div>
-  </section>
 
-  <div id="voloPorta" aria-hidden="true"></div>
-  <div id="voloLampo" aria-hidden="true"></div>
+      <div class="vignetta" aria-hidden="true"></div>
+
+      <nav class="cabina-comandi" aria-label="Navigazione nella cabina" hidden>
+        <button type="button" id="cabinaPrev" aria-label="Destinazione precedente">&#8592;</button>
+        <p>Scorri. Scegli. <span>Parti.</span></p>
+        <button type="button" id="cabinaNext" aria-label="Destinazione successiva">&#8594;</button>
+      </nav>
+    </div>
+
+    <div class="mondo-pieno" id="mondoPieno"></div>
+</section>
+
 
 
   <!-- ========== SKAPPA DALLA ROUTINE ========== -->
@@ -580,7 +587,9 @@
   <script src="js/hero-shader.js" defer></script>
   <script src="js/animations.js" defer></script>
   <script src="js/home-catalog.js" defer></script>
-  <script src="js/volo.js" defer></script>
+  <script src="js/vendor/gsap.min.js" defer></script>
+  <script src="js/vendor/Flip.min.js" defer></script>
+  <script src="js/cabina.js" defer></script>
   <!-- Il claim dell'hero lo genera scripts/build-volo.mjs a build time, fra i
        marcatori #prezzo. Prima veniva calcolato anche qui a runtime: due verita'
        diverse, e quella scritta nell'HTML - cioe' quella che vedono i motori di

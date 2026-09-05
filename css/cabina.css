@@ -1,3 +1,4 @@
+/* Generato da flight-lab/cabin.css — vedi CABINA.md */
 /* ============================================================
    CABINA — prototipo isolato
    Non è ancora in produzione. Vive solo in /flight-lab/.
@@ -29,16 +30,10 @@
   --dolly: 0px;
 }
 
-* { box-sizing: border-box; }
-
-html, body {
-  margin: 0;
-  height: 100%;
-  background: #0b0d12;
-  color: #eae7e1;
-  font-family: 'Inter', system-ui, sans-serif;
-  overflow: hidden;
-}
+/* Nel laboratorio qui c'erano `* { box-sizing }` e `html, body { overflow:
+   hidden }`. Nel sito non possono entrare: bloccherebbero lo scroll della
+   pagina. Il box-sizing lo mette gia' style.css. */
+.cabina, .cabina * { box-sizing: border-box; }
 
 /* ---- La scena ---- */
 .cabina-scroll {
@@ -86,7 +81,40 @@ html, body {
    sarebbe comunque impercettibile, e dentro alla scena il suo `inset` negativo
    allargava l'area di scorrimento. Si vede solo attraverso i fori, quando il
    panorama non li copre: e' una rete di sicurezza, non un piano di lavoro. */
+/* ---- La cabina dentro l'hero della home ----
+   .hero e' un flex per centrare il suo contenuto: con la cabina dentro servono
+   due righe impilate, se no marchio e cabina diventano due colonne affiancate e
+   il marchio finisce fuori quadro. Ed .hero taglia quel che esce, con
+   un'altezza minima pensata per il solo testo: con la cabina dentro tagliava
+   la parte bassa dei finestrini.
+   Le stesse regole che aveva volo.css per la fiancata: il problema di
+   impaginazione e' identico, cambia solo cosa ci sta dentro. */
+.hero.volo {
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  overflow: visible;
+  min-height: 0;
+  padding-bottom: 0;
+}
+.hero.volo .hero-content { padding-bottom: 0; }
+
+/* La testata riprende il comportamento che aveva .hero prima: e' lei a centrare
+   il testo e a contenere sfondo e aurora. Senza un contenitore proprio, il
+   canvas del shader - che si dimensiona sul genitore - diventava alto quanto
+   tutta la sezione, cabina compresa, e disegnava rumore sopra il marchio. */
+.hero-testata {
+  position: relative;
+  width: 100%;
+  min-height: 46vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
 .cabina {
+  width: 100%;
   position: relative;
   height: var(--cabina-alta, 100dvh);
   isolation: isolate;

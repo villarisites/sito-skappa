@@ -356,7 +356,7 @@
             // e il pattern ritaglia l'eccedenza. Serve perche' altrimenti il
             // bordo viene sfumato verso il trasparente e le giunzioni si leggono
             // come una griglia sulla parete.
-            '<image href="../assets/flight/cabin-wall.webp" x="-0.5" y="-0.5" width="' +
+            '<image href="assets/flight/cabin-wall.webp" x="-0.5" y="-0.5" width="' +
               (latoTex + 1) + '" height="' + (latoTex + 1) + '" preserveAspectRatio="none"/>' +
           '</pattern>' +
           '<linearGradient id="lucePanca" x1="0" y1="0" x2="0" y2="1">' +
@@ -408,7 +408,7 @@
              '--mondo-w:' + g.mondoW + 'px;--mondo-h:' + g.mondoH + 'px;' +
              'transform:translateZ(' + (-PROF_MONDO) + 'px) scale(' + COMPENSA + ');' +
              'transform-origin:50% 50%">' +
-             '<img src="../assets/foto/' + g.meta.id + '/hero.webp" alt="" ' +
+             '<img src="assets/foto/' + g.meta.id + '/hero.webp" alt="" ' +
              'width="' + Math.round(g.mondoW) + '" height="' + Math.round(g.mondoH) + '" ' +
              'style="width:' + g.mondoW + 'px;height:' + g.mondoH + 'px" />' +
              '</div>';
@@ -436,7 +436,7 @@
     }).join('');
     elTarghette.innerHTML = geometrie.map(function (g) {
       return '<div class="targhetta">' +
-             '<img class="marchio" src="../assets/foto/utility/logo skappa.svg" alt="" ' +
+             '<img class="marchio" src="assets/foto/utility/logo skappa.svg" alt="" ' +
              'width="16" height="16" />' + g.meta.nome + '</div>';
     }).join('');
     elVetri.innerHTML = tutti.map(function () { return '<div class="vetro"></div>'; }).join('');

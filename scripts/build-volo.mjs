@@ -14,6 +14,12 @@ const INIZIO = "<!--#volo inizio-->";
 const FINE = "<!--#volo fine-->";
 const PREZZO_INIZIO = "<!--#prezzo inizio-->";
 const PREZZO_FINE = "<!--#prezzo fine-->";
+const CABINA_INIZIO = "<!--#cabina inizio-->";
+const CABINA_FINE = "<!--#cabina fine-->";
+// Quante mete entrano nella cabina. Non tutte: al passo dei finestrini 27 mete
+// fanno una scena larga quasi ventimila pixel, e nessuno la percorre. Le altre
+// restano raggiungibili dalle categorie, che esistono gia'.
+const METE_IN_CABINA = 8;
 const PRIME_EAGER = 5;
 
 function escapeAttr(value) {
@@ -73,6 +79,21 @@ export function renderPrezzoHero(destinations) {
   };
 }
 
+// I finestrini della cabina sono link veri, generati qui: devono funzionare
+// senza JavaScript ed essere indicizzabili, esattamente come lo erano gli oblo'.
+// js/cabina.js legge da questi elementi le mete da disegnare, invece di avere
+// un proprio elenco: due elenchi da tenere allineati a mano e' il modo in cui
+// oggi cinque destinazioni sono rimaste senza link.
+export function renderCabina(destinations, catalog) {
+  return destinations.slice(0, METE_IN_CABINA).map((d) => {
+    const url = catalog.urlDettaglio(d);
+    return `          <a class="presa" id="presa-${escapeAttr(d.id)}" href="${escapeAttr(url)}"`
+      + ` data-meta="${escapeAttr(d.id)}" aria-label="Scopri ${escapeAttr(d.nome)}">`
+      + `<img src="${escapeAttr(d.imgHero || d.imgCard || "")}" alt="" />`
+      + `<span class="presa-label">${escapeAttr(d.nome)}</span></a>`;
+  }).join("\n");
+}
+
 export function renderOblo(destinations, catalog) {
   return destinations.map((destination, index) => oblo(destination, catalog, index)).join("\n");
 }
@@ -81,14 +102,18 @@ async function main() {
   const catalog = (await loadCatalog()).SkappaCatalog;
   const destinations = catalog.tutte();
   const page = await readFile(PAGE, "utf8");
+  // La striscia di oblo' e' opzionale: la home con la cabina non ce l'ha piu'.
+  // Se i marcatori non ci sono si salta, invece di far fallire tutto il build -
+  // il prezzo dell'hero e i finestrini della cabina devono generarsi comunque.
+  let aggiornata = page;
   const start = page.indexOf(INIZIO);
   const end = page.indexOf(FINE, start);
-  if (start < 0 || end < 0) {
-    throw new Error(`marcatori ${INIZIO} / ${FINE} non trovati in index.html`);
+  let oblo = 0;
+  if (start >= 0 && end >= 0) {
+    const blocco = `${INIZIO}\n${renderOblo(destinations, catalog)}\n          `;
+    aggiornata = page.slice(0, start) + blocco + page.slice(end);
+    oblo = destinations.length;
   }
-
-  const blocco = `${INIZIO}\n${renderOblo(destinations, catalog)}\n          `;
-  let aggiornata = page.slice(0, start) + blocco + page.slice(end);
 
   const pStart = aggiornata.indexOf(PREZZO_INIZIO);
   const pEnd = aggiornata.indexOf(PREZZO_FINE, pStart);
@@ -102,12 +127,23 @@ async function main() {
     + `      <div class="hero-price"><span id="heroPriceMin">${hero.prezzo}</span></div>\n      `
     + aggiornata.slice(pEnd);
 
+  const cStart = aggiornata.indexOf(CABINA_INIZIO);
+  const cEnd = aggiornata.indexOf(CABINA_FINE, cStart);
+  if (cStart < 0 || cEnd < 0) {
+    throw new Error(`marcatori ${CABINA_INIZIO} / ${CABINA_FINE} non trovati in index.html`);
+  }
+  aggiornata = aggiornata.slice(0, cStart)
+    + `${CABINA_INIZIO}
+${renderCabina(destinations, catalog)}
+`
+    + aggiornata.slice(cEnd);
+
   if (aggiornata === page) {
-    console.log(`Volo invariato: ${destinations.length} oblo'`);
+    console.log(`Home invariata: ${oblo} oblo', ${METE_IN_CABINA} finestrini`);
     return;
   }
   await writeFile(PAGE, aggiornata, "utf8");
-  console.log(`Volo aggiornato: ${destinations.length} oblo', hero "${hero.prezzo}"`);
+  console.log(`Home aggiornata: ${oblo} oblo', ${METE_IN_CABINA} finestrini, hero "${hero.prezzo}"`);
 }
 
 // pathToFileURL, non una stringa costruita a mano: su Windows il percorso ha

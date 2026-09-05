@@ -24,26 +24,35 @@ function oblo(page) {
   return Array.from(page.matchAll(/<a class="volo-oblo"[^>]*>/g), (match) => match[0]);
 }
 
-test("volo_hasOnePortholePerDestination", async () => {
-  // Arrange
+test("cabina_haUnFinestrinoPerMetaInEvidenza", async () => {
+  // Arrange — nella cabina non entrano tutte le mete: al passo dei finestrini
+  // 27 farebbero una scena larga quasi ventimila pixel. Le altre restano
+  // raggiungibili dalle categorie.
   const { SkappaCatalog } = await loadCatalog();
   const page = await loadHome();
 
   // Act
-  const portholes = oblo(page);
+  const finestrini = Array.from(page.matchAll(/<a class="presa"[^>]*data-meta="([^"]+)"/g), (m) => m[1]);
 
   // Assert
-  assert.equal(portholes.length, SkappaCatalog.tutte().length);
+  assert.ok(finestrini.length > 0, "nessun finestrino generato");
+  assert.ok(finestrini.length <= SkappaCatalog.tutte().length);
+  // Array.from e non .map(): tutte() nasce dentro il contesto vm, cioe' in un
+  // altro realm, e deepStrictEqual confronta anche il prototipo — due array con
+  // gli stessi valori risultano diversi.
+  const attesi = Array.from(SkappaCatalog.tutte(), (d) => d.id).slice(0, finestrini.length);
+  assert.deepEqual(finestrini, attesi, "i finestrini non seguono l'ordine del catalogo");
 });
 
-test("volo_portholesAreRealLinksSoTheyWorkWithoutJavaScript", async () => {
-  // Arrange — senza JS la striscia scorre in CSS e gli oblo' restano navigabili
+test("cabina_iFinestrinoSonoLinkVeriEFunzionanoSenzaJavaScript", async () => {
+  // Arrange — senza JS la scena non si accende e restano i link, che devono
+  // portare comunque alla meta ed essere leggibili dai motori di ricerca.
   const { SkappaCatalog } = await loadCatalog();
   const page = await loadHome();
 
   // Act
-  const hrefs = Array.from(page.matchAll(/<a class="volo-oblo"[^>]*href="([^"]+)"/g), (m) => m[1]);
-  const attesi = Array.from(SkappaCatalog.tutte(), (d) => SkappaCatalog.urlDettaglio(d));
+  const hrefs = Array.from(page.matchAll(/<a class="presa"[^>]*href="([^"]+)"/g), (m) => m[1]);
+  const attesi = Array.from(SkappaCatalog.tutte(), (d) => SkappaCatalog.urlDettaglio(d)).slice(0, hrefs.length);
 
   // Assert
   assert.deepEqual(hrefs, attesi);
@@ -64,18 +73,17 @@ test("volo_portholeCarriesNameAndPriceLabel", async () => {
   }
 });
 
-test("volo_onlyTheFirstFiveImagesLoadEagerly", async () => {
-  // Arrange — le altre sono lazy: l'LCP non deve pagare 27 foto
-  const page = await loadHome();
-  const blocco = page.slice(page.indexOf("<!--#volo inizio-->"), page.indexOf("<!--#volo fine-->"));
-
-  // Act
-  const immagini = Array.from(blocco.matchAll(/<img [^>]*>/g), (m) => m[0]);
-  const eager = immagini.filter((img) => !img.includes('loading="lazy"'));
+test("cabina_leMeteSonoUnaSolaVerita", async () => {
+  // Arrange — js/cabina.js NON ha un elenco di mete: le legge dai link generati.
+  // Due elenchi da tenere allineati a mano e' il modo in cui, nel prototipo,
+  // cinque destinazioni sono rimaste senza link.
+  const script = await readFile(path.join(ROOT, "js", "cabina.js"), "utf8");
 
   // Assert
-  assert.equal(eager.length, 5);
-  assert.equal(immagini.length - eager.length, immagini.length - 5);
+  assert.match(script, /querySelectorAll\('\.presa'\)/,
+    "cabina.js non legge le mete dai link");
+  assert.doesNotMatch(script, /var METE = \[\s*\{/,
+    "cabina.js ha di nuovo un elenco di mete scritto a mano");
 });
 
 test("volo_heroTextStaysInTheStaticHtml", async () => {
@@ -88,19 +96,19 @@ test("volo_heroTextStaysInTheStaticHtml", async () => {
   assert.match(page, /class="hero volo"/);
 });
 
-test("volo_scriptsAndStylesAreWiredIn", async () => {
+test("cabina_scriptsAndStylesAreWiredIn", async () => {
   // Arrange
   const page = await loadHome();
-  const detail = await readFile(path.join(ROOT, "viaggio.html"), "utf8");
 
   // Assert
-  assert.match(page, /href="css\/volo\.css"/);
-  assert.match(page, /src="js\/volo\.js"/);
-  assert.match(page, /id="voloPorta"/);
-  assert.match(page, /id="voloLampo"/);
-  // la pagina meta deve sapere riconoscere l'arrivo dal volo
-  assert.match(detail, /skappa_volo/);
-  assert.match(detail, /volo-atterraggio/);
+  assert.match(page, /href="css\/cabina\.css"/);
+  assert.match(page, /src="js\/cabina\.js"/);
+  // GSAP e Flip sono vendorizzati: la CSP del progetto vieta i CDN
+  assert.match(page, /src="js\/vendor\/gsap\.min\.js"/);
+  assert.match(page, /src="js\/vendor\/Flip\.min\.js"/);
+  // il canvas del shader deve avere un contenitore suo: si dimensiona sul
+  // genitore, e con la cabina dentro la sezione diventava alto quanto tutto
+  assert.match(page, /class="hero-testata"/);
 });
 
 test("volo_respectsReducedMotion", async () => {

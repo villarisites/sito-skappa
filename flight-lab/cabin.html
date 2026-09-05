@@ -12,6 +12,15 @@
 </head>
 <body>
 
+  <!-- Tutto dentro un contenitore posizionato: cielo, vignettatura e comandi
+       erano `fixed`, e in una pagina che scorre resterebbero incollati allo
+       schermo mentre la cabina scorre via. -->
+  <div class="cabina" id="cabina">
+
+  <!-- L'orizzonte: sta dietro tutto, non dentro la scena, perche' il suo
+       ingombro negativo allargava l'area di scorrimento. -->
+  <div class="cielo" aria-hidden="true"></div>
+
   <!-- La scena. Tutto quello che sta dentro .camera vive nello stesso spazio 3D. -->
   <main class="cabina-scroll" id="cabinaScroll" aria-label="Scegli la tua destinazione">
   <div class="scena" id="scena">
@@ -46,12 +55,9 @@
     <button type="button" id="cabinaNext" aria-label="Destinazione successiva">→</button>
   </nav>
 
-  <!-- L'orizzonte sta fuori dalla scena: e' lontanissimo, non si muove in modo
-       percettibile, e dentro al contenitore che scorre allargava l'area di
-       scorrimento di piu' di mille pixel. -->
-  <div class="cielo" aria-hidden="true"></div>
+  </div><!-- /.cabina -->
 
-  <!-- Ombre dei fianchi e vignettatura: fisse allo schermo, non scorrono -->
+  <!-- Ombre dei fianchi e vignettatura -->
   <div class="vignetta" aria-hidden="true"></div>
 
   <!-- Dove Flip porta il mondo a fine corsa -->
