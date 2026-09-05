@@ -104,6 +104,20 @@
   // dentro al finestrino. Allargandolo, e' la cornice opaca a coprire l'eccesso.
   var FORO_OLTRE = 1.05;
 
+  // Quante volte la foto del mondo viene IMPAGINATA piu' grande del suo riquadro,
+  // per poi essere rimpicciolita altrettanto dal transform: a schermo non cambia
+  // niente, ma il raster di partenza e' tre volte piu' fitto.
+  // Non e' cosmesi. `will-change: transform` sulla cabina fa rasterizzare il
+  // piano UNA volta sola e poi lo stira la GPU: la nitidezza di TUTTA la corsa
+  // e' decisa dalla misura che il piano aveva quando e' partita. Impaginata a
+  // 264px e stirata fino a 1500 la foto diventa una macchia; a 792px regge.
+  // Toglierlo il will-change renderebbe tutto nitido ma la corsa scende da 200
+  // a 40 fotogrammi: misurato, non e' una strada.
+  var DENSITA = 3;
+  // Oltre la risoluzione della sorgente non si guadagna piu' nulla e si paga
+  // solo memoria di decodifica, quindi la densita' si accorcia da sola sugli
+  // schermi molto larghi, dove il riquadro e' gia' grande di suo.
+  var LARGA_SORGENTE = 1920;   // hero.webp
   var MARGINE_FORO = 1.25;
   var MARGINE_MONDO = 1.15;  // e il mondo deve superare il foro
 
@@ -184,6 +198,19 @@
   // ------------------------------------------------------------------
   // GEOMETRIA
   // ------------------------------------------------------------------
+
+  // Di quanto apriLaCabina() ingrandira' la fascia PRIMA che parta la corsa
+  // della camera. Serve in due posti che devono restare d'accordo: qui, per
+  // tarare la corsa, e la' per eseguirla. Sotto 1.03 la cabina e' gia' a schermo
+  // pieno, non si apre, e la corsa e' quella intera.
+  function scalaApertura() {
+    if (!elCabina) return 1;
+    var alta = elCabina.getBoundingClientRect().height;
+    if (!alta) return 1;
+    var k = window.innerHeight / alta;
+    return k < 1.03 ? 1 : k;
+  }
+
   function misura() {
     var vw = scroller.clientWidth;
     var H = scroller.clientHeight;
@@ -203,9 +230,21 @@
 
     var cy = H * FASCIA_Y;
 
+    // Quando la cabina e' una fascia dentro la pagina, il viewport visto nelle
+    // sue coordinate non e' lo schermo: l'apertura la ingrandisce gia' di k
+    // attorno al finestrino attivo, quindi in orizzontale ne resta da coprire
+    // vw/k, e in verticale esattamente H — la fascia DIVENTA l'altezza dello
+    // schermo, per definizione di k.
+    // Senza questa divisione la corsa e' tarata due volte: misurata a 1440x900
+    // ingrandiva 15,5 volte una texture impaginata a 264px, quando ne bastavano
+    // meno di 6. Quel di piu' non si vede accadere — si vede solo sfocato,
+    // perche' `will-change: transform` fa stirare alla GPU un raster solo.
+    var kApertura = scalaApertura();
+    var vwUtile = vw / kApertura;
+
     // La camera avanza finche' il foro attivo copre il viewport. Il foro sta a
     // z=0, quindi cresce di P/(P-d): rovesciando, d = P * (1 - 1/ingrandimento).
-    var ingrandimento = Math.max(vw / w, H / h) * MARGINE_FORO;
+    var ingrandimento = Math.max(vwUtile / w, H / h) * MARGINE_FORO;
     DOLLY = PROSPETTIVA * (1 - 1 / ingrandimento);
 
     // A fine corsa il mondo (z=-PROF_MONDO) e' cresciuto di (P+prof)/(P+prof-d):
@@ -227,7 +266,7 @@
     //  3. non deve invadere il foro del vicino: due mondi adiacenti hanno i
     //     centri a passo*RIDUZIONE l'uno dall'altro, e quello e' il tetto.
     var minPerIlForo = w + 2 * scostamento;
-    var minPerLaCorsa = vw * quotaFinale * MARGINE_MONDO;
+    var minPerLaCorsa = vwUtile * quotaFinale * MARGINE_MONDO;
     var massimoSenzaInvadere = passo * RIDUZIONE;
     var mondoW = Math.min(massimoSenzaInvadere, Math.max(minPerIlForo * 1.1, minPerLaCorsa));
     var mondoH = Math.max(H * quotaFinale * MARGINE_MONDO, h * 1.15);
@@ -409,14 +448,17 @@
       // La scala compensa il rimpicciolimento del piano, con origine sul centro
       // del mondo stesso: cosi' ogni finestrino ha il suo, e lo scivolamento fra
       // foro e panorama dei finestrini laterali resta quello vero della prospettiva.
+      var d = Math.max(1, Math.min(DENSITA, LARGA_SORGENTE / g.mondoW));
+      var fw = g.mondoW * d;
+      var fh = g.mondoH * d;
       return '<div class="mondo" data-meta="' + g.meta.id + '" style="' +
              '--mondo-x:' + g.x + 'px;--mondo-y:' + g.y + 'px;' +
-             '--mondo-w:' + g.mondoW + 'px;--mondo-h:' + g.mondoH + 'px;' +
-             'transform:translateZ(' + (-PROF_MONDO) + 'px) scale(' + COMPENSA + ');' +
+             '--mondo-w:' + fw + 'px;--mondo-h:' + fh + 'px;' +
+             'transform:translateZ(' + (-PROF_MONDO) + 'px) scale(' + (COMPENSA / d) + ');' +
              'transform-origin:50% 50%">' +
              '<img src="../assets/foto/' + g.meta.id + '/hero.webp" alt="" ' +
-             'width="' + Math.round(g.mondoW) + '" height="' + Math.round(g.mondoH) + '" ' +
-             'style="width:' + g.mondoW + 'px;height:' + g.mondoH + 'px" />' +
+             'width="' + Math.round(fw) + '" height="' + Math.round(fh) + '" ' +
+             'style="width:' + fw + 'px;height:' + fh + 'px" />' +
              '</div>';
     }).join('');
 
@@ -694,8 +736,8 @@
   function apriLaCabina(indice) {
     if (!elCabina) return null;
     var r = elCabina.getBoundingClientRect();
-    var k = window.innerHeight / r.height;
-    if (k < 1.03) return null;              // e' gia' praticamente a schermo pieno
+    var k = scalaApertura();
+    if (k === 1) return null;               // e' gia' praticamente a schermo pieno
 
     var g = geometrie[indice];
     var cx = r.left + (g.x - scroller.scrollLeft);   // centro del finestrino, sullo schermo

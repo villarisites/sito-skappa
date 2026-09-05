@@ -1,5 +1,42 @@
 # TASKS — skappa.it
 
+## 2026-09-06 — La foto non si impasta piu' durante il portale
+
+Difetto: entrando in un finestrino, la foto diventava una macchia per tutta la corsa
+della camera. Confermato da Francesco in un browser vero, e non riproducibile in
+headless: senza GPU il raster viene rifatto a ogni fotogramma e l'immagine esce sempre
+nitida. Misurato in un Chrome vero con `Page.startScreencast` (i fotogrammi realmente
+compositati) e la varianza del laplaciano al centro dello schermo.
+
+**Causa.** `will-change: transform` su `.cabina.in-volo` dice alla GPU di rasterizzare
+il piano UNA volta e poi stirarlo. E' anche quello che tiene fluida la corsa: togliendolo
+la nitidezza va da 4 a 75, ma i fotogrammi scendono da 209 a 41. Quindi non si toglie —
+gli si da' meno da stirare.
+
+- [x] **La corsa della camera era tarata due volte.** `misura()` calcolava `DOLLY` come se
+      la cabina fosse a schermo intero (com'e' nel prototipo), poi `apriLaCabina()` la
+      ingrandiva comunque di k=2,27. In coordinate della fascia il viewport da coprire e'
+      largo `vw/k`, non `vw`, e alto esattamente `H` — la fascia DIVENTA l'altezza dello
+      schermo, per definizione di k. Aggiunta `scalaApertura()`, usata sia per tarare la
+      corsa sia per eseguirla, cosi' i due conti non possono divergere.
+- [x] **La foto viene impaginata tre volte piu' grande del suo riquadro** e rimpicciolita
+      altrettanto dal transform: a schermo non cambia nulla, ma il raster di partenza e'
+      tre volte piu' fitto. Il fattore si accorcia da solo quando il riquadro supera la
+      risoluzione della sorgente (1920px), cosi' sugli schermi molto larghi non si paga
+      memoria di decodifica per niente.
+
+**Misure, a 1440x900.** Stiramento della texture a fine corsa **15,2x -> 3,3x**.
+Nitidezza del fotogramma peggiore **4,1 -> 21,6**; il corpo della corsa da 23-31 a 42-65.
+Fluidita' invariata: 210 fotogrammi in 2,4 s, 3 scatti sopra i 32 ms (prima 209 e 2).
+Su mobile lo stiramento passa da 9,5x a 2,4x.
+
+**Resta aperto.** Gli ultimi ~150 ms, al culmine dell'ingrandimento, sono ancora un po'
+morbidi. Rilasciando il `will-change` a meta' corsa spariscono del tutto (nitidezza minima
+48,7) ma compare uno scatto da 200 ms: misurato, e' un baratto peggiore. Su mobile la foto
+a fine corsa non copre il viewport — difetto preesistente, non toccato qui.
+
+**Verifiche.** `npm test` 41/41, `npm run test:browser` 36/36, console pulita.
+
 ## 2026-09-05 (pomeriggio) — Flusso "Su richiesta" corretto, cabina rimessa in piedi
 
 Due lavori distinti. Il primo tocca il sito vero, il secondo solo il laboratorio.
