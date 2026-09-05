@@ -98,9 +98,12 @@
   // =============================================
   var priceEl = document.getElementById('heroPriceMin');
   if (priceEl && !reducedMotion) {
-    var text = priceEl.textContent;
-    var match = text.match(/\d+/);
-    if (match) {
+    // Il valore va letto quando l'animazione parte, non ora: il prezzo minimo lo
+    // calcola la pagina dal catalogo, e leggendolo subito si animava verso il
+    // segnaposto scritto nell'HTML, sovrascrivendo poi quello vero.
+    setTimeout(function () {
+      var match = priceEl.textContent.match(/\d+/);
+      if (!match) return;                       // "SU RICHIESTA": niente da contare
       var target = parseInt(match[0], 10);
       var startTime = null;
       var duration = 1400;
@@ -114,9 +117,8 @@
         if (progress < 1) requestAnimationFrame(countUp);
       }
 
-      // Parte dopo un breve delay (hero entra in scena)
-      setTimeout(function () { requestAnimationFrame(countUp); }, 500);
-    }
+      requestAnimationFrame(countUp);
+    }, 500);
   }
 
   // =============================================

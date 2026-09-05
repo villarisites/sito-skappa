@@ -13,7 +13,8 @@
     "convert:webp": "node scripts/convert-to-webp.mjs",
     "test": "node --test test/*.test.mjs",
     "test:browser": "node tools/browser-smoke.mjs",
-    "preview": "node tools/static-server.mjs"
+    "preview": "node tools/static-server.mjs",
+    "build:volo": "node scripts/build-volo.mjs"
   },
   "devDependencies": {
     "sharp": "^0.34.5",

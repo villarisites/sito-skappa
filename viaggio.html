@@ -5,6 +5,7 @@
   <script>!function(){var t=localStorage.getItem("skappa_theme");if(t==="light")document.documentElement.setAttribute("data-theme","light")}();</script>
   <link rel="stylesheet" href="css/tailwind.min.css" />
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/volo.css" />
   <!-- Google Analytics 4 -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-QLB6Z4V7M0"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QLB6Z4V7M0');</script>
@@ -69,6 +70,20 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Days+One&family=Inter:wght@400;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link href="https://fonts.googleapis.com/css2?family=Days+One&family=Inter:wght@400;600;700&display=swap" rel="stylesheet"></noscript>
+  <script>
+    // Se si arriva dal "Volo SKAPPA" l'hero entra in scala, come scendendo dall'aereo.
+    // Il flag si consuma subito: un accesso diretto non deve animare nulla.
+    (function () {
+      try {
+        if (sessionStorage.getItem('skappa_volo')) {
+          sessionStorage.removeItem('skappa_volo');
+          if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            document.documentElement.classList.add('volo-atterraggio');
+          }
+        }
+      } catch (err) { /* modalita' privata */ }
+    })();
+  </script>
 </head>
 <body class="pagina-viaggio">
 
