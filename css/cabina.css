@@ -489,7 +489,12 @@
 .mondo-pieno {
   position: fixed;
   inset: 0;
-  z-index: 70;   /* sopra .cabina.in-volo, se no la foto finirebbe sotto */
+  /* Sopra .cabina.in-volo, che durante il portale sta a 9999. Quando la cabina
+     e' stata alzata sopra la navbar questo e' rimasto a 70, e la foto a schermo
+     intero finiva DIETRO la cabina: si vedeva il finestrino ormai svuotato,
+     cioe' il cielo. Un lampo azzurro di mezzo secondo, subito dopo
+     l'ingrandimento. I due numeri vanno cambiati insieme. */
+  z-index: 10000;
   overflow: hidden;
   visibility: hidden;
 }
