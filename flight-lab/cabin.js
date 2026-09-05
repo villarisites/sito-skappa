@@ -26,6 +26,15 @@
     { id: 'vienna',   nome: 'VIENNA',   x: 0.90, luce: 0.62 }
   ];
   var ALTEZZA_FINESTRINO = 0.40;   // frazione dell'altezza della scena
+
+  // Prospettiva e profondita' del piano del mondo. Il fattore di compensazione NON
+  // va scelto a occhio: un piano a -d appare rimpicciolito di P/(P+d) attorno
+  // all'origine della prospettiva, quindi per vederlo com'era va ingrandito
+  // esattamente di (P+d)/P e con la STESSA origine, quota compresa. Sbagliando
+  // quel numero i mondi laterali si spostano e scoprono il bordo del foro.
+  var PROSPETTIVA = 1100;
+  var PROF_MONDO = 620;
+  var COMPENSA = (PROSPETTIVA + PROF_MONDO) / PROSPETTIVA;
   var ATTIVA = 1;
 
   var scena = document.getElementById('scena');
@@ -94,8 +103,31 @@
       '<path d="M0,' + (yBin - 26) + ' Q' + (W / 2) + ',' + (yBin + 16) + ' ' + W + ',' + (yBin - 26) +
         ' L' + W + ',' + (yBin + 58) + ' Q' + (W / 2) + ',' + (yBin + 96) + ' 0,' + (yBin + 58) +
         ' Z" fill="url(#ombraBin)"/>' +
-      // fuga fra gli sportelli della cappelliera
-      '<rect x="0" y="' + (yBin - 30) + '" width="' + W + '" height="2" fill="rgba(0,0,0,0.34)"/>' +
+      // sportelli della cappelliera: uno per campata, con la fuga e la maniglia
+      geometrie.map(function (g) {
+        var xs = g.x + g.w * 1.55;
+        return '<rect x="' + xs + '" y="-20" width="2" height="' + (yBin + 6) + '" fill="rgba(0,0,0,0.20)"/>' +
+               '<rect x="' + (xs + 2) + '" y="-20" width="1" height="' + (yBin + 6) + '" fill="rgba(255,255,255,0.22)"/>' +
+               '<rect x="' + (g.x - 26) + '" y="' + (yBin - 62) + '" width="52" height="7" rx="3.5" fill="rgba(0,0,0,0.16)"/>';
+      }).join('') +
+      // striscia di luce di cortesia sotto la cappelliera: e' lei a illuminare la parete
+      '<path d="M0,' + (yBin - 30) + ' Q' + (W / 2) + ',' + (yBin + 12) + ' ' + W + ',' + (yBin - 30) +
+        ' L' + W + ',' + (yBin - 24) + ' Q' + (W / 2) + ',' + (yBin + 18) + ' 0,' + (yBin - 24) +
+        ' Z" fill="#fff6e2" opacity="0.85"/>' +
+      // il suo alone sulla parete
+      '<path d="M0,' + (yBin - 26) + ' Q' + (W / 2) + ',' + (yBin + 16) + ' ' + W + ',' + (yBin - 26) +
+        ' L' + W + ',' + (yBin + 96) + ' Q' + (W / 2) + ',' + (yBin + 140) + ' 0,' + (yBin + 96) +
+        ' Z" fill="url(#lucePanca)"/>' +
+      // pannello servizi: bocchette e luce di lettura, una coppia per posto
+      geometrie.map(function (g) {
+        var yP = yBin + 26;
+        return '<g opacity="0.5">' +
+          '<rect x="' + (g.x - 44) + '" y="' + yP + '" width="88" height="22" rx="7" fill="rgba(0,0,0,0.09)"/>' +
+          '<circle cx="' + (g.x - 26) + '" cy="' + (yP + 11) + '" r="5" fill="rgba(0,0,0,0.24)"/>' +
+          '<circle cx="' + (g.x + 26) + '" cy="' + (yP + 11) + '" r="5" fill="rgba(0,0,0,0.24)"/>' +
+          '<circle cx="' + g.x + '" cy="' + (yP + 11) + '" r="3.4" fill="rgba(255,247,228,0.75)"/>' +
+        '</g>';
+      }).join('') +
       // pannello laterale sotto i finestrini: piega e prende meno luce
       '<path d="M0,' + yPannello + ' L' + W + ',' + yPannello + ' L' + W + ',' + H + ' L0,' + H +
         ' Z" fill="url(#pannelloBasso)"/>' +
@@ -139,6 +171,14 @@
             '<stop offset="0.5" stop-color="#5f594f"/>' +
             '<stop offset="1"   stop-color="#2b2925"/>' +
           '</linearGradient>' +
+          '<filter id="grana">' +
+            '<feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3"/>' +
+            '<feColorMatrix type="saturate" values="0"/>' +
+          '</filter>' +
+          '<linearGradient id="lucePanca" x1="0" y1="0" x2="0" y2="1">' +
+            '<stop offset="0" stop-color="#fff3dc" stop-opacity="0.55"/>' +
+            '<stop offset="1" stop-color="#fff3dc" stop-opacity="0"/>' +
+          '</linearGradient>' +
           '<radialGradient id="alone">' +
             '<stop offset="0" stop-color="#dfeaf3" stop-opacity="0.75"/>' +
             '<stop offset="1" stop-color="#dfeaf3" stop-opacity="0"/>' +
@@ -156,14 +196,19 @@
           aloni +
           fughe +
           architettura +
-          // vignettatura ai lati: la cabina prosegue oltre il viewport
+          // La fusoliera e' un cilindro: ai lati la parete si allontana e va in ombra.
+          // Senza questo resta un fondale piatto da parete a parete.
           '<rect width="' + dim.W + '" height="' + dim.H + '" fill="url(#lati)"/>' +
+          // grana della plastica: toglie l'aspetto di gradiente liscio
+          '<rect width="' + dim.W + '" height="' + dim.H + '" filter="url(#grana)" opacity="0.055"/>' +
         '</g>' +
         '<defs><linearGradient id="lati" x1="0" y1="0" x2="1" y2="0">' +
-          '<stop offset="0" stop-color="#0c0e13" stop-opacity="0.55"/>' +
-          '<stop offset="0.22" stop-color="#0c0e13" stop-opacity="0"/>' +
-          '<stop offset="0.78" stop-color="#0c0e13" stop-opacity="0"/>' +
-          '<stop offset="1" stop-color="#0c0e13" stop-opacity="0.55"/>' +
+          '<stop offset="0" stop-color="#0c0e13" stop-opacity="0.62"/>' +
+          '<stop offset="0.10" stop-color="#0c0e13" stop-opacity="0.30"/>' +
+          '<stop offset="0.30" stop-color="#0c0e13" stop-opacity="0.03"/>' +
+          '<stop offset="0.70" stop-color="#0c0e13" stop-opacity="0.03"/>' +
+          '<stop offset="0.90" stop-color="#0c0e13" stop-opacity="0.30"/>' +
+          '<stop offset="1" stop-color="#0c0e13" stop-opacity="0.62"/>' +
         '</linearGradient></defs>' +
       '</svg>';
   }
@@ -185,14 +230,14 @@
       // Il mondo e' piu' grande del foro: sta dietro, e attraverso il buco se ne
       // vede solo un ritaglio. E' quello che fa sembrare che esista davvero fuori.
       return '<div class="mondo" data-meta="' + g.meta.id + '" style="--mondo-x:' + g.x + 'px;--mondo-y:' + g.y + 'px;--mondo-w:' +
-             (g.w * 2.1) + 'px;--mondo-h:' + (g.h * 1.7) + 'px">' +
+             (g.w * 2.75) + 'px;--mondo-h:' + (g.h * 2.15) + 'px">' +
              '<img src="../assets/foto/' + g.meta.id + '/hero.webp" alt="" />' +
              '</div>';
     }).join('');
 
     elCornici.innerHTML = geometrie.map(function () { return '<div class="cornice"></div>'; }).join('');
     elSedili.innerHTML = geometrie.map(function (g) {
-      return '<div class="sedile" style="--x:' + g.x + 'px;--sw:' + (g.w * 2.15) + 'px"></div>';
+      return '<div class="sedile" style="--x:' + g.x + 'px;--sw:' + (g.w * 1.92) + 'px"></div>';
     }).join('');
     elTarghette.innerHTML = geometrie.map(function (g) {
       return '<div class="targhetta">' + g.meta.nome + '</div>';
@@ -222,6 +267,8 @@
     scena.style.setProperty('--fuoco-x', g.x + 'px');
     scena.style.setProperty('--fuoco-y', g.y + 'px');
     scena.style.setProperty('--h-attivo', g.h + 'px');
+    elMondi.style.transformOrigin = g.x + 'px ' + g.y + 'px';
+    elMondi.style.transform = 'translateZ(' + (-PROF_MONDO) + 'px) scale(' + COMPENSA + ')';
     Array.prototype.forEach.call(elTarghette.children, function (t, i) {
       t.classList.toggle('is-attiva', i === ATTIVA);
     });
