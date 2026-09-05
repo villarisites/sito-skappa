@@ -271,6 +271,30 @@ html, body {
   z-index: 5;
   pointer-events: none;
   background:
+    /* ---- Gli attacchi con la pagina ----
+       Misurato: al confine fra la testata e la cabina la luminosita' saltava da
+       19 a 154 in venti pixel. Una fascia chiara incollata fra due blocchi scuri
+       si legge come un pezzo appiccicato, non come una parte della pagina.
+       Qui i due bordi si spengono nel navy del sito, quindi il passaggio c'e'
+       ma non ha un taglio. Il centro resta intatto: la cabina non perde niente. */
+    /* Piu' fermate di due: una rampa lineare si legge lei stessa come una
+       fascia. In alto si ferma al 19% perche' i finestrini cominciano poco
+       sotto e non devono essere velati. */
+    linear-gradient(180deg,
+      var(--navy, #031030) 0%,
+      rgba(3,16,48,0.88) 3%,
+      rgba(3,16,48,0.52) 8%,
+      rgba(3,16,48,0.22) 13%,
+      rgba(3,16,48,0) 19%),
+    linear-gradient(0deg,
+      var(--navy, #031030) 0%,
+      rgba(3,16,48,0.82) 4%,
+      rgba(3,16,48,0.42) 10%,
+      rgba(3,16,48,0.16) 17%,
+      rgba(3,16,48,0) 26%),
+    /* velatura nella palette del sito: la cabina e' calda, la pagina fredda, e
+       senza un accordo di tono restano due immagini diverse una sopra l'altra */
+    linear-gradient(180deg, rgba(3,16,48,0.14), rgba(3,16,48,0.14)),
     /* i lati della fusoliera si allontanano e vanno in ombra */
     linear-gradient(90deg,
       rgba(8,10,15,0.62) 0%, rgba(8,10,15,0.28) 11%,
