@@ -1,5 +1,54 @@
 # TASKS — skappa.it
 
+## 2026-09-06 (sera) — Dalla foto alle scritte, e tutto piu' svelto
+
+Fra la cabina e la pagina della meta non c'era una transizione: c'era un taglio.
+La foto arrivava a schermo intero, poi di colpo compariva la pagina finita, con
+la sua hero piu' scura e ritagliata diversamente. Adesso quella differenza viene
+percorsa, e le parole atterrano sulla foto mentre la foto si posa nella pagina.
+
+- [x] **Il link porta l'informazione.** I finestrini puntano a
+      `viaggio.html?id=...&da=cabina`. Sta nell'URL e non in sessionStorage cosi'
+      sopravvive a un ricaricamento e si vede guardandolo. Il canonical non porta
+      il parametro, quindi per i motori di ricerca resta una pagina sola.
+- [x] **Il primo fotogramma della nuova pagina contiene gia' la foto.** Uno
+      script inline in testa a `viaggio.html` — prima di qualunque foglio di
+      stile — scrive `--foto-arrivo` e mette l'attributo `data-dalla-cabina`.
+      Aspettare `destinations.js` o `viaggio.js` vorrebbe dire un fotogramma
+      vuoto, ed e' li' che si vedrebbe il lampo.
+- [x] **L'arrivo e' in CSS puro**, in `style.css` (cerca "L'ARRIVO DALLA
+      CABINA"): nessuno script da aspettare e nessuno stato in cui il piano possa
+      restare a coprire la pagina se qualcosa fallisce.
+- [x] **Ad animare e' l'ALTEZZA del piano, non una maschera che scorre.** Sembra
+      la scelta piu' cara ed e' invece l'unica che combacia: `cover` si ricalcola
+      sul riquadro, quindi mentre il piano si accorcia la foto assume esattamente
+      la scala che avra' nell'hero. Con una maschera su un piano alto 100vh la
+      scala restava quella del viewport, e su mobile — dove `cover` e' guidato
+      dall'altezza e non dalla larghezza — al cambio la foto faceva un salto.
+- [x] **Le scritte stanno SOPRA il piano.** Il piano finisce esattamente dove
+      finisce l'hero, quindi il testo non viene mai scoperto dalla sua ritirata:
+      la prima versione lo lasciava sotto e si vedeva spuntare solo la parte
+      bassa, attraverso la sfumatura, con le righe che arrivavano dal fondo verso
+      l'alto — l'ordine rovesciato.
+- [x] **Piu' svelto.** Il portale della cabina va da 2,0 s a 1,18 s. Le durate
+      erano tarate in rapporto fra loro, quindi non sono state cambiate a mano
+      una per una: c'e' `RITMO` in `js/cabina.js`, un solo numero che le accorcia
+      tutte insieme con `timeScale`. L'arrivo dura 0,6 s. **Sono queste le due
+      manopole** se il passaggio sembra sbrigativo o lento.
+- [x] **Tolto il vecchio atterraggio del Volo**, script in `viaggio.html` e CSS
+      in `volo.css`: `js/volo.js` non e' piu' caricato da nessuna pagina da
+      quando la cabina ha preso il posto del Volo, quindi il flag che lo
+      accendeva non veniva piu' scritto e l'animazione non partiva mai.
+
+**Una trappola, costata un giro.** Un `url()` dentro una variabile CSS non lo
+risolve il documento ma il FOGLIO che se ne serve: scritto relativo diventava
+`css/assets/foto/...` e il piano restava blu. Ora lo script lo risolve in JS.
+
+**Verifiche.** `npm test` 41/41 (due test di guardia aggiornati, non allentati:
+gli href dei finestrini e il tetto degli script inline), `npm run test:browser`
+36/36, sequenza catturata a 1440x900 e a 390x844 in un Chrome vero, e movimento
+ridotto controllato — il piano non compare nemmeno.
+
 ## 2026-09-06 — La foto non si impasta piu' durante il portale
 
 Difetto: entrando in un finestrino, la foto diventava una macchia per tutta la corsa

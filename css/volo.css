@@ -235,14 +235,11 @@ body.volo-in-partenza footer {
   transition: transform 0.42s ease, opacity 0.42s ease;
 }
 
-/* ---- Arrivo sulla pagina meta ---- */
-.volo-atterraggio .hero-bg {
-  animation: volo-atterra 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-@keyframes volo-atterra {
-  from { transform: scale(1.12); }
-  to   { transform: scale(1); }
-}
+/* L'arrivo sulla pagina meta era qui: `.volo-atterraggio` lo metteva uno
+   script in viaggio.html leggendo un flag che scriveva js/volo.js. Da quando la
+   cabina ha preso il posto del Volo, volo.js non viene piu' caricato da nessuna
+   pagina: quel flag non si scriveva piu' e l'animazione non partiva mai.
+   L'arrivo vero e' ora in style.css, "L'ARRIVO DALLA CABINA". */
 
 /* ---- Chi ha chiesto meno movimento ---- */
 @media (prefers-reduced-motion: reduce) {
@@ -250,5 +247,4 @@ body.volo-in-partenza footer {
   .volo-oblo, .volo-oblo img { transition: none; }
   .volo-oblo.is-attivo { transform: none; }
   #voloPorta, #voloLampo { transition: none; }
-  .volo-atterraggio .hero-bg { animation: none; }
 }

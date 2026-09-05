@@ -118,6 +118,14 @@
   // solo memoria di decodifica, quindi la densita' si accorcia da sola sugli
   // schermi molto larghi, dove il riquadro e' gia' grande di suo.
   var LARGA_SORGENTE = 1920;   // hero.webp
+  // Il ritmo di tutto il portale, in un numero solo. Le durate piu' sotto sono
+  // state tarate una per una IN RAPPORTO FRA LORO — quando i sedili si spengono
+  // rispetto a quando la cornice esce, quando entra la vignetta — e cambiarle a
+  // mano una alla volta rompe quei rapporti. timeScale le accorcia tutte
+  // insieme, e i rapporti restano quelli.
+  // 1 = com'era (2,0 s fino alla navigazione); 1,7 = 1,18 s. E' la manopola
+  // da girare se il portale sembra sbrigativo o al contrario lento.
+  var RITMO = 1.7;
   var MARGINE_FORO = 1.25;
   var MARGINE_MONDO = 1.15;  // e il mondo deve superare il foro
 
@@ -695,6 +703,7 @@
       defaults: { ease: 'power2.inOut' },
       onComplete: function () { portaAPienoSchermo(img, mondo, arrivo); }
     });
+    tl.timeScale(RITMO);
 
     var dopoApertura = apertura ? apertura.durata : 0;
     if (apertura) tl.to(elCabina, apertura.verso, 0);
@@ -781,6 +790,7 @@
       scale: true,
       onComplete: arrivo
     });
+    ultimoFlip.timeScale(RITMO);
     return ultimoFlip;
   }
 
@@ -799,6 +809,7 @@
       clearProps: 'transform'
     });
     var rientro = Flip.from(stato, { duration: 0.45, ease: 'power2.inOut', absolute: true, scale: true });
+    rientro.timeScale(RITMO);
 
     if (elCabina && elCabina.classList.contains('in-volo')) {
       gsap.to(elCabina, {
@@ -834,6 +845,7 @@
       tl.to(elMondi.children[i], { '--freddo': 0, duration: 0.5 }, 0.5);
     });
     tl.add(function () { mondoPieno.style.visibility = 'hidden'; }, 0.5);
+    tl.timeScale(RITMO);
   }
 
   if (btnRitorno) btnRitorno.addEventListener('click', torna);

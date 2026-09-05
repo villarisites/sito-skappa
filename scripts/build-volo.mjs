@@ -87,7 +87,14 @@ export function renderPrezzoHero(destinations) {
 export function renderCabina(destinations, catalog) {
   return destinations.slice(0, METE_IN_CABINA).map((d) => {
     const url = catalog.urlDettaglio(d);
-    return `          <a class="presa" id="presa-${escapeAttr(d.id)}" href="${escapeAttr(url)}"`
+    // La pagina della meta deve SAPERE che si arriva dalla cabina: e' l'unico
+    // modo che ha di far cominciare il suo primo fotogramma dalla foto a schermo
+    // intero, invece che dall'hero gia' finito. Sta nell'href e non in
+    // sessionStorage perche' cosi' sopravvive a un ricaricamento e si vede
+    // guardando l'URL. Chi arriva da un link normale non ha il parametro e
+    // vede la pagina come sempre.
+    const urlArrivo = url + (url.includes('?') ? '&' : '?') + 'da=cabina';
+    return `          <a class="presa" id="presa-${escapeAttr(d.id)}" href="${escapeAttr(urlArrivo)}"`
       + ` data-meta="${escapeAttr(d.id)}" aria-label="Scopri ${escapeAttr(d.nome)}">`
       + `<img src="${escapeAttr(d.imgHero || d.imgCard || "")}" alt="" />`
       + `<span class="presa-label">${escapeAttr(d.nome)}</span></a>`;

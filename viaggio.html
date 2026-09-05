@@ -3,6 +3,25 @@
 <head>
   <meta charset="UTF-8" />
   <script>!function(){var t=localStorage.getItem("skappa_theme");if(t==="light")document.documentElement.setAttribute("data-theme","light")}();</script>
+  <script>
+    /* Arriva dalla cabina: la foto a schermo intero deve stare gia' nel PRIMO
+       fotogramma, molto prima che destinations.js e viaggio.js abbiano girato.
+       Per questo e' inline e sta qui sopra ai fogli di stile. Il resto
+       dell'arrivo e' in style.css, in CSS puro: cerca "L'ARRIVO DALLA CABINA". */
+    (function () {
+      var p = new URLSearchParams(location.search), id = p.get('id') || '';
+      if (p.get('da') !== 'cabina' || !/^[a-z0-9-]+$/.test(id)) return;
+      try { if (matchMedia('(prefers-reduced-motion: reduce)').matches) return; } catch (e) { return; }
+      var src = new URL('assets/foto/' + id + '/hero.webp', location.href).href;
+      var r = document.documentElement;
+      r.style.setProperty('--foto-arrivo', "url('" + src + "')");
+      r.setAttribute('data-dalla-cabina', '');
+      var l = document.createElement('link');
+      l.rel = 'preload'; l.as = 'image'; l.href = src;
+      l.setAttribute('fetchpriority', 'high');
+      document.head.appendChild(l);
+    })();
+  </script>
   <link rel="stylesheet" href="css/tailwind.min.css" />
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/volo.css" />
@@ -70,22 +89,13 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Days+One&family=Inter:wght@400;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link href="https://fonts.googleapis.com/css2?family=Days+One&family=Inter:wght@400;600;700&display=swap" rel="stylesheet"></noscript>
-  <script>
-    // Se si arriva dal "Volo SKAPPA" l'hero entra in scala, come scendendo dall'aereo.
-    // Il flag si consuma subito: un accesso diretto non deve animare nulla.
-    (function () {
-      try {
-        if (sessionStorage.getItem('skappa_volo')) {
-          sessionStorage.removeItem('skappa_volo');
-          if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-            document.documentElement.classList.add('volo-atterraggio');
-          }
-        }
-      } catch (err) { /* modalita' privata */ }
-    })();
-  </script>
 </head>
 <body class="pagina-viaggio">
+
+  <!-- La foto com'era all'ultimo fotogramma della cabina: stesso file, stesso
+       ritaglio, stessa luce. Si posa fino a diventare l'hero. Senza
+       ?da=cabina questo elemento non si vede: vedi style.css. -->
+  <div class="continuita" aria-hidden="true"></div>
 
   <!-- ========== NAVBAR ========== -->
   <!--#partial nav active="" cta-href="#blocca" cta-label="Blocca il tuo posto" cta-id="navbarCta"-->

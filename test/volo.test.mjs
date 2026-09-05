@@ -47,6 +47,10 @@ test("cabina_haUnFinestrinoPerMetaInEvidenza", async () => {
 test("cabina_iFinestrinoSonoLinkVeriEFunzionanoSenzaJavaScript", async () => {
   // Arrange — senza JS la scena non si accende e restano i link, che devono
   // portare comunque alla meta ed essere leggibili dai motori di ricerca.
+  // All'url si aggiunge `da=cabina`: e' come la pagina della meta sa di dover
+  // cominciare dalla foto a schermo intero invece che dall'hero finito. Senza
+  // JS quel parametro non fa niente e il link resta il link di sempre; per i
+  // motori di ricerca ci pensa il canonical, che il parametro non lo porta.
   const { SkappaCatalog } = await loadCatalog();
   const page = await loadHome();
 
@@ -55,7 +59,10 @@ test("cabina_iFinestrinoSonoLinkVeriEFunzionanoSenzaJavaScript", async () => {
   const attesi = Array.from(SkappaCatalog.tutte(), (d) => SkappaCatalog.urlDettaglio(d)).slice(0, hrefs.length);
 
   // Assert
-  assert.deepEqual(hrefs, attesi);
+  assert.deepEqual(hrefs.map((h) => h.replace(/&amp;da=cabina$/, '')), attesi, 'il link non porta piu' + String.fromCharCode(39) + ' alla meta');
+  for (const href of hrefs) {
+    assert.ok(href.endsWith('&amp;da=cabina'), `manca il marcatore d'arrivo: ${href}`);
+  }
 });
 
 test("volo_portholeCarriesNameAndPriceLabel", async () => {

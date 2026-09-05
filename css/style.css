@@ -1515,6 +1515,139 @@ html[data-theme="light"] .review-card {
 }
 .pagina-viaggio .hero-bg { filter: brightness(0.7); }
 
+/* ============================================================
+   L'ARRIVO DALLA CABINA
+   La cabina lascia la foto a schermo intero, ritagliata al centro e a piena
+   luce. L'hero di questa pagina e' alta ~87vh, ritagliata al 30% e piu' scura.
+   Sono due inquadrature diverse della stessa foto: scambiate di colpo si vede
+   un salto. Qui la differenza viene PERCORSA.
+
+   Tutto in CSS, nessuno script da aspettare. Serve solo l'attributo
+   `data-dalla-cabina`, che lo script in testa a viaggio.html mette prima di
+   qualunque risorsa esterna: cosi' il primo fotogramma del nuovo documento
+   contiene gia' la foto, identica a com'era. Se quello script non gira, questo
+   blocco non si attiva e la pagina resta quella di sempre — non c'e' nessuno
+   stato in cui il piano possa restare a coprirla.
+
+   Ad animare e' l'ALTEZZA del piano, non una maschera che scorre. Sembra piu'
+   caro, ed e' invece l'unica versione che combacia: `cover` si ricalcola sul
+   riquadro, quindi mentre il piano si accorcia la foto assume esattamente la
+   scala che avra' nell'hero. Con una maschera su un piano alto 100vh la scala
+   restava quella del viewport, e su mobile — dove `cover` e' guidato
+   dall'altezza e non dalla larghezza — al cambio la foto faceva un salto.
+   ============================================================ */
+.continuita { display: none; }
+
+html[data-dalla-cabina] .continuita {
+  display: block;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 100vh;
+  /* sopra tutto, navbar compresa: per un istante questa foto E' la pagina */
+  z-index: 9999;
+  pointer-events: none;
+  /* Il fondo si vede per un fotogramma al cambio di documento, prima che
+     l'immagine sia decodificata. Nero era uno stacco netto; col navy della
+     pagina quel fotogramma non si distingue da quello che c'e' sotto. */
+  background-color: var(--navy);
+  /* --foto-arrivo la scrive lo script in testa a viaggio.html, e la scrive
+     ASSOLUTA di proposito: un url() dentro una variabile CSS non lo risolve il
+     documento ma il FOGLIO che se ne serve, cioe' questo — scritta relativa
+     diventava css/assets/foto/... e il piano restava blu. */
+  background-image: var(--foto-arrivo);
+  background-size: cover;
+  background-position: 50% 50%;   /* il ritaglio con cui arriva dalla cabina */
+  background-repeat: no-repeat;
+  /* Il bordo basso e' una DISSOLVENZA, non un taglio: tagliata di netto la
+     foto sale come una lama orizzontale e si legge come una tendina che
+     scorre, non come una foto che si posa. */
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 10vh), transparent);
+          mask-image: linear-gradient(to bottom, #000 calc(100% - 10vh), transparent);
+  animation: arrivo-posa 0.48s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes arrivo-posa {
+  from {
+    height: 100vh;
+    background-position: 50% 50%;
+    filter: brightness(1);
+    opacity: 1;
+  }
+  /* All'ultimo fotogramma il piano e la vera .hero-bg mostrano la stessa
+     identica cosa: si puo' spegnere di colpo, e non si vede. Una dissolvenza
+     incrociata sarebbe visibile proprio perche' sono identiche. */
+  99% {
+    height: var(--arrivo-fine, 87vh);
+    background-position: 50% 30%;
+    filter: brightness(0.7);
+    opacity: 1;
+  }
+  to {
+    height: var(--arrivo-fine, 87vh);
+    background-position: 50% 30%;
+    filter: brightness(0.7);
+    opacity: 0;
+  }
+}
+
+/* La foto dell'hero non puo' aspettare viaggio.js: sotto al piano deve gia'
+   esserci, se no all'ultimo fotogramma si scoprirebbe un hero vuoto.
+   Piu' tardi viaggio.js ci scrive lo stesso identico url. */
+html[data-dalla-cabina] .hero-bg { background-image: var(--foto-arrivo); }
+
+/* L'ombra entra PRESTO e lentamente: arrivando tutta nell'ultimo quarto la
+   foto passava da piatta a scura di colpo. */
+html[data-dalla-cabina] .hero-overlay {
+  animation: arrivo-comparsa 0.44s ease 0.04s backwards;
+}
+html[data-dalla-cabina] .navbar {
+  animation: arrivo-comparsa 0.26s ease 0.16s backwards;
+}
+@keyframes arrivo-comparsa { from { opacity: 0; } to { opacity: 1; } }
+
+/* Le scritte atterrano SOPRA la foto mentre si posa, non sotto.
+   Il piano finisce esattamente dove finisce l'hero, quindi il testo non viene
+   mai scoperto dalla sua ritirata: restando sotto si vedeva spuntare solo la
+   parte bassa, attraverso la sfumatura, e le righe arrivavano dal fondo verso
+   l'alto — l'ordine rovesciato. Alzandolo sopra il piano, le parole si posano
+   sulla foto mentre la foto si posa nella pagina, e le due cose si vedono
+   insieme invece che in fila. Stessa ragione per la navbar.
+   Il passo e' corto di proposito: l'ultima riga e' a posto in 0,6 s dall'inizio
+   dell'arrivo. Insieme al RITMO della cabina (js/cabina.js) sono i due numeri
+   da girare se tutto il passaggio sembra lento o sbrigativo. */
+html[data-dalla-cabina] .viaggio-hero .hero-content { z-index: 10000; }
+html[data-dalla-cabina] .navbar { z-index: 10001; }
+
+html[data-dalla-cabina] .viaggio-hero .hero-content > * {
+  animation: arrivo-testo 0.24s ease-out backwards;
+}
+html[data-dalla-cabina] .viaggio-hero .hero-content > *:nth-child(1)  { animation-delay: 0.14s; }
+html[data-dalla-cabina] .viaggio-hero .hero-content > *:nth-child(2)  { animation-delay: 0.16s; }
+html[data-dalla-cabina] .viaggio-hero .hero-content > *:nth-child(3)  { animation-delay: 0.18s; }
+html[data-dalla-cabina] .viaggio-hero .hero-content > *:nth-child(4)  { animation-delay: 0.21s; }
+html[data-dalla-cabina] .viaggio-hero .hero-content > *:nth-child(5)  { animation-delay: 0.23s; }
+html[data-dalla-cabina] .viaggio-hero .hero-content > *:nth-child(6)  { animation-delay: 0.25s; }
+html[data-dalla-cabina] .viaggio-hero .hero-content > *:nth-child(7)  { animation-delay: 0.27s; }
+html[data-dalla-cabina] .viaggio-hero .hero-content > *:nth-child(8)  { animation-delay: 0.29s; }
+html[data-dalla-cabina] .viaggio-hero .hero-content > *:nth-child(9)  { animation-delay: 0.31s; }
+html[data-dalla-cabina] .viaggio-hero .hero-content > *:nth-child(10) { animation-delay: 0.34s; }
+html[data-dalla-cabina] .viaggio-hero .hero-content > *:nth-child(n+11) { animation-delay: 0.36s; }
+@keyframes arrivo-testo {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* Chi non vuole movimento non arriva nemmeno qui: lo script in testa a
+   viaggio.html non mette l'attributo. Questa e' la rete, non la regola. */
+@media (prefers-reduced-motion: reduce) {
+  html[data-dalla-cabina] .continuita { display: none; }
+  html[data-dalla-cabina] .hero-overlay,
+  html[data-dalla-cabina] .navbar,
+  html[data-dalla-cabina] .viaggio-hero .hero-content > * { animation: none; }
+}
+
 /* Badge di categoria — era .summer-badge / .tipo-badge / .lm-badge.
    Rinominato: .summer-badge esiste gia' in questo file ed e' un'altra cosa. */
 .pagina-viaggio .viaggio-badge-cat {

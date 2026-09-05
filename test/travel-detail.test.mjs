@@ -62,16 +62,21 @@ test("travelDetail_templateDelegatesPriceRenderingToTheHelper", async () => {
 test("viaggio_laPaginaMetaNonRimetteLogicaInline", async () => {
   // Perche' questo test esiste: gli script inline obbligano a 'unsafe-inline' in
   // script-src, che annulla quella difesa. I 26 KB di logica sono usciti in
-  // js/viaggio.js; restano due blocchetti che DEVONO girare prima del primo
-  // disegno (tema e id della meta) e che estratti reintrodurrebbero i flash.
+  // js/viaggio.js; restano TRE blocchetti che DEVONO girare prima del primo
+  // disegno (tema, id della meta, e la foto dell'arrivo dalla cabina) e che
+  // estratti reintrodurrebbero i flash che erano stati tolti.
   // Toglierli del tutto richiede gli hash nella CSP: e' un lavoro a parte.
-  // Qui si presidia che la logica non rientri inline.
+  // Qui si presidia che la logica non rientri inline: il tetto per blocco vale
+  // piu' del totale, ed e' quello che si accorge se un blocchetto diventa un
+  // programma. Il totale e' salito da 3000 a 3200 quando e' arrivato il terzo
+  // blocco (969 caratteri), pagato in parte togliendo quello morto del vecchio
+  // Volo (528), che non partiva piu' da quando la cabina ha preso il suo posto.
   const page = await readFile(path.join(ROOT, "viaggio.html"), "utf8");
   const inline = [...page.matchAll(/<script(?![^>]*src=)[^>]*>([\s\S]*?)<\/script>/g)]
     .map((m) => m[1].trim());
   const totale = inline.reduce((n, c) => n + c.length, 0);
 
-  assert.ok(totale < 3000, `script inline in viaggio.html: ${totale} caratteri, erano ~2600 dopo l'estrazione`);
+  assert.ok(totale < 3200, `script inline in viaggio.html: ${totale} caratteri, erano ~2600 dopo l'estrazione e ~3040 con l'arrivo dalla cabina`);
   assert.ok(inline.every((c) => c.length < 2000), "un blocco inline e' cresciuto: la logica sta rientrando");
 });
 
