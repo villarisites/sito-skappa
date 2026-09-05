@@ -147,6 +147,24 @@ html, body {
 }
 .parete svg { display: block; width: 100%; height: 100%; }
 
+/* ---- La cappelliera ----
+   Era una banda bianca ondulata disegnata in SVG, ed era l'elemento piu' finto
+   dell'inquadratura: accanto a finestrini fotografici stonava. Ora e' una
+   piastrella vera ripetuta al passo delle campate, con la sua striscia di luce
+   di cortesia — quella che l'SVG stava fingendo con un gradiente.
+   Sta piu' avanti della parete perche' sporge davvero verso il corridoio, e in
+   basso si spegne nel trasparente, cosi' la luce si posa sulla parete invece di
+   finire con una cucitura. */
+.cappelliera {
+  position: absolute;
+  left: 0;
+  right: 0;
+  transform: translateZ(24px);
+  pointer-events: none;
+  background: url('../assets/flight/cabin-bin.webp') repeat-x top left;
+  background-size: auto 100%;
+}
+
 /* ---- Il vano del finestrino ----
    Non piu' un bordo disegnato con box-shadow, ma un asset vero
    (window-bay.webp): cornice, incasso profondo e guida della tendina, col BUCO

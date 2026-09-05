@@ -86,6 +86,8 @@
   // Proporzioni dell'asset del vano, MISURATE da scripts/build-cabin-window.mjs:
   // quanto e' grande tutto il pezzo rispetto alla sua apertura. Se rigeneri
   // l'asset, lo script le ristampa e vanno riportate qui.
+  // Rapporto della piastrella della cappelliera, da scripts/build-cabin-bin.mjs
+  var BIN_RAPPORTO = 1.283;
   var VANO_LARGO = 2.0984;
   var VANO_ALTO = 2.0513;
   // Il foro nella parete si allarga un filo oltre l'apertura dell'asset: se
@@ -130,6 +132,7 @@
   var elMondi = document.getElementById('mondi');
   var elParete = document.getElementById('parete');
   var elVani = document.getElementById('vani');
+  var elBin = document.getElementById('cappelliera');
   var elVetri = document.getElementById('vetri');
   var elTendine = document.getElementById('tendine');
   var elTarghette = document.getElementById('targhette');
@@ -260,38 +263,17 @@
     // L'architettura della cabina. Senza questa, i finestrini galleggiano in un
     // fondale grigio: sono la cappelliera sopra e il pannello laterale sotto a far
     // capire che si e' seduti dentro una fusoliera.
-    var yBin = H * 0.20;          // bordo inferiore della cappelliera
+    // Dove finisce la cappelliera non si sceglie piu': e' l'asset a dirlo. La
+    // piastrella si ripete al passo delle campate, quindi la sua altezza viene
+    // dal suo stesso rapporto, e il pannello servizi si appoggia sotto di lei.
+    var hBin = dim.passo / BIN_RAPPORTO;
+    var yBin = hBin * 0.74;       // sotto questa quota la cappelliera e' gia' sfumata
     var yPannello = H * 0.66;     // dove la parete piega verso il pavimento
     // La pancia della cappelliera e' un'onda continua lungo tutta la cabina: una
     // gobba per campata, non una sola curva stirata da un capo all'altro.
     var gobba = dim.passo;
 
-    function onda(y, sporgenza) {
-      var d = 'M0,' + y;
-      for (var x = 0; x < W; x += gobba) {
-        d += ' Q' + (x + gobba / 2) + ',' + (y + sporgenza) + ' ' + Math.min(x + gobba, W) + ',' + y;
-      }
-      return d;
-    }
-
     var architettura =
-      // cappelliera: pancia arrotondata che sporge verso di noi
-      '<path d="M0,-20 L' + W + ',-20 L' + W + ',' + (yBin - 26) + ' ' +
-        onda(yBin - 26, 42).replace('M0,', 'L0,') + ' Z" fill="url(#cappelliera)"/>' +
-      // sportelli della cappelliera: uno per campata, con la fuga e la maniglia
-      geometrie.map(function (g) {
-        var xs = g.x + dim.passo / 2;
-        return '<rect x="' + xs + '" y="-20" width="2" height="' + (yBin + 6) + '" fill="rgba(0,0,0,0.20)"/>' +
-               '<rect x="' + (xs + 2) + '" y="-20" width="1" height="' + (yBin + 6) + '" fill="rgba(255,255,255,0.22)"/>' +
-               '<rect x="' + (g.x - g.w * 0.1) + '" y="' + (yBin - 62) + '" width="' + (g.w * 0.2) +
-               '" height="7" rx="3.5" fill="rgba(0,0,0,0.16)"/>';
-      }).join('') +
-      // striscia di luce di cortesia sotto la cappelliera: e' lei a illuminare la parete
-      '<path d="' + onda(yBin - 30, 42) + ' L' + W + ',' + (yBin - 24) + ' ' +
-        onda(yBin - 24, 42).replace('M0,', 'L0,') + ' Z" fill="#fff6e2" opacity="0.85"/>' +
-      // il suo alone sulla parete
-      '<path d="' + onda(yBin - 26, 42) + ' L' + W + ',' + (yBin + 96) + ' ' +
-        onda(yBin + 96, 44).replace('M0,', 'L0,') + ' Z" fill="url(#lucePanca)"/>' +
       // pannello servizi: bocchette e luce di lettura, una coppia per posto
       geometrie.map(function (g) {
         var yP = yBin + 26;
@@ -409,6 +391,15 @@
              'style="width:' + g.mondoW + 'px;height:' + g.mondoH + 'px" />' +
              '</div>';
     }).join('');
+
+    // La cappelliera: una piastrella ripetuta al passo delle campate. Sta piu'
+    // avanti della parete perche' sporge davvero verso il corridoio.
+    // Si alza sopra il bordo dello schermo: il giunto col soffitto che l'asset
+    // ha in cima, tagliato dall'inquadratura, si leggeva come una riga nera
+    // netta. Il soffitto sta sopra di noi, non deve chiudersi a schermo.
+    var hBinPx = dim.passo / BIN_RAPPORTO;
+    elBin.style.height = hBinPx + 'px';
+    elBin.style.top = (-hBinPx * 0.12) + 'px';
 
     var tutti = geometrie.concat(ciechi);
     elVani.innerHTML = tutti.map(function (g) {

@@ -16,7 +16,8 @@
     "preview": "node tools/static-server.mjs",
     "build:volo": "node scripts/build-volo.mjs",
     "build:cabin-texture": "node scripts/build-cabin-texture.mjs",
-    "build:cabin-window": "node scripts/build-cabin-window.mjs"
+    "build:cabin-window": "node scripts/build-cabin-window.mjs",
+    "build:cabin-bin": "node scripts/build-cabin-bin.mjs"
   },
   "devDependencies": {
     "gsap": "^3.15.0",

@@ -112,6 +112,16 @@ fallback senza JS) senza il JavaScript che li regge. La scena non si accendeva p
       341/137/171 ms di vuoto contro 0/0/1 fotogramma senza. Il brief le indicava come
       possibile miglioramento; su questo impianto non lo sono.
 
+- [x] **La cappelliera diventa un asset** (`assets/flight/cabin-bin.webp`, 62 KB). Era una
+      banda bianca ondulata disegnata in SVG, ed era l'elemento piu' finto dell'inquadratura:
+      accanto a finestrini fotografici stonava. Ora e' una piastrella ripetuta al passo delle
+      campate, con la sua striscia di luce di cortesia — quella che l'SVG fingeva con un
+      gradiente. `npm run build:cabin-bin -- <foto.png>` trova le fughe della portella e
+      ritaglia **fra quelle**, cosi' la ripetizione cade dove cadrebbe in un aereo vero, e
+      spegne il bordo basso nel trasparente perche' la luce si posi sulla parete invece di
+      finire con una cucitura. La piastrella e' alzata sopra il bordo dello schermo: il
+      giunto col soffitto, tagliato dall'inquadratura, si leggeva come una riga nera.
+
 Resta: le 27 mete, la transizione inversa provata a fondo, l'integrazione nella home
 (e quindi il porto di `arrivo.js` dentro `viaggio.html`).
 Il laboratorio non tocca `index.html` ne' `viaggio.html`.
