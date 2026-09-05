@@ -37,6 +37,7 @@ docs/security/
 # Handoff e note di lavoro AI (mai committare ne pubblicare)
 .ai-handoff/
 NEXT_SESSION.md
+scratchpad/
 
 # Skill degli agent installate localmente: non fanno parte del sito
 .agents/
