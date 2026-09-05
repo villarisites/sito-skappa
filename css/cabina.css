@@ -358,6 +358,12 @@
   text-indent: 0.3em;
   text-transform: uppercase;
   white-space: nowrap;
+  /* Una targhetta non puo' essere piu' larga della portella su cui sta, o
+     tornerebbe a passare sopra il giunto. Il limite e' la portella meno un
+     filo, non una frazione: MONACO DI BAVIERA occupa 254px su 288 e con un
+     tetto all'86% veniva troncato pur standoci. Chi non ci sta davvero — le
+     mete diventeranno 27 — perde le ultime lettere invece di sbordare. */
+  max-width: calc(var(--passo, 20rem) - 0.6rem);
   /* inciso nel pannello: testo in ombra e filo di luce sotto, come la plastica stampata */
   color: rgba(58,53,45,0.78);
   background: linear-gradient(180deg, rgba(0,0,0,0.055), rgba(255,255,255,0.05));
@@ -371,6 +377,11 @@
 .targhetta.is-attiva {
   color: rgba(30,27,22,0.92);
   opacity: 1;
+}
+.targhetta .nome {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;   /* senza questo un figlio flex non si lascia stringere */
 }
 /* Il marchio, come una compagnia lo stampa sulla portella. Sta in scala di
    grigi finche' la meta non e' quella attiva: a colori su ogni campata

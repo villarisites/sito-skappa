@@ -163,6 +163,11 @@
   var elMondi = document.getElementById('mondi');
   var elParete = document.getElementById('parete');
   var elVani = document.getElementById('vani');
+  // Attenzione: fino a poco fa questo id ce l'aveva anche un <linearGradient>
+  // dentro la parete SVG — residuo di quando la cappelliera era disegnata e non
+  // un asset. Funzionava per caso, perche' questa riga gira prima che la parete
+  // esista; una seconda getElementById avrebbe preso il gradiente. Il gradiente
+  // non serviva piu' a nessuno ed e' stato tolto.
   var elBin = document.getElementById('cappelliera');
   var elVetri = document.getElementById('vetri');
   var elTendine = document.getElementById('tendine');
@@ -389,11 +394,6 @@
             '<stop offset="0.80" stop-color="#6f6960"/>' +
             '<stop offset="1"    stop-color="#3b3833"/>' +
           '</linearGradient>' +
-          '<linearGradient id="cappelliera" x1="0" y1="0" x2="0" y2="1">' +
-            '<stop offset="0"   stop-color="#8e8577"/>' +
-            '<stop offset="0.6" stop-color="#cfc5b4"/>' +
-            '<stop offset="1"   stop-color="#e3d9c6"/>' +
-          '</linearGradient>' +
           '<linearGradient id="pannelloBasso" x1="0" y1="0" x2="0" y2="1">' +
             '<stop offset="0"   stop-color="#8a8074"/>' +
             '<stop offset="0.5" stop-color="#5f594f"/>' +
@@ -485,15 +485,38 @@
     elBin.style.height = hBinPx + 'px';
     elBin.style.top = (-hBinPx * 0.12) + 'px';
 
+    // UNA PORTELLA PER CAMPATA, e centrata sul suo finestrino.
+    // La piastrella si ripeteva alla propria larghezza naturale — l'altezza per
+    // le proporzioni dell'asset — che con i finestrini non ha nessun rapporto:
+    // a 1440 le portelle cadevano ogni 173px e i finestrini ogni 288, quindi le
+    // due griglie sfilavano l'una sull'altra e una targhetta su tre finiva a
+    // cavallo di un giunto. Il nome sta sulla portella del SUO finestrino: o le
+    // due griglie coincidono, o non ci sta.
+    // Costa un allargamento dell'asset, che qui e' un guadagno: in una fascia
+    // bassa la portella e' limitata in altezza, e larga quanto la campata ha le
+    // proporzioni che ha in un aereo vero invece che quelle di un quadretto.
+    elBin.style.backgroundSize = dim.passo + 'px 100%';
+    // La fase: la piastrella si ripete dal bordo sinistro della scena, e il
+    // primo finestrino sta a mezzo viewport. Senza questo la griglia sarebbe
+    // del passo giusto ma sfasata, e le targhette resterebbero fuori centro.
+    var fase = ((dim.vw / 2 - dim.passo / 2) % dim.passo + dim.passo) % dim.passo;
+    elBin.style.backgroundPositionX = fase + 'px';
+
     var tutti = geometrie.concat(ciechi);
     elVani.innerHTML = tutti.map(function (g) {
       return '<div class="vano" style="--x:' + g.x + 'px;--y:' + g.y + 'px;--vw:' +
              (g.w * VANO_LARGO) + 'px;--vh:' + (g.h * VANO_ALTO) + 'px"></div>';
     }).join('');
+    // Il passo lo legge il CSS per non far uscire un nome lungo dalla sua
+    // portella: sta sul contenitore, non su ogni targhetta, perche' le variabili
+    // CSS si ereditano e il valore e' uno solo per tutta la cabina.
+    elTarghette.style.setProperty('--passo', dim.passo + 'px');
     elTarghette.innerHTML = geometrie.map(function (g) {
+      // Il nome in uno span suo: un nodo di testo dentro un flex e' un elemento
+      // anonimo, e su quello text-overflow non ha presa.
       return '<div class="targhetta">' +
              '<img class="marchio" src="assets/foto/utility/logo skappa.svg" alt="" ' +
-             'width="16" height="16" />' + g.meta.nome + '</div>';
+             'width="16" height="16" /><span class="nome">' + g.meta.nome + '</span></div>';
     }).join('');
     elVetri.innerHTML = tutti.map(function () { return '<div class="vetro"></div>'; }).join('');
     // Le tendine stanno solo sui finestrini senza meta. Le altezze sono diverse

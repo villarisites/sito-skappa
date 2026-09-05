@@ -1,5 +1,48 @@
 # TASKS — skappa.it
 
+## 2026-09-06 (tardi) — Le targhette stanno sulle portelle
+
+Il nome della meta sta sulla portella della cappelliera, "dove un aereo mette i
+numeri di fila". Ma le due griglie non hanno mai avuto un rapporto fra loro: le
+portelle erano una piastrella ripetuta alla sua larghezza NATURALE (quella che
+le viene dall'altezza e da `BIN_RAPPORTO`), i finestrini al passo delle campate.
+Misurato a 1440x900: **portelle ogni 173 px, finestrini ogni 288**. Le due
+griglie sfilavano l'una sull'altra e una targhetta su tre finiva a cavallo di un
+giunto — era il caso di MONACO DI BAVIERA.
+
+- [x] **Una portella per campata.** `backgroundSize` della cappelliera fissato a
+      `passo x 100%` invece di `auto 100%`. La causa vera era il limite
+      d'altezza (`dim.H * 0.34`): senza, la piastrella sarebbe naturalmente larga
+      quanto una campata. Il limite pero' serve — a 396 px di fascia una
+      cappelliera alta 224 px si mangerebbe il 57% della banda — quindi si paga
+      un allargamento dell'asset (1,67x a 1440x900). Guardato: e' un guadagno,
+      una portella larga quanto la campata ha le proporzioni che ha in un aereo
+      vero invece di quelle di un quadretto.
+- [x] **E in fase.** La piastrella si ripete dal bordo sinistro della SCENA,
+      mentre il primo finestrino sta a mezzo viewport: senza
+      `backgroundPositionX` la griglia avrebbe avuto il passo giusto ma sfasato.
+      Su desktop la fase viene 0 e non si sarebbe visto; su mobile vale 78,9 px.
+- [x] **Un nome non puo' sbordare dalla sua portella.** `max-width:
+      calc(var(--passo) - 0.6rem)` sulla targhetta, col nome in uno `<span>`
+      perche' un nodo di testo dentro un flex e' anonimo e `text-overflow` non
+      ci ha presa. Prima prova col tetto all'86%: troncava MONACO DI BAVIERA
+      (254 px su 288) che invece ci sta. Il limite giusto e' il bordo della
+      portella, non una frazione.
+- [x] **Tolto un `<linearGradient id="cappelliera">`** dalla parete SVG: residuo
+      di quando la cappelliera era disegnata invece che un asset, non usato da
+      nessun `url(#...)`, e per giunta rubava l'id al div. Funzionava per caso —
+      `elBin` si risolve prima che la parete esista — ma una seconda
+      `getElementById` avrebbe preso il gradiente. Ci e' cascato il primo probe
+      di verifica, che leggeva `backgroundSize: auto` su un elemento alto 0.
+
+**Verifiche.** Scarto targhetta-portella **0,00 px su tutte e otto**, a 1440x900
+e a 390x844, e ancora 0 dopo aver ridimensionato la finestra a 1180, 900, 620,
+390 e ritorno (la fase dipende da `vw` e `costruisci()` rigira al resize).
+Fascia guardata a occhio nei due formati, su mobile anche dopo aver scorso di
+una campata. Portale non regredito: fotogramma peggiore 34,0 e 232 fotogrammi
+con 2 scatti sopra i 32 ms — meglio di prima. `npm test` 41/41,
+`npm run test:browser` 36/36.
+
 ## 2026-09-06 (sera) — Dalla foto alle scritte, e tutto piu' svelto
 
 Fra la cabina e la pagina della meta non c'era una transizione: c'era un taglio.
