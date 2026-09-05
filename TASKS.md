@@ -68,8 +68,22 @@ fallback senza JS) senza il JavaScript che li regge. La scena non si accendeva p
       l'immagine mezzo pixel oltre il bordo; e la prima piastrella conteneva le fughe per
       un mio errore nella scelta del ritaglio.
 
-Resta: le 27 mete, la transizione inversa provata a fondo, l'integrazione nella home.
-Il laboratorio non tocca `index.html`.
+- [x] **Il salto foto -> pagina.** Non era una dissolvenza mancante: la cabina finiva con la
+      foto a schermo intero ritagliata al centro, l'hero della meta e' alta **60vh** e
+      ritagliata a **center 30%**. Due inquadrature diverse della stessa foto, scambiate di
+      colpo. Ora la differenza viene percorsa: `flight-lab/arrivo.html` + `arrivo.js`
+      riprendono la foto esattamente dov'era e la ritagliano fino al riquadro dell'hero,
+      con l'ombra che entra durante e il contenuto che arriva per ultimo.
+      **Misurato:** l'ultimo fotogramma della cabina e il primo dell'arrivo sono identici -
+      differenza massima **0** su 1,1 milioni di pixel.
+      Restava un fotogramma **nero** fra i due documenti (registrato con screencast CDP a
+      1994 ms): la foto era un `<img>` a cui il JS assegnava il `src`, quindi il primo
+      disegno del nuovo documento avveniva prima che gsap e `arrivo.js` fossero scaricati.
+      Spostata in CSS, scritta dallo script inline nel `<head>`: **0 fotogrammi vuoti su 81**.
+
+Resta: le 27 mete, la transizione inversa provata a fondo, l'integrazione nella home
+(e quindi il porto di `arrivo.js` dentro `viaggio.html`).
+Il laboratorio non tocca `index.html` ne' `viaggio.html`.
 
 ### Verifiche fatte
 
