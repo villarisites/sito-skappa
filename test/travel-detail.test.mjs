@@ -44,14 +44,35 @@ test("travelDetail_positivePrice_formatsPriceAndCreatesSchemaOffer", async () =>
 });
 
 test("travelDetail_templateDelegatesPriceRenderingToTheHelper", async () => {
+  // La logica della pagina meta non e' piu' inline: sta in js/viaggio.js. La
+  // regola pero' non cambia - il prezzo lo rende l'helper, non il template - e
+  // va cercata dove il codice vive adesso.
   const page = await readFile(path.join(ROOT, "viaggio.html"), "utf8");
+  const script = await readFile(path.join(ROOT, "js", "viaggio.js"), "utf8");
 
   assert.match(page, /src="js\/travel-detail\.js"/);
-  assert.match(page, /SkappaTravel\.priceLabel\(dest\)/);
-  assert.match(page, /SkappaTravel\.priceMarkup\(dest\)/);
-  assert.match(page, /SkappaTravel\.createOffer\(dest, pageUrl\)/);
-  assert.doesNotMatch(page, /dest\.prezzo\s*\+\s*['"]€['"]/);
-  assert.doesNotMatch(page, /String\(dest\.prezzo\)/);
+  assert.match(page, /src="js\/viaggio\.js"/);
+  assert.match(script, /SkappaTravel\.priceLabel\(dest\)/);
+  assert.match(script, /SkappaTravel\.priceMarkup\(dest\)/);
+  assert.match(script, /SkappaTravel\.createOffer\(dest, pageUrl\)/);
+  assert.doesNotMatch(script, /dest\.prezzo\s*\+\s*['"]€['"]/);
+  assert.doesNotMatch(script, /String\(dest\.prezzo\)/);
+});
+
+test("viaggio_laPaginaMetaNonRimetteLogicaInline", async () => {
+  // Perche' questo test esiste: gli script inline obbligano a 'unsafe-inline' in
+  // script-src, che annulla quella difesa. I 26 KB di logica sono usciti in
+  // js/viaggio.js; restano due blocchetti che DEVONO girare prima del primo
+  // disegno (tema e id della meta) e che estratti reintrodurrebbero i flash.
+  // Toglierli del tutto richiede gli hash nella CSP: e' un lavoro a parte.
+  // Qui si presidia che la logica non rientri inline.
+  const page = await readFile(path.join(ROOT, "viaggio.html"), "utf8");
+  const inline = [...page.matchAll(/<script(?![^>]*src=)[^>]*>([\s\S]*?)<\/script>/g)]
+    .map((m) => m[1].trim());
+  const totale = inline.reduce((n, c) => n + c.length, 0);
+
+  assert.ok(totale < 3000, `script inline in viaggio.html: ${totale} caratteri, erano ~2600 dopo l'estrazione`);
+  assert.ok(inline.every((c) => c.length < 2000), "un blocco inline e' cresciuto: la logica sta rientrando");
 });
 
 test("travelDetail_legacyCheckoutCannotOverrideMissingPriceOrConsultation", async () => {
