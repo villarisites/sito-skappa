@@ -154,6 +154,18 @@ function checksFor(testCase) {
   if (testCase.kind === "cruise" && !/in arrivo/i.test(text)) problems.push("stato crociere assente");
   if (testCase.kind === "offers" && !document.querySelector("#offersGrid")) problems.push("griglia offerte assente");
   if (testCase.kind === "admin" && !document.querySelector("#f-offerta-attiva")) problems.push("schema admin non caricato");
+
+  if (testCase.kind === "home") {
+    const oblo = document.querySelectorAll(".volo-oblo").length;
+    if (oblo !== testCase.expectedPortholes) problems.push(`oblo: ${oblo}/${testCase.expectedPortholes}`);
+    const sezioni = document.querySelectorAll("#homeCategorie section").length;
+    if (sezioni !== testCase.expectedSections) problems.push(`sezioni categoria: ${sezioni}/${testCase.expectedSections}`);
+    const card = document.querySelectorAll("#homeCategorie .dest-card").length;
+    if (card === 0) problems.push("nessuna card nelle sezioni categoria");
+    if (!document.querySelector(".volo-oblo.is-attivo")) problems.push("nessun oblo attivo");
+    const prezzo = document.querySelector("#heroPriceMin")?.textContent.trim();
+    if (!/^(DA \d+€|SU RICHIESTA)$/.test(prezzo || "")) problems.push(`prezzo hero: ${prezzo}`);
+  }
   return problems;
 }
 
@@ -222,7 +234,8 @@ testCases.push(
   { kind: "honeymoon", path: "/viaggi-di-nozze.html" },
   { kind: "cruise", path: "/crociere.html" },
   { kind: "offers", path: "/offerte.html" },
-  { kind: "admin", path: "/admin.html" }
+  { kind: "admin", path: "/admin.html" },
+  { kind: "home", path: "/index.html", expectedPortholes: 27, expectedSections: 4 }
 );
 
 const server = await startStaticServer();
