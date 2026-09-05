@@ -646,14 +646,14 @@
       {
         id: "malta", nome: "MALTA", date: "Dal 6 all'11 Agosto",
         tagline: "Pool party, rooftop al tramonto e notti infinite nel cuore del Mediterraneo.",
-        prezzo: "349", imgHero: "img/destinazioni/malta.jpg",
+        prezzo: "349", imgHero: "assets/foto/malta/hero.webp",
         partenzaDa: "Napoli", durata: "6 giorni 5 notti", hotel: "The St. George's Park Hotel",
         inclusiPacchetto: ["Dal 6 all'11 Agosto","6 giorni e 5 notti","The St. George's Park Hotel","2 Pool Party, 2 Aperitivi Rooftop","2 Serate in discoteca, tessera con 3 ingressi omaggio","Sconto Uber 80%, sconto ristoranti 30%, sconto tatuaggi 10%"],
-        perche: { titolo: "PERCHÉ MALTA", testo: "Malta è il mix perfetto tra mare cristallino, party esclusivi e un'atmosfera internazionale. Qui si dorme poco e si vive tanto, tra pool party di giorno e serate che finiscono all'alba.", img: "img/destinazioni/malta-perche.jpg" },
+        perche: { titolo: "PERCHÉ MALTA", testo: "Malta è il mix perfetto tra mare cristallino, party esclusivi e un'atmosfera internazionale. Qui si dorme poco e si vive tanto, tra pool party di giorno e serate che finiscono all'alba.", img: "assets/foto/malta/activity-1.webp" },
         attivita: [
-          { titolo: "POOL PARTY SENZA LIMITI", descrizione: "Due pool party organizzati SKAPPA, musica, drink e vibrazioni attive dal primo all'ultimo giorno.", img: "img/destinazioni/malta-activity1.jpg" },
-          { titolo: "ROOFTOP AL TRAMONTO", descrizione: "Aperitivi rooftop con vista, luce calda e la sensazione che la serata sta per esplodere.", img: "img/destinazioni/malta-activity2.jpg" },
-          { titolo: "NOTTI MALTA STYLE", descrizione: "Serate in discoteca selezionata, ingresso facilitato e atmosfera internazionale.", img: "img/destinazioni/malta-activity3.jpg" }
+          { titolo: "POOL PARTY SENZA LIMITI", descrizione: "Due pool party organizzati SKAPPA, musica, drink e vibrazioni attive dal primo all'ultimo giorno.", img: "assets/foto/malta/activity-1.webp" },
+          { titolo: "ROOFTOP AL TRAMONTO", descrizione: "Aperitivi rooftop con vista, luce calda e la sensazione che la serata sta per esplodere.", img: "assets/foto/malta/activity-2.webp" },
+          { titolo: "NOTTI MALTA STYLE", descrizione: "Serate in discoteca selezionata, ingresso facilitato e atmosfera internazionale.", img: "assets/foto/malta/activity-3.webp" }
         ],
         inclusiConSkappa: [
           { icona: "🏨", label: "Alloggio selezionato" },
@@ -678,14 +678,14 @@
       {
         id: "zante", nome: "ZANTE", date: "Dal 16 al 21 Luglio",
         tagline: "Mare azzurro di giorno, party folli di notte.",
-        prezzo: "349", imgHero: "img/destinazioni/zante.jpg",
+        prezzo: "349", imgHero: "assets/foto/zante/hero.webp",
         partenzaDa: "Napoli", durata: "6 giorni 5 notti", hotel: "Jimmy Hotel",
         inclusiPacchetto: ["Dal 16 al 21 Luglio","6 giorni e 5 notti","Jimmy Hotel","Boat Party","Pool Party"],
-        perche: { titolo: "PERCHÉ ZANTE", testo: "Zante è l'isola greca che non dimentichi. Acque cristalline che diventano dancefloor al tramonto. SKAPPA ti porta dove la vacanza vera comincia.", img: "img/destinazioni/zante-perche.jpg" },
+        perche: { titolo: "PERCHÉ ZANTE", testo: "Zante è l'isola greca che non dimentichi. Acque cristalline che diventano dancefloor al tramonto. SKAPPA ti porta dove la vacanza vera comincia.", img: "assets/foto/zante/activity-1.webp" },
         attivita: [
-          { titolo: "BOAT PARTY", descrizione: "Una giornata intera in barca, tra le baie più belle di Zante, musica a tutto volume e il mare tutto per noi.", img: "img/destinazioni/zante-activity1.jpg" },
-          { titolo: "POOL PARTY", descrizione: "Pool party esclusivi SKAPPA con DJ set, drink e la crew più bella dell'estate.", img: "img/destinazioni/zante-activity2.jpg" },
-          { titolo: "ZANTE NIGHTLIFE", descrizione: "Le notti di Zante sono leggendarie. Noi ti portiamo nei posti giusti, senza code e con l'atmosfera giusta.", img: "img/destinazioni/zante-activity3.jpg" }
+          { titolo: "BOAT PARTY", descrizione: "Una giornata intera in barca, tra le baie più belle di Zante, musica a tutto volume e il mare tutto per noi.", img: "assets/foto/zante/activity-1.webp" },
+          { titolo: "POOL PARTY", descrizione: "Pool party esclusivi SKAPPA con DJ set, drink e la crew più bella dell'estate.", img: "assets/foto/zante/activity-2.webp" },
+          { titolo: "ZANTE NIGHTLIFE", descrizione: "Le notti di Zante sono leggendarie. Noi ti portiamo nei posti giusti, senza code e con l'atmosfera giusta.", img: "assets/foto/zante/activity-3.webp" }
         ],
         inclusiConSkappa: [
           { icona: "🏨", label: "Alloggio selezionato" },
@@ -723,7 +723,7 @@
           + '<div class="sub-block-label">Attività ' + (i + 1) + '</div>'
           + '<div class="form-grid-2" style="margin-bottom:0.75rem">'
           + '<div><label class="form-label">Titolo</label><input class="form-input" id="f-att' + i + '-titolo" type="text" placeholder="es. POOL PARTY SENZA LIMITI"></div>'
-          + '<div><label class="form-label">Immagine <span>(percorso)</span></label><input class="form-input" id="f-att' + i + '-img" type="text" placeholder="img/destinazioni/malta-activity' + (i+1) + '.jpg"></div>'
+          + '<div><label class="form-label">Immagine <span>(percorso)</span></label><input class="form-input" id="f-att' + i + '-img" type="text" placeholder="assets/foto/malta/activity-' + (i+1) + '.webp"></div>'
           + '</div>'
           + '<div><label class="form-label">Descrizione</label><textarea class="form-textarea" id="f-att' + i + '-descrizione" rows="2" placeholder="Descrizione breve dell\'attività..."></textarea></div>'
           + '</div>';
