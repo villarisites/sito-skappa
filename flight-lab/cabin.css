@@ -1,0 +1,283 @@
+/* ============================================================
+   CABINA — prototipo isolato
+   Non è ancora in produzione. Vive solo in /flight-lab/.
+
+   MODELLO CAMERA E PIANI
+   La scena è una vera scena 3D: un solo `perspective` sul contenitore e i
+   piani distribuiti in profondità con translateZ. La camera avanza con un
+   unico translateZ sul wrapper .camera, e la gerarchia del movimento
+   (vicino corre, lontano quasi fermo) viene dalla prospettiva, non da uno
+   scale tarato piano per piano.
+
+     z = +200   .primo-piano   bordo del sedile + vignettatura   → esce subito
+     z =   +8   .cornice       labbro della cornice, sporge dalla parete
+     z =    0   .parete        parete della cabina, coi fori
+     z =  -30   .vetro         riflessi sul doppio vetro
+     z = -300   .mondo         la foto della meta: sta FUORI dalla fusoliera
+     z = -1400  .cielo         orizzonte
+
+   `perspective-origin` è ancorato al centro del finestrino attivo: avanzare
+   significa quindi entrare esattamente dentro quel foro.
+   ============================================================ */
+
+:root {
+  --cabina-chiara: #b9b3a8;
+  --cabina-media: #8d887e;
+  --cabina-scura: #4a4a49;
+  --cabina-ombra: #23252a;
+  --luce-finestrino: #cfe4f2;
+  --dolly: 0px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: #0b0d12;
+  color: #eae7e1;
+  font-family: 'Inter', system-ui, sans-serif;
+  overflow: hidden;
+}
+
+/* ---- La scena ---- */
+.scena {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  perspective: 1100px;
+  perspective-origin: var(--fuoco-x, 50%) var(--fuoco-y, 50%);
+  background: #05070c;
+}
+
+.camera {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transform: translateZ(var(--dolly));
+}
+
+/* ---- Cielo, dietro tutto ---- */
+.cielo {
+  position: absolute;
+  inset: -60%;
+  transform: translateZ(-1400px);
+  background:
+    radial-gradient(120% 80% at 50% 78%, #7fb2d9 0%, #4d80ad 34%, #24486e 64%, #101f34 100%);
+}
+.cielo::after {
+  /* banda d'orizzonte: dà la sensazione di quota */
+  content: '';
+  position: absolute;
+  left: 0; right: 0; top: 62%;
+  height: 22%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.34), rgba(255,255,255,0) 70%);
+  filter: blur(6px);
+}
+
+/* ---- Il mondo: le foto delle mete, fuori dall'aereo ---- */
+.mondi {
+  position: absolute;
+  inset: 0;
+  transform: translateZ(-300px) scale(1.38);   /* scale compensa la distanza */
+  transform-origin: var(--fuoco-x, 50%) center;
+}
+.mondo {
+  position: absolute;
+  top: var(--mondo-y, 50%);
+  translate: -50% -50%;
+  width: var(--mondo-w, 30vw);
+  height: var(--mondo-h, 64vh);
+  left: var(--mondo-x, 50%);
+  overflow: hidden;
+  border-radius: 2px;
+}
+.mondo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ---- La parete della cabina ---- */
+.parete {
+  position: absolute;
+  inset: 0;
+  transform: translateZ(0);
+  pointer-events: none;
+}
+.parete svg { display: block; width: 100%; height: 100%; }
+
+/* ---- Cornici: il labbro che sporge dalla parete ---- */
+.cornici {
+  position: absolute;
+  inset: 0;
+  transform: translateZ(8px);
+  pointer-events: none;
+}
+.cornice {
+  position: absolute;
+  top: var(--y);
+  left: var(--x);
+  translate: -50% -50%;
+  width: var(--w);
+  height: var(--h);
+  border-radius: var(--r);
+  /* Un finestrino vero non e' un bordo: e' una mostrina di plastica che sporge dalla
+     parete e un incasso profondo che arriva al vetro. Gli strati, dall'esterno:
+     mostrina chiara, stacco scuro, ombra dell'incasso in alto, rimbalzo di luce in basso. */
+  box-shadow:
+    inset 0 0 0 var(--mostrina, 13px) #c6bcaa,
+    inset 0 0 0 calc(var(--mostrina, 13px) + 1.5px) rgba(0,0,0,0.42),
+    inset 0 18px 22px -10px rgba(0,0,0,0.55),
+    inset 0 -14px 20px -12px rgba(255,255,255,0.3),
+    0 1px 0 rgba(255,255,255,0.45),
+    0 10px 26px rgba(0,0,0,0.38);
+}
+/* la guida della tendina, sopra il finestrino */
+.cornice::before {
+  content: '';
+  position: absolute;
+  left: 14%;
+  right: 14%;
+  top: calc(var(--mostrina, 13px) * -1 - 9px);
+  height: 5px;
+  border-radius: 3px;
+  background: linear-gradient(180deg, #b3a998, #7d7568);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.4), inset 0 1px 2px rgba(0,0,0,0.4);
+}
+
+/* ---- Vetro: riflessi sul doppio pannello ---- */
+.vetri {
+  position: absolute;
+  inset: 0;
+  transform: translateZ(-30px);
+  pointer-events: none;
+}
+.vetro {
+  position: absolute;
+  top: var(--y);
+  left: var(--x);
+  translate: -50% -50%;
+  width: var(--w);
+  height: var(--h);
+  border-radius: var(--r);
+  overflow: hidden;
+}
+.vetro::before {
+  /* riflesso diagonale del vetro interno */
+  content: '';
+  position: absolute;
+  inset: -20%;
+  background: linear-gradient(118deg,
+    rgba(255,255,255,0.30) 0%,
+    rgba(255,255,255,0.10) 18%,
+    rgba(255,255,255,0) 42%);
+  mix-blend-mode: screen;
+}
+.vetro::after {
+  /* il forellino di sfiato in basso: è il dettaglio che rende un finestrino d'aereo */
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 7%;
+  width: 7px; height: 7px;
+  translate: -50% 0;
+  border-radius: 50%;
+  background: rgba(10,14,20,0.72);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,0.7), 0 1px 0 rgba(255,255,255,0.22);
+}
+
+/* ---- Primo piano: bordo del sedile e vignettatura ---- */
+.primo-piano {
+  position: absolute;
+  inset: 0;
+  transform: translateZ(200px);
+  pointer-events: none;
+}
+.primo-piano::before {
+  /* Solo un accenno di spalliera in basso a sinistra: prima era una lastra scura
+     che copriva un finestrino intero. */
+  content: '';
+  position: absolute;
+  left: -4%;
+  bottom: -14%;
+  width: 30%;
+  height: 34%;
+  border-radius: 42% 46% 0 0 / 60% 64% 0 0;
+  background: linear-gradient(168deg, #262a33 0%, #15181e 62%, #0f1116 100%);
+  box-shadow: 0 -14px 44px rgba(0,0,0,0.45);
+}
+.primo-piano::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(96% 88% at var(--fuoco-x, 50%) 46%,
+    rgba(0,0,0,0) 55%, rgba(0,0,0,0.20) 84%, rgba(0,0,0,0.44) 100%);
+}
+
+/* ---- Etichetta ancorata al finestrino attivo ---- */
+.etichetta {
+  position: absolute;
+  top: var(--fuoco-y, 50%);
+  left: var(--fuoco-x, 50%);
+  translate: -50% 0;
+  margin-top: calc(var(--h-attivo, 46vh) / 2 + 1.6rem);
+  text-align: center;
+  pointer-events: none;
+  z-index: 5;
+}
+.etichetta__nome {
+  font-family: 'Days One', system-ui, sans-serif;
+  font-size: clamp(1rem, 2.4vw, 1.5rem);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.94);
+  text-shadow: 0 2px 18px rgba(0,0,0,0.7);
+}
+.etichetta__sotto {
+  margin-top: 0.4rem;
+  font-size: 0.6875rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.42);
+}
+
+/* ---- I link: invisibili, ma sono loro a governare ---- */
+.presa {
+  position: absolute;
+  top: var(--y);
+  left: var(--x);
+  translate: -50% -50%;
+  width: var(--w);
+  height: var(--h);
+  border-radius: var(--r);
+  z-index: 4;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.presa:focus-visible {
+  outline: 3px solid #febd41;
+  outline-offset: 6px;
+}
+
+/* ---- Il mondo a schermo intero, destinazione del Flip ---- */
+.mondo-pieno {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  overflow: hidden;
+  visibility: hidden;
+}
+.mondo-pieno img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ---- Chi ha chiesto meno movimento ---- */
+@media (prefers-reduced-motion: reduce) {
+  .camera { transition: none !important; }
+}

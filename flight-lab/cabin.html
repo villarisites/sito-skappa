@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Cabina — prototipo SKAPPA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Days+One&family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="cabin.css" />
+</head>
+<body>
+
+  <!-- La scena. Tutto quello che sta dentro .camera vive nello stesso spazio 3D. -->
+  <div class="scena" id="scena">
+    <div class="camera" id="camera">
+      <div class="cielo"></div>
+      <div class="mondi" id="mondi"></div>
+      <div class="parete" id="parete"></div>
+      <div class="cornici" id="cornici"></div>
+      <div class="vetri" id="vetri"></div>
+      <div class="primo-piano"></div>
+    </div>
+
+    <!-- I link veri. Restano navigabili senza JavaScript. -->
+    <a class="presa" id="presa-praga" href="../viaggio.html?id=praga" data-meta="praga" aria-label="PRAGA"></a>
+    <a class="presa" id="presa-budapest" href="../viaggio.html?id=budapest" data-meta="budapest" aria-label="BUDAPEST"></a>
+    <a class="presa" id="presa-vienna" href="../viaggio.html?id=vienna" data-meta="vienna" aria-label="VIENNA"></a>
+
+    <div class="etichetta" id="etichetta">
+      <div class="etichetta__nome" id="etichettaNome">BUDAPEST</div>
+      <div class="etichetta__sotto">Guarda fuori</div>
+    </div>
+  </div>
+
+  <!-- Dove Flip porta il mondo a fine corsa -->
+  <div class="mondo-pieno" id="mondoPieno"></div>
+
+  <script src="../js/vendor/gsap.min.js"></script>
+  <script src="../js/vendor/Flip.min.js"></script>
+  <script src="cabin.js"></script>
+</body>
+</html>

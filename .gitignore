@@ -37,3 +37,9 @@ docs/security/
 # Handoff e note di lavoro AI (mai committare ne pubblicare)
 .ai-handoff/
 NEXT_SESSION.md
+
+# Skill degli agent installate localmente: non fanno parte del sito
+.agents/
+
+# Lockfile di npx skills: non fa parte del sito
+skills-lock.json

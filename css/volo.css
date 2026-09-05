@@ -16,6 +16,10 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: stretch;
+  /* .hero taglia quel che esce e ha un'altezza minima pensata per il solo testo:
+     con l'aereo dentro, tagliava la parte bassa degli oblo' e tutto il cartellino. */
+  overflow: visible;
+  min-height: 0;
 }
 .hero.volo .hero-content { padding-bottom: 0; }
 .volo-aereo { width: 100%; }
