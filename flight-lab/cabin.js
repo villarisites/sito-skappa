@@ -211,7 +211,8 @@
       // contrastato, non grigio. Con l'opacita' i vicini sembravano sporchi.
       var l = g.meta.luce;
       elMondi.children[i].querySelector('img').style.filter =
-        'saturate(' + (0.55 + 0.51 * l) + ') brightness(' + (0.72 + 0.40 * l) + ') contrast(' + (0.88 + 0.12 * l) + ')';
+        'brightness(' + (0.28 + 0.72 * l) + ') contrast(' + (0.90 + 0.10 * l) + ')';
+      elMondi.children[i].style.setProperty('--freddo', (1.2 * (1 - l)).toFixed(3));
     });
 
     aggiornaFuoco();
@@ -278,9 +279,9 @@
     geometrie.forEach(function (altra, i) {
       if (i === indice) return;
       tl.to(elMondi.children[i].querySelector('img'), {
-        filter: 'saturate(0.25) brightness(0.30) contrast(0.95)',
-        duration: 0.75, ease: 'power1.in'
+        filter: 'brightness(0.34) contrast(0.98)', duration: 0.75, ease: 'power1.in'
       }, 0);
+      tl.to(elMondi.children[i], { '--freddo': 0.62, duration: 0.75, ease: 'power1.in' }, 0);
     });
 
     // 3. Etichetta e riflessi si tolgono di mezzo presto

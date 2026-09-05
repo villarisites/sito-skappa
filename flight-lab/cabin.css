@@ -80,7 +80,7 @@ html, body {
 .mondi {
   position: absolute;
   inset: 0;
-  transform: translateZ(-300px) scale(1.38);   /* scale compensa la distanza */
+  transform: translateZ(-620px) scale(1.70);   /* scale compensa la distanza */
   transform-origin: var(--fuoco-x, 50%) center;
 }
 .mondo {
@@ -92,6 +92,16 @@ html, body {
   left: var(--mondo-x, 50%);
   overflow: hidden;
   border-radius: 2px;
+}
+.mondo::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #1d3a5c;
+  mix-blend-mode: multiply;
+  opacity: var(--freddo, 0);
+  transition: opacity 0.6s ease;
+  pointer-events: none;
 }
 .mondo img {
   width: 100%;
