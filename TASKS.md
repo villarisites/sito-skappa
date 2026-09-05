@@ -1,5 +1,48 @@
 # TASKS — skappa.it
 
+## 2026-09-05 (notte) — Fasi 3 e 4 fatte. Resta solo l'uscita dal WIP.
+
+Il rifacimento e' completo dal punto di vista tecnico. **Il sito e' ancora in WIP**:
+l'ultimo passo, renderlo pubblico, e' una decisione tua, non tecnica.
+
+- [x] **Fase 3 — Il Volo SKAPPA.** Fiancata d'aereo con 27 oblo' scorrevoli, uno per meta;
+      quello al centro si ingrandisce e mostra nome e prezzo. Al clic il portello si apre
+      dalla posizione dell'oblo' fino a schermo intero, con lampo di luce, e la pagina meta
+      entra in scala. Nessuna libreria: `css/volo.css` + `js/volo.js` + `scripts/build-volo.mjs`.
+      Gli oblo' sono link statici: funzionano senza JS e sono indicizzabili.
+- [x] **Home riparata.** Usava ancora gli slug `mete-estive` / `fughe-in-europa` /
+      `last-minute`, spariti con la Fase 2: **mostrava zero destinazioni**, senza un solo
+      errore in console. Ora le sezioni nascono da `data/categorie.js`.
+- [x] **Prezzi facoltativi.** Le 21 mete senza listino si pubblicano come "Su richiesta"
+      (non "???": sembrerebbe un errore). La build non le rifiuta piu'.
+      Quando arriveranno i prezzi: `npm run build:catalog -- --require-prices`.
+- [x] **Fase 4 — peso: 152 MB -> 32 MB.** Via 73 MB di sorgenti foto gia' sostituiti dai
+      `.webp` e la cartella `img/` legacy; ricompresse 24 immagini servite davvero
+      (parigi/activity-2: 4,85 MB -> 0,56 MB). Via le 3 pagine del vecchio catalogo e
+      `test_tee.html`. CSP ripulita, `/data/*` aggiunto alla whitelist WIP, sitemap rigenerata.
+- [ ] **Uscita dal WIP — la decidi tu.** Vedi sotto.
+
+### Come togliere il WIP, quando decidi
+
+1. In `netlify.toml`, commenta o elimina i blocchi `[[redirects]]` fra i marcatori
+   `# ===== WIP / MANUTENZIONE — INIZIO =====` e `# ===== WIP / MANUTENZIONE — FINE =====`.
+2. In `wip.html` togli `noindex, nofollow`.
+3. `git push` (serve l'account `villarisites`) — Netlify pubblica da solo.
+
+**Non l'ho fatto io di proposito:** rende pubblico il sito, e 21 mete su 27 dicono
+"Su richiesta". E' una scelta commerciale, non tecnica.
+
+### Verifiche fatte
+
+- 36 test unitari verdi (`npm test`)
+- 36 pagine senza errori nello smoke di browser (`npm run test:browser`), **home inclusa**:
+  prima non era coperta, ed e' proprio dove si era rotta
+- Home e pagina meta controllate a 1440px e a 390px reali (emulazione mobile)
+- Qualita' delle immagini ricompresse verificata su un ritaglio al 100%
+
+**Tutto committato in locale, nulla pushato.**
+
+
 ## 2026-09-04 (notte) — Fase 1 IMPLEMENTATA e verificata
 
 I tre template di dettaglio sono stati unificati in `viaggio.html`; i due file legacy sono stati
