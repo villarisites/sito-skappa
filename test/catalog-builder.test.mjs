@@ -34,7 +34,7 @@ test("validateCatalogRows_multipleProblems_returnsEveryActionableError", () => {
   ];
 
   // Act
-  const errors = validateCatalogRows(rows, { allowedCategories: ALLOWED });
+  const errors = validateCatalogRows(rows, { allowedCategories: ALLOWED, requirePrice: true });
 
   // Assert
   assert.deepEqual(errors, [
@@ -91,4 +91,38 @@ test("buildCatalog_allowIncomplete_createsPreviewWithNullPrices", async () => {
   assert.equal(context.window.DESTINATIONS.length, 27);
   assert.equal(context.window.DESTINATIONS.find(({ id }) => id === "praga").prezzo, null);
   await rm(temp, { recursive: true, force: true });
+});
+
+test("validateCatalogRows_missingPriceByDefault_isNotAnError", () => {
+  // Arrange — "prezzo su richiesta" e' una scelta editoriale, non un dato incompleto:
+  // il sito lo rende come "Su richiesta" in card, ricerca e pagina di dettaglio.
+  const rows = [{ id: "praga", nome: "PRAGA", categorie: "europa", prezzo: "" }];
+
+  // Act
+  const errors = validateCatalogRows(rows, { allowedCategories: ALLOWED });
+
+  // Assert
+  assert.deepEqual(errors, []);
+});
+
+test("validateCatalogRows_missingPriceWhenRequired_reportsError", () => {
+  // Arrange
+  const rows = [{ id: "praga", nome: "PRAGA", categorie: "europa", prezzo: "" }];
+
+  // Act
+  const errors = validateCatalogRows(rows, { allowedCategories: ALLOWED, requirePrice: true });
+
+  // Assert
+  assert.deepEqual(errors, ["riga 2: prezzo mancante"]);
+});
+
+test("validateCatalogRows_malformedPrice_isAlwaysAnError", () => {
+  // Arrange — un prezzo scritto male resta un errore anche senza requirePrice
+  const rows = [{ id: "praga", nome: "PRAGA", categorie: "europa", prezzo: "WIP" }];
+
+  // Act
+  const errors = validateCatalogRows(rows, { allowedCategories: ALLOWED });
+
+  // Assert
+  assert.deepEqual(errors, ["riga 2: prezzo non numerico: WIP"]);
 });

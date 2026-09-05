@@ -57,7 +57,7 @@ export function parseCatalogCsv(source) {
   return { columns, rows };
 }
 
-export function validateCatalogRows(rows, { allowedCategories, expectedIds } = {}) {
+export function validateCatalogRows(rows, { allowedCategories, expectedIds, requirePrice = false } = {}) {
   const errors = [];
   const seenIds = new Set();
   const allowed = allowedCategories ?? new Set();
@@ -89,7 +89,9 @@ export function validateCatalogRows(rows, { allowedCategories, expectedIds } = {
     }
 
     if (!rawPrice) {
-      errors.push(`riga ${line}: prezzo mancante`);
+      // Prezzo assente = "Su richiesta", stato legittimo e reso ovunque nel sito.
+      // Diventa un errore solo se chi chiama pretende esplicitamente i prezzi.
+      if (requirePrice) errors.push(`riga ${line}: prezzo mancante`);
     } else if (!/^\d+(?:[.,]\d+)?$/.test(rawPrice) || Number(rawPrice.replace(",", ".")) <= 0) {
       errors.push(`riga ${line}: prezzo non numerico: ${rawPrice}`);
     }

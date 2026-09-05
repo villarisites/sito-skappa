@@ -27,13 +27,19 @@ function readArguments(argv) {
     input: path.join(ROOT, "data", "catalogo.csv"),
     output: path.join(ROOT, "data", "destinations.js"),
     legacy: null,
-    allowIncomplete: false
+    allowIncomplete: false,
+    requirePrices: false
   };
 
   for (let index = 0; index < argv.length; index += 1) {
     const flag = argv[index];
     if (flag === "--allow-incomplete") {
+      // storico: i prezzi sono gia' facoltativi per default, resta accettato senza effetto
       options.allowIncomplete = true;
+      continue;
+    }
+    if (flag === "--require-prices") {
+      options.requirePrices = true;
       continue;
     }
     if (flag !== "--input" && flag !== "--output" && flag !== "--legacy") {
@@ -67,18 +73,18 @@ async function loadLegacyDestinations(legacyPath) {
 }
 
 async function main() {
-  const { input, output, legacy, allowIncomplete } = readArguments(process.argv.slice(2));
+  const { input, output, legacy, requirePrices } = readArguments(process.argv.slice(2));
   const parsed = parseCatalogCsv(await readFile(input, "utf8"));
-  let errors = [
+  // I prezzi sono facoltativi: una meta senza prezzo si pubblica come "Su richiesta".
+  // --require-prices li rende obbligatori, per quando il listino sara' completo.
+  const errors = [
     ...validateCatalogColumns(parsed.columns),
     ...validateCatalogRows(parsed.rows, {
       allowedCategories: ALLOWED_CATEGORIES,
-      expectedIds: EXPECTED_IDS
+      expectedIds: EXPECTED_IDS,
+      requirePrice: requirePrices
     })
   ];
-  if (allowIncomplete) {
-    errors = errors.filter((error) => !/^riga \d+: prezzo mancante$/.test(error));
-  }
 
   if (errors.length > 0) {
     console.error(`Catalogo non generato (${errors.length} errori):`);
@@ -92,7 +98,12 @@ async function main() {
   const temporaryOutput = `${output}.${process.pid}.tmp`;
   await writeFile(temporaryOutput, catalogRowsToScript(destinations), "utf8");
   await rename(temporaryOutput, output);
-  console.log(`Catalogo${allowIncomplete ? " preview" : ""} generato: ${parsed.rows.length} mete`);
+  const suRichiesta = parsed.rows.filter((row) => !String(row.prezzo || "").trim()).length;
+  console.log(`Catalogo generato: ${parsed.rows.length} mete`);
+  if (suRichiesta > 0) {
+    console.log(`  ${suRichiesta} senza prezzo: pubblicate come "Su richiesta".`);
+    console.log(`  Quando il listino e' completo: npm run build:catalog -- --require-prices`);
+  }
 }
 
 main().catch((error) => {
