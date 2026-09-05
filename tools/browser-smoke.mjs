@@ -176,8 +176,22 @@ function checksFor(testCase) {
     const card = document.querySelectorAll("#homeCategorie .dest-card").length;
     if (card === 0) problems.push("nessuna card nelle sezioni categoria");
     if (!document.querySelector(".volo-oblo.is-attivo")) problems.push("nessun oblo attivo");
-    const prezzo = document.querySelector("#heroPriceMin")?.textContent.trim();
-    if (!/^(DA \d+€|SU RICHIESTA)$/.test(prezzo || "")) problems.push(`prezzo hero: ${prezzo}`);
+    // Il claim dell'hero si controlla contro il CATALOGO, non contro un elenco di
+    // stringhe ammesse: la regola vera e' che non deve promettere un prezzo che
+    // nessuna meta ha. Con una whitelist, cambiare il testo faceva fallire il test
+    // anche quando il comportamento era giusto.
+    const prezzo = document.querySelector("#heroPriceMin")?.textContent.trim() || "";
+    const conPrezzo = (window.DESTINATIONS || [])
+      .map((d) => Number(d.prezzo))
+      .filter((n) => Number.isFinite(n) && n > 0);
+    if (conPrezzo.length === 0) {
+      if (/\d+\s*€/.test(prezzo)) problems.push(`hero promette un prezzo inesistente: ${prezzo}`);
+      if (/a partire/i.test(document.querySelector(".hero-subtitle")?.textContent || "")) {
+        problems.push('sottotitolo "a partire" senza nessun prezzo');
+      }
+    } else if (!prezzo.includes(String(Math.min(...conPrezzo)))) {
+      problems.push(`hero non mostra il minimo del catalogo: ${prezzo}`);
+    }
   }
   return problems;
 }

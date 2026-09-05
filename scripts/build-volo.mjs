@@ -12,6 +12,8 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const PAGE = path.join(ROOT, "index.html");
 const INIZIO = "<!--#volo inizio-->";
 const FINE = "<!--#volo fine-->";
+const PREZZO_INIZIO = "<!--#prezzo inizio-->";
+const PREZZO_FINE = "<!--#prezzo fine-->";
 const PRIME_EAGER = 5;
 
 function escapeAttr(value) {
@@ -49,6 +51,28 @@ function oblo(destination, catalog, index) {
     + `<img src="${escapeAttr(small)}" alt="${escapeAttr(destination.nome)}" width="320" height="400"${loading} /></a>`;
 }
 
+// Il claim dell'hero non puo' stare scritto a mano nell'HTML: e' un'affermazione
+// sul catalogo, e il catalogo cambia. Nell'HTML c'era "DA 169€" mentre tutte e 27
+// le mete dicevano "Su richiesta" - il JavaScript lo correggeva a runtime, ma
+// quello che finisce ai motori di ricerca e a chi ha JS lento e' l'HTML servito.
+// Anche il sottotitolo va generato insieme, se no resta "a partire" davanti a un
+// prezzo che non c'e'.
+export function renderPrezzoHero(destinations) {
+  const prezzi = destinations
+    .map((d) => Number(d.prezzo))
+    .filter((n) => Number.isFinite(n) && n > 0);
+  if (prezzi.length === 0) {
+    return {
+      sottotitolo: "Viaggi già organizzati, costruiti su di te",
+      prezzo: "PREVENTIVO SU RICHIESTA"
+    };
+  }
+  return {
+    sottotitolo: "Viaggi già organizzati a partire",
+    prezzo: `DA ${Math.min(...prezzi)}€`
+  };
+}
+
 export function renderOblo(destinations, catalog) {
   return destinations.map((destination, index) => oblo(destination, catalog, index)).join("\n");
 }
@@ -64,13 +88,26 @@ async function main() {
   }
 
   const blocco = `${INIZIO}\n${renderOblo(destinations, catalog)}\n          `;
-  const aggiornata = page.slice(0, start) + blocco + page.slice(end);
+  let aggiornata = page.slice(0, start) + blocco + page.slice(end);
+
+  const pStart = aggiornata.indexOf(PREZZO_INIZIO);
+  const pEnd = aggiornata.indexOf(PREZZO_FINE, pStart);
+  if (pStart < 0 || pEnd < 0) {
+    throw new Error(`marcatori ${PREZZO_INIZIO} / ${PREZZO_FINE} non trovati in index.html`);
+  }
+  const hero = renderPrezzoHero(destinations);
+  aggiornata = aggiornata.slice(0, pStart)
+    + `${PREZZO_INIZIO}\n`
+    + `      <p class="hero-subtitle">${hero.sottotitolo}</p>\n`
+    + `      <div class="hero-price"><span id="heroPriceMin">${hero.prezzo}</span></div>\n      `
+    + aggiornata.slice(pEnd);
+
   if (aggiornata === page) {
     console.log(`Volo invariato: ${destinations.length} oblo'`);
     return;
   }
   await writeFile(PAGE, aggiornata, "utf8");
-  console.log(`Volo aggiornato: ${destinations.length} oblo'`);
+  console.log(`Volo aggiornato: ${destinations.length} oblo', hero "${hero.prezzo}"`);
 }
 
 // pathToFileURL, non una stringa costruita a mano: su Windows il percorso ha

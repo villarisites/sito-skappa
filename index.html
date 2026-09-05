@@ -180,8 +180,10 @@
     <div class="hero-overlay"></div>
     <div class="hero-content">
       <img src="assets/foto/utility/scritta skappa.webp" alt="SKAPPA" width="727" height="128" class="hero-title-img" />
-      <p class="hero-subtitle">Viaggi già organizzati a partire</p>
-      <div class="hero-price"><span id="heroPriceMin">DA 169€</span></div>
+<!--#prezzo inizio-->
+      <p class="hero-subtitle">Viaggi già organizzati, costruiti su di te</p>
+      <div class="hero-price"><span id="heroPriceMin">PREVENTIVO SU RICHIESTA</span></div>
+      <!--#prezzo fine-->
       <br/>
       <a href="#homeCategorie" class="btn-gold">Scegli il tuo viaggio</a>
     </div>
@@ -579,16 +581,9 @@
   <script src="js/animations.js" defer></script>
   <script src="js/home-catalog.js" defer></script>
   <script src="js/volo.js" defer></script>
-  <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    // Prezzo minimo nell'hero: solo fra le mete che un prezzo ce l'hanno davvero.
-    var conPrezzo = (window.DESTINATIONS || [])
-      .map(function (d) { return parseInt(d.prezzo, 10); })
-      .filter(function (n) { return isFinite(n) && n > 0; });
-    var el = document.getElementById('heroPriceMin');
-    if (!el) return;
-    el.textContent = conPrezzo.length ? 'DA ' + Math.min.apply(null, conPrezzo) + '€' : 'SU RICHIESTA';
-  });
-  </script>
+  <!-- Il claim dell'hero lo genera scripts/build-volo.mjs a build time, fra i
+       marcatori #prezzo. Prima veniva calcolato anche qui a runtime: due verita'
+       diverse, e quella scritta nell'HTML - cioe' quella che vedono i motori di
+       ricerca - era quella sbagliata. -->
 </body>
 </html>

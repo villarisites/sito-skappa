@@ -112,3 +112,35 @@ test("volo_respectsReducedMotion", async () => {
   assert.match(css, /@media \(prefers-reduced-motion: reduce\)/);
   assert.match(script, /prefers-reduced-motion: reduce/);
 });
+
+test("volo_heroNonPromettePrezziCheIlCatalogoNonHa", async () => {
+  // Arrange — quello che conta e' l'HTML SERVITO: e' quello che leggono i motori
+  // di ricerca e chi ha JavaScript lento. Il claim era scritto a mano e diceva
+  // "DA 169€" mentre tutte le mete dicevano "Su richiesta".
+  const catalogo = (await loadCatalog()).SkappaCatalog;
+  const conPrezzo = catalogo.tutte()
+    .map((d) => Number(d.prezzo))
+    .filter((n) => Number.isFinite(n) && n > 0);
+  const home = await loadHome();
+  const hero = home.slice(home.indexOf("<!--#prezzo inizio-->"), home.indexOf("<!--#prezzo fine-->"));
+
+  // Assert
+  assert.notEqual(hero.length, 0, "marcatori #prezzo assenti: il claim non e' generato");
+  if (conPrezzo.length === 0) {
+    assert.doesNotMatch(hero, /\d+\s*€/, "l'hero promette un prezzo che nessuna meta ha");
+    assert.doesNotMatch(hero, /a partire/i, '"a partire" davanti a nessun prezzo');
+  } else {
+    assert.match(hero, new RegExp(`DA\s*${Math.min(...conPrezzo)}`),
+      "l'hero non mostra il minimo vero del catalogo");
+  }
+});
+
+test("volo_ilClaimDellHeroNonSiRicalcolaAncheARuntime", async () => {
+  // Arrange — due verita' diverse per lo stesso dato significa che una e' sbagliata,
+  // e quella nell'HTML e' proprio quella che finisce ai motori di ricerca.
+  const home = await loadHome();
+
+  // Assert
+  assert.doesNotMatch(home, /heroPriceMin'\)[\s\S]{0,200}textContent\s*=/,
+    "il prezzo dell'hero viene ancora sovrascritto a runtime");
+});
