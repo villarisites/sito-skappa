@@ -26,7 +26,18 @@
     (function () {
       var id = new URLSearchParams(location.search).get('id') || 'praga';
       if (!/^[a-z0-9-]+$/.test(id)) id = 'praga';   // arriva dall'URL: non fidarsene
-      document.documentElement.style.setProperty('--foto', "url('../assets/foto/" + id + "/hero.webp')");
+      var src = '../assets/foto/' + id + '/hero.webp';
+      document.documentElement.style.setProperty('--foto', "url('" + src + "')");
+      // Il background-image parte comunque prima di gsap, ma il browser non
+      // garantisce che sia DECODIFICATO al primo disegno: misurando, la foto
+      // poteva mancare fino a 163 ms e per quel tempo si vedeva il fondo.
+      // Il preload con priorita' alta e' il modo di dirglielo esplicitamente.
+      var pre = document.createElement('link');
+      pre.rel = 'preload';
+      pre.as = 'image';
+      pre.href = src;
+      pre.setAttribute('fetchpriority', 'high');
+      document.head.appendChild(pre);
       document.documentElement.dataset.meta = id;
       // Se non si viene dalla cabina non c'e' nessuna continuita' da preservare:
       // la pagina si mostra normale, senza foto a tutto schermo.
@@ -65,13 +76,22 @@
       inset: 0;
       z-index: 3;
       overflow: hidden;
-      clip-path: inset(0 0 0 0);
+      /* Il bordo basso e' una DISSOLVENZA, non un taglio. Con clip-path la foto
+         veniva tagliata di netto e il blocco della pagina saliva come una lama
+         orizzontale: si leggeva come una tendina che scorre, non come la foto
+         che si posa. Le due tappe della sfumatura sono variabili cosi' GSAP
+         puo' animarle. */
+      -webkit-mask-image: linear-gradient(to bottom, #000 var(--m1, 100%), rgba(0,0,0,0) var(--m2, 100%));
+      mask-image: linear-gradient(to bottom, #000 var(--m1, 100%), rgba(0,0,0,0) var(--m2, 100%));
       /* La foto sta QUI, in CSS, e non su un <img> a cui il JS assegna il src:
          il primo fotogramma del nuovo documento viene disegnato prima che gsap e
          arrivo.js siano stati scaricati, e li' trovava la pagina vuota. Era
          quello il fotogramma nero fra le due pagine. La variabile --foto la
          scrive lo script inline nel <head>, prima di qualunque risorsa esterna. */
-      background-color: #05070c;
+      /* Il fondo si vede per un fotogramma al cambio di documento, prima che
+         l'immagine sia decodificata. Nero era uno stacco netto; col navy della
+         pagina quel fotogramma non si distingue da quello che c'e' sotto. */
+      background-color: var(--navy);
       background-image: var(--foto);
       background-size: cover;
       background-position: 50% 50%;   /* il ritaglio con cui arriva dalla cabina */

@@ -100,6 +100,18 @@ fallback senza JS) senza il JavaScript che li regge. La scena non si accendeva p
       le mete erano passate da 3 a 8 nel JS ma non gli `<a>` nell'HTML — cinque destinazioni
       non erano cliccabili e sparivano dal fallback senza JS.
 
+- [x] **L'atterraggio non e' piu' una tendina.** Il passaggio da foto piena a hero con le
+      scritte usava `clip-path`: tagliava la foto di netto e il blocco della pagina saliva
+      come una lama orizzontale. Ora il bordo basso e' una dissolvenza (maschera a gradiente
+      con le tappe animate), l'ombra entra presto e lentamente invece che tutta nell'ultimo
+      quarto, e le scritte hanno lo spazio per arrivare una per volta.
+- [x] **Il fotogramma vuoto al cambio di documento** e' sceso a uno, ed e' **navy** invece che
+      nero: e' il colore della pagina, quindi non si legge come uno stacco. La foto e' in CSS
+      (non un `<img>` riempito dal JS) piu' un `preload` a priorita' alta.
+      **Le View Transition fra documenti sono state provate e tolte: misurate, PEGGIORAVANO** —
+      341/137/171 ms di vuoto contro 0/0/1 fotogramma senza. Il brief le indicava come
+      possibile miglioramento; su questo impianto non lo sono.
+
 Resta: le 27 mete, la transizione inversa provata a fondo, l'integrazione nella home
 (e quindi il porto di `arrivo.js` dentro `viaggio.html`).
 Il laboratorio non tocca `index.html` ne' `viaggio.html`.

@@ -39,8 +39,11 @@
   function atterra() {
     var hFinale = altezzaHero();
     var hSchermo = window.innerHeight;
-    // Quanto va tagliato dal basso perche' il piano diventi il riquadro dell'hero
-    var taglio = Math.max(0, hSchermo - hFinale);
+    // Dove finisce l'hero, in percentuale di schermo: e' li' che la foto deve
+    // essersi spenta del tutto.
+    var fine = Math.min(100, (hFinale / hSchermo) * 100);
+    var inizio = fine * 0.84;   // da qui comincia a spegnersi: stretta, se no la
+                               // dissolvenza arriva fin sopra il testo della sezione sotto
 
     var tl = gsap.timeline({
       defaults: { ease: 'power2.inOut' },
@@ -53,15 +56,20 @@
       }
     });
 
-    // 1. il riquadro si chiude fino all'altezza dell'hero
-    tl.to(continuita, { clipPath: 'inset(0px 0px ' + taglio + 'px 0px)', duration: 0.75 }, 0);
-    // 2. e insieme la foto scorre verso il ritaglio dell'hero
-    tl.to(continuita, { backgroundPosition: '50% 30%', duration: 0.75 }, 0);
-    // 3. l'ombra dell'hero entra mentre il riquadro si chiude, non dopo
-    tl.to(heroOverlay, { opacity: 1, duration: 0.6 }, 0.15);
-    // 4. il contenuto arriva per ultimo, come chiede il brief
-    tl.to(contenuto, { opacity: 1, y: 0, duration: 0.5, stagger: 0.07 }, 0.45);
-    tl.from(contenuto, { y: 18, duration: 0.5, stagger: 0.07 }, 0.45);
+    // 1. la foto si spegne verso il basso, con un bordo morbido
+    tl.fromTo(continuita,
+      { '--m1': '100%', '--m2': '100%' },
+      { '--m1': inizio + '%', '--m2': fine + '%', duration: 0.9 }, 0);
+    // 2. e insieme scorre verso il ritaglio dell'hero
+    tl.to(continuita, { backgroundPosition: '50% 30%', duration: 0.9 }, 0);
+    // 3. L'ombra entra PRESTO e lentamente: prima arrivava tutta nell'ultimo
+    //    quarto e la foto passava da piatta a scura di colpo.
+    tl.to(heroOverlay, { opacity: 1, duration: 0.85, ease: 'power1.inOut' }, 0.05);
+    // 4. Il contenuto arriva per ultimo, come chiede il brief, ma con lo spazio
+    //    per farlo una riga per volta invece che tutto insieme sul finale.
+    tl.fromTo(contenuto,
+      { opacity: 0, y: 22 },
+      { opacity: 1, y: 0, duration: 0.6, stagger: 0.12, ease: 'power2.out' }, 0.42);
 
     return tl;
   }
