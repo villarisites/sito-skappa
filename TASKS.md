@@ -122,6 +122,17 @@ fallback senza JS) senza il JavaScript che li regge. La scena non si accendeva p
       finire con una cucitura. La piastrella e' alzata sopra il bordo dello schermo: il
       giunto col soffitto, tagliato dall'inquadratura, si leggeva come una riga nera.
 
+- [x] **Si vedeva il bordo della foto nei finestrini laterali** scorrendo. Non era una svista
+      di dimensione ma un conto sbagliato: lo scivolamento del piano dei mondi era calcolato
+      su UNA campata, mentre con cinque finestrini in vista quelli esterni ne stanno a DUE.
+      A quel punto le tre misure diventavano incompatibili — servivano 263px di mondo ma il
+      tetto per non invadere il vicino era 253. Portando il piano da -150 a -100 lo
+      scivolamento si dimezza e tornano compatibili (serve 221, tetto 264).
+- [x] **Il nome della meta e' salito sulla cappelliera**, sopra al suo finestrino: e' dove un
+      aereo mette i numeri di fila, ed e' il primo posto dove si guarda per capire dove si
+      sta per entrare. Con il marchio SKAPPA accanto, come una compagnia lo stampa sulla
+      portella — in scala di grigi sulle mete non attive, se no diventa una fila di bollini.
+
 Resta: le 27 mete, la transizione inversa provata a fondo, l'integrazione nella home
 (e quindi il porto di `arrivo.js` dentro `viaggio.html`).
 Il laboratorio non tocca `index.html` ne' `viaggio.html`.

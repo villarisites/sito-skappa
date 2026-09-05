@@ -72,7 +72,12 @@
   // si vedevano due citta' nello stesso finestrino. A 150 lo scivolamento su un
   // passo scende sotto un quarto del foro, e i mondi restano ognuno dietro al
   // suo pur mantenendo una parallasse ben visibile.
-  var PROF_MONDO = 150;
+  // A 150 il conto non chiudeva piu' con cinque finestrini in vista: quelli a DUE
+  // campate dal centro avrebbero avuto bisogno di un mondo largo 263px, ma il
+  // tetto per non invadere il vicino era 253. Impossibile, e infatti scorrendo
+  // si vedeva il bordo della foto nei finestrini laterali. A 100 lo scivolamento
+  // si dimezza e le tre misure tornano compatibili (serve 221, tetto 264).
+  var PROF_MONDO = 100;
   // Un piano a -d appare rimpicciolito di P/(P+d) attorno all'origine della
   // prospettiva: per rivederlo a grandezza naturale va ingrandito di (P+d)/P.
   var COMPENSA = (PROSPETTIVA + PROF_MONDO) / PROSPETTIVA;
@@ -190,7 +195,11 @@
     // I mondi dei finestrini laterali scivolano rispetto al loro foro: e'
     // parallasse vera (guardando di sbieco vedi un altro pezzo di fuori), ma il
     // mondo deve restare grande abbastanza da non scoprire il bordo del foro.
-    var scostamento = passo * (1 - RIDUZIONE);
+    // Lo scivolamento va contato per il finestrino piu' LONTANO che si vede, non
+    // per quello accanto: con cinque in vista i due esterni stanno a due campate,
+    // e il conto fatto su una campata sola li lasciava scoperti.
+    var campateInVista = Math.max(1, Math.ceil(visibili / 2));
+    var scostamento = passo * (1 - RIDUZIONE) * campateInVista;
 
     // Tre vincoli, tutti geometrici:
     //  1. il mondo deve coprire il suo foro anche quando lo si guarda di sbieco,
@@ -407,7 +416,9 @@
              (g.w * VANO_LARGO) + 'px;--vh:' + (g.h * VANO_ALTO) + 'px"></div>';
     }).join('');
     elTarghette.innerHTML = geometrie.map(function (g) {
-      return '<div class="targhetta">' + g.meta.nome + '</div>';
+      return '<div class="targhetta">' +
+             '<img class="marchio" src="../assets/foto/utility/logo skappa.svg" alt="" ' +
+             'width="16" height="16" />' + g.meta.nome + '</div>';
     }).join('');
     elVetri.innerHTML = tutti.map(function () { return '<div class="vetro"></div>'; }).join('');
     // Le tendine stanno solo sui finestrini senza meta. Le altezze sono diverse
@@ -456,6 +467,10 @@
     });
     geometrie.forEach(function (g, i) {
       stile(elTarghette.children[i], g);
+      // Il nome sta sulla portella della cappelliera, sopra al suo finestrino:
+      // e' dove un aereo mette i numeri di fila, ed e' il primo posto dove
+      // l'occhio va quando cerca "dove sto per entrare".
+      elTarghette.children[i].style.setProperty('--y-bin', (hBinPx * 0.37) + 'px');
       var presa = document.getElementById('presa-' + g.meta.id);
       if (presa) stile(presa, g);
     });

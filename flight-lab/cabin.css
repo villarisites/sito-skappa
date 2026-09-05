@@ -267,14 +267,17 @@ html, body {
 .targhette {
   position: absolute;
   inset: 0;
-  transform: translateZ(10px);
+  transform: translateZ(26px);   /* appena davanti alla cappelliera */
   pointer-events: none;
 }
 .targhetta {
   position: absolute;
   left: var(--x);
-  top: calc(var(--y) - var(--h) / 2 - 4.4rem);
+  top: var(--y-bin, 3rem);
   translate: -50% 0;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
   padding: 0.3rem 0.9rem 0.32rem;
   border-radius: 3px;
   font-size: clamp(0.62rem, 1vw, 0.78rem);
@@ -295,6 +298,21 @@ html, body {
 }
 .targhetta.is-attiva {
   color: rgba(30,27,22,0.92);
+  opacity: 1;
+}
+/* Il marchio, come una compagnia lo stampa sulla portella. Sta in scala di
+   grigi finche' la meta non e' quella attiva: a colori su ogni campata
+   diventerebbe una fila di bollini. */
+.marchio {
+  width: 1.05em;
+  height: 1.05em;
+  object-fit: contain;
+  filter: grayscale(1);
+  opacity: 0.5;
+  transition: filter 0.5s, opacity 0.5s;
+}
+.targhetta.is-attiva .marchio {
+  filter: none;
   opacity: 1;
 }
 
