@@ -81,6 +81,25 @@ fallback senza JS) senza il JavaScript che li regge. La scena non si accendeva p
       disegno del nuovo documento avveniva prima che gsap e `arrivo.js` fossero scaricati.
       Spostata in CSS, scritta dallo script inline nel `<head>`: **0 fotogrammi vuoti su 81**.
 
+- [x] **Il vano del finestrino diventa un asset** (`assets/flight/window-bay.webp`, 50 KB).
+      Le cornici disegnate in box-shadow sembravano adesivi appiccicati al muro; ora c'e'
+      l'incasso profondo con la guida della tendina. Generato col verde nell'apertura e
+      scontornato da `npm run build:cabin-window -- <foto.png>`, che fa tre cose non
+      saltabili: **despill** (senza, l'alone verde sul bordo interno si vede sopra una foto
+      calda), **misura dell'apertura** (le proporzioni finiscono in `cabin.js`: a occhio
+      resta un anello di parete dentro al finestrino), e **ritaglio sulla sola cornice**.
+      Quest'ultimo e' il punto: tenendo anche il pannello attorno, l'asset portava con se'
+      la luce con cui era stato generato e attorno a ogni finestrino si vedeva un rettangolo
+      piu' chiaro. Dove finisce la cornice si **misura** — soglia ricavata dall'immagine,
+      perche' con una fissa la grana del pannello la faceva risultare larga quanto tutto.
+- [x] **Finestrini ciechi con le tendine abbassate** alle estremita'. Con 5 finestrini per
+      schermata restava mezza parete nuda a sinistra: la meta attiva e' centrata e prima di
+      lei non c'e' nulla. I ciechi mostravano pero' una toppa di cielo piu' accesa delle
+      foto, e la risposta esisteva gia' in un aereo vero: le tendine giu', ad altezze diverse.
+- [x] **8 mete, 5 finestrini per schermata.** E un bug trovato dallo smoke, non a occhio:
+      le mete erano passate da 3 a 8 nel JS ma non gli `<a>` nell'HTML — cinque destinazioni
+      non erano cliccabili e sparivano dal fallback senza JS.
+
 Resta: le 27 mete, la transizione inversa provata a fondo, l'integrazione nella home
 (e quindi il porto di `arrivo.js` dentro `viaggio.html`).
 Il laboratorio non tocca `index.html` ne' `viaggio.html`.

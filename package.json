@@ -15,7 +15,8 @@
     "test:browser": "node tools/browser-smoke.mjs",
     "preview": "node tools/static-server.mjs",
     "build:volo": "node scripts/build-volo.mjs",
-    "build:cabin-texture": "node scripts/build-cabin-texture.mjs"
+    "build:cabin-texture": "node scripts/build-cabin-texture.mjs",
+    "build:cabin-window": "node scripts/build-cabin-window.mjs"
   },
   "devDependencies": {
     "gsap": "^3.15.0",

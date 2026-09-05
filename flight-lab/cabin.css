@@ -147,43 +147,32 @@ html, body {
 }
 .parete svg { display: block; width: 100%; height: 100%; }
 
-/* ---- Cornici: il labbro che sporge dalla parete ---- */
-.cornici {
+/* ---- Il vano del finestrino ----
+   Non piu' un bordo disegnato con box-shadow, ma un asset vero
+   (window-bay.webp): cornice, incasso profondo e guida della tendina, col BUCO
+   trasparente al centro attraverso cui passa il panorama. E' lo stesso
+   ragionamento dei sedili — quello che sembrava incollato al muro era la
+   geometria disegnata in CSS, non il modo in cui era disegnata.
+
+   Il buco dell'asset va allineato al foro che la scena ha gia' calcolato: le
+   proporzioni le misura scripts/build-cabin-window.mjs e le riporta in cabin.js,
+   perche' a occhio comparirebbe un anello di parete dentro al finestrino.
+   I bordi esterni dell'asset sono sfumati, cosi' si posa sulla parete invece di
+   sembrarci appoggiato sopra. */
+.vani {
   position: absolute;
   inset: 0;
-  transform: translateZ(8px);
+  transform: translateZ(4px);
   pointer-events: none;
 }
-.cornice {
+.vano {
   position: absolute;
   top: var(--y);
   left: var(--x);
   translate: -50% -50%;
-  width: var(--w);
-  height: var(--h);
-  border-radius: var(--r);
-  /* Un finestrino vero non e' un bordo: e' una mostrina di plastica che sporge dalla
-     parete e un incasso profondo che arriva al vetro. Gli strati, dall'esterno:
-     mostrina chiara, stacco scuro, ombra dell'incasso in alto, rimbalzo di luce in basso. */
-  box-shadow:
-    inset 0 0 0 var(--mostrina, 13px) #c6bcaa,
-    inset 0 0 0 calc(var(--mostrina, 13px) + 1.5px) rgba(0,0,0,0.42),
-    inset 0 18px 22px -10px rgba(0,0,0,0.55),
-    inset 0 -14px 20px -12px rgba(255,255,255,0.3),
-    0 1px 0 rgba(255,255,255,0.45),
-    0 10px 26px rgba(0,0,0,0.38);
-}
-/* la guida della tendina, sopra il finestrino */
-.cornice::before {
-  content: '';
-  position: absolute;
-  left: 14%;
-  right: 14%;
-  top: calc(var(--mostrina, 13px) * -1 - 9px);
-  height: 5px;
-  border-radius: 3px;
-  background: linear-gradient(180deg, #b3a998, #7d7568);
-  box-shadow: 0 1px 0 rgba(255,255,255,0.4), inset 0 1px 2px rgba(0,0,0,0.4);
+  width: var(--vw);
+  height: var(--vh);
+  background: url('../assets/flight/window-bay.webp') center / 100% 100% no-repeat;
 }
 
 /* ---- Vetro: riflessi sul doppio pannello ---- */
@@ -260,7 +249,7 @@ html, body {
 .targhette {
   position: absolute;
   inset: 0;
-  transform: translateZ(4px);
+  transform: translateZ(10px);
   pointer-events: none;
 }
 .targhetta {
@@ -289,6 +278,53 @@ html, body {
 .targhetta.is-attiva {
   color: rgba(30,27,22,0.92);
   opacity: 1;
+}
+
+.tendine {
+  position: absolute;
+  inset: 0;
+  transform: translateZ(-6px);
+  pointer-events: none;
+}
+
+/* ---- Le tendine ----
+   I finestrini senza meta non devono rubare l'occhio a quelli che una meta ce
+   l'hanno: mostravano una toppa di cielo azzurro piu' accesa delle foto. In un
+   aereo vero la risposta esiste gia' ed e' la tendina abbassata - meta' cabina
+   ce l'ha sempre. Cosi' spariscono senza sembrare spenti, e sono un dettaglio
+   che si riconosce al volo. L'altezza varia: tutte uguali sembrerebbero finte. */
+.tendina {
+  position: absolute;
+  top: var(--y);
+  left: var(--x);
+  translate: -50% -50%;
+  width: var(--w);
+  height: var(--h);
+  border-radius: var(--r);
+  overflow: hidden;
+  pointer-events: none;
+}
+.tendina::before {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; top: 0;
+  height: var(--giu, 100%);
+  background:
+    linear-gradient(180deg, rgba(0,0,0,0.22) 0%, rgba(0,0,0,0.05) 6%, rgba(0,0,0,0) 14%),
+    linear-gradient(180deg, #cabfae 0%, #bdb2a1 60%, #b3a897 100%);
+  box-shadow: inset 0 -2px 0 rgba(0,0,0,0.28), 0 2px 6px rgba(0,0,0,0.3);
+}
+/* la linguetta con cui si tira giu' */
+.tendina::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: calc(var(--giu, 100%) - 9px);
+  translate: -50% 0;
+  width: 26%;
+  height: 5px;
+  border-radius: 0 0 3px 3px;
+  background: linear-gradient(180deg, #a99e8d, #8d8474);
 }
 
 /* ---- I link: invisibili, ma sono loro a governare ---- */

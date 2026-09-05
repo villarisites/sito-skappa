@@ -45,7 +45,7 @@
 
   // Quanti finestrini si vedono insieme. Il brief chiede 2-3 su desktop e uno
   // principale su mobile, col precedente e il successivo che si intravedono.
-  var VISIBILI_LARGO = 2.15;
+  var VISIBILI_LARGO = 5;
   // Sotto 1,57 il finestrino accanto esce del tutto dal viewport: il conto e'
   // passo < (vw + w)/2 con w = passo/2,3. A 1,5 restava fuori di una decina di
   // pixel e su mobile si vedeva un finestrino solo, contro quel che chiede il brief.
@@ -53,9 +53,14 @@
   var SOGLIA_STRETTO = 620;
 
   var METE = [
-    { id: 'praga',    nome: 'PRAGA' },
-    { id: 'budapest', nome: 'BUDAPEST' },
-    { id: 'vienna',   nome: 'VIENNA' }
+    { id: 'praga',      nome: 'PRAGA' },
+    { id: 'budapest',   nome: 'BUDAPEST' },
+    { id: 'vienna',     nome: 'VIENNA' },
+    { id: 'parigi',     nome: 'PARIGI' },
+    { id: 'barcellona', nome: 'BARCELLONA' },
+    { id: 'lisbona',    nome: 'LISBONA' },
+    { id: 'cracovia',   nome: 'CRACOVIA' },
+    { id: 'madrid',     nome: 'MADRID' }
   ];
 
   // Devono corrispondere a `perspective` e al piano dei mondi dichiarati nel CSS.
@@ -78,6 +83,16 @@
   // Il foro deve superare il viewport con margine, non sfiorarlo: con l'8% i
   // fianchi della cornice uscivano solo nell'ultimo 4% della timeline e il
   // passaggio sembrava uno scatto invece che una corsa.
+  // Proporzioni dell'asset del vano, MISURATE da scripts/build-cabin-window.mjs:
+  // quanto e' grande tutto il pezzo rispetto alla sua apertura. Se rigeneri
+  // l'asset, lo script le ristampa e vanno riportate qui.
+  var VANO_LARGO = 2.0984;
+  var VANO_ALTO = 2.0513;
+  // Il foro nella parete si allarga un filo oltre l'apertura dell'asset: se
+  // fosse identico, un pixel di disallineamento mostrerebbe un anello di parete
+  // dentro al finestrino. Allargandolo, e' la cornice opaca a coprire l'eccesso.
+  var FORO_OLTRE = 1.05;
+
   var MARGINE_FORO = 1.25;
   var MARGINE_MONDO = 1.15;  // e il mondo deve superare il foro
 
@@ -114,8 +129,9 @@
   var camera = document.getElementById('camera');
   var elMondi = document.getElementById('mondi');
   var elParete = document.getElementById('parete');
-  var elCornici = document.getElementById('cornici');
+  var elVani = document.getElementById('vani');
   var elVetri = document.getElementById('vetri');
+  var elTendine = document.getElementById('tendine');
   var elTarghette = document.getElementById('targhette');
   var elSedili = document.getElementById('sedili');
   var elPrimoPiano = document.querySelector('.primo-piano');
@@ -130,6 +146,7 @@
   var RESTA = new URLSearchParams(location.search).has('resta');
 
   var geometrie = [];
+  var ciechi = [];           // finestrini senza meta: riempiono le estremita'
   var dim = null;
   var DOLLY = 0;             // corsa della camera, calcolata
   var ATTIVA = 0;
@@ -188,6 +205,19 @@
     // cosi' il primo e l'ultimo finestrino possono arrivare al centro.
     var sceneW = vw + (METE.length - 1) * passo;
 
+    // Alle estremita' la cabina non puo' finire: la prima meta e' centrata, quindi
+    // a sinistra resterebbe mezzo viewport di parete nuda. Si riempie con
+    // finestrini VERI ma senza meta - in un aereo non tutti i finestrini sono una
+    // destinazione - e dietro si vede il cielo, che c'e' gia'.
+    // Quanti ce ne stanno e' una divisione, non una scelta: lo spazio libero da
+    // un lato e' mezzo viewport.
+    var quantiCiechi = Math.max(0, Math.floor(vw / 2 / passo - 0.15));
+    ciechi = [];
+    for (var k = 1; k <= quantiCiechi; k++) {
+      ciechi.push({ x: vw / 2 - k * passo, y: cy, w: w, h: h, r: w * RAGGIO });
+      ciechi.push({ x: vw / 2 + (METE.length - 1 + k) * passo, y: cy, w: w, h: h, r: w * RAGGIO });
+    }
+
     geometrie = METE.map(function (meta, i) {
       return {
         meta: meta,
@@ -212,15 +242,17 @@
     var W = dim.W, H = dim.H;
     var latoTex = LATO_TEXTURE_CM * (geometrie[0].w / CM_FINESTRINO);
 
-    var fori = geometrie.map(function (g) {
-      return '<rect x="' + (g.x - g.w / 2) + '" y="' + (g.y - g.h / 2) + '" width="' + g.w +
-             '" height="' + g.h + '" rx="' + g.r + '" ry="' + g.r + '" fill="black"/>';
+    var fori = geometrie.concat(ciechi).map(function (g) {
+      var fw = g.w * FORO_OLTRE, fh = g.h * FORO_OLTRE;
+      return '<rect x="' + (g.x - fw / 2) + '" y="' + (g.y - fh / 2) + '" width="' + fw +
+             '" height="' + fh + '" rx="' + (g.r * FORO_OLTRE) + '" ry="' + (g.r * FORO_OLTRE) +
+             '" fill="black"/>';
     }).join('');
 
     // Aloni di luce attorno ai fori: fuori e' piu' luminoso che dentro, quindi la
     // parete si schiarisce verso i finestrini. E' il segnale piu' forte per leggere
     // "sono dentro un aereo" — la versione precedente aveva luce uniforme.
-    var aloni = geometrie.map(function (g) {
+    var aloni = geometrie.concat(ciechi).map(function (g) {
       return '<ellipse cx="' + g.x + '" cy="' + g.y + '" rx="' + (g.w * 1.9) + '" ry="' + (g.h * 1.25) +
              '" fill="url(#alone)" opacity="0.55"/>';
     }).join('');
@@ -378,11 +410,27 @@
              '</div>';
     }).join('');
 
-    elCornici.innerHTML = geometrie.map(function () { return '<div class="cornice"></div>'; }).join('');
+    var tutti = geometrie.concat(ciechi);
+    elVani.innerHTML = tutti.map(function (g) {
+      return '<div class="vano" style="--x:' + g.x + 'px;--y:' + g.y + 'px;--vw:' +
+             (g.w * VANO_LARGO) + 'px;--vh:' + (g.h * VANO_ALTO) + 'px"></div>';
+    }).join('');
     elTarghette.innerHTML = geometrie.map(function (g) {
       return '<div class="targhetta">' + g.meta.nome + '</div>';
     }).join('');
-    elVetri.innerHTML = geometrie.map(function () { return '<div class="vetro"></div>'; }).join('');
+    elVetri.innerHTML = tutti.map(function () { return '<div class="vetro"></div>'; }).join('');
+    // Le tendine stanno solo sui finestrini senza meta. Le altezze sono diverse
+    // fra loro di proposito: una fila di tendine identiche non esiste.
+    var altezze = ['100%', '72%', '100%', '88%', '100%', '64%'];
+    // La tendina va tagliata un po' PIU' GRANDE dell'apertura e con gli angoli
+    // meno tondi: l'asset ha angoli piu' squadrati dei nostri, e con la misura
+    // esatta restava scoperto uno spicchio di cielo in ogni angolo. Quel che
+    // eccede lo copre la cornice, che e' opaca.
+    elTendine.innerHTML = ciechi.map(function (g, i) {
+      return '<div class="tendina" style="--x:' + g.x + 'px;--y:' + g.y + 'px;--w:' +
+             (g.w * FORO_OLTRE * 1.04) + 'px;--h:' + (g.h * FORO_OLTRE * 1.04) + 'px;--r:' + (g.r * 0.62) +
+             'px;--giu:' + altezze[i % altezze.length] + '"></div>';
+    }).join('');
 
     // I sedili non seguono i finestrini uno a uno: il passo delle file e' un'altra
     // misura, e in un aereo vero infatti non coincidono mai.
@@ -412,10 +460,11 @@
     }
     elSedili.innerHTML = sedili;
 
-    geometrie.forEach(function (g, i) {
-      stile(elCornici.children[i], g);
-      stile(elTarghette.children[i], g);
+    tutti.forEach(function (g, i) {
       stile(elVetri.children[i], g);
+    });
+    geometrie.forEach(function (g, i) {
+      stile(elTarghette.children[i], g);
       var presa = document.getElementById('presa-' + g.meta.id);
       if (presa) stile(presa, g);
     });
