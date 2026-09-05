@@ -147,6 +147,7 @@
   var elTarghette = document.getElementById('targhette');
   var elSedili = document.getElementById('sedili');
   var elPrimoPiano = document.querySelector('.primo-piano');
+  var elCabina = document.getElementById('cabina');
   var vignetta = document.querySelector('.vignetta');
   var mondoPieno = document.getElementById('mondoPieno');
   var comandi = document.querySelector('.cabina-comandi');
@@ -612,6 +613,13 @@
     inTransizione = true;
     scroller.classList.add('in-transizione');
 
+    // Se la cabina e' una fascia dentro la pagina, prima si prende lo schermo.
+    // Senza questo la corsa della camera avviene dentro la banda: la cornice
+    // esce dalla fascia invece che dal viewport, e l'ingrandimento si vede
+    // accadere dentro una finestrella. A schermo intero il fattore e' 1 e non
+    // succede nulla.
+    var apertura = apriLaCabina(indice);
+
     var mondo = elMondi.children[indice];
     var img = mondo.querySelector('img');
 
@@ -641,7 +649,8 @@
       onComplete: function () { portaAPienoSchermo(img, mondo, arrivo); }
     });
 
-    tl.to(camera, { '--dolly': DOLLY + 'px', duration: 1.05, ease: 'power1.in' }, 0);
+    var dopoApertura = apertura ? apertura.durata : 0;
+    tl.to(camera, { '--dolly': DOLLY + 'px', duration: 1.05, ease: 'power1.in' }, dopoApertura);
 
     // 2. Gli altri finestrini si fanno da parte: meno luce, piu' freddi
     geometrie.forEach(function (altra, i) {
@@ -652,23 +661,55 @@
     });
 
     // 3. Quello che non deve venire dentro con noi si toglie presto
-    tl.to([elTarghette, elVetri], { opacity: 0, duration: 0.32 }, 0);
+    tl.to([elTarghette, elVetri], { opacity: 0, duration: 0.32 }, dopoApertura);
     tl.to(elSedili, {
       opacity: 0, duration: 0.42, ease: 'power1.in',
       onComplete: function () { elSedili.style.display = 'none'; }
-    }, 0);
+    }, dopoApertura);
     if (comandi) tl.to(comandi, { opacity: 0, duration: 0.25 }, 0);
     // la vignettatura e' fissa allo schermo: non puo' allargarsi con la cabina,
     // quindi si scioglie mentre la cornice esce
-    if (vignetta) tl.to(vignetta, { opacity: 0, duration: 0.55 }, 0.3);
+    if (vignetta) tl.to(vignetta, { opacity: 0, duration: 0.55 }, dopoApertura + 0.3);
     if (elPrimoPiano) {
       tl.to(elPrimoPiano, {
         opacity: 0, duration: 0.35,
         onComplete: function () { elPrimoPiano.style.display = 'none'; }
-      }, 0);
+      }, dopoApertura);
     }
 
     return tl;
+  }
+
+  // Porta la cabina da fascia a schermo intero, senza rifare il layout: si
+  // fissa dov'e' e si ingrandisce attorno al centro del finestrino scelto,
+  // che intanto viene portato al centro dello schermo. Rifare il layout
+  // vorrebbe dire ricalcolare tutta la geometria e far saltare la scena.
+  function apriLaCabina(indice) {
+    if (!elCabina) return null;
+    var r = elCabina.getBoundingClientRect();
+    var k = window.innerHeight / r.height;
+    if (k < 1.03) return null;              // e' gia' praticamente a schermo pieno
+
+    var g = geometrie[indice];
+    var cx = r.left + (g.x - scroller.scrollLeft);   // centro del finestrino, sullo schermo
+    var cy = r.top + g.y;
+
+    elCabina.style.top = r.top + 'px';
+    elCabina.style.left = r.left + 'px';
+    elCabina.style.width = r.width + 'px';
+    elCabina.style.height = r.height + 'px';
+    elCabina.classList.add('in-volo');
+
+    var durata = 0.5;
+    gsap.set(elCabina, { transformOrigin: (cx - r.left) + 'px ' + (cy - r.top) + 'px' });
+    gsap.to(elCabina, {
+      scale: k,
+      x: window.innerWidth / 2 - cx,
+      y: window.innerHeight / 2 - cy,
+      duration: durata,
+      ease: 'power2.inOut'
+    });
+    return { durata: durata };
   }
 
   // A questo punto il foro ha superato il viewport e il mondo lo copre: la
@@ -709,6 +750,17 @@
       clearProps: 'transform'
     });
     var rientro = Flip.from(stato, { duration: 0.45, ease: 'power2.inOut', absolute: true, scale: true });
+
+    if (elCabina && elCabina.classList.contains('in-volo')) {
+      gsap.to(elCabina, {
+        scale: 1, x: 0, y: 0, duration: 0.55, ease: 'power2.inOut',
+        onComplete: function () {
+          elCabina.classList.remove('in-volo');
+          elCabina.style.cssText = elCabina.style.cssText
+            .replace(/(top|left|width|height|transform|transform-origin)\s*:[^;]*;?/g, '');
+        }
+      });
+    }
 
     var tl = gsap.timeline({
       onComplete: function () {

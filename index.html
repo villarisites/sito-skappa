@@ -173,12 +173,6 @@
 
   <!-- ========== HERO ========== -->
   <section class="hero volo">
-    <!-- La testata: sfondo stellato, aurora e testo. Ha un contenitore suo
-         perche' js/hero-shader.js dimensiona il canvas sul PROPRIO genitore -
-         con la cabina dentro la sezione, il canvas diventava alto quanto tutto
-         e disegnava spazzatura sopra il marchio. E comunque aurora e ombra
-         devono stare dietro al testo, non dietro alla cabina, che e' opaca. -->
-    <div class="hero-testata">
     <div class="hero-bg-fallback"></div>
     <div class="hero-bg" style="background-image:url('assets/foto/utility/sfondo hero.webp')"></div>
     <!-- Aurora shader canvas (WebGL) -->
@@ -193,8 +187,21 @@
       <br/>
       <a href="#homeCategorie" class="btn-gold">Scegli il tuo viaggio</a>
     </div>
-    </div><!-- /.hero-testata -->
 
+  </section>
+
+  <!-- ========== METE CONSIGLIATE ==========
+       La cabina e' una sezione come le altre, con il suo titolo: attaccata
+       all'hero si leggeva come una fascia incollata, non come una parte della
+       pagina. Il sottotitolo dice cosa fare - i finestrini sono cliccabili, e
+       senza dirlo non e' ovvio. -->
+  <section class="mete-consigliate">
+    <h2 class="section-title fade-in">Mete consigliate</h2>
+    <p class="mete-consigliate__aiuto fade-in">
+      Scorri la cabina e <strong>scegli un finestrino</strong> per entrare nella meta.
+    </p>
+
+    <!-- La scena vera e propria -->
     <!-- ========== LA CABINA ==========
          Prende il posto della vecchia fiancata esterna: qui si e' dentro
          l'aereo, e ogni finestrino e' una meta. I link sono generati da
@@ -241,8 +248,10 @@
       </nav>
     </div>
 
-    <div class="mondo-pieno" id="mondoPieno"></div>
-</section>
+  </section>
+
+  <div class="mondo-pieno" id="mondoPieno"></div>
+
 
 
 

@@ -106,9 +106,14 @@ test("cabina_scriptsAndStylesAreWiredIn", async () => {
   // GSAP e Flip sono vendorizzati: la CSP del progetto vieta i CDN
   assert.match(page, /src="js\/vendor\/gsap\.min\.js"/);
   assert.match(page, /src="js\/vendor\/Flip\.min\.js"/);
-  // il canvas del shader deve avere un contenitore suo: si dimensiona sul
-  // genitore, e con la cabina dentro la sezione diventava alto quanto tutto
-  assert.match(page, /class="hero-testata"/);
+  // La cabina e' una sezione a se', non dentro l'hero: con il suo titolo smette
+  // di leggersi come una fascia incollata sotto al marchio, e l'hero torna a
+  // fare solo l'hero - fra l'altro il canvas del shader si dimensiona sul
+  // proprio genitore, e dentro la sezione diventava alto quanto tutto.
+  assert.match(page, /<section class="mete-consigliate">/);
+  const heroFinisce = page.indexOf("</section>", page.indexOf('<section class="hero volo">'));
+  assert.ok(page.indexOf('class="cabina"') > heroFinisce,
+    "la cabina e' di nuovo dentro la sezione hero");
 });
 
 test("volo_respectsReducedMotion", async () => {

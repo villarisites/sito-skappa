@@ -434,6 +434,28 @@ html, body {
   outline-offset: 6px;
 }
 
+/* ---- Far capire che si puo' cliccare ----
+   Un finestrino fotorealistico non dice di essere un pulsante: e' proprio il
+   fatto che sembri vero a togliergli l'aspetto di comando. Serve una risposta
+   al passaggio del puntatore, ed e' il momento in cui dirlo - prima sarebbe
+   decorazione. Un filo d'oro sul bordo, non un alone: i bagliori colorati
+   erano gia' stati tolti dal sito perche' lo facevano sembrare generato. */
+.presa::after {
+  content: '';
+  position: absolute;
+  inset: -5px;
+  border-radius: calc(var(--r) + 5px);
+  box-shadow: inset 0 0 0 0 rgba(254,189,65,0);
+  transition: box-shadow 0.28s ease;
+  pointer-events: none;
+}
+.presa:hover::after {
+  box-shadow: inset 0 0 0 2px rgba(254,189,65,0.9);
+}
+/* e la sua etichetta si accende insieme, cosi' l'occhio collega le due cose */
+.presa:hover ~ .presa,
+.presa:hover { cursor: pointer; }
+
 /* ---- Il mondo a schermo intero, destinazione del Flip ---- */
 .mondo-pieno {
   position: fixed;
