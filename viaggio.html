@@ -266,7 +266,7 @@
         </div>
 
         <!-- DX: Cosa succede dopo -->
-        <div class="fade-in">
+        <div class="fade-in" id="nextSteps">
           <h2 class="section-title" style="margin-bottom:0.35rem">COSA SUCCEDE DOPO</h2>
           <p style="color:rgba(255,255,255,0.4);font-size:0.8125rem;margin-bottom:1rem;letter-spacing:0.04em">Il processo di prenotazione con SKAPPA è semplice e trasparente.</p>
           <div style="display:flex;flex-direction:column;gap:1rem">
@@ -441,10 +441,18 @@
         return;
       }
 
+      // I record vuoti dell'editor non sono contenuti da mostrare.
+      dest = Object.assign({}, dest, {
+        attivita: (dest.attivita || []).filter(function (item) { return item && (item.titolo || item.descrizione); }),
+        faq: (dest.faq || []).filter(function (item) { return item && item.domanda && item.risposta; }),
+        recensioni: (dest.recensioni || []).filter(function (item) { return item && item.testo; }),
+        inclusiConSkappa: (dest.inclusiConSkappa || []).filter(function (item) { return item && item.label; })
+      });
       var categoria = catalogo.categoriaPrincipale(dest) || {};
       var seo = categoria.seo || {};
       var accento = categoria.accento || {};
       var hasPrice = window.SkappaTravel.hasPrice(dest);
+      var canCheckout = window.SkappaTravel.canCheckout(dest);
       var pageUrl = 'https://skappa.it/viaggio.html?id=' + id;
       var scadenza = (dest.offerta && dest.offerta.scadenza) || dest.scadenza;
       var scadenzaMs = scadenza ? new Date(scadenza).getTime() : NaN;
@@ -501,13 +509,24 @@
       if (hasPrice && dest.prezzoOriginale) {
         document.getElementById('heroPrezzoOriginale').textContent = dest.prezzoOriginale + '€';
       }
-      if (!hasPrice) {
+      if (!canCheckout) {
         var heroTrustBar = document.getElementById('heroTrustBar');
         var bookingTitle = document.getElementById('bookingTitle');
         if (heroTrustBar) heroTrustBar.textContent = 'Preventivo personalizzato · Nessun impegno · Assistenza SKAPPA';
         if (bookingTitle) bookingTitle.textContent = 'RICHIEDI IL TUO PREVENTIVO';
+        var nextSteps = document.getElementById('nextSteps');
+        nextSteps.children[1].textContent = 'Costruiamo insieme il viaggio, prima di ogni conferma.';
+        var steps = [
+          ['Raccontaci il tuo viaggio', 'Indicaci la meta, le date e quante persone partiranno. La richiesta è senza impegno.'],
+          ['Ricevi la proposta SKAPPA', 'Il team ti contatta per definire disponibilità, servizi inclusi e prezzo del viaggio.'],
+          ['Scegli e conferma', 'Valuti la proposta e confermi solo quando tutti i dettagli sono chiari.']
+        ];
+        nextSteps.querySelectorAll(':scope > div > div > div:last-child').forEach(function (step, index) {
+          step.children[0].textContent = steps[index][0];
+          step.children[1].textContent = steps[index][1];
+        });
       }
-      if (dest.soloConsulenza !== true && dest.linkPagamento) {
+      if (canCheckout) {
         ['heroCta', 'pacchettoBtn', 'percheBloccaBtn', 'navbarCta'].forEach(function(id) {
           var el = document.getElementById(id);
           if (el) { el.href = dest.linkPagamento; el.target = '_blank'; el.rel = 'noopener noreferrer'; }
@@ -532,7 +551,7 @@
         var soloConsulenza = dest.soloConsulenza === true;
         var destinazioneCta = soloConsulenza
           ? 'https://wa.me/393930306294?text=' + encodeURIComponent('Ciao! Vorrei prenotare una consulenza per ' + dest.nome + '.')
-          : 'index.html#preventivoForm';
+          : 'index.html?meta=' + encodeURIComponent(dest.id) + '#preventivoForm';
         var testiCta = soloConsulenza
           ? {
               navbarCta: 'Prenota una consulenza',
@@ -565,7 +584,7 @@
 
       // ---- Pacchetti ----
       document.getElementById('pNome').textContent = dest.nome;
-      document.getElementById('pPartenza').textContent = 'Partenza da ' + dest.partenzaDa;
+      document.getElementById('pPartenza').textContent = dest.partenzaDa ? 'Partenza da ' + dest.partenzaDa : 'Partenza da concordare';
       document.getElementById('pPrezzo').innerHTML = SkappaTravel.priceMarkup(dest);
       if (hasPrice && dest.prezzoOriginale) {
         document.getElementById('pPrezzoOriginale').textContent = '€' + dest.prezzoOriginale + ' a persona';
@@ -648,7 +667,7 @@
       // ---- Pay mode toggle (acconto / pagamento completo) ----
       window._skappaPayDest = dest;
       window._skappaPayPrice = hasPrice ? Number(dest.prezzo) : null;
-      if (dest.acconto && dest.linkPagamento && dest.soloConsulenza !== true) {
+      if (SkappaTravel.canPayDeposit(dest)) {
         var payToggleEl = document.getElementById('payToggle');
         if (payToggleEl) {
           payToggleEl.style.display = '';
@@ -667,6 +686,9 @@
       var attivita = dest.attivita || [];
       var attivitaWrap = document.getElementById('attivitaWrap');
       if (attivitaWrap && attivita.length === 0) attivitaWrap.classList.add('senza-attivita');
+      var hasPerche = dest.perche && (dest.perche.titolo || dest.perche.testo);
+      if (!attivita.length && !hasPerche) attivitaWrap.closest('section').style.display = 'none';
+      if (!hasPerche) attivitaWrap.querySelector('.perche-sticky-col').style.display = 'none';
       document.getElementById('attivitaSection').innerHTML = (dest.attivita || []).map(function (att) {
         var imgHtml = att.img
           ? '<div class="activity-img-wrap"><img src="' + att.img + '" alt="' + att.titolo + '" class="activity-item-img" loading="lazy" decoding="async" onerror="this.parentElement.className=\'activity-item-placeholder\';this.remove()"></div>'
@@ -680,6 +702,7 @@
       }).join('');
 
       // ---- Inclusi con Skappa ----
+      if (!dest.inclusiConSkappa.length) document.getElementById('inclusiConSkappa').closest('section').style.display = 'none';
       document.getElementById('inclusiConSkappa').innerHTML = (dest.inclusiConSkappa || []).map(function (item) {
         return '<div class="incluso-item fade-in">'
           + '<div class="incluso-icona">' + (function(v){var m={'💸':'wallet','🏨':'hotel','🌍':'globe','✈️':'plane','✈':'plane','🌊':'wave','🎒':'backpack'};return m[v]?'<svg class="ic"><use href="assets/icons.svg#'+m[v]+'"></use></svg>':(v||'★');})(item.icona) + '</div>'
@@ -690,6 +713,7 @@
       // ---- Esperienza ----
       document.getElementById('esperienzaTitolo').textContent = dest.esperienzaTitolo || '';
       document.getElementById('esperienzaTesto').textContent = dest.esperienzaTesto || '';
+      if (!dest.esperienzaTitolo && !dest.esperienzaTesto) document.getElementById('esperienzaTitolo').closest('section').style.display = 'none';
 
       // ---- FAQ ----
       var faqSection = document.getElementById('faqSection');
@@ -735,7 +759,7 @@
       if (stickyCta) {
         var spEl = document.getElementById('stickyPrice');
         if (spEl) spEl.textContent = SkappaTravel.priceLabel(dest);
-        if (dest.linkPagamento && dest.soloConsulenza !== true) {
+        if (canCheckout) {
           var sBtn = document.getElementById('stickyCtaBtn');
           if (sBtn) { sBtn.href = dest.linkPagamento; sBtn.target = '_blank'; sBtn.rel = 'noopener'; }
         }
@@ -817,6 +841,7 @@
     }
 
     window.skappaOnAeroporto = function(sel) {
+      if (!SkappaTravel.hasPrice(window.currentDest) || !Number.isFinite(Number(sel.value)) || Number(sel.value) <= 0) return;
       var price = sel.value;
       var nome = sel.options[sel.selectedIndex].getAttribute('data-nome') || 'Napoli';
       var cityName = nome.replace(/\s*\([^)]*\)\s*/, '').trim();
@@ -839,8 +864,12 @@
         }
       }
       // Aggiorna _skappaPayPrice e il saldo visualizzato
-      window._skappaPayPrice = parseInt(price) || 0;
-      if (window._skappaPayDest && window._skappaPayDest.acconto) {
+      window._skappaPayPrice = Number(price);
+      var depositAvailable = SkappaTravel.canPayDeposit(window._skappaPayDest, window._skappaPayPrice);
+      var toggle = document.getElementById('payToggle');
+      if (toggle) toggle.style.display = depositAvailable ? '' : 'none';
+      if (!depositAvailable && inAccontoMode) skappaSetPayMode('full');
+      if (depositAvailable) {
         var paySaldoEl = document.getElementById('paySaldoAmt');
         if (paySaldoEl) paySaldoEl.textContent = (window._skappaPayPrice - window._skappaPayDest.acconto) + '\u20ac';
       }
@@ -850,7 +879,8 @@
 
     function skappaSetPayMode(mode) {
       var dest = window._skappaPayDest;
-      if (!dest) return;
+      if (!SkappaTravel.canCheckout(dest)) return;
+      if (mode === 'acconto' && !SkappaTravel.canPayDeposit(dest, window._skappaPayPrice)) return;
       var tabFull       = document.getElementById('payTabFull');
       var tabAcconto    = document.getElementById('payTabAcconto');
       var accontoInfo   = document.getElementById('payAccontoInfo');

@@ -10,6 +10,18 @@
     return hasPrice(destination) ? destination.prezzo + '€' : 'Su richiesta';
   }
 
+  function canCheckout(destination) {
+    return hasPrice(destination) && destination.soloConsulenza !== true
+      && Boolean(destination.linkPagamento);
+  }
+
+  function canPayDeposit(destination, selectedPrice) {
+    var price = selectedPrice === undefined ? Number(destination && destination.prezzo) : Number(selectedPrice);
+    var deposit = Number(destination && destination.acconto);
+    return canCheckout(destination) && Number.isFinite(price)
+      && Number.isFinite(deposit) && deposit > 0 && deposit < price;
+  }
+
   function priceMarkup(destination) {
     return hasPrice(destination)
       ? '<span class="pacchetto-euro">€</span>' + destination.prezzo
@@ -29,6 +41,8 @@
 
   global.SkappaTravel = Object.freeze({
     hasPrice: hasPrice,
+    canCheckout: canCheckout,
+    canPayDeposit: canPayDeposit,
     priceLabel: priceLabel,
     priceMarkup: priceMarkup,
     createOffer: createOffer

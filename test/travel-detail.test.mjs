@@ -53,3 +53,30 @@ test("travelDetail_templateDelegatesPriceRenderingToTheHelper", async () => {
   assert.doesNotMatch(page, /dest\.prezzo\s*\+\s*['"]€['"]/);
   assert.doesNotMatch(page, /String\(dest\.prezzo\)/);
 });
+
+test("travelDetail_legacyCheckoutCannotOverrideMissingPriceOrConsultation", async () => {
+  const helpers = await loadTravelHelpers();
+  const legacy = { linkPagamento: 'https://checkout.example/old', acconto: 79 };
+  for (const prezzo of [null, undefined, '', 0, -1, 'invalid']) {
+    const destination = { ...legacy, prezzo };
+    assert.equal(helpers.canCheckout(destination), false);
+    assert.equal(helpers.canPayDeposit(destination), false);
+    assert.equal(helpers.createOffer(destination, 'https://skappa.it/viaggio.html?id=budapest'), undefined);
+  }
+  assert.equal(helpers.canCheckout({ ...legacy, prezzo: 429 }), true);
+  assert.equal(helpers.canCheckout({ ...legacy, prezzo: 429, soloConsulenza: true }), false);
+  assert.equal(helpers.canCheckout({ prezzo: 429 }), false);
+});
+
+test("travelDetail_depositMustLeaveAPositiveBalanceAtTheSelectedPrice", async () => {
+  const helpers = await loadTravelHelpers();
+  const destination = { prezzo: 429, acconto: 79, linkPagamento: 'https://checkout.example/trip' };
+  assert.equal(helpers.canPayDeposit(destination), true);
+  for (const selectedPrice of [null, 0, 60, 79, NaN]) {
+    assert.equal(helpers.canPayDeposit(destination, selectedPrice), false);
+  }
+  assert.equal(helpers.canPayDeposit(destination, 100), true);
+  for (const acconto of [null, 0, -10, 429, 500, 'invalid']) {
+    assert.equal(helpers.canPayDeposit({ ...destination, acconto }), false);
+  }
+});

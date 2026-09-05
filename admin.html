@@ -1020,6 +1020,22 @@
       // Prezzi aeroporti
       var aps = getAeroportiData();
       if (aps.length > 0) data.prezziAeroporti = aps;
+      // Conserva i campi non esposti dall'editor (immagine card, acconto, ecc.).
+      // I campi opzionali editabili, invece, devono poter essere cancellati.
+      var previous = destinations[currentIndex] || {};
+      var editableOptional = ['hotel', 'linkPagamento', 'soloConsulenza', 'offerta', 'prezziAeroporti', 'tipologia'];
+      Object.keys(previous).forEach(function (key) {
+        if (!(key in data) && editableOptional.indexOf(key) === -1) data[key] = previous[key];
+      });
+      data.perche = Object.assign({}, previous.perche || {}, data.perche);
+      [
+        ['attivita', 3, function (item) { return item.titolo || item.descrizione || item.img; }],
+        ['inclusiConSkappa', 4, function (item) { return item.label; }],
+        ['faq', 3, function (item) { return item.domanda || item.risposta; }],
+        ['recensioni', 4, function (item) { return item.testo || item.nome || item.tag; }]
+      ].forEach(function (entry) {
+        data[entry[0]] = data[entry[0]].concat((previous[entry[0]] || []).slice(entry[1])).filter(entry[2]);
+      });
       return data;
     }
 

@@ -140,6 +140,12 @@ function checksFor(testCase) {
       if (document.querySelector("#pPrezzo")?.textContent.trim() !== "Su richiesta") problems.push("prezzo pacchetto errato");
       if (trip?.offers) problems.push("Offer presente senza prezzo");
       if (!/preventivo/i.test(document.querySelector("#heroCta")?.textContent || "")) problems.push("CTA preventivo assente");
+      for (const id of ['heroCta', 'pacchettoBtn', 'percheBloccaBtn', 'navbarCta', 'stickyCtaBtn']) {
+        const url = new URL(document.getElementById(id).href);
+        if (url.searchParams.get('meta') !== testCase.id || url.hash !== '#preventivoForm') problems.push(`CTA ${id} perde la meta o apre il checkout`);
+      }
+      if (getComputedStyle(document.querySelector('#payToggle')).display !== 'none') problems.push('acconto disponibile senza prezzo');
+      if (/Paghi online|Stripe/.test(document.querySelector('#nextSteps').innerText)) problems.push('istruzioni pagamento senza checkout');
     } else if (trip?.offers?.price !== testCase.expectedPrice.replace("€", "")) {
       problems.push("Offer JSON-LD errata");
     }
@@ -154,6 +160,13 @@ function checksFor(testCase) {
   if (testCase.kind === "cruise" && !/in arrivo/i.test(text)) problems.push("stato crociere assente");
   if (testCase.kind === "offers" && !document.querySelector("#offersGrid")) problems.push("griglia offerte assente");
   if (testCase.kind === "admin" && !document.querySelector("#f-offerta-attiva")) problems.push("schema admin non caricato");
+  if (testCase.kind === "admin") {
+    const index = window.DESTINATIONS.findIndex((d) => d.id === 'praga');
+    selectDest(index);
+    const edited = getFormData();
+    if (edited.imgCard !== window.DESTINATIONS[index].imgCard) problems.push('salvataggio editor perde imgCard');
+    if (edited.faq.length || edited.recensioni.length || edited.attivita.length) problems.push('editor aggiunge record vuoti a Praga');
+  }
 
   if (testCase.kind === "home") {
     const oblo = document.querySelectorAll(".volo-oblo").length;

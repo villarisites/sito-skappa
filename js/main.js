@@ -217,6 +217,10 @@ if (kitForm) {
 // ---- Preventivo form (Formspree AJAX) ----
 const preventivoForm = document.getElementById('preventivoForm');
 if (preventivoForm) {
+  const requestedId = new URLSearchParams(window.location.search).get('meta');
+  const requestedDestination = window.SkappaCatalog && window.SkappaCatalog.tutte().find((destination) => destination.id === requestedId);
+  const destinationInput = preventivoForm.querySelector('[name="destinazione"]');
+  if (requestedDestination && destinationInput && !destinationInput.value) destinationInput.value = requestedDestination.nome;
   preventivoForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const btn = document.getElementById('preventivoSubmitBtn');
