@@ -1,5 +1,48 @@
 # TASKS — skappa.it
 
+## 2026-09-07 (notte) — Foto nuove per Bucarest, Budapest, Sofia e Hurghada
+
+Le quattro che avevo segnalato come da sostituire, cercate su Pexels e scelte
+guardandole (provini a contatto, sei candidate per meta').
+
+| meta | prima | ora |
+|---|---|---|
+| Bucarest | 1222x687, sorgente utile 1031px (1,86x di ingrandimento) | 5184x3456 — centro storico dall'alto all'ora d'oro, Czapp Arpad |
+| Budapest | 1280x1920 verticale, utile 1280px | 3968x2540 — Ponte delle Catene, Danubio e Parlamento, Kateryna Unuvar |
+| Sofia | 1439x1920 verticale, utile 1439px | 6000x4000 — cattedrale Aleksandr Nevskij al tramonto, TSV Photography |
+| Hurghada | 1920x3409 verticale, 2,2 MB — la sua banda 3:2 era quasi tutta telo di ombrellone e cielo | 6016x4000 — spiaggia, palme e mare turchese, Vika Glitter |
+
+Nessuna delle quattro viene piu' ingrandita: le sorgenti sono tutte sopra i
+3900px di larghezza.
+
+### Come, e perche' cosi'
+
+- Le tre nuove entrano in `data/photo-sources.json` con fotografo e pagina di
+  origine, come le altre 21. Bucarest, Budapest e Sofia erano nell'elenco
+  `REUSED_IDS` del test, cioe' avevano foto riciclate da chissa' dove; ora
+  escono dalla stessa pipeline.
+- `build-images.mjs` accetta `--solo=bucarest,budapest,sofia,hurghada`: senza
+  filtro riscaricherebbe tutte e 21 e toccherebbe file che non c'e' motivo di
+  toccare.
+- Lo stesso script ora calcola il taglio 3:2 a mano invece di usare una
+  gravita' di sharp: le gravita' non sanno esprimere una percentuale, e il
+  taglio deve essere identico a quello di `build-hero-format.mjs` (centro in
+  orizzontale, 30% dall'alto), se no i due strumenti si contraddicono.
+- Il test `catalog-images` ora controlla anche l'**altezza**, non solo la
+  larghezza. Guardando solo la larghezza passavano le hero verticali: era il
+  buco da cui e' venuto tutto.
+
+Pexels: uso libero, nessuna attribuzione richiesta; il fotografo resta
+registrato in `photo-sources.json`.
+
+### Restano molli, ma non le vede nessuno
+
+Gallipoli (2,16x), Lloret de Mar (2,03x) e Tirana (1,51x) hanno la cartella
+foto ma **nessuna scheda nel catalogo** — come Ibiza, Malta, Mykonos, Varsavia
+e Zante. Se una di queste diventa una meta vera, la foto va rifatta prima.
+
+`npm test` 41/41, `npm run test:browser` 36/36.
+
 ## 2026-09-07 (tardi) — Le foto delle mete hanno tutte la stessa forma
 
 Francesco: *"rendere le foto di grandezza uguale... cosi' non dobbiamo

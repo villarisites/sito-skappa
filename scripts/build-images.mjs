@@ -15,22 +15,45 @@ async function download(photoId) {
   return Buffer.from(await response.arrayBuffer());
 }
 
+// Senza filtro le riscarica tutte. Con `--solo praga,sofia` solo quelle: serve
+// quando si cambia la foto di una meta e non si vuole ritoccare le altre.
+const soloArg = process.argv.find((a) => a.startsWith("--solo="));
+const solo = soloArg ? new Set(soloArg.slice(7).split(",").map((x) => x.trim())) : null;
+
 for (const source of sources) {
+  if (solo && !solo.has(source.slug)) continue;
   const directory = path.join(root, "assets", "foto", source.slug);
   await mkdir(directory, { recursive: true });
   const input = await download(source.photoId);
-  const pipeline = sharp(input).rotate();
-  // Il rapporto va imposto, non ereditato dalla sorgente. Chiedendo solo la
+  // Il rapporto va imposto, non ereditato dalla sorgente: chiedendo solo la
   // larghezza uscivano hero di sette forme diverse — undici verticali — e ogni
-  // pagina meta ritagliava la sua in modo suo. `position` al 30% dall'alto e'
-  // la stessa banda che l'hero mostra (css/style.css, ".pagina-viaggio .hero-bg").
-  const ritaglio = { fit: "cover", position: sharp.gravity.north };
+  // pagina meta ritagliava la sua in modo suo.
+  // Il rettangolo e' lo stesso che usa scripts/build-hero-format.mjs: centro in
+  // orizzontale, 30% dall'alto in verticale, cioe' la banda che l'hero mostra
+  // (css/style.css, ".pagina-viaggio .hero-bg"). Le gravita' di sharp non
+  // sanno esprimere una percentuale, quindi il taglio si calcola a mano.
+  const dritto = await sharp(input).rotate().toBuffer();
+  const m = await sharp(dritto).metadata();
+  let cw, ch, cx, cy;
+  if (m.width / m.height > 1.5) {
+    ch = m.height;
+    cw = Math.round(m.height * 1.5);
+    cy = 0;
+    cx = Math.round((m.width - cw) / 2);
+  } else {
+    cw = m.width;
+    ch = Math.round(m.width / 1.5);
+    cx = 0;
+    cy = Math.round((m.height - ch) * 0.30);
+  }
+  const pipeline = sharp(dritto).extract({ left: cx, top: cy, width: cw, height: ch });
+  const scala = { fit: "fill", kernel: "lanczos3" };
   await Promise.all([
-    pipeline.clone().resize(1920, 1280, ritaglio).webp({ quality: 82, effort: 4 }).toFile(path.join(directory, "hero.webp")),
-    pipeline.clone().resize(840, 560, ritaglio).webp({ quality: 82, effort: 4 }).toFile(path.join(directory, "card.webp")),
-    pipeline.clone().resize(320, 213, ritaglio).webp({ quality: 72, effort: 4 }).toFile(path.join(directory, "card-sm.webp"))
+    pipeline.clone().resize(1920, 1280, scala).webp({ quality: 82, effort: 4 }).toFile(path.join(directory, "hero.webp")),
+    pipeline.clone().resize(840, 560, scala).webp({ quality: 82, effort: 4 }).toFile(path.join(directory, "card.webp")),
+    pipeline.clone().resize(320, 213, scala).webp({ quality: 72, effort: 4 }).toFile(path.join(directory, "card-sm.webp"))
   ]);
   console.log(`${source.slug}: hero, card, card-sm`);
 }
 
-console.log(`Immagini generate: ${sources.length} destinazioni da Pexels`);
+console.log(`Immagini generate: ${solo ? [...solo].join(", ") : sources.length + " destinazioni"} da Pexels`);

@@ -106,10 +106,10 @@
   {
     "slug": "hurghada",
     "provider": "Pexels",
-    "photoId": "36064008",
-    "photographer": "Nada Mohamed",
-    "alt": "Red Sea view from Hurghada",
-    "pageUrl": "https://www.pexels.com/photo/36064008/"
+    "photoId": "31166932",
+    "photographer": "Vika Glitter",
+    "alt": "Turquoise Red Sea beach with parasols and palms in Hurghada",
+    "pageUrl": "https://www.pexels.com/photo/31166932/"
   },
   {
     "slug": "dubai",
@@ -166,5 +166,29 @@
     "photographer": "Tomáš Malík",
     "alt": "Chureito Pagoda and Mount Fuji",
     "pageUrl": "https://www.pexels.com/photo/3408353/"
+  },
+  {
+    "slug": "bucarest",
+    "provider": "Pexels",
+    "photoId": "14759225",
+    "photographer": "Czapp Arpad",
+    "alt": "Bucharest old town from above at golden hour",
+    "pageUrl": "https://www.pexels.com/photo/14759225/"
+  },
+  {
+    "slug": "budapest",
+    "provider": "Pexels",
+    "photoId": "4597879",
+    "photographer": "Kateryna Unuvar",
+    "alt": "Chain Bridge over the Danube with the Parliament in Budapest",
+    "pageUrl": "https://www.pexels.com/photo/4597879/"
+  },
+  {
+    "slug": "sofia",
+    "provider": "Pexels",
+    "photoId": "16217875",
+    "photographer": "TSV Photography",
+    "alt": "Alexander Nevsky Cathedral in Sofia at dusk",
+    "pageUrl": "https://www.pexels.com/photo/16217875/"
   }
 ]
