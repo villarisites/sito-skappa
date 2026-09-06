@@ -20,10 +20,15 @@ for (const source of sources) {
   await mkdir(directory, { recursive: true });
   const input = await download(source.photoId);
   const pipeline = sharp(input).rotate();
+  // Il rapporto va imposto, non ereditato dalla sorgente. Chiedendo solo la
+  // larghezza uscivano hero di sette forme diverse — undici verticali — e ogni
+  // pagina meta ritagliava la sua in modo suo. `position` al 30% dall'alto e'
+  // la stessa banda che l'hero mostra (css/style.css, ".pagina-viaggio .hero-bg").
+  const ritaglio = { fit: "cover", position: sharp.gravity.north };
   await Promise.all([
-    pipeline.clone().resize({ width: 1920 }).webp({ quality: 82, effort: 4 }).toFile(path.join(directory, "hero.webp")),
-    pipeline.clone().resize({ width: 840 }).webp({ quality: 82, effort: 4 }).toFile(path.join(directory, "card.webp")),
-    pipeline.clone().resize({ width: 320 }).webp({ quality: 72, effort: 4 }).toFile(path.join(directory, "card-sm.webp"))
+    pipeline.clone().resize(1920, 1280, ritaglio).webp({ quality: 82, effort: 4 }).toFile(path.join(directory, "hero.webp")),
+    pipeline.clone().resize(840, 560, ritaglio).webp({ quality: 82, effort: 4 }).toFile(path.join(directory, "card.webp")),
+    pipeline.clone().resize(320, 213, ritaglio).webp({ quality: 72, effort: 4 }).toFile(path.join(directory, "card-sm.webp"))
   ]);
   console.log(`${source.slug}: hero, card, card-sm`);
 }

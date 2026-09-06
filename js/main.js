@@ -288,10 +288,14 @@ if (preventivoForm) {
 (function () {
   if (localStorage.getItem('skappa_cookies')) return;
 
+  // z-index 10002: l'arrivo dalla cabina alza `.hero-content` a 10000 e la
+  // navbar a 10001 per stare sopra il piano di continuita'. A 9999 la fascia
+  // finiva SOTTO i pulsanti dell'hero ("Su richiesta", "Richiedi preventivo").
+  // Il consenso sta sopra tutto: e' l'unica cosa che deve.
   var s = document.createElement('style');
   s.textContent = [
     '@keyframes slideUpCookie{from{transform:translateY(100%)}to{transform:translateY(0)}}',
-    '#cookieBanner{position:fixed;bottom:0;left:0;right:0;z-index:9999;background:#020c24;border-top:1px solid rgba(254,189,65,.18);padding:1rem 1.25rem;box-shadow:0 -6px 30px rgba(0,0,0,.45);animation:slideUpCookie .35s ease}',
+    '#cookieBanner{position:fixed;bottom:0;left:0;right:0;z-index:10002;background:#020c24;border-top:1px solid rgba(254,189,65,.18);padding:1rem 1.25rem;box-shadow:0 -6px 30px rgba(0,0,0,.45);animation:slideUpCookie .35s ease}',
     '#cookieBanner .cb-inner{max-width:72rem;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}',
     '#cookieBanner .cb-text p:first-child{font-size:.75rem;font-weight:700;color:#fff;margin-bottom:.2rem}',
     '#cookieBanner .cb-text p.cb-desc{font-size:.6875rem;color:rgba(255,255,255,.5);line-height:1.6}',

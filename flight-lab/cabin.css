@@ -514,6 +514,11 @@ html, body {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  /* Non al centro: al 30%, come ritaglia l'hero della pagina meta. Cosi' la
+     foto che la cabina lascia e quella che la meta mostra sono la STESSA
+     inquadratura, e nel passaggio non si sposta. Finche' era al centro la
+     differenza c'era comunque e andava percorsa dall'arrivo. */
+  object-position: 50% 30%;
   display: block;
 }
 .cabina-comandi {

@@ -17,7 +17,8 @@
     "build:volo": "node scripts/build-volo.mjs",
     "build:cabin-texture": "node scripts/build-cabin-texture.mjs",
     "build:cabin-window": "node scripts/build-cabin-window.mjs",
-    "build:cabin-bin": "node scripts/build-cabin-bin.mjs"
+    "build:cabin-bin": "node scripts/build-cabin-bin.mjs",
+    "build:hero-format": "node scripts/build-hero-format.mjs"
   },
   "devDependencies": {
     "gsap": "^3.15.0",

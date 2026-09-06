@@ -1,5 +1,84 @@
 # TASKS — skappa.it
 
+## 2026-09-07 (tardi) — Le foto delle mete hanno tutte la stessa forma
+
+Francesco: *"rendere le foto di grandezza uguale... cosi' non dobbiamo
+modificare per ogni meta"*. Aveva ragione sulla causa, e la causa stava a monte
+di tutto quello che stavo aggiustando.
+
+`build-images.mjs` chiedeva **solo la larghezza** (`resize({ width: 1920 })`) e
+lasciava alla sorgente il rapporto. Risultato: 35 hero di sette forme diverse.
+
+| forma | quante | esempi |
+|---|---|---|
+| 3:2 (1.500) | 14 | Praga, Madrid, Zante |
+| **verticali** (0.56–0.80) | **11** | Amsterdam 1920x2880, Hurghada 1920x**3409** (2,2 MB), Giappone, Vienna |
+| 4:3 (1.333) | 3 | Malta, Thailandia, Valencia |
+| altre | 7 | 1.26, 1.6, 1.78, 2.02 |
+| sotto risoluzione | 3 | Gallipoli 1200x593, Lloret 1200x630, Bucarest 1222x687 |
+
+Con `cover` ogni forma diversa e' un ritaglio diverso, e a finestra alta e
+stretta anche una **scala** diversa: la foto dell'hero era il 46% del sorgente,
+quella lasciata dalla cabina il 78%. Nel passaggio cambiava grandezza. Nessuna
+regola sull'inquadratura poteva valere per tutte.
+
+Ora tutte 3:2: **hero 1920x1280, card 840x560, card-sm 320x213**. 105 file, 44
+riscritti (i restanti erano gia' a posto), **~5 MB in meno** — Hurghada da sola
+ne perde 1,4.
+
+- `scripts/build-hero-format.mjs` (nuovo, `npm run build:hero-format`) lavora
+  sui file che ci sono, senza rete: le sorgenti di 14 mete su 35 non stanno in
+  `data/photo-sources.json`, quindi rigenerare da Pexels non era un'opzione.
+  Senza `--scrivi` fa la prova a vuoto.
+- Il ritaglio riproduce quello che il browser gia' faceva — centro in
+  orizzontale, 30% dall'alto in verticale — quindi le foto non cambiano
+  inquadratura, cambia solo il file.
+- `build-images.mjs` corretto alla radice: `resize(1920, 1280, { fit: "cover" })`.
+  Era li' il bug, e senza questo il prossimo download rimetteva tutto storto.
+
+Originali salvati fuori dal repo prima di sovrascrivere (git li ha comunque).
+
+### Sei mete hanno bisogno di una foto nuova
+
+Partono da meno di 1536px utili: vengono ingrandite e restano molli. Non e' una
+cosa che si sistema con uno script.
+
+  Gallipoli (890x593, 2.16x) · Lloret de Mar (945x630, 2.03x) · Bucarest
+  (1031x687, 1.86x) · Tirana (1273x849, 1.51x) · Budapest (1280x853, 1.50x) ·
+  Sofia (1439x959, 1.33x)
+
+Da guardare anche **Hurghada**: la sorgente e' uno scatto verticale sotto un
+ombrellone, e la sua banda 3:2 e' quasi tutta telo e cielo. E' sempre stata
+cosi' — il browser mostrava gia' quella banda — ma ora si vede che non e' una
+buona hero.
+
+### La foto non si muove piu' nel passaggio
+
+Tre cose insieme, misurate:
+
+- `.mondo-pieno img` (cabina) ora ha `object-position: 50% 30%`, lo stesso
+  ritaglio dell'hero: prima lasciava il centro.
+- `arrivo-posa` non muove piu' il ritaglio: cambia solo la luce e il riquadro.
+- `.pagina-viaggio .hero-bg` e' legata al **viewport** (`height: max(100vh, 100%)`)
+  invece che all'altezza dell'hero. L'hero e' alta quanto il suo contenuto — 788
+  px su Praga, 916 su Monaco — e un riquadro diverso era un ritaglio diverso.
+  Il `max()` serve alle hero piu' alte del viewport: li' la foto deve coprirle,
+  se no resta una striscia scoperta in fondo.
+
+Movimento della foto fra la fine della cabina e l'hero, su 4 misure di finestra
+x 3 mete: **0,0 px in 9 casi su 12**. I tre che restano sono a 1280x720, dove
+l'hero e' piu' alta del viewport (16–39 px, e sono percorsi, non scattati).
+
+### La fascia cookie tornava sotto ai pulsanti
+
+Francesco: *"cookie e privacy non e' in primo piano, su richiesta e richiedi
+preventivo lo coprono"*. Colpa mia: l'arrivo dalla cabina alza `.hero-content`
+a `z-index: 10000` e la navbar a 10001 per stare sopra il piano di continuita',
+e la fascia stava a 9999. Portata a **10002**. Il consenso sta sopra tutto: e'
+l'unica cosa che deve.
+
+`npm test` 41/41, `npm run test:browser` 36/36.
+
 ## 2026-09-07 — La foto si posa dove deve, non 31 px piu' in giu'
 
 Francesco: *"scende un po' rispetto alla fine, sono un po' sfasate in altezza"*.

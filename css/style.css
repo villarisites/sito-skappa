@@ -1571,14 +1571,30 @@ html[data-theme="light"] .review-card {
   letter-spacing: 0.06em;
   margin-top: 1.25rem;
 }
-.pagina-viaggio .hero-bg { filter: brightness(0.7); }
+/* La foto dell'hero e' legata al VIEWPORT, non all'altezza dell'hero.
+   L'hero e' alta quanto il suo contenuto — misurata: 788 px su Praga, 916 su
+   Monaco di Baviera, 741 a finestra stretta — e con `cover` un riquadro diverso
+   vuol dire un ritaglio diverso, a volte anche una SCALA diversa (a finestra
+   alta e stretta la foto dell'hero era il 46% del sorgente, quella lasciata
+   dalla cabina il 78%). Cosi' invece la foto e' la stessa che riempie lo
+   schermo nella cabina, e nel passaggio non si muove e non cambia grandezza.
+   `max()` con il 100% e' per le hero piu' alte del viewport: li' la foto deve
+   comunque coprirle, se no resta una striscia scoperta in fondo. */
+.pagina-viaggio .hero-bg {
+  filter: brightness(0.7);
+  bottom: auto;
+  height: max(100vh, 100%);
+}
 
 /* ============================================================
    L'ARRIVO DALLA CABINA
-   La cabina lascia la foto a schermo intero, ritagliata al centro e a piena
-   luce. L'hero di questa pagina e' ritagliata al 30% e piu' scura. Sono due
-   inquadrature diverse della stessa foto: scambiate di colpo si vede un salto.
-   Qui la differenza viene PERCORSA.
+   La cabina lascia la foto a schermo intero e a piena luce; l'hero di questa
+   pagina e' la stessa foto, piu' scura. Il RITAGLIO ora e' lo stesso da tutte
+   e due le parti — 50% 30% — perche' `.mondo-pieno img` in css/cabina.css e'
+   stato allineato all'hero: prima la cabina lasciava il centro e l'arrivo
+   doveva percorrere quella differenza, cioe' la foto si spostava in su e in
+   giu' fra una pagina e l'altra. Ora l'arrivo cambia solo la LUCE e il
+   riquadro; il ritaglio sta fermo.
 
    L'altezza a cui il piano si posa e' `--arrivo-fine`, e la scrive js/viaggio.js
    misurando l'hero VERA: l'hero non e' una frazione fissa del viewport, e'
@@ -1624,7 +1640,9 @@ html[data-dalla-cabina] .continuita {
      diventava css/assets/foto/... e il piano restava blu. */
   background-image: var(--foto-arrivo);
   background-size: cover;
-  background-position: 50% 50%;   /* il ritaglio con cui arriva dalla cabina */
+  /* Lo stesso ritaglio che ha `.mondo-pieno img` alla fine della corsa e che
+     ha `.hero-bg` qui sotto: e' cio' che rende il passaggio immobile. */
+  background-position: 50% 30%;
   background-repeat: no-repeat;
   /* Il bordo basso e' una DISSOLVENZA, non un taglio: tagliata di netto la
      foto sale come una lama orizzontale e si legge come una tendina che
@@ -1637,7 +1655,6 @@ html[data-dalla-cabina] .continuita {
 @keyframes arrivo-posa {
   from {
     height: 100vh;
-    background-position: 50% 50%;
     filter: brightness(1);
     opacity: 1;
   }
@@ -1645,14 +1662,12 @@ html[data-dalla-cabina] .continuita {
      identica cosa: si puo' spegnere di colpo, e non si vede. Una dissolvenza
      incrociata sarebbe visibile proprio perche' sono identiche. */
   99% {
-    height: var(--arrivo-fine, 100vh);
-    background-position: 50% 30%;
+    height: max(100vh, var(--arrivo-fine, 100vh));
     filter: brightness(0.7);
     opacity: 1;
   }
   to {
-    height: var(--arrivo-fine, 100vh);
-    background-position: 50% 30%;
+    height: max(100vh, var(--arrivo-fine, 100vh));
     filter: brightness(0.7);
     opacity: 0;
   }
