@@ -1576,9 +1576,17 @@ html[data-theme="light"] .review-card {
 /* ============================================================
    L'ARRIVO DALLA CABINA
    La cabina lascia la foto a schermo intero, ritagliata al centro e a piena
-   luce. L'hero di questa pagina e' alta ~87vh, ritagliata al 30% e piu' scura.
-   Sono due inquadrature diverse della stessa foto: scambiate di colpo si vede
-   un salto. Qui la differenza viene PERCORSA.
+   luce. L'hero di questa pagina e' ritagliata al 30% e piu' scura. Sono due
+   inquadrature diverse della stessa foto: scambiate di colpo si vede un salto.
+   Qui la differenza viene PERCORSA.
+
+   L'altezza a cui il piano si posa e' `--arrivo-fine`, e la scrive js/viaggio.js
+   misurando l'hero VERA: l'hero non e' una frazione fissa del viewport, e'
+   alta quanto il suo contenuto — nome, badge, date, pulsanti. Qui c'era 87vh
+   fisso, e dove non corrispondeva (misurato: hero a 100vh, piano a 87vh) la
+   foto scattava in giu' di ~31 px proprio all'ultimo fotogramma. Il ripiego,
+   se quello script non gira, e' 100vh: nessun movimento d'altezza, che e'
+   meglio di un movimento sbagliato.
 
    Tutto in CSS, nessuno script da aspettare. Serve solo l'attributo
    `data-dalla-cabina`, che lo script in testa a viaggio.html mette prima di
@@ -1637,13 +1645,13 @@ html[data-dalla-cabina] .continuita {
      identica cosa: si puo' spegnere di colpo, e non si vede. Una dissolvenza
      incrociata sarebbe visibile proprio perche' sono identiche. */
   99% {
-    height: var(--arrivo-fine, 87vh);
+    height: var(--arrivo-fine, 100vh);
     background-position: 50% 30%;
     filter: brightness(0.7);
     opacity: 1;
   }
   to {
-    height: var(--arrivo-fine, 87vh);
+    height: var(--arrivo-fine, 100vh);
     background-position: 50% 30%;
     filter: brightness(0.7);
     opacity: 0;

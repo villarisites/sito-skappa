@@ -371,6 +371,24 @@
     }
   }
 
+  // ---- Dove si posa la foto che arriva dalla cabina ----
+  // Il piano di continuita' (css/style.css, "L'ARRIVO DALLA CABINA") finisce
+  // con l'inquadratura dell'hero. Ma l'altezza dell'hero dipende dal contenuto
+  // che questo file ha appena scritto — nome, badge, date, pulsanti — e non e'
+  // una frazione fissa del viewport: il valore di ripiego 100vh era giusto per
+  // caso su alcune mete e sbagliato su altre, e dove sbagliava la foto scattava
+  // in giu' all'ultimo fotogramma. `cover` si ricalcola sul riquadro, quindi
+  // basta dare al piano l'altezza vera perche' le due inquadrature coincidano.
+  if (document.documentElement.hasAttribute('data-dalla-cabina')) {
+    var heroArrivo = document.querySelector('.viaggio-hero');
+    if (heroArrivo) {
+      var altaArrivo = heroArrivo.getBoundingClientRect().height;
+      if (altaArrivo > 0) {
+        document.documentElement.style.setProperty('--arrivo-fine', altaArrivo + 'px');
+      }
+    }
+  }
+
   // ---- Attiva fade-in ----
   setTimeout(function () {
     var obs = new IntersectionObserver(function (entries) {

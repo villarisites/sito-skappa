@@ -1,5 +1,45 @@
 # TASKS — skappa.it
 
+## 2026-09-07 — La foto si posa dove deve, non 31 px piu' in giu'
+
+Francesco: *"scende un po' rispetto alla fine, sono un po' sfasate in altezza"*.
+Aveva ragione, e non era dove pensavo: la **cucitura** e' esatta al pixel (l'ultimo
+fotogramma della cabina e il primo della meta combaciano, misurato a 1440x900,
+1920x1080, 1366x768 e 1512x820). Il salto era **all'altro capo**, quando il piano
+di continuita' passa il testimone alla `.hero-bg` vera.
+
+Il piano finiva a `var(--arrivo-fine, 87vh)`. Ma l'hero della pagina meta non e'
+una frazione del viewport: e' `min-height: 72vh` e poi **alta quanto il suo
+contenuto** — nome, badge, date, pulsanti. Misurata davvero:
+
+| finestra | Praga | Monaco di Baviera | Giappone |
+|---|---|---|---|
+| 1440x900 | 788 px | **916 px** | 788 px |
+| 1280x720 | 776 px | 891 px | 776 px |
+| 900x1000 | 741 px | 822 px | 741 px |
+
+87vh non poteva essere giusto quasi mai. Su Praga a 1440x900 il piano finiva
+31 px piu' in alto della hero; su Monaco ~69 px. Al 99% dell'animazione il piano
+si spegne, la hero si scopre, e la foto scatta in giu' di quella differenza.
+
+Ora `--arrivo-fine` la scrive **js/viaggio.js**, misurando l'hero vera dopo aver
+scritto il contenuto — prima di quel punto non era misurabile. `cover` si
+ricalcola sul riquadro, quindi basta dare al piano l'altezza vera perche' le due
+inquadrature coincidano. Il ripiego, se quello script non gira, passa da 87vh a
+**100vh**: nessun movimento d'altezza, che e' meglio di un movimento sbagliato.
+
+Verificato con una sonda che calcola dove cade la cima della foto sullo schermo,
+per il piano e per la hero: **scarto 0,0 px** su 4 misure di finestra x 3 mete.
+
+Resta — di proposito — la discesa di ~32 px CSS *durante* l'arrivo: la cabina
+lascia la foto ritagliata al centro, la hero la ritaglia al 30%. Quella
+differenza va percorsa, e ora e' percorsa tutta dall'animazione invece di
+essere per meta' uno scatto finale. Se anche quella deve sparire, la strada e'
+far finire la cabina gia' sul ritaglio al 30% (`object-position` sull'immagine
+a schermo intero): una riga, ma e' una scelta di regia.
+
+`npm test` 41/41, `npm run test:browser` 36/36.
+
 ## 2026-09-06 (notte) — Il portale scorre, e il salto alla pagina meta si accorcia
 
 Francesco: *"il problema e' tra fine immagine e inizio nuova pagina"*. Misurato,
