@@ -7,10 +7,17 @@
 
   var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // Parallasse, barra di avanzamento e ombra della navbar ora le fa il CSS con
+  // le animazioni guidate dallo scorrimento (vedi style.css, "LO SCROLL NON
+  // PASSA PIU' DAL MAIN THREAD"): girano sul compositor invece che dentro un
+  // listener di scroll. Quello che segue resta come riserva per i browser che
+  // non le hanno — se le hanno, non deve girare, o i due si sovrascrivono.
+  var scrollCSS = window.CSS && CSS.supports && CSS.supports('animation-timeline: scroll()');
+
   // =============================================
   //  1. PARALLAX HERO BG
   // =============================================
-  if (!reducedMotion) {
+  if (!reducedMotion && !scrollCSS) {
     var heroBg = document.querySelector('.hero-bg');
     if (heroBg) {
       var rafPending = false;
@@ -185,7 +192,7 @@
   //  7. SCROLL PROGRESS BAR
   // =============================================
   var progressBar = document.getElementById('skappaScrollProgress');
-  if (progressBar) {
+  if (progressBar && !scrollCSS) {
     window.addEventListener('scroll', function () {
       var total = document.documentElement.scrollHeight - window.innerHeight;
       if (total <= 0) return;
@@ -194,23 +201,12 @@
     }, { passive: true });
   }
 
-  // =============================================
-  //  8. NAVBAR: glassmorphism on scroll
-  // =============================================
-  var navbar = document.getElementById('navbar');
-  if (navbar) {
-    window.addEventListener('scroll', function () {
-      if (window.scrollY > 10) {
-        navbar.style.backdropFilter = 'blur(10px)';
-        navbar.style.webkitBackdropFilter = 'blur(10px)';
-        navbar.style.boxShadow = '0 2px 24px rgba(0,0,0,0.22)';
-      } else {
-        navbar.style.backdropFilter = '';
-        navbar.style.webkitBackdropFilter = '';
-        navbar.style.boxShadow = '';
-      }
-    }, { passive: true });
-  }
+  // Il blocco 8 stava qui: "NAVBAR glassmorphism on scroll". Tolto del tutto.
+  // Era un doppione — main.js gia' accende .scrolled sulla navbar — e per giunta
+  // scriveva inline un backdrop-filter dietro uno sfondo OPACO (#febd41), che
+  // non si vede e costa comunque, piu' un'ombra che sovrascriveva quella del
+  // foglio di stile con un valore diverso. Ora l'ombra la fa il CSS, in
+  // funzione dello scorrimento.
 
   // =============================================
   //  9. LAST MINUTE BADGE: urgency glow pulse

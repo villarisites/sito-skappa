@@ -941,6 +941,62 @@ html[data-theme="light"] #preventivoForm textarea.kit-input { background: rgba(2
   box-shadow: 0 0 8px rgba(254,189,65,0.5);
 }
 
+/* ============================================
+   LO SCROLL NON PASSA PIU' DAL MAIN THREAD
+   Parallasse, barra di avanzamento e ombra della navbar erano tre listener di
+   scroll che a ogni fotogramma leggevano `window.scrollY` e riscrivevano stile:
+   lavoro sul thread principale, cioe' esattamente dove non deve stare.
+   Le animazioni CSS guidate dallo scorrimento fanno la stessa cosa sul
+   compositor, senza JavaScript e senza peso — supportate da Chrome/Edge 115+,
+   Firefox 132+ e Safari 18+.
+   Il JS resta come riserva per i browser piu' vecchi: e' `CSS.supports` a
+   spegnerlo dove queste regole valgono, cosi' i due non si pestano i piedi.
+   ============================================ */
+@supports (animation-timeline: scroll()) {
+
+  /* La parallasse dell'hero: la foto sale di 28vh nel primo schermo di
+     scorrimento, com'era il fattore 0,28 del listener. */
+  .hero-bg {
+    animation: parallasse-hero linear both;
+    animation-timeline: scroll(root block);
+    animation-range: 0 100vh;
+  }
+  @keyframes parallasse-hero {
+    to { transform: translateY(28vh); }
+  }
+
+  /* La barra di avanzamento: e' il caso da manuale. Qui la percentuale e'
+     esatta, mentre il listener la arrotondava a un decimale e la inseguiva con
+     una transizione di 80ms. */
+  #skappaScrollProgress {
+    transition: none;
+    animation: avanzamento linear both;
+    animation-timeline: scroll(root block);
+  }
+  @keyframes avanzamento {
+    from { width: 0%; }
+    to   { width: 100%; }
+  }
+
+  /* L'ombra della navbar quando la pagina si stacca dal bordo. */
+  .navbar {
+    animation: navbar-stacca linear both;
+    animation-timeline: scroll(root block);
+    animation-range: 0 20px;
+  }
+  @keyframes navbar-stacca {
+    from { box-shadow: 0 2px 24px rgba(0,0,0,0); }
+    to   { box-shadow: 0 2px 24px rgba(0,0,0,0.18); }
+  }
+
+  /* Chi ha chiesto meno movimento tiene la barra e l'ombra, che dicono DOVE si
+     e', ma non la parallasse, che e' solo movimento. */
+  @media (prefers-reduced-motion: reduce) {
+    .hero-bg { animation: none; }
+  }
+
+}
+
 /* ---- Hero shader canvas ---- */
 #heroShader { opacity: 0; transition: opacity 1.2s ease; }
 #heroShader.shader-ready { opacity: 1; }
@@ -1046,8 +1102,10 @@ html[data-theme="light"] #preventivoForm textarea.kit-input { background: rgba(2
 }
 
 /* ---- Glow dorato sulla navbar al scroll ---- */
+/* Il backdrop-filter sulla navbar l'ha tolto animations.js: era dietro uno
+   sfondo opaco, quindi non si vedeva e si pagava soltanto. */
 .navbar {
-  transition: box-shadow 0.3s, background 0.3s, backdrop-filter 0.3s;
+  transition: box-shadow 0.3s, background 0.3s;
 }
 
 /* ---- Icon bounce keyframe (motion-micro) ---- */
