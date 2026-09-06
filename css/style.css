@@ -1663,6 +1663,21 @@ html[data-dalla-cabina] .hero-overlay {
 html[data-dalla-cabina] .navbar {
   animation: arrivo-comparsa 0.26s ease 0.16s backwards;
 }
+/* Lo shorthand `animation` qui sopra azzera `animation-timeline` ad auto — e'
+   il modo in cui la specifica evita che due regole diverse si mescolino. E'
+   giusto, ma senza quel che segue la navbar perderebbe PER SEMPRE l'ombra di
+   scroll sulle pagine raggiunte dalla cabina, visto che l'attributo resta.
+   Le due animazioni vanno quindi dichiarate insieme, ognuna con la sua linea
+   del tempo: la comparsa a orologio, l'ombra sullo scorrimento.
+   Dentro @supports di proposito: fuori, `navbar-stacca` senza durata
+   scatterebbe subito alla fine e l'ombra ci sarebbe gia' a pagina ferma. */
+@supports (animation-timeline: scroll()) {
+  html[data-dalla-cabina] .navbar {
+    animation: arrivo-comparsa 0.26s ease 0.16s backwards, navbar-stacca linear both;
+    animation-timeline: auto, scroll(root block);
+    animation-range: normal, 0 20px;
+  }
+}
 @keyframes arrivo-comparsa { from { opacity: 0; } to { opacity: 1; } }
 
 /* Le scritte atterrano SOPRA la foto mentre si posa, non sotto.
@@ -1695,6 +1710,17 @@ html[data-dalla-cabina] .viaggio-hero .hero-content > *:nth-child(n+11) { animat
 @keyframes arrivo-testo {
   from { opacity: 0; transform: translateY(14px); }
   to   { opacity: 1; transform: none; }
+}
+
+/* Pagina disegnata in anticipo (prerender): l'arrivo resta fermo sul suo primo
+   fotogramma finche' qualcuno non la guarda davvero. Il primo fotogramma della
+   continuita' e' gia' la foto a schermo intero, quindi in pausa si vede
+   esattamente cio' che si deve vedere e all'attivazione non c'e' nessun salto. */
+html[data-dalla-cabina][data-in-anticipo] .continuita,
+html[data-dalla-cabina][data-in-anticipo] .hero-overlay,
+html[data-dalla-cabina][data-in-anticipo] .navbar,
+html[data-dalla-cabina][data-in-anticipo] .viaggio-hero .hero-content > * {
+  animation-play-state: paused;
 }
 
 /* Chi non vuole movimento non arriva nemmeno qui: lo script in testa a

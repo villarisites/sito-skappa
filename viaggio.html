@@ -16,6 +16,13 @@
       var r = document.documentElement;
       r.style.setProperty('--foto-arrivo', "url('" + src + "')");
       r.setAttribute('data-dalla-cabina', '');
+      // Disegnata in anticipo dal prerender: l'arrivo aspetta (css/style.css).
+      if (document.prerendering) {
+        r.setAttribute('data-in-anticipo', '');
+        document.addEventListener('prerenderingchange', function () {
+          r.removeAttribute('data-in-anticipo');
+        }, { once: true });
+      }
       var l = document.createElement('link');
       l.rel = 'preload'; l.as = 'image'; l.href = src;
       l.setAttribute('fetchpriority', 'high');

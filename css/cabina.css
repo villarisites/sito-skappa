@@ -21,13 +21,30 @@
    significa quindi entrare esattamente dentro quel foro.
    ============================================================ */
 
+/* `--dolly` e `--par` cambiano a ogni fotogramma. Finche' erano proprieta'
+   custom normali erano anche EREDITATE: scriverle sulla camera obbligava Chrome
+   a ricalcolare lo stile di tutta la scena sotto, 60 volte al secondo. Misurato
+   sul portale: 255 ricalcoli per 292 ms di main thread.
+   Registrate con `inherits: false` il valore non scende piu' ai figli — che
+   infatti non lo usano: ognuna di queste variabili serve solo all'elemento su
+   cui viene scritta. */
+@property --dolly {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+@property --par {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+
 :root {
   --cabina-chiara: #b9b3a8;
   --cabina-media: #8d887e;
   --cabina-scura: #4a4a49;
   --cabina-ombra: #23252a;
   --luce-finestrino: #cfe4f2;
-  --dolly: 0px;
 }
 
 /* Nel laboratorio qui c'erano `* { box-sizing }` e `html, body { overflow:
@@ -164,6 +181,13 @@
   overflow: hidden;
   border-radius: 2px;
 }
+/* Mentre si entra in un finestrino gli altri si spengono. Lo stato lo mette il
+   JS una volta sola; l'andamento lo fa il CSS, e la transizione sul filtro
+   esiste solo durante il volo — durante lo scroll aggiornaLuci() riscrive i
+   filtri di continuo e una transizione li farebbe strascicare. */
+.mondi.si-allontanano .mondo img { transition: filter 0.45s ease-out; }
+.mondi.si-allontanano .mondo.in-ombra::after { opacity: 0.62; }
+
 .mondo::after {
   content: '';
   position: absolute;

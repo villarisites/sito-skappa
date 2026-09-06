@@ -672,6 +672,41 @@
     }, { passive: true });
   }
 
+  // ---- Il buco fra la fine della corsa e la nuova pagina ----
+  // Misurato: dal momento in cui la camera si ferma al primo pixel della meta
+  // passano ~0,6 s, e sono i peggiori — la cabina resta inchiodata sull'ultimo
+  // fotogramma mentre il browser carica il documento nuovo. Le speculation
+  // rules lo fanno caricare E disegnare durante la corsa, che dura piu' di un
+  // secondo: quando poi si naviga, l'attivazione e' istantanea.
+  // Si prepara solo la meta in cui si sta gia' entrando: niente pagine
+  // scaricate a vuoto e niente visite finte in analytics.
+  var supportaRegole = typeof HTMLScriptElement !== 'undefined' &&
+    HTMLScriptElement.supports && HTMLScriptElement.supports('speculationrules');
+  var nodoRegole = null;
+
+  function preparaLaMeta(href) {
+    if (!href || href.charAt(0) === '#') return;
+    if (nodoRegole) { nodoRegole.remove(); nodoRegole = null; }
+    if (supportaRegole) {
+      // Il nodo va ricreato: cambiare il testo di uno gia' inserito non
+      // rilegge le regole.
+      nodoRegole = document.createElement('script');
+      nodoRegole.type = 'speculationrules';
+      nodoRegole.textContent = JSON.stringify({
+        prerender: [{ urls: [href], eagerness: 'immediate' }]
+      });
+      document.head.appendChild(nodoRegole);
+      return;
+    }
+    // Dove il prerender non c'e' (Firefox, Safari) almeno il documento arriva
+    // dalla cache invece che dalla rete.
+    nodoRegole = document.createElement('link');
+    nodoRegole.rel = 'prefetch';
+    nodoRegole.as = 'document';
+    nodoRegole.href = href;
+    document.head.appendChild(nodoRegole);
+  }
+
   // ------------------------------------------------------------------
   // LA TRANSIZIONE: la camera avanza dentro il foro
   // ------------------------------------------------------------------
@@ -690,6 +725,7 @@
     }
     inTransizione = true;
     scroller.classList.add('in-transizione');
+    if (!RESTA) preparaLaMeta(href);
 
     // Se la cabina e' una fascia dentro la pagina, prima si prende lo schermo.
     // Senza questo la corsa della camera avviene dentro la banda: la cornice
@@ -732,12 +768,17 @@
     if (apertura) tl.to(elCabina, apertura.verso, 0);
     tl.to(camera, { '--dolly': DOLLY + 'px', duration: 1.05, ease: 'power1.in' }, dopoApertura);
 
-    // 2. Gli altri finestrini si fanno da parte: meno luce, piu' freddi
+    // 2. Gli altri finestrini si fanno da parte: meno luce, piu' freddi.
+    //    Erano quattordici tween — filtro e velo su sette foto — che
+    //    riscrivevano sette immagini grandi a ogni fotogramma. Ora e' un cambio
+    //    di stato solo: la classe porta la transizione, che il compositor fa
+    //    da se'. Il filtro resta inline perche' inline lo scrive aggiornaLuci().
+    elMondi.classList.add('si-allontanano');
     geometrie.forEach(function (altra, i) {
-      if (i === indice) return;
+      if (i === indice || !elMondi.children[i]) return;
+      elMondi.children[i].classList.add('in-ombra');
       var altraImg = elMondi.children[i].querySelector('img');
-      tl.to(altraImg, { filter: 'brightness(0.34) contrast(0.98)', duration: 0.75, ease: 'power1.in' }, 0);
-      tl.to(elMondi.children[i], { '--freddo': 0.62, duration: 0.75, ease: 'power1.in' }, 0);
+      if (altraImg) altraImg.style.filter = 'brightness(0.34) contrast(0.98)';
     });
 
     // 3. Quello che non deve venire dentro con noi si toglie presto
@@ -850,6 +891,7 @@
         scroller.classList.remove('in-transizione');
         mondoPieno.style.visibility = 'hidden';
         tornati = null;
+        elMondi.classList.remove('si-allontanano');
         aggiornaLuci();
       }
     });
@@ -863,10 +905,13 @@
     if (vignetta) tl.to(vignetta, { opacity: 1, duration: 0.5 }, 0.5);
     if (comandi) tl.to(comandi, { opacity: 1, duration: 0.4 }, 0.7);
     if (elCromo) tl.to(elCromo, { opacity: 1, duration: 0.4 }, 0.7);
+    // I vicini si riaccendono subito, in transizione: prima il velo tornava
+    // con un tween e il filtro invece scattava alla fine, quando aggiornaLuci()
+    // riscriveva gli inline. Ora rientrano insieme.
     geometrie.forEach(function (g, i) {
-      if (!elMondi.children[i]) return;
-      tl.to(elMondi.children[i], { '--freddo': 0, duration: 0.5 }, 0.5);
+      if (elMondi.children[i]) elMondi.children[i].classList.remove('in-ombra');
     });
+    aggiornaLuci();
     tl.add(function () { mondoPieno.style.visibility = 'hidden'; }, 0.5);
     tl.timeScale(RITMO);
   }

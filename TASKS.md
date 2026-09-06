@@ -1,5 +1,91 @@
 # TASKS — skappa.it
 
+## 2026-09-06 (notte) — Il portale scorre, e il salto alla pagina meta si accorcia
+
+Francesco: *"il problema e' tra fine immagine e inizio nuova pagina"*. Misurato,
+sono due cose diverse, e tutte e due si vedono.
+
+### 1. Il buco della navigazione
+
+Alla fine della corsa il codice fa `location.href` e la pagina meta parte da
+zero: fetch, parse, primo disegno. Nel frattempo la cabina resta inchiodata
+sull'ultimo fotogramma. Prima misura (Chrome vero, cache disattivata): **539 ms
+di pagina congelata piu' 101 ms di attesa**.
+
+Ora, appena la corsa comincia, una regola di speculation rules chiede a Chrome di
+caricare **e disegnare** la meta in anticipo: la corsa dura 1,18 s, che e' piu'
+del tempo che serve. Quando si naviga la pagina e' gia' pronta e l'attivazione
+salta tutto il caricamento. Dove il prerender non c'e' (Firefox, Safari) resta un
+`rel="prefetch"`, che almeno toglie la rete di mezzo.
+
+Si prepara **solo la meta in cui si sta gia' entrando**, non quelle su cui passa
+il mouse: niente pagine scaricate a vuoto e niente visite finte in analytics.
+
+Perche' la meta non bruci l'animazione d'arrivo mentre nessuno la guarda,
+`viaggio.html` mette `data-in-anticipo` quando `document.prerendering` e' vero, e
+lo toglie a `prerenderingchange`. L'attributo mette in pausa le animazioni
+d'arrivo: il loro primo fotogramma e' gia' la foto a schermo intero, quindi in
+pausa si vede esattamente quello che si deve vedere.
+
+Misurato (Chrome senza DevTools attaccato — con il CDP collegato Chrome rifiuta
+il prerender e il numero non si vede; server con 80 ms di latenza per richiesta,
+tre giri per parte):
+
+| | ultimo fotogramma cabina → primo pixel meta |
+|---|---|
+| prima | 202 / 218 / 245 ms |
+| ora | 150 / 170 / 410 ms |
+
+Il residuo (~150 ms) **non e' caricamento**: e' il costo dello scambio di pagina
+del browser. Quello resta finche' si naviga davvero. Sulla rete vera il divario
+e' piu' largo di cosi', perche' li' il caricamento pesa e in locale no.
+
+### 2. La corsa stessa
+
+Il portale spendeva **292 ms di main thread in ricalcoli di stile** su 1,2 s di
+animazione, con un fotogramma da 83 ms. Due cause, tutte e due misurate:
+
+- `--dolly` e `--par` sono proprieta' custom **ereditate**: scriverle a ogni
+  fotogramma obbligava Chrome a ricalcolare lo stile di tutta la scena sotto.
+  Ora sono registrate con `@property` e `inherits: false`. Nessuna delle due
+  serviva ai figli: ognuna vale solo per l'elemento su cui viene scritta.
+- lo spegnimento dei sette finestrini vicini erano **quattordici tween** (filtro
+  e velo) che riscrivevano sette immagini grandi a ogni fotogramma. Ora e' un
+  cambio di classe solo, e la transizione la fa il CSS.
+
+| | ricalcoli di stile | fotogramma peggiore | oltre 32 ms | oltre 50 ms |
+|---|---|---|---|---|
+| prima | 255 per 292 ms | 83,3 ms | 4 | 1 |
+| ora | 281 per **83 ms** | 42–50 ms | 2 | 0 |
+
+Effetto collaterale voluto: al ritorno i vicini si riaccendono **in transizione**.
+Prima il velo tornava con un tween e il filtro invece scattava alla fine, quando
+`aggiornaLuci()` riscriveva gli inline.
+
+### 3. La cucitura
+
+Verificata a fotogrammi fermi: l'ultimo della cabina e il primo della meta
+combaciano — stessa inquadratura, stessa posizione. L'unica cosa che cambiava
+era la **fascia cookie**, che nella cabina stava sotto la scena a schermo intero
+e nella meta saliva da sotto proprio durante l'arrivo. Ora aspetta 0,75 s.
+
+### Verifica
+
+- `npm test` 41/41, `npm run test:browser` 36/36.
+- Il tetto degli script inline di `viaggio.html` sale da 3200 a 3450 caratteri:
+  200 servono alla pausa del prerender, e devono stare inline perche' l'attributo
+  va messo prima del primo calcolo di stile. La spiegazione sta in `style.css`,
+  non nello script.
+- Ritorno dalla meta alla cabina: provato, la scena si ricompone e i finestrini
+  tornano alle loro luci.
+- `flight-lab/cabin.js` rigenerato, `flight-lab/cabin.css` riallineato a mano.
+
+### Resta aperto
+
+- Lo scambio di pagina (~150 ms di immagine ferma). Toglierlo del tutto vuol dire
+  non navigare — cioe' costruire la pagina meta senza cambiare documento. E' un
+  cambio di architettura, non una regolazione.
+
 ## 2026-09-06 (tardi) — Le targhette stanno sulle portelle
 
 Il nome della meta sta sulla portella della cappelliera, "dove un aereo mette i

@@ -71,12 +71,16 @@ test("viaggio_laPaginaMetaNonRimetteLogicaInline", async () => {
   // programma. Il totale e' salito da 3000 a 3200 quando e' arrivato il terzo
   // blocco (969 caratteri), pagato in parte togliendo quello morto del vecchio
   // Volo (528), che non partiva piu' da quando la cabina ha preso il suo posto.
+  // Poi da 3200 a 3450: quando la meta viene disegnata in anticipo (prerender)
+  // le animazioni d'arrivo devono restare ferme, e l'attributo che le blocca va
+  // messo prima del primo calcolo di stile — quindi qui e non altrove. Sono 200
+  // caratteri; la spiegazione sta in css/style.css, non in questo script.
   const page = await readFile(path.join(ROOT, "viaggio.html"), "utf8");
   const inline = [...page.matchAll(/<script(?![^>]*src=)[^>]*>([\s\S]*?)<\/script>/g)]
     .map((m) => m[1].trim());
   const totale = inline.reduce((n, c) => n + c.length, 0);
 
-  assert.ok(totale < 3200, `script inline in viaggio.html: ${totale} caratteri, erano ~2600 dopo l'estrazione e ~3040 con l'arrivo dalla cabina`);
+  assert.ok(totale < 3450, `script inline in viaggio.html: ${totale} caratteri, erano ~2600 dopo l'estrazione, ~3040 con l'arrivo dalla cabina e ~3400 con la pausa del prerender`);
   assert.ok(inline.every((c) => c.length < 2000), "un blocco inline e' cresciuto: la logica sta rientrando");
 });
 

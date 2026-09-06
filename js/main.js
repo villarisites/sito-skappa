@@ -300,7 +300,11 @@ if (preventivoForm) {
     '#cookieBanner .cb-btn-sec{padding:.45rem .875rem;font-size:.6875rem;font-weight:700;background:transparent;border:1.5px solid rgba(255,255,255,.2);color:rgba(255,255,255,.6);border-radius:.5rem;cursor:pointer;font-family:inherit;transition:border-color .2s}',
     '#cookieBanner .cb-btn-sec:hover{border-color:rgba(255,255,255,.4)}',
     '#cookieBanner .cb-btn-acc{padding:.45rem 1rem;font-size:.6875rem;font-weight:800;background:#febd41;border:none;color:#031030;border-radius:.5rem;cursor:pointer;font-family:inherit;transition:opacity .2s}',
-    '#cookieBanner .cb-btn-acc:hover{opacity:.85}'
+    '#cookieBanner .cb-btn-acc:hover{opacity:.85}',
+    /* Chi arriva dalla cabina sta guardando la foto riempire lo schermo:
+       la fascia che sale da sotto in quel mezzo secondo e' l'unica cosa
+       che cambia nella cucitura. Aspetta che l'arrivo sia finito. */
+    'html[data-dalla-cabina] #cookieBanner{animation-delay:.75s;animation-fill-mode:backwards}'
   ].join('');
   document.head.appendChild(s);
 
